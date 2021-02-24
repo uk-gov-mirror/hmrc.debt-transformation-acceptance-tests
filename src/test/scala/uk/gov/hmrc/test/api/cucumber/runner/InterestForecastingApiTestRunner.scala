@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.api.cucumber.stepdefs
+package uk.gov.hmrc.test.api.cucumber.runner
 
-import io.cucumber.scala.{ScalaDsl, Scenario}
-import uk.gov.hmrc.test.api.utils.ApiLogger.log
-import uk.gov.hmrc.test.api.utils.ScenarioContext
+import io.cucumber.junit.{Cucumber, CucumberOptions}
+import org.junit.runner.RunWith
 
-class BaseHooks extends ScalaDsl {
-
-  Before { scenario: Scenario =>
-    log.info("Removing scenario context for scenario: " + scenario.getName)
-    ScenarioContext.reset()
-  }
-}
+@RunWith(classOf[Cucumber])
+@CucumberOptions(
+  features = Array("src/test/resources/features"),
+  glue = Array("uk.gov.hmrc.test.api.cucumber.stepdefs"),
+  plugin = Array("pretty", "html:target/cucumber", "json:target/cucumber.json", "junit:target/test-reports/Runner.xml"),
+  tags = Array("")
+)
+class InterestForecastingApiTestRunner {}

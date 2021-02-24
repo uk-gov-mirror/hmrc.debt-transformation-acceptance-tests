@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.api.cucumber.stepdefs
+package uk.gov.hmrc.test.api.cucumber.runner
 
-import cucumber.api.scala.{EN, ScalaDsl}
-import org.scalatest.Matchers
-import org.scalatest.concurrent.Eventually
-import uk.gov.hmrc.test.api.client.HttpClient
-import uk.gov.hmrc.test.api.service.ExampleService
+import io.cucumber.junit.{Cucumber, CucumberOptions}
+import org.junit.runner.RunWith
 
-trait BaseStepDef extends ScalaDsl with EN with Eventually with Matchers {
-  val httpClient     = new HttpClient
-  val exampleService = new ExampleService(httpClient)
-}
+@RunWith(classOf[Cucumber])
+@CucumberOptions(
+  features = Array("src/test/resources/features"),
+  glue = Array("uk.gov.hmrc.test.api.cucumber.stepdefs"),
+  plugin = Array("pretty", "html:target/cucumber", "json:target/cucumber.json", "junit:target/test-reports/Runner.xml"),
+  tags = Array("")
+)
+class StatementOfLiabilityApiTestRunner {}
