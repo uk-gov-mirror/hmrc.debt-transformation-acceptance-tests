@@ -25,7 +25,7 @@ import uk.gov.hmrc.test.api.utils.ScenarioContext
 
 class InterestForecastingHelloWorldSteps extends BaseStepDef {
   When("a request is made to get response from ifs hello world endpoint") { () =>
-    val response = HelloWorldRequests.getStatementLiabilityService("/hello-world")
+    val response = HelloWorldRequests.getInterestForecastingService("/hello-world")
     ScenarioContext.set("response", response)
   }
 
@@ -36,7 +36,7 @@ class InterestForecastingHelloWorldSteps extends BaseStepDef {
 
   And("""the ifs hello world response body should be (.*)""") { message: String =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
-    val responseBody = Json.parse(response.body).as[HelloWorld]
+    val responseBody                   = Json.parse(response.body).as[HelloWorld]
     responseBody.message should be(message)
   }
 

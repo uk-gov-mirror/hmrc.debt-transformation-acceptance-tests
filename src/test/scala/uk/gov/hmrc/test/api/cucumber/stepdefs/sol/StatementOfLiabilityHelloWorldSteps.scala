@@ -36,7 +36,7 @@ class StatementOfLiabilityHelloWorldSteps extends BaseStepDef {
 
   And("""the sol hello world response body should be (.*)""") { message: String =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
-    val responseBody = Json.parse(response.body).as[HelloWorld]
+    val responseBody                   = Json.parse(response.body).as[HelloWorld]
     responseBody.message should be(message)
   }
 

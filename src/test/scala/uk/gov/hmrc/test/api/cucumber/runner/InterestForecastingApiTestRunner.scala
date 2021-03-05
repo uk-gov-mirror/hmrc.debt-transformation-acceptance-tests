@@ -21,9 +21,9 @@ import org.junit.runner.RunWith
 
 @RunWith(classOf[Cucumber])
 @CucumberOptions(
-  features = Array("src/test/resources/features"),
+  features = Array("src/test/resources/features/ifs"),
   glue = Array("uk.gov.hmrc.test.api.cucumber.stepdefs"),
-  plugin = Array("pretty", "html:target/cucumber", "json:target/cucumber.json", "junit:target/test-reports/Runner.xml"),
+  plugin = Array("pretty", "html:target/cucumber", "json:target/cucumber.json"),
   tags = Array("")
 )
 class InterestForecastingApiTestRunner {}
