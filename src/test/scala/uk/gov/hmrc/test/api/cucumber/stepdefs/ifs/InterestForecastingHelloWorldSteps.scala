@@ -24,20 +24,24 @@ import uk.gov.hmrc.test.api.requests.HelloWorldRequests
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 
 class InterestForecastingHelloWorldSteps extends BaseStepDef {
-  When("a request is made to get response from ifs hello world endpoint") { () =>
-    val response = HelloWorldRequests.getInterestForecastingService("/hello-world")
-    ScenarioContext.set("response", response)
+  When("a request is made to get response from ifs hello world endpoint") {
+    () =>
+      val response =
+        HelloWorldRequests.getInterestForecastingService("/hello-world")
+      ScenarioContext.set("response", response)
   }
 
   When("a request is made to an invalid ifs endpoint") { () =>
-    val response = HelloWorldRequests.getInterestForecastingService("/helloo-world")
+    val response =
+      HelloWorldRequests.getInterestForecastingService("/helloo-world")
     ScenarioContext.set("response", response)
   }
 
-  And("""the ifs hello world response body should be (.*)""") { message: String =>
-    val response: StandaloneWSResponse = ScenarioContext.get("response")
-    val responseBody                   = Json.parse(response.body).as[HelloWorld]
-    responseBody.message should be(message)
+  And("""the ifs hello world response body should be (.*)""") {
+    message: String =>
+      val response: StandaloneWSResponse = ScenarioContext.get("response")
+      val responseBody = Json.parse(response.body).as[HelloWorld]
+      responseBody.message should be(message)
   }
 
   Then("the ifs response code should be {int}") { expectedCode: Int =>
