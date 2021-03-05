@@ -24,20 +24,24 @@ import uk.gov.hmrc.test.api.requests.HelloWorldRequests
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 
 class StatementOfLiabilityHelloWorldSteps extends BaseStepDef {
-  When("a request is made to get response from sol hello world endpoint") { () =>
-    val response = HelloWorldRequests.getStatementLiabilityService("/hello-world")
-    ScenarioContext.set("response", response)
+  When("a request is made to get response from sol hello world endpoint") {
+    () =>
+      val response =
+        HelloWorldRequests.getStatementLiabilityService("/hello-world")
+      ScenarioContext.set("response", response)
   }
 
   When("a request is made to an invalid sol endpoint") { () =>
-    val response = HelloWorldRequests.getStatementLiabilityService("/helloo-world")
+    val response =
+      HelloWorldRequests.getStatementLiabilityService("/helloo-world")
     ScenarioContext.set("response", response)
   }
 
-  And("""the sol hello world response body should be (.*)""") { message: String =>
-    val response: StandaloneWSResponse = ScenarioContext.get("response")
-    val responseBody                   = Json.parse(response.body).as[HelloWorld]
-    responseBody.message should be(message)
+  And("""the sol hello world response body should be (.*)""") {
+    message: String =>
+      val response: StandaloneWSResponse = ScenarioContext.get("response")
+      val responseBody = Json.parse(response.body).as[HelloWorld]
+      responseBody.message should be(message)
   }
 
   Then("the sol response code should be {int}") { expectedCode: Int =>
