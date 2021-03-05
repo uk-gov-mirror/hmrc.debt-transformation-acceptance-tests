@@ -15,20 +15,21 @@ object WsClient extends LazyLogging {
   val timeout: FiniteDuration = 60 seconds
 
   implicit val bodyWrites: BodyWritable[JsValue] =
-    BodyWritable(a => InMemoryBody(ByteString.fromArrayUnsafe(Json.toBytes(a))), "application/json")
+    BodyWritable(a => InMemoryBody(ByteString.fromArrayUnsafe(Json.toBytes(a))),
+                 "application/json")
   private val asyncClient: StandaloneAhcWSClient = {
-    implicit val system: ActorSystem             = ActorSystem()
+    implicit val system: ActorSystem = ActorSystem()
     implicit val materializer: ActorMaterializer = ActorMaterializer()
 
     StandaloneAhcWSClient()
   }
 
   def get(
-    uri: String,
-    queryParameters: Map[String, String] = Map.empty[String, String],
-    headers: Map[String, String] = Map.empty[String, String],
-    cookies: Seq[WSCookie] = Seq.empty[WSCookie],
-    followRedirects: Boolean = false
+      uri: String,
+      queryParameters: Map[String, String] = Map.empty[String, String],
+      headers: Map[String, String] = Map.empty[String, String],
+      cookies: Seq[WSCookie] = Seq.empty[WSCookie],
+      followRedirects: Boolean = false
   ): StandaloneWSResponse = {
     println("")
     logger.debug("*********** NEW REQUEST ***********")
@@ -43,8 +44,8 @@ object WsClient extends LazyLogging {
       logger.debug(s"GET request cookies: $cookies")
     }
 
-    val client   = asyncClient
-    val request  = client.url(uri)
+    val client = asyncClient
+    val request = client.url(uri)
     val response = Await.result(
       request
         .withHttpHeaders(headers.toSeq: _*)
