@@ -7,12 +7,12 @@ import uk.gov.hmrc.zap.config.ZapConfiguration
 
 class StatementOfLiabilityApiZapTestRunner extends WordSpec with ZapTest {
   val customConfig: Config =
-    ConfigFactory.load().getConfig("StatementOfLiabilityApi")
+    ConfigFactory.load().getConfig("statementOfLiabilityApi")
 
   override val zapConfiguration: ZapConfiguration = new ZapConfiguration(customConfig)
 
   "Kicking off the zap scan" should {
-    "should complete successfully" in {
+    "complete configured checks successfully" in {
       triggerZapScan()
     }
   }

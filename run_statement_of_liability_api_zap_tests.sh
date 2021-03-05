@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 environment="local"
 tags="not @smoke and not @ignore"
 if [ $# -gt 0 -a "$1" != "$environment" ];
@@ -10,6 +12,6 @@ fi
 
 echo "*** running on $environment for tags '$tags' ***"
 
-sbt -Denvironment="$environment" -Dcucumber.options="--tags '$tags'" clean 'testOnly uk.gov.hmrc.test.api.cucumber.runner.StatementOfLiabilityApiTestRunner'
+sbt -Dhttp.proxyHost=localhost -Dhttp.proxyPort=11000 -Denvironment="$environment" -Dcucumber.options="--tags '$tags'" clean "testOnly uk.gov.hmrc.test.api.cucumber.runner.StatementOfLiabilityApiTestRunner"
 
 sbt 'testOnly uk.gov.hmrc.test.api.cucumber.runner.StatementOfLiabilityApiZapTestRunner'

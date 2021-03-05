@@ -12,7 +12,7 @@ class InterestForcastingApiZapTestRunner extends WordSpec with ZapTest {
   override val zapConfiguration: ZapConfiguration = new ZapConfiguration(customConfig)
 
   "Kicking off the zap scan" should {
-    "should complete successfully" in {
+    "complete configured checks successfully" in {
       triggerZapScan()
     }
   }
