@@ -66,8 +66,8 @@ object WsClient extends LazyLogging {
   def post(uri: String, headers: Map[String, String], json: JsValue): StandaloneWSResponse = {
     println("")
     logger.info(s"POST request URI: $uri")
-    logger.info(s"POST request headers: $headers")
-    logger.info(s"POST request body: $json")
+    logger.debug(s"POST request headers: $headers")
+    logger.debug(s"POST request body: $json")
 
     val client   = asyncClient
     val request  = client.url(uri)
@@ -80,9 +80,9 @@ object WsClient extends LazyLogging {
     )
 
     println("")
-    logger.info(s"POST response status: ${response.status}")
-    logger.info(s"POST response headers: ${response.headers}")
-    logger.info(s"POST response body: ${response.body}")
+    logger.debug(s"POST response status: ${response.status}")
+    logger.debug(s"POST response headers: ${response.headers}")
+    logger.debug(s"POST response body: ${response.body}")
 
     response
   }

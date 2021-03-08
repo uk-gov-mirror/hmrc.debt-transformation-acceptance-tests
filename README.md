@@ -17,7 +17,7 @@ git commit
 ```  
  To run Interesting forecasting api tests against localhost, use the following command:
 ```
-sm --start DTD_ALL
+AUTH_ENABLED=true sm --start DTD_ALL
 ```
 ```
 ./run_interesting_forecasting_api_tests.sh
