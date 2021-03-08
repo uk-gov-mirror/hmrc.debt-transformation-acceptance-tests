@@ -8,8 +8,8 @@ object HelloWorldRequests extends BaseRequests with BaseUris {
 
   def getStatementLiabilityService(endpoint: String): StandaloneWSResponse = {
     val bearerToken = createBearerToken(enrolments = Seq("read:statement-of-liability"))
-    val baseUri = s"$statementOfLiabilityApiUrl$endpoint"
-    val headers = Map(
+    val baseUri     = s"$statementOfLiabilityApiUrl$endpoint"
+    val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
       "Content-Type"  -> "application/json",
       "Accept"        -> "application/vnd.hmrc.1.0+json"
@@ -18,9 +18,9 @@ object HelloWorldRequests extends BaseRequests with BaseUris {
   }
 
   def getInterestForecastingService(endpoint: String): StandaloneWSResponse = {
-    val bearerToken =createBearerToken(enrolments = Seq("read:interest-forecasting"))
-    val baseUri = s"$interestForecostingApiUrl$endpoint"
-    val headers = Map(
+    val bearerToken = createBearerToken(enrolments = Seq("read:interest-forecasting"))
+    val baseUri     = s"$interestForecostingApiUrl$endpoint"
+    val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
       "Content-Type"  -> "application/json",
       "Accept"        -> "application/vnd.hmrc.1.0+json"

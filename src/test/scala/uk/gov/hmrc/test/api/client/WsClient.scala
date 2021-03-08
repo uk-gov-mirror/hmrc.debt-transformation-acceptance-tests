@@ -15,21 +15,20 @@ object WsClient extends LazyLogging {
   val timeout: FiniteDuration = 60 seconds
 
   implicit val bodyWrites: BodyWritable[JsValue] =
-    BodyWritable(a => InMemoryBody(ByteString.fromArrayUnsafe(Json.toBytes(a))),
-                 "application/json")
+    BodyWritable(a => InMemoryBody(ByteString.fromArrayUnsafe(Json.toBytes(a))), "application/json")
   private val asyncClient: StandaloneAhcWSClient = {
-    implicit val system: ActorSystem = ActorSystem()
+    implicit val system: ActorSystem             = ActorSystem()
     implicit val materializer: ActorMaterializer = ActorMaterializer()
 
     StandaloneAhcWSClient()
   }
 
   def get(
-      uri: String,
-      queryParameters: Map[String, String] = Map.empty[String, String],
-      headers: Map[String, String] = Map.empty[String, String],
-      cookies: Seq[WSCookie] = Seq.empty[WSCookie],
-      followRedirects: Boolean = false
+    uri: String,
+    queryParameters: Map[String, String] = Map.empty[String, String],
+    headers: Map[String, String] = Map.empty[String, String],
+    cookies: Seq[WSCookie] = Seq.empty[WSCookie],
+    followRedirects: Boolean = false
   ): StandaloneWSResponse = {
     println("")
     logger.debug("*********** NEW REQUEST ***********")
@@ -44,8 +43,8 @@ object WsClient extends LazyLogging {
       logger.debug(s"GET request cookies: $cookies")
     }
 
-    val client = asyncClient
-    val request = client.url(uri)
+    val client   = asyncClient
+    val request  = client.url(uri)
     val response = Await.result(
       request
         .withHttpHeaders(headers.toSeq: _*)
@@ -64,17 +63,15 @@ object WsClient extends LazyLogging {
     response
   }
 
-  def post(uri: String,
-           headers: Map[String, String],
-           json: JsValue): StandaloneWSResponse = {
+  def post(uri: String, headers: Map[String, String], json: JsValue): StandaloneWSResponse = {
     println("")
     logger.info("*********** NEW REQUEST ***********")
     logger.info(s"POST request URI: $uri")
     logger.info(s"POST request headers: $headers")
     logger.info(s"POST request body: $json")
 
-    val client = asyncClient
-    val request = client.url(uri)
+    val client   = asyncClient
+    val request  = client.url(uri)
     val response = Await.result(
       request
         .withHttpHeaders(headers.toSeq: _*)

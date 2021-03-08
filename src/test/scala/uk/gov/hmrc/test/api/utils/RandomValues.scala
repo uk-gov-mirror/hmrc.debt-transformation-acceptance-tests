@@ -10,5 +10,4 @@ trait RandomValues {
     possibleAffinityGroups(randomIndex)
   }
 
-
 }
