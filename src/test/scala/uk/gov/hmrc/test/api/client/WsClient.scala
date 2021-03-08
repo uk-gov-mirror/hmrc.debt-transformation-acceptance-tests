@@ -4,7 +4,7 @@ import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
 import akka.util.ByteString
 import com.typesafe.scalalogging.LazyLogging
-import play.api.libs.json.{JsNull, JsValue, Json}
+import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws._
 import play.api.libs.ws.ahc.StandaloneAhcWSClient
 
@@ -59,6 +59,30 @@ object WsClient extends LazyLogging {
     logger.debug(s"GET response status: ${response.status}")
     logger.debug(s"GET response headers: ${response.headers}")
     logger.debug(s"GET response body: ${response.body}")
+
+    response
+  }
+
+  def post(uri: String, headers: Map[String, String], json: JsValue): StandaloneWSResponse = {
+    println("")
+    logger.info(s"POST request URI: $uri")
+    logger.debug(s"POST request headers: $headers")
+    logger.debug(s"POST request body: $json")
+
+    val client   = asyncClient
+    val request  = client.url(uri)
+    val response = Await.result(
+      request
+        .withHttpHeaders(headers.toSeq: _*)
+        .withFollowRedirects(false)
+        .post(json),
+      timeout
+    )
+
+    println("")
+    logger.debug(s"POST response status: ${response.status}")
+    logger.debug(s"POST response headers: ${response.headers}")
+    logger.debug(s"POST response body: ${response.body}")
 
     response
   }

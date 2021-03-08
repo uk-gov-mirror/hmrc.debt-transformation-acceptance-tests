@@ -2,7 +2,7 @@ package uk.gov.hmrc.test.api.utils
 
 import uk.gov.hmrc.test.api.conf.TestConfiguration
 
-object BaseUris {
+trait BaseUris {
   val statementOfLiabilityApiUrl: String =
     TestConfiguration.url("statement-of-liability")
   val interestForecostingApiUrl: String  =
