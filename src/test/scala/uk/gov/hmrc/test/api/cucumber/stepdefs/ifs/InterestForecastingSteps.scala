@@ -29,8 +29,8 @@ import uk.gov.hmrc.test.api.utils.ScenarioContext
 class InterestForecastingSteps extends BaseStepDef {
 
   Given("a debt item") { (dataTable: DataTable) =>
-    val asMapTransposed = dataTable.transpose().asMap(classOf[String], classOf[String])
-    val now             = LocalDate.now
+    val asMapTransposed   = dataTable.transpose().asMap(classOf[String], classOf[String])
+    val now               = LocalDate.now
     val dateAmount        = now.plusDays(asMapTransposed.get("dateAmount").toString.toInt)
     val dateCalculationTo = now.plusDays(asMapTransposed.get("dateCalculationTo").toString.toInt)
 
@@ -52,11 +52,11 @@ class InterestForecastingSteps extends BaseStepDef {
   }
 
   Then("the ifs service will respond with") { (dataTable: DataTable) =>
-    val asMapTransposed = dataTable.transpose().asMap(classOf[String], classOf[String])
+    val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[String])
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status should be(200)
 
-    val responseBody                   = Json.parse(response.body).as[DebtItem]
+    val responseBody = Json.parse(response.body).as[DebtItem]
 
     responseBody.dailyInterestAccrued.toString    shouldBe asMapTransposed.get("dailyInterest").toString
     responseBody.totalInterestAccrued.toString    shouldBe asMapTransposed.get("totalInterest").toString
@@ -65,5 +65,11 @@ class InterestForecastingSteps extends BaseStepDef {
     responseBody.totalAmountWithInterest.toString shouldBe asMapTransposed.get("totalAmountWithInterest").toString
     responseBody.numberOfChargeableDays.toString  shouldBe asMapTransposed.get("numberChargeableDays").toString
 
+  }
+
+  Then("""the ifs service will respond with (.*)""") { (expectedMessage: String) =>
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+    response.body   should include(expectedMessage)
+    response.status should be(400)
   }
 }

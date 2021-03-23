@@ -22,7 +22,8 @@ libraryDependencies ++= Seq(
   "uk.gov.hmrc"                %% "zap-automation"          % "2.7.0" % "test",
   "uk.gov.hmrc"                %% "simple-reactivemongo"    % "7.30.0-play-26",
   "com.google.zxing"           % "core"                     % "3.3.3",
-  "com.google.zxing"           % "javase"                   % "3.4.1"
+  "com.google.zxing"           % "javase"                   % "3.4.1",
+  "commons-io"                 % "commons-io"               % "2.6"
 )
 
 addCompilerPlugin(

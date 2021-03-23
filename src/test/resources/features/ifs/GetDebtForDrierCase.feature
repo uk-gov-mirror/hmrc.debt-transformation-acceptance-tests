@@ -11,6 +11,8 @@
 #  No outstanding interests to pay
 #  When bearing the interest rate is 1%
 
+#DTD-191: IFS Amounts to be in pennies. Is outstanding
+
 Feature: Get Debt For DRIER case (mvp)
 
   Scenario: Interest Bearing DRIER debt (MVP)
@@ -85,20 +87,30 @@ Feature: Get Debt For DRIER case (mvp)
       | dailyInterest | totalInterest | intRate | totalAmountToPay | totalAmountWithInterest | numberChargeableDays |
       | 0             | 0             | 1       | 0             | 0                       | 120                  |
 #
-#  Scenario: DRIER debt Date Amount is negative (Edge Case)
+#  Scenario: DRIER debt Amount is negative (Edge Case)
 #    Given a debt item
 #      | amount | dateAmount | dateCalculationTo | regime | chargeType | interestBearing |
-#      | -1     | today      | today + 20        | DRIER  | NI | true            |
+#      | -1     | -100       | 20                | DRIER  | NI         | true            |
 #    When the debt item is sent to the ifs service
-#    Then the ifs service will respond with error message "Amount cannot be negative???" tbc
-#
-#  Scenario: DRIER debt Amount non integer (Edge Case)
-#    Given a debt item
-#      | amount | dateAmount | dateCalculationTo | regime | chargeType | interestBearing |
-#      | a      | today      | today + 20        | DRIER  | NI | true            |
-#    When the debt item is sent to the ifs service
-#    Then the ifs service will respond with error message "Amount must be an number" tbc
-#
+#    Then the ifs service will respond with
+#      | dailyInterest | totalInterest | intRate | totalAmountToPay | totalAmountWithInterest | numberChargeableDays |
+#      | 0.1369        | 16.42         | 1       | 5000             | 5016.42                 | 120                  |
+
+  Scenario: DRIER debt Amount non integer (Edge Case)
+    Given a debt item
+      | amount | dateAmount | dateCalculationTo | regime | chargeType | interestBearing |
+      | n      | -100       | 20                | DRIER  | NI         | true            |
+    When the debt item is sent to the ifs service
+    Then the ifs service will respond with '/amount' missing or invalid
+
+#    Below scenario currently fails. api should not accept decimal places. DTD-191 to fix this
+  Scenario: DRIER debt Amount non integer (Edge Case)
+    Given a debt item
+      | amount | dateAmount | dateCalculationTo | regime | chargeType | interestBearing |
+      | 1.0    | -100       | 20                | DRIER  | NI         | true            |
+    When the debt item is sent to the ifs service
+    Then the ifs service will respond with '/amount' missing or invalid
+
 
 
 
