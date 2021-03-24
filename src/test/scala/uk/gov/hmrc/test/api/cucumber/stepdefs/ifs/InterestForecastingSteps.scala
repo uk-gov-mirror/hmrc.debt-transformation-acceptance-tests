@@ -17,7 +17,6 @@
 package uk.gov.hmrc.test.api.cucumber.stepdefs.ifs
 
 import io.cucumber.datatable.DataTable
-import java.time.LocalDate
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import uk.gov.hmrc.test.api.cucumber.stepdefs.BaseStepDef
@@ -29,10 +28,7 @@ import uk.gov.hmrc.test.api.utils.ScenarioContext
 class InterestForecastingSteps extends BaseStepDef {
 
   Given("a debt item") { (dataTable: DataTable) =>
-    val asMapTransposed   = dataTable.transpose().asMap(classOf[String], classOf[String])
-    val now               = LocalDate.now
-    val dateAmount        = now.plusDays(asMapTransposed.get("dateAmount").toString.toInt)
-    val dateCalculationTo = now.plusDays(asMapTransposed.get("dateCalculationTo").toString.toInt)
+    val asMapTransposed = dataTable.transpose().asMap(classOf[String], classOf[String])
 
     ScenarioContext.set(
       "debtItem",
@@ -40,8 +36,8 @@ class InterestForecastingSteps extends BaseStepDef {
         .replaceAll("<REPLACE_amount>", asMapTransposed.get("amount"))
         .replaceAll("<REPLACE_chargeType>", asMapTransposed.get("chargeType"))
         .replaceAll("<REPLACE_regime>", asMapTransposed.get("regime"))
-        .replaceAll("<REPLACE_dateAmount>", dateAmount.toString)
-        .replaceAll("<REPLACE_dateCalculationTo>", dateCalculationTo.toString)
+        .replaceAll("<REPLACE_dateAmount>", asMapTransposed.get("dateAmount"))
+        .replaceAll("<REPLACE_dateCalculationTo>", asMapTransposed.get("dateCalculationTo"))
     )
   }
 
@@ -64,7 +60,6 @@ class InterestForecastingSteps extends BaseStepDef {
     responseBody.totalAmountToPay.toString        shouldBe asMapTransposed.get("totalAmountToPay").toString
     responseBody.totalAmountWithInterest.toString shouldBe asMapTransposed.get("totalAmountWithInterest").toString
     responseBody.numberOfChargeableDays.toString  shouldBe asMapTransposed.get("numberChargeableDays").toString
-
   }
 
   Then("""the ifs service will respond with (.*)""") { (expectedMessage: String) =>
