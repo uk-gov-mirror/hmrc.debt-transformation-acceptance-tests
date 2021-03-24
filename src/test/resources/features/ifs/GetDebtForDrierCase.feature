@@ -22,7 +22,7 @@ Feature: Get Debt For DRIER case (mvp)
     When the debt item is sent to the ifs service
     Then the ifs service will respond with
       | dailyInterest | totalInterest | intRate | totalAmountToPay | totalAmountWithInterest | numberChargeableDays |
-      | 0.1369        | 16.42         | 1       | 5000             | 5016.42                 | 120                  |
+      | 0.13          | 16.42         | 1       | 5000             | 5016.42                 | 120                  |
 
   Scenario: Non Interest Bearing DRIER debt (MVP)
     Given a debt item
@@ -49,7 +49,7 @@ Feature: Get Debt For DRIER case (mvp)
     When the debt item is sent to the ifs service
     Then the ifs service will respond with
       | dailyInterest | totalInterest | intRate | totalAmountToPay | totalAmountWithInterest | numberChargeableDays |
-      | 0.1369        | 2.73          | 1       | 5000             | 5002.73                 | 20                   |
+      | 0.13        | 2.73          | 1       | 5000             | 5002.73                 | 20                   |
 #
   Scenario: DRIER debt Date Calculation To is Today (Edge Case)
     Given a debt item
@@ -58,7 +58,7 @@ Feature: Get Debt For DRIER case (mvp)
     When the debt item is sent to the ifs service
     Then the ifs service will respond with
       | dailyInterest | totalInterest | intRate | totalAmountToPay | totalAmountWithInterest | numberChargeableDays |
-      | 0.1369        | 13.69         | 1       | 5000             | 5013.69                 | 100                  |
+      | 0.13        | 13.69         | 1       | 5000             | 5013.69                 | 100                  |
 #
   Scenario: DRIER debt Date Amount is Today + 1 day (Edge Case)
     Given a debt item
@@ -67,7 +67,7 @@ Feature: Get Debt For DRIER case (mvp)
     When the debt item is sent to the ifs service
     Then the ifs service will respond with
       | dailyInterest | totalInterest | intRate | totalAmountToPay | totalAmountWithInterest | numberChargeableDays |
-      | 0.1369        | 2.6           | 1       | 5000             | 5002.6                  | 19                   |
+      | 0.13        | 2.6           | 1       | 5000             | 5002.6                  | 19                   |
 #
   Scenario: DRIER debt DateCalculationTo is Today - 1 day (Edge Case)
     Given a debt item
@@ -76,7 +76,7 @@ Feature: Get Debt For DRIER case (mvp)
     When the debt item is sent to the ifs service
     Then the ifs service will respond with
       | dailyInterest | totalInterest | intRate | totalAmountToPay | totalAmountWithInterest | numberChargeableDays |
-      | 0.1369        | 0             | 1       | 5000             | 5000                    | 0                    |
+      | 0.13        | 0             | 1       | 5000             | 5000                    | 0                    |
 #
   Scenario: DRIER debt Amount is zero (Edge Case)
     Given a debt item
