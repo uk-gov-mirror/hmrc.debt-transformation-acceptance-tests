@@ -85,16 +85,17 @@ Feature: Get Debt For DRIER case (mvp)
     When the debt item is sent to the ifs service
     Then the ifs service will respond with
       | dailyInterest | totalInterest | intRate | totalAmountToPay | totalAmountWithInterest | numberChargeableDays |
-      | 0             | 0             | 1       | 0             | 0                       | 120                  |
-#
-#  Scenario: DRIER debt Amount is negative (Edge Case)
-#    Given a debt item
-#      | amount | dateAmount | dateCalculationTo | regime | chargeType | interestBearing |
-#      | -1     | -100       | 20                | DRIER  | NI         | true            |
-#    When the debt item is sent to the ifs service
-#    Then the ifs service will respond with
-#      | dailyInterest | totalInterest | intRate | totalAmountToPay | totalAmountWithInterest | numberChargeableDays |
-#      | 0.1369        | 16.42         | 1       | 5000             | 5016.42                 | 120                  |
+      | 0             | 0             | 1       | 0                | 0                       | 120                  |
+
+#Below scenario currently fails as api returns daily interest of -0.0001. Should negative amounts be possible?
+  Scenario: DRIER debt Amount is negative (Edge Case)
+    Given a debt item
+      | amount | dateAmount | dateCalculationTo | regime | chargeType | interestBearing |
+      | -1     | -100       | 20                | DRIER  | NI         | true            |
+    When the debt item is sent to the ifs service
+    Then the ifs service will respond with
+      | dailyInterest | totalInterest | intRate | totalAmountToPay | totalAmountWithInterest | numberChargeableDays |
+      | 0             | 0             | 1       | 0                | 0                       | 120                  |
 
   Scenario: DRIER debt Amount non integer (Edge Case)
     Given a debt item
