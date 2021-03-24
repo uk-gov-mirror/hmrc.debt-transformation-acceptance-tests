@@ -111,9 +111,3 @@ Feature: Get Debt For DRIER case (mvp)
       | 1.0    | -100       | 20                | DRIER  | NI         | true            |
     When the debt item is sent to the ifs service
     Then the ifs service will respond with '/amount' missing or invalid
-
-
-
-
-
-
