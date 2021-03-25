@@ -2,8 +2,8 @@
 #  1 Debt item
 #  Initial amount and date
 #  REGIME == DRIERd
-#  Where charge type is DRIER NI, then interest bearing is assumed to be false
-#  Where charge type is DRIER HiPG, then interest bearing is assumed to be true
+#  Where charge type is DRIER NI, then interest bearing is assumed to be true
+#  Where charge type is DRIER HiPG, then interest bearing is assumed to be false
 #  NO repayments
 #  NO suppression period
 #  NO breathing space
@@ -24,8 +24,6 @@ Feature: Get Debt For DRIER case (mvp)
       | dailyInterest | totalInterest | intRate | totalAmountToPay | totalAmountWithInterest | numberChargeableDays |
       | 0.13          | 1.09          | 1       | 5000             | 5001.09                 | 8                    |
 
-# Currently fails. Number of chargeable days should be zero
-  @ignore
   Scenario: Non Interest Bearing DRIER debt (MVP)
     Given a debt item
       | amount | dateAmount | dateCalculationTo | regime | chargeType | interestBearing |
