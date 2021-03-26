@@ -56,23 +56,14 @@ Feature: Get Debt For DRIER case (mvp)
   Scenario: DRIER debt Amount non integer (Edge Case)
     Given a debt item
       | amount | dateAmount | dateCalculationTo | regime | chargeType | interestBearing |
-      | n      | 2021-03-01 | 2021-03-08        | DRIER  | NI         | true            |
+      | \"\"      | 2021-03-01 | 2021-03-08        | DRIER  | NI         | true            |
     When the debt item is sent to the ifs service
     Then the ifs service will respond with '/amount' missing or invalid
 
-# Below scenario currently fails. api should not accept decimal places. DTD-201 to fix this
-  @ignore
   Scenario: DRIER debt Amount non integer (Edge Case)
     Given a debt item
       | amount | dateAmount | dateCalculationTo | regime | chargeType | interestBearing |
       | 1.2    | 2021-03-01 | 2021-03-08        | DRIER  | NI         | true            |
-    When the debt item is sent to the ifs service
-    Then the ifs service will respond with '/amount' missing or invalid
-
-  Scenario: DRIER debt empty Amount (Edge Case)
-    Given a debt item
-      | amount | dateAmount | dateCalculationTo | regime | chargeType | interestBearing |
-      |        | 2021-03-01 | 2021-03-08        | DRIER  | NI         | true            |
     When the debt item is sent to the ifs service
     Then the ifs service will respond with '/amount' missing or invalid
 
