@@ -22,7 +22,7 @@ Feature: Get Debt For DRIER case (mvp)
     When the debt item is sent to the ifs service
     Then the ifs service will respond with
       | dailyInterest | totalInterest | intRate | totalAmountToPay | totalAmountWithInterest | numberChargeableDays |
-      | 0.13          | 1.09          | 1       | 5000             | 5001.09                 | 8                    |
+      | 13            | 109           | 1       | 500000           | 500109                  | 8                    |
 
   Scenario: Non Interest Bearing DRIER debt (MVP)
     Given a debt item
@@ -31,8 +31,8 @@ Feature: Get Debt For DRIER case (mvp)
     When the debt item is sent to the ifs service
     Then the ifs service will respond with
       | dailyInterest | totalInterest | intRate | totalAmountToPay | totalAmountWithInterest | numberChargeableDays |
-      | 0             | 0             | 0       | 5000             | 5000                    | 0                    |
-#
+      | 0             | 0             | 0       | 500000             | 500000                    | 0                    |
+
   Scenario: DRIER debt Zero Amount Edge Case
     Given a debt item
       | amount | dateAmount | dateCalculationTo | regime | chargeType | interestBearing |
@@ -42,7 +42,7 @@ Feature: Get Debt For DRIER case (mvp)
       | dailyInterest | totalInterest | intRate | totalAmountToPay | totalAmountWithInterest | numberChargeableDays |
       | 0             | 0             | 1       | 0                | 0                       | 8                    |
 
-#Below scenario currently fails as api returns daily interest of -0.0001. Should negative amounts be possible?
+# Below scenario currently fails as api returns daily interest of -0.0001. Should negative amounts be possible?
   @ignore
   Scenario: DRIER debt Amount is negative (Edge Case)
     Given a debt item
@@ -56,23 +56,14 @@ Feature: Get Debt For DRIER case (mvp)
   Scenario: DRIER debt Amount non integer (Edge Case)
     Given a debt item
       | amount | dateAmount | dateCalculationTo | regime | chargeType | interestBearing |
-      | n      | 2021-03-01 | 2021-03-08        | DRIER  | NI         | true            |
+      | \"\"      | 2021-03-01 | 2021-03-08        | DRIER  | NI         | true            |
     When the debt item is sent to the ifs service
     Then the ifs service will respond with '/amount' missing or invalid
 
-#    Below scenario currently fails. api should not accept decimal places. DTD-191 to fix this
-  @ignore
   Scenario: DRIER debt Amount non integer (Edge Case)
     Given a debt item
       | amount | dateAmount | dateCalculationTo | regime | chargeType | interestBearing |
-      | 1.0    | 2021-03-01 | 2021-03-08        | DRIER  | NI         | true            |
-    When the debt item is sent to the ifs service
-    Then the ifs service will respond with '/amount' missing or invalid
-
-  Scenario: DRIER debt empty Amount (Edge Case)
-    Given a debt item
-      | amount | dateAmount | dateCalculationTo | regime | chargeType | interestBearing |
-      |        | 2021-03-01 | 2021-03-08        | DRIER  | NI         | true            |
+      | 1.2    | 2021-03-01 | 2021-03-08        | DRIER  | NI         | true            |
     When the debt item is sent to the ifs service
     Then the ifs service will respond with '/amount' missing or invalid
 

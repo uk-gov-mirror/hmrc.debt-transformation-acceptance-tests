@@ -1,5 +1,5 @@
 {
-  "amount": "<REPLACE_amount>",
+  "amount": <REPLACE_amount>,
   "chargeType": "<REPLACE_chargeType>",
   "regime": "<REPLACE_regime>",
   "dateAmount": "<REPLACE_dateAmount>",

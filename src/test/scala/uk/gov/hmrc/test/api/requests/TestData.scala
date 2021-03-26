@@ -9,7 +9,7 @@ import scala.io.Source
 object TestData extends LazyLogging {
 
   private lazy val files: Seq[File] = FileUtils
-    .listFiles(new File("src/test/resources/testdata"), Array("json"), false)
+    .listFiles(new File("src/test/resources/testdata"), Array("txt"), false)
     .asScala
     .toList
 
@@ -18,7 +18,7 @@ object TestData extends LazyLogging {
       val source = Source.fromFile(file.getCanonicalPath)
       val data   = source.mkString
       source.close()
-      file.getName.replace(".json", "") -> data
+      file.getName.replace(".txt", "") -> data
     }.toMap
   }
 }
