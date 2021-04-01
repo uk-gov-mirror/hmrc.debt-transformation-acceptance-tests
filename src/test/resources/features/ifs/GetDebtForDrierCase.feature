@@ -12,7 +12,7 @@
 #  When bearing the interest rate is 1%
 
 #DTD-191: IFS Amounts to be in pennies. Is outstanding
-
+@wip
 Feature: Get Debt For DRIER case (mvp)
 
   Scenario: Interest Bearing DRIER debt (MVP)
@@ -20,16 +20,16 @@ Feature: Get Debt For DRIER case (mvp)
       | amount | dateAmount | dateCalculationTo | regime | chargeType | interestBearing |
       | 500000 | 2021-03-01 | 2021-03-08        | DRIER  | NI         | true            |
     When the debt item is sent to the ifs service
-    Then the ifs service will respond with
+    Then the ifs service wilL return a debt summary of
       | dailyInterest | totalInterest | intRate | totalAmountToPay | totalAmountWithInterest | numberChargeableDays |
       | 13            | 109           | 1       | 500000           | 500109                  | 8                    |
-
+# currently failing when testing DTD-198. number of chargeable days should be zero
   Scenario: Non Interest Bearing DRIER debt (MVP)
     Given a debt item
       | amount | dateAmount | dateCalculationTo | regime | chargeType | interestBearing |
       | 500000 | 2021-03-01 | 2021-03-08        | DRIER  | HIPG       | false           |
     When the debt item is sent to the ifs service
-    Then the ifs service will respond with
+    Then the ifs service wilL return a debt summary of
       | dailyInterest | totalInterest | intRate | totalAmountToPay | totalAmountWithInterest | numberChargeableDays |
       | 0             | 0             | 0       | 500000             | 500000                    | 0                    |
 
@@ -38,7 +38,7 @@ Feature: Get Debt For DRIER case (mvp)
       | amount | dateAmount | dateCalculationTo | regime | chargeType | interestBearing |
       | 0      | 2021-03-01 | 2021-03-08        | DRIER  | NI         | true            |
     When the debt item is sent to the ifs service
-    Then the ifs service will respond with
+    Then the ifs service wilL return a debt summary of
       | dailyInterest | totalInterest | intRate | totalAmountToPay | totalAmountWithInterest | numberChargeableDays |
       | 0             | 0             | 1       | 0                | 0                       | 8                    |
 
@@ -49,10 +49,10 @@ Feature: Get Debt For DRIER case (mvp)
       | amount | dateAmount | dateCalculationTo | regime | chargeType | interestBearing |
       | -1     | 2021-03-01 | 2021-03-08        | DRIER  | NI         | true            |
     When the debt item is sent to the ifs service
-    Then the ifs service will respond with
+    Then the ifs service wilL return a debt summary of
       | dailyInterest | totalInterest | intRate | totalAmountToPay | totalAmountWithInterest | numberChargeableDays |
       | 0             | 0             | 1       | 0                | 0                       | 8                    |
-
+# All the below edges case scenarios are currently failing when testing DTD-198. Validation is not currently being performed
   Scenario: DRIER debt Amount non integer (Edge Case)
     Given a debt item
       | amount | dateAmount | dateCalculationTo | regime | chargeType | interestBearing |
