@@ -20,7 +20,7 @@ import io.cucumber.datatable.DataTable
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import uk.gov.hmrc.test.api.cucumber.stepdefs.BaseStepDef
-import uk.gov.hmrc.test.api.models.{CalculatedDebt, DebtItem}
+import uk.gov.hmrc.test.api.models.CalculatedDebt
 import uk.gov.hmrc.test.api.requests.InterestForecastingRequests
 import uk.gov.hmrc.test.api.requests.InterestForecastingRequests.getBodyAsString
 import uk.gov.hmrc.test.api.utils.ScenarioContext
@@ -46,6 +46,7 @@ class InterestForecastingSteps extends BaseStepDef {
     val response =
       InterestForecastingRequests.getDebtCalculation(ScenarioContext.get("debtItem"))
     ScenarioContext.set("response", response)
+
   }
 //
 //  Then("the ifs service will respond with OLD") { (dataTable: DataTable) =>

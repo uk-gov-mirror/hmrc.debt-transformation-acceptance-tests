@@ -1,7 +1,6 @@
 name := "debt-transformation-acceptance-tests"
 version := "0.1"
 scalaVersion := "2.12.11"
-private val enumeratumPlayJsonVersion = "1.6.1"
 
 val CucumberVersion = "4.7.1"
 
@@ -25,7 +24,10 @@ libraryDependencies ++= Seq(
   "com.google.zxing"            % "core"                    % "3.3.3",
   "com.google.zxing"            % "javase"                  % "3.4.1",
   "commons-io"                  % "commons-io"              % "2.6",
-  "com.beachape"               %% "enumeratum-play-json"    % enumeratumPlayJsonVersion
+  "org.julienrf"      %% "play-json-derived-codecs"  % "7.0.0",
+  "com.beachape"               %% "enumeratum-play-json"       % "1.6.1"
+
+
 )
 
 addCompilerPlugin(

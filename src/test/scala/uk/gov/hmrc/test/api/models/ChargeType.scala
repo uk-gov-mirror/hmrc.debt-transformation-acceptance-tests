@@ -6,6 +6,8 @@
 package uk.gov.hmrc.test.api.models
 
 
+import enumeratum.{Enum, EnumEntry, PlayJsonEnum}
+
 
 import scala.collection.immutable
 
