@@ -16,7 +16,7 @@ class IfsRuleHook extends ScalaDsl with LazyLogging{
   After() { scenario =>
     if (scenario.isFailed) {
       println("")
-      logger.info(s"*********** Rule in database after running ${scenario.getName} ***********")
+      logger.info(s"*********** Ifs rule in database after running ${scenario.getName} ***********")
 
     }
   }
