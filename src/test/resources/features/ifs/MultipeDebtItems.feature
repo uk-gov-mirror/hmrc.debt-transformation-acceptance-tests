@@ -18,7 +18,7 @@ Feature: Get Debt For DRIER case (mvp)
 
     Given a debt item
       | amount | dateAmount | dateCalculationTo | regime | chargeType | interestBearing |
-      | 500000 | 2020-12-16 | 2021-04-14        | DRIER  | NI         | true            |
+      | 500000 | 2021-03-16 | 2021-03-          | DRIER  | NI         | true            |
     When the debt item is sent to the ifs service
     Then the ifs response code should be 200
     Then the ifs service wilL return a debt summary of

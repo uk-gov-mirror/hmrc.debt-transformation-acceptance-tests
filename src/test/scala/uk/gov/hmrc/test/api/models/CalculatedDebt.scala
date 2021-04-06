@@ -14,12 +14,9 @@ case class CalculatedDebt(dailyInterestAccrued: BigDecimal,
                           interestRateApplied: BigDecimal,
                           numberOfChargeableDays: Long,
                           totalAmountToPay: BigDecimal,
+                          totalInterestAccrued:  BigDecimal,
+                          totalAmountWithInterest: BigDecimal,
                           debtCalculations: Seq[DebtCalculation]) {
-
-  import CalculatedDebt._
-
-  val totalInterestAccrued = (dailyInterestAccrued * numberOfChargeableDays).defaultRound()
-  val totalAmountWithInterest = (totalInterestAccrued + totalAmountToPay).defaultRound()
 }
 
 object CalculatedDebt {

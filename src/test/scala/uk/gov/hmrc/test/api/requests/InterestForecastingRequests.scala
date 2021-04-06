@@ -24,7 +24,7 @@ object InterestForecastingRequests extends BaseRequests with BaseUris {
   def createDebtCalculationRule(): StandaloneWSResponse = {
     val bearerToken = createBearerToken(enrolments = Seq("read:interest-forecasting"))
     val baseUri     = s"$interestForecostingApiUrl/settings"
-    val rule="{\"settings\": \"IF regime == 'DRIER' AND chargeType == 'NI' -> intRate = 3% OTHERWISE -> intRate = 0%\"}"
+    val rule="{\"settings\": \"IF regime == 'DRIER' AND chargeType == 'NI' -> intRate = 1% OTHERWISE -> intRate = 0%\"}"
     val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
       "Content-Type"  -> "application/json",
