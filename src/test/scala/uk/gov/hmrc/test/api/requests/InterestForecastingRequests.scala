@@ -30,6 +30,6 @@ object InterestForecastingRequests extends BaseRequests with BaseUris {
       "Content-Type"  -> "application/json",
       "Accept"        -> "application/vnd.hmrc.1.0+json"
     )
-    WsClient.post(baseUri, headers = headers,Json.parse(rule ))
+    WsClient.post(baseUri, headers = headers,Json.parse(rule))
   }
 }
