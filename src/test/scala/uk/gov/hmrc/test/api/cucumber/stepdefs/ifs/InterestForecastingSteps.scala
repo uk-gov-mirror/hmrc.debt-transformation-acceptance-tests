@@ -20,7 +20,7 @@ import io.cucumber.datatable.DataTable
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import uk.gov.hmrc.test.api.cucumber.stepdefs.BaseStepDef
-import uk.gov.hmrc.test.api.models.CalculatedDebt
+import uk.gov.hmrc.test.api.models.{CalculatedDebt, DebtCalculation, DebtCalculations}
 import uk.gov.hmrc.test.api.requests.InterestForecastingRequests
 import uk.gov.hmrc.test.api.requests.InterestForecastingRequests.getBodyAsString
 import uk.gov.hmrc.test.api.utils.ScenarioContext
@@ -84,5 +84,19 @@ class InterestForecastingSteps extends BaseStepDef {
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.body   should include(expectedMessage)
     response.status should be(400)
+  }
+
+  Then("the debt summary will have calculation windows") { (dataTable: DataTable) =>
+    val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[String])
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+
+    val responseBody = Json.parse(response.body).as[CalculatedDebt].debtCalculations.head.calculationWindow
+
+    responseBody.head.dateFrom.toString    shouldBe asMapTransposed.get("dateFrom").toString
+    responseBody.head.dateTo.toString    shouldBe asMapTransposed.get("dateTo").toString
+    responseBody.head.numberOfChargeableDays.toString        shouldBe asMapTransposed.get("numberDays").toString
+    responseBody.head.interestRateApplied.toString shouldBe asMapTransposed.get("intRate").toString
+    responseBody.head.dailyInterestAccrued.toString  shouldBe asMapTransposed.get("dailyInterest").toString
+    responseBody.head.totalInterestAccrued.toString shouldBe asMapTransposed.get("totalInterest").toString
   }
 }

@@ -5,12 +5,9 @@
 #  NO breathing space
 #  Date Amount  == Interest start date
 
+#Single debt to verify test can parse Calculation Window object.
+#Currently fails (6/4) as dailyInterest and totalInterest are returning zero
 
-#Multiple Debt Items
-#1 payment of 1 debt no interest
-#1 payment of 1 debt with interest
-#2 payments of 1 debt with interest
-#2 debts, 1 debt with a payment, the second debt with no payment
 
 Feature: Get Debt For DRIER case (mvp)
   @wip
@@ -25,4 +22,4 @@ Feature: Get Debt For DRIER case (mvp)
       | 109           | 1       | 500000           | 500109                  | 8                    | 13            |
     And the debt summary will have calculation windows
       | dateFrom   | dateTo     | numberDays | intRate | dailyInterest | totalInterest |
-      | 2020-03-01 | 2021-03-08 | 8          | 1       | 13            | 109           |
+      | 2021-03-01 | 2021-03-08 | 8          | 1       | 13            | 109           |
