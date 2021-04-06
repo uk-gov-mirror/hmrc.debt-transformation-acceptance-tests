@@ -3,21 +3,21 @@ package uk.gov.hmrc.test.api.requests
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import uk.gov.hmrc.test.api.client.WsClient
-import uk.gov.hmrc.test.api.utils.BaseUris
+import uk.gov.hmrc.test.api.requests.InterestForecastingRequests.{createBearerToken, interestForecostingApiUrl}
 
-object InterestForecastingRequests extends BaseRequests with BaseUris {
+object Helper {
 
-  def getDebtCalculation(json: String): StandaloneWSResponse = {
+  def createDebtCalculationRule(): StandaloneWSResponse = {
     val bearerToken = createBearerToken(enrolments = Seq("read:interest-forecasting"))
-    val baseUri     = s"$interestForecostingApiUrl/debt-calculation"
+    val baseUri     = s"$interestForecostingApiUrl/settings"
+    val rule="{\"settings\": \"IF regime == 'DRIER' AND chargeType == 'NI' -> intRate = 1% OTHERWISE -> intRate = 0%\"}"
     val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
       "Content-Type"  -> "application/json",
       "Accept"        -> "application/vnd.hmrc.1.0+json"
     )
-    WsClient.post(baseUri, headers = headers, Json.parse(json))
+    WsClient.post(baseUri, headers = headers,Json.parse(rule))
   }
 
-  def getBodyAsString(variant: String): String =
-    TestData.loadedFiles(variant)
+
 }

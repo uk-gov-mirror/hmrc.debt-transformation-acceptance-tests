@@ -3,13 +3,13 @@ package uk.gov.hmrc.test.api.cucumber.hooks
 import com.typesafe.scalalogging.LazyLogging
 import cucumber.api.scala.ScalaDsl
 import uk.gov.hmrc.test.api.conf.TestConfiguration
-import uk.gov.hmrc.test.api.requests.InterestForecastingRequests.createDebtCalculationRule
+import uk.gov.hmrc.test.api.requests.Helper
 
-class IfsRuleHook extends ScalaDsl with LazyLogging {
+class IfsRuleHook extends ScalaDsl with LazyLogging{
 
   Before() { _ =>
     if (!TestConfiguration.env.equals("qa")) {
-      createDebtCalculationRule()
+      Helper.createDebtCalculationRule()
     }
   }
 
