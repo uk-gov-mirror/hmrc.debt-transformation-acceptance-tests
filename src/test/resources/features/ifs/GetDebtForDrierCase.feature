@@ -11,8 +11,6 @@
 #  No outstanding interests to pay
 #  When bearing the interest rate is 1%
 
-#DTD-191: IFS Amounts to be in pennies. Is outstanding
-@wip
 Feature: Get Debt For DRIER case (mvp)
 
   Scenario: Interest Bearing DRIER debt (MVP)
@@ -23,7 +21,7 @@ Feature: Get Debt For DRIER case (mvp)
     Then the ifs service wilL return a debt summary of
       | dailyInterest | totalInterest | intRate | totalAmountToPay | totalAmountWithInterest | numberChargeableDays |
       | 13            | 109           | 1       | 500000           | 500109                  | 8                    |
-# currently failing when testing DTD-198. number of chargeable days should be zero
+# below test is currently failing when testing DTD-198. number of chargeable days should be zero
   Scenario: Non Interest Bearing DRIER debt (MVP)
     Given a debt item
       | amount | dateAmount | dateCalculationTo | regime | chargeType | interestBearing |

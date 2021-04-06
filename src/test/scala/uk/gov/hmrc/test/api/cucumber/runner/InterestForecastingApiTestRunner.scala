@@ -24,6 +24,6 @@ import org.junit.runner.RunWith
   features = Array("src/test/resources/features/ifs"),
   glue = Array("uk.gov.hmrc.test.api.cucumber.stepdefs.ifs"),
   plugin = Array("pretty", "html:target/cucumber", "json:target/cucumber.json"),
-  tags = Array("@wip")
+  tags = Array("")
 )
 class InterestForecastingApiTestRunner {}

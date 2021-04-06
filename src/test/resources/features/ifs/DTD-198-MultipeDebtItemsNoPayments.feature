@@ -5,7 +5,7 @@
 #  NO breathing space
 #  Date Amount  == Interest start date
 
-#Single debt to verify test can parse Calculation Window object.
+#Single debt with no payments to verify test can parse Calculation Window object.
 #Currently fails (6/4) as dailyInterest and totalInterest are returning zero
 
 
