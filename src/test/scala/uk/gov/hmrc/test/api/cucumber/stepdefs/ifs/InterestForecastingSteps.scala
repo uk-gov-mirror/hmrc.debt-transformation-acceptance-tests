@@ -20,7 +20,7 @@ import io.cucumber.datatable.DataTable
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import uk.gov.hmrc.test.api.cucumber.stepdefs.BaseStepDef
-import uk.gov.hmrc.test.api.models.{CalculatedDebt, DebtCalculation, DebtCalculations}
+import uk.gov.hmrc.test.api.models.CalculatedDebt
 import uk.gov.hmrc.test.api.requests.InterestForecastingRequests
 import uk.gov.hmrc.test.api.requests.InterestForecastingRequests.getBodyAsString
 import uk.gov.hmrc.test.api.utils.ScenarioContext
@@ -48,21 +48,6 @@ class InterestForecastingSteps extends BaseStepDef {
     ScenarioContext.set("response", response)
 
   }
-//
-//  Then("the ifs service will respond with OLD") { (dataTable: DataTable) =>
-//    val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[String])
-//    val response: StandaloneWSResponse = ScenarioContext.get("response")
-//    response.status should be(200)
-//
-//    val responseBody = Json.parse(response.body).as[DebtItem]
-//
-//    responseBody.dailyInterestAccrued.toString    shouldBe asMapTransposed.get("dailyInterest").toString
-//    responseBody.totalInterestAccrued.toString    shouldBe asMapTransposed.get("totalInterest").toString
-//    responseBody.interestRateApplied.toString     shouldBe asMapTransposed.get("intRate").toString
-//    responseBody.totalAmountToPay.toString        shouldBe asMapTransposed.get("totalAmountToPay").toString
-//    responseBody.totalAmountWithInterest.toString shouldBe asMapTransposed.get("totalAmountWithInterest").toString
-//    responseBody.numberOfChargeableDays.toString  shouldBe asMapTransposed.get("numberChargeableDays").toString
-//  }
 
   Then("the ifs service wilL return a debt summary of") { (dataTable: DataTable) =>
     val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[String])
@@ -72,12 +57,11 @@ class InterestForecastingSteps extends BaseStepDef {
     val responseBody = Json.parse(response.body).as[CalculatedDebt]
 
     responseBody.totalInterestAccrued.toString    shouldBe asMapTransposed.get("totalInterest").toString
-    responseBody.interestRateApplied.toString    shouldBe asMapTransposed.get("intRate").toString
+    responseBody.interestRateApplied.toString     shouldBe asMapTransposed.get("intRate").toString
     responseBody.totalAmountToPay.toString        shouldBe asMapTransposed.get("totalAmountToPay").toString
     responseBody.totalAmountWithInterest.toString shouldBe asMapTransposed.get("totalAmountWithInterest").toString
     responseBody.numberOfChargeableDays.toString  shouldBe asMapTransposed.get("numberChargeableDays").toString
-    responseBody.dailyInterestAccrued.toString shouldBe asMapTransposed.get("dailyInterest").toString
-
+    responseBody.dailyInterestAccrued.toString    shouldBe asMapTransposed.get("dailyInterest").toString
   }
 
   Then("""the ifs service will respond with (.*)""") { (expectedMessage: String) =>
@@ -92,11 +76,11 @@ class InterestForecastingSteps extends BaseStepDef {
 
     val responseBody = Json.parse(response.body).as[CalculatedDebt].debtCalculations.head.calculationWindow
 
-    responseBody.head.dateFrom.toString    shouldBe asMapTransposed.get("dateFrom").toString
-    responseBody.head.dateTo.toString    shouldBe asMapTransposed.get("dateTo").toString
-    responseBody.head.numberOfChargeableDays.toString        shouldBe asMapTransposed.get("numberDays").toString
-    responseBody.head.interestRateApplied.toString shouldBe asMapTransposed.get("intRate").toString
-    responseBody.head.dailyInterestAccrued.toString  shouldBe asMapTransposed.get("dailyInterest").toString
-    responseBody.head.totalInterestAccrued.toString shouldBe asMapTransposed.get("totalInterest").toString
+    responseBody.head.dateFrom.toString               shouldBe asMapTransposed.get("dateFrom").toString
+    responseBody.head.dateTo.toString                 shouldBe asMapTransposed.get("dateTo").toString
+    responseBody.head.numberOfChargeableDays.toString shouldBe asMapTransposed.get("numberDays").toString
+    responseBody.head.interestRateApplied.toString    shouldBe asMapTransposed.get("intRate").toString
+    responseBody.head.dailyInterestAccrued.toString   shouldBe asMapTransposed.get("dailyInterest").toString
+    responseBody.head.totalInterestAccrued.toString   shouldBe asMapTransposed.get("totalInterest").toString
   }
 }
