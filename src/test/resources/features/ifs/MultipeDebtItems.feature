@@ -11,7 +11,7 @@
 #1 payment of 1 debt with interest
 #2 payments of 1 debt with interest
 #2 debts, 1 debt with a payment, the second debt with no payment
-@wip
+
 Feature: Get Debt For DRIER case (mvp)
   Scenario: 1. Non Interest Bearing. 1 Payment of 1 debt.
 
