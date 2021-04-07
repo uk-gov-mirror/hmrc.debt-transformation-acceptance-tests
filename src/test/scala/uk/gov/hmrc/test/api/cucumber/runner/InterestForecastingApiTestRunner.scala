@@ -22,11 +22,7 @@ import org.junit.runner.RunWith
 @RunWith(classOf[Cucumber])
 @CucumberOptions(
   features = Array("src/test/resources/features/ifs"),
-<<<<<<< HEAD
   glue = Array("uk.gov.hmrc.test.api.cucumber.stepdefs.ifs","uk.gov.hmrc.test.api.cucumber.hooks"),
-=======
-  glue = Array("uk.gov.hmrc.test.api.cucumber.stepdefs.ifs", "uk.gov.hmrc.test.api.cucumber.hooks"),
->>>>>>> ddaedf3369a8b3416cca3a718f55b1b504dffa7c
   plugin = Array("pretty", "html:target/cucumber", "json:target/cucumber.json"),
   tags = Array("@wip")
 )
