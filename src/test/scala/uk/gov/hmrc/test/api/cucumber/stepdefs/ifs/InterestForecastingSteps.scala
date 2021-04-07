@@ -20,7 +20,7 @@ import io.cucumber.datatable.DataTable
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import uk.gov.hmrc.test.api.cucumber.stepdefs.BaseStepDef
-import uk.gov.hmrc.test.api.models.CalculatedDebt
+import uk.gov.hmrc.test.api.models.{DebtCalculation, DebtItemCalculationWindow}
 import uk.gov.hmrc.test.api.requests.InterestForecastingRequests
 import uk.gov.hmrc.test.api.requests.InterestForecastingRequests.getBodyAsString
 import uk.gov.hmrc.test.api.utils.ScenarioContext
@@ -54,10 +54,9 @@ class InterestForecastingSteps extends BaseStepDef {
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status should be(200)
 
-    val responseBody = Json.parse(response.body).as[CalculatedDebt]
+    val responseBody = Json.parse(response.body).as[DebtCalculation]
 
     responseBody.totalInterestAccrued.toString    shouldBe asMapTransposed.get("totalInterest").toString
-    responseBody.interestRateApplied.toString     shouldBe asMapTransposed.get("intRate").toString
     responseBody.totalAmountToPay.toString        shouldBe asMapTransposed.get("totalAmountToPay").toString
     responseBody.totalAmountWithInterest.toString shouldBe asMapTransposed.get("totalAmountWithInterest").toString
     responseBody.numberOfChargeableDays.toString  shouldBe asMapTransposed.get("numberChargeableDays").toString
@@ -74,7 +73,7 @@ class InterestForecastingSteps extends BaseStepDef {
     val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[String])
     val response: StandaloneWSResponse = ScenarioContext.get("response")
 
-    val responseBody = Json.parse(response.body).as[CalculatedDebt].debtCalculations.head.calculationWindow
+    val responseBody = Json.parse(response.body).as[DebtCalculation].debtCalculations.head.calculationWindows
 
     responseBody.head.dateFrom.toString               shouldBe asMapTransposed.get("dateFrom").toString
     responseBody.head.dateTo.toString                 shouldBe asMapTransposed.get("dateTo").toString
