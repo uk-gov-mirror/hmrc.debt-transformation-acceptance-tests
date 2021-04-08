@@ -20,7 +20,7 @@ import io.cucumber.datatable.DataTable
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import uk.gov.hmrc.test.api.cucumber.stepdefs.BaseStepDef
-import uk.gov.hmrc.test.api.models.DebtItem
+import uk.gov.hmrc.test.api.models.{DebtCalculation, DebtItemCalculationWindow}
 import uk.gov.hmrc.test.api.requests.InterestForecastingRequests
 import uk.gov.hmrc.test.api.requests.InterestForecastingRequests.getBodyAsString
 import uk.gov.hmrc.test.api.utils.ScenarioContext
@@ -33,6 +33,7 @@ class InterestForecastingSteps extends BaseStepDef {
     ScenarioContext.set(
       "debtItem",
       getBodyAsString("debtCalculation")
+        .replaceAll("<REPLACE_uniqueItemReference>", "123")
         .replaceAll("<REPLACE_amount>", asMapTransposed.get("amount"))
         .replaceAll("<REPLACE_chargeType>", asMapTransposed.get("chargeType"))
         .replaceAll("<REPLACE_regime>", asMapTransposed.get("regime"))
@@ -45,26 +46,40 @@ class InterestForecastingSteps extends BaseStepDef {
     val response =
       InterestForecastingRequests.getDebtCalculation(ScenarioContext.get("debtItem"))
     ScenarioContext.set("response", response)
+
   }
 
-  Then("the ifs service will respond with") { (dataTable: DataTable) =>
+  Then("the ifs service wilL return a debt summary of") { (dataTable: DataTable) =>
     val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[String])
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status should be(200)
 
-    val responseBody = Json.parse(response.body).as[DebtItem]
+    val responseBody = Json.parse(response.body).as[DebtCalculation]
 
-    responseBody.dailyInterestAccrued.toString    shouldBe asMapTransposed.get("dailyInterest").toString
     responseBody.totalInterestAccrued.toString    shouldBe asMapTransposed.get("totalInterest").toString
-    responseBody.interestRateApplied.toString     shouldBe asMapTransposed.get("intRate").toString
     responseBody.totalAmountToPay.toString        shouldBe asMapTransposed.get("totalAmountToPay").toString
     responseBody.totalAmountWithInterest.toString shouldBe asMapTransposed.get("totalAmountWithInterest").toString
     responseBody.numberOfChargeableDays.toString  shouldBe asMapTransposed.get("numberChargeableDays").toString
+    responseBody.dailyInterestAccrued.toString    shouldBe asMapTransposed.get("dailyInterest").toString
   }
 
   Then("""the ifs service will respond with (.*)""") { (expectedMessage: String) =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.body   should include(expectedMessage)
     response.status should be(400)
+  }
+
+  Then("the debt summary will have calculation windows") { (dataTable: DataTable) =>
+    val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[String])
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+
+    val responseBody = Json.parse(response.body).as[DebtCalculation].debtCalculations.head.calculationWindows
+
+    responseBody.head.dateFrom.toString               shouldBe asMapTransposed.get("dateFrom").toString
+    responseBody.head.dateTo.toString                 shouldBe asMapTransposed.get("dateTo").toString
+    responseBody.head.numberOfChargeableDays.toString shouldBe asMapTransposed.get("numberDays").toString
+    responseBody.head.interestRateApplied.toString    shouldBe asMapTransposed.get("intRate").toString
+    responseBody.head.dailyInterestAccrued.toString   shouldBe asMapTransposed.get("dailyInterest").toString
+    responseBody.head.totalInterestAccrued.toString   shouldBe asMapTransposed.get("totalInterest").toString
   }
 }

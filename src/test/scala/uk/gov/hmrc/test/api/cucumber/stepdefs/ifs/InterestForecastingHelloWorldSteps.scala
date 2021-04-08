@@ -47,5 +47,6 @@ class InterestForecastingHelloWorldSteps extends BaseStepDef {
   Then("the ifs response code should be {int}") { expectedCode: Int =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status should be(expectedCode)
+    Console.println("json response body is..." + response.body)
   }
 }
