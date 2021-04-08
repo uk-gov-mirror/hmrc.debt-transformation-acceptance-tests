@@ -8,7 +8,7 @@ package uk.gov.hmrc.test.api.models
 import play.api.libs.json.{Json, OFormat}
 
 case class DebtItemCalculation(
-                                calculationWindow: List[DebtItemCalculationWindow] = Nil
+                                calculationWindows: List[DebtItemCalculationWindow] = Nil
                               )
 
 object DebtItemCalculation {
