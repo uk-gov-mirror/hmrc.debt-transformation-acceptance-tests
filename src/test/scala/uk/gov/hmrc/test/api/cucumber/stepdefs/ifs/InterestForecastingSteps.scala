@@ -20,7 +20,7 @@ import io.cucumber.datatable.DataTable
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import uk.gov.hmrc.test.api.cucumber.stepdefs.BaseStepDef
-import uk.gov.hmrc.test.api.models.{DebtCalculation, DebtItemCalculationWindow}
+import uk.gov.hmrc.test.api.models.DebtCalculation
 import uk.gov.hmrc.test.api.requests.InterestForecastingRequests
 import uk.gov.hmrc.test.api.requests.InterestForecastingRequests.getBodyAsString
 import uk.gov.hmrc.test.api.utils.ScenarioContext
@@ -59,7 +59,6 @@ class InterestForecastingSteps extends BaseStepDef {
     responseBody.totalInterestAccrued.toString    shouldBe asMapTransposed.get("totalInterest").toString
     responseBody.totalAmountToPay.toString        shouldBe asMapTransposed.get("totalAmountToPay").toString
     responseBody.totalAmountWithInterest.toString shouldBe asMapTransposed.get("totalAmountWithInterest").toString
-    responseBody.numberOfChargeableDays.toString  shouldBe asMapTransposed.get("numberChargeableDays").toString
     responseBody.dailyInterestAccrued.toString    shouldBe asMapTransposed.get("dailyInterest").toString
   }
 
