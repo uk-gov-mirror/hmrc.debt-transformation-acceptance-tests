@@ -6,11 +6,11 @@
 #  Date Amount  == Interest start date
 
 
-#Multiple Debt Items
-#1 payment of 1 debt no interest
-#1 payment of 1 debt with interest
-#2 payments of 1 debt with interest
-#2 debts, 1 debt with a payment, the second debt with no payment
+# DTD-171. Multiple Debt Items
+#1. 1 payment of 1 debt no interest
+#2. 1 payment of 1 debt with interest
+#3. 2 payments of 1 debt with interest
+#4. 2 debts, 1 debt with a payment, the second debt with no payment
 
 Feature: Multiple Debt Items
 
@@ -53,9 +53,6 @@ Feature: Multiple Debt Items
       | 2021-02-03 | 2021-04-14 | 71         | 1       | 10            | 778           | 400000                        |
 
 
-#    Failing test. debt summary daily interest on ticket says 8 but api returns 13
-#    Failing test. total interest on ticket says 1390 but api returns 1391
-  @wip
   Scenario: 3. Interest Bearing. 2 Payments of 1 debt.
     Given a debt item
       | amount | dateAmount | dateCalculationTo | regime | chargeType | interestBearing |
