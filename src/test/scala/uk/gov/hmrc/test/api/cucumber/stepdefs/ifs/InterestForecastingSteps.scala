@@ -127,7 +127,7 @@ class InterestForecastingSteps extends BaseStepDef {
     responseBody.totalAmountWithInterest.toString       shouldBe asMapTransposed.get("totalAmountWithInterest").toString
   }
 
-  Then("the ([0-9])(?:st|nd|rd|th) debt summary will contain") { (index: Int, dataTable: DataTable) =>
+  Then("the ([0-9]\\d*)(?:st|nd|rd|th) debt summary will contain") { (index: Int, dataTable: DataTable) =>
     val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[String])
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status should be(200)

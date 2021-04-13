@@ -24,7 +24,7 @@ Feature: Multiple Debt Items
       | 100000     | 2021-02-03    |
     And a debt item
       | amount | dateAmount | dateCalculationTo | regime | chargeType | interestBearing |
-      | 500000 | 2020-12-16 | 2021-04-14        | DRIER  | HIPG       | true            |
+      | 500000 | 2020-12-16 | 2021-04-14        | DRIER  | HIPG       | false            |
     And the debt item has no payment history
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
@@ -53,7 +53,7 @@ Feature: Multiple Debt Items
       | 100000     | 2021-02-03    |
     And a debt item
       | amount | dateAmount | dateCalculationTo | regime | chargeType | interestBearing |
-      | 500000 | 2020-12-16 | 2021-04-14        | DRIER  | HIPG       | true            |
+      | 500000 | 2020-12-16 | 2021-04-14        | DRIER  | HIPG       | false            |
     And the debt item has payment history
       | amountPaid | dateOfPayment |
       | 100000     | 2021-02-03    |
@@ -122,15 +122,11 @@ Feature: Multiple Debt Items
     Then the ifs service wilL return a total debts summary of
       | dailyInterest | totalInterest | totalAmountToPay | totalAmountWithInterest | totalAmountOnWhichInterestDue |
       | 3900          | 492900        | 150000000        | 150492900               | 150000000                     |
+    And the 300th debt summary will contain
+      | dailyInterest | totalInterest | totalAmountToPay | totalAmountWithInterest | totalAmountOnWhichInterestDue |
+      | 13            | 1643          | 500000           | 501643                  | 500000                        |
 
-#    Current implimentation. 2 of the windows have toDates before fromDates. Helen confirming 13/4
-#    16-12-20 - 2-2-21
- #  3-2-21 - 2-2-21 (current implementation!)
-#    3-2-21 - 5-2-21
-#    6-2-21 - 12-2-21
-#  13-2-21 - 12-2-21 (current implementation!)
-#    13-2-21 - 14-4-21
-
+#    Current implementation. 2 of the windows have toDates before fromDates. Helen confirming 13/4
   Scenario: 9. 2 debts, 5 payments on 1 debt
     Given a debt item
       | amount  | dateAmount | dateCalculationTo | regime | chargeType | interestBearing |
