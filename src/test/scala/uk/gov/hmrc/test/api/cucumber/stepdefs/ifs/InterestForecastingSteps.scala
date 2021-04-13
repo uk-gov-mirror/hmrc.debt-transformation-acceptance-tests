@@ -38,10 +38,10 @@ class InterestForecastingSteps extends BaseStepDef {
 
     val debtItem = getBodyAsString("debtItem")
       .replaceAll("<REPLACE_uniqueItemReference>", "123")
-      .replaceAll("<REPLACE_amount>", asMapTransposed.get("amount"))
-      .replaceAll("<REPLACE_chargeType>", asMapTransposed.get("chargeType"))
-      .replaceAll("<REPLACE_regime>", asMapTransposed.get("regime"))
-      .replaceAll("<REPLACE_dateAmount>", asMapTransposed.get("dateAmount"))
+      .replaceAll("<REPLACE_originalAmount>", asMapTransposed.get("originalAmount"))
+      .replaceAll("<REPLACE_subTrans>", asMapTransposed.get("subTrans"))
+      .replaceAll("<REPLACE_mainTrans>", asMapTransposed.get("mainTrans"))
+      .replaceAll("<REPLACE_dateCreated>", asMapTransposed.get("dateCreated"))
       .replaceAll("<REPLACE_dateCalculationTo>", asMapTransposed.get("dateCalculationTo"))
 
     if (firstItem == true) { debtItems = debtItem }
