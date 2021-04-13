@@ -60,10 +60,10 @@ class InterestForecastingSteps extends BaseStepDef {
     while (n < numberItems) {
       val debtItem = getBodyAsString("debtItem")
         .replaceAll("<REPLACE_uniqueItemReference>", "123")
-        .replaceAll("<REPLACE_amount>", "500000")
-        .replaceAll("<REPLACE_chargeType>", "NI")
-        .replaceAll("<REPLACE_regime>", "DRIER")
-        .replaceAll("<REPLACE_dateAmount>", "2021-12-16")
+        .replaceAll("<REPLACE_originalAmount>", "500000")
+        .replaceAll("<REPLACE_subTrans>", "1000")
+        .replaceAll("<REPLACE_mainTrans>", "1525")
+        .replaceAll("<REPLACE_dateCreated>", "2021-12-16")
         .replaceAll("<REPLACE_dateCalculationTo>", "2022-04-14")
 
       if (n == 0) {
