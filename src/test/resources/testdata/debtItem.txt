@@ -1,9 +1,10 @@
      {
           "uniqueItemReference": "<REPLACE_uniqueItemReference>",
-          "amount": <REPLACE_amount>,
-          "chargeType": "<REPLACE_chargeType>",
-          "regime": "<REPLACE_regime>",
-          "dateAmount": "<REPLACE_dateAmount>",
+          "originalAmount": <REPLACE_originalAmount>,
+          "subTrans": "<REPLACE_subTrans>",
+          "mainTrans": "<REPLACE_mainTrans>",
+          "dateCreated": "<REPLACE_dateCreated>",
+          "interestStartDate": "<REPLACE_dateCreated>",
           "dateCalculationTo": "<REPLACE_dateCalculationTo>",
           "paymentHistory": [
           		 <REPLACE_payments>
