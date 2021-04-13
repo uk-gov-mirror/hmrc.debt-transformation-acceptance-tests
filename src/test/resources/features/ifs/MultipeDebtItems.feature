@@ -1,6 +1,6 @@
 #  Assumptions
 #  Initial originalAmount and date
-#  MainTrans == 1525 (DRIER)
+#  MainTrans == 1525 (TPSS)
 #  NO suppression period
 #  NO breathing space
 #  Date Amount  == Interest start date

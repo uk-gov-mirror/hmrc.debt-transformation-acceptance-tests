@@ -1,7 +1,7 @@
 #  Assumptions
 #  1 Debt item
 #  Initial originalAmount and date
-#  MainTrans == 1525 (DRIER)
+#  MainTrans == 1525 (TPSS)
 #  Where mainTrans is 1525 and subTrans is 1000, then interest bearing is assumed to be true
 #  Where subTrans is 1000 HiPG, then interest bearing is assumed to be false
 #  NO repayments
