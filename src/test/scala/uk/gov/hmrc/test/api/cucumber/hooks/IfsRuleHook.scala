@@ -9,10 +9,6 @@ import uk.gov.hmrc.test.api.utils.ScenarioContext
 class IfsRuleHook extends ScalaDsl with LazyLogging{
 
   Before() { _ =>
-    if (!TestConfiguration.env.equals("qa")) {
-      Helper.createDebtCalculationRule()
-    }
-
     ScenarioContext.reset()
   }
 
