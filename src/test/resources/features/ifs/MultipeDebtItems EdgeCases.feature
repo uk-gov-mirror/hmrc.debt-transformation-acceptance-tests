@@ -123,7 +123,7 @@ Feature: Multiple Debt Items
       | dailyInterest | totalInterest | totalAmountToPay | totalAmountWithInterest | totalAmountOnWhichInterestDue |
       | 3900          | 492900        | 150000000        | 150492900               | 150000000                     |
 
-#    Should be 4 calculation windows?
+#    Current implimentation. 2 of the windows have toDates before fromDates. Helen confirming 13/4
 #    16-12-20 - 2-2-21
  #  3-2-21 - 2-2-21 (current implementation!)
 #    3-2-21 - 5-2-21
@@ -131,7 +131,6 @@ Feature: Multiple Debt Items
 #  13-2-21 - 12-2-21 (current implementation!)
 #    13-2-21 - 14-4-21
 
-  @wip
   Scenario: 9. 2 debts, 5 payments on 1 debt
     Given a debt item
       | amount  | dateAmount | dateCalculationTo | regime | chargeType | interestBearing |
@@ -143,17 +142,17 @@ Feature: Multiple Debt Items
       | 100000     | 2021-02-13    |
       | 100000     | 2021-02-06    |
       | 100000     | 2021-02-13    |
-#    And a debt item
-#      | amount | dateAmount | dateCalculationTo | regime | chargeType | interestBearing |
-#      | 500000 | 2020-12-16 | 2021-04-14        | DRIER  | NI         | true            |
+    And a debt item
+      | amount | dateAmount | dateCalculationTo | regime | chargeType | interestBearing |
+      | 500000 | 2020-12-16 | 2021-04-14        | DRIER  | NI         | true            |
     And the debt item has no payment history
     When the debt item is sent to the ifs service
-#    Then the ifs service wilL return a total debts summary of
-#      | dailyInterest | totalInterest | totalAmountToPay | totalAmountWithInterest | totalAmountOnWhichInterestDue |
-#      | 23            | ?             | 900000           | ?                       | ?                             |
-#    And the 1st debt summary will contain
-#      | dailyInterest | totalInterest | totalAmountToPay | totalAmountWithInterest | totalAmountOnWhichInterestDue |
-#      | 10            | ?             | ?                | ?                       | ?                             |
+    Then the ifs service wilL return a total debts summary of
+      | dailyInterest | totalInterest | totalAmountToPay | totalAmountWithInterest | totalAmountOnWhichInterestDue |
+      | 23            | 3825          | 900000           | 903825                  | 900000                        |
+    And the 1st debt summary will contain
+      | dailyInterest | totalInterest | totalAmountToPay | totalAmountWithInterest | totalAmountOnWhichInterestDue |
+      | 10            | 2182          | 400000           | 402182                  | 400000                        |
     And the 1st debt summary will have calculation windows
       | dateFrom   | dateTo     | numberDays | intRate | dailyInterest | totalInterest | totalAmountOnWhichInterestDue |
       | 2020-12-16 | 2021-02-02 | 49         | 1       | 27            | 1342          | 1000000                       |
@@ -162,10 +161,9 @@ Feature: Multiple Debt Items
       | 2021-02-06 | 2021-02-12 | 7          | 1       | 16            | 115           | 600000                        |
       | 2021-02-13 | 2021-02-12 | 0          | 1       | 13            | 0             | 500000                        |
       | 2021-02-13 | 2021-04-14 | 61         | 1       | 10            | 668           | 400000                        |
-
-#    And the 2nd debt summary will contain
-#      | dailyInterest | totalInterest | totalAmountToPay | totalAmountWithInterest | totalAmountOnWhichInterestDue |
-#      | 13            | 1643          | 500000           | 501643                  | 500000                        |
-#    And the 2nd debt summary will have calculation windows
-#      | dateFrom   | dateTo     | numberDays | intRate | dailyInterest | totalInterest | totalAmountOnWhichInterestDue |
-#      | 2020-12-16 | 2021-04-14 | 120        | 1       | 13            | 1643          | 500000                        |
+    And the 2nd debt summary will contain
+      | dailyInterest | totalInterest | totalAmountToPay | totalAmountWithInterest | totalAmountOnWhichInterestDue |
+      | 13            | 1643          | 500000           | 501643                  | 500000                        |
+    And the 2nd debt summary will have calculation windows
+      | dateFrom   | dateTo     | numberDays | intRate | dailyInterest | totalInterest | totalAmountOnWhichInterestDue |
+      | 2020-12-16 | 2021-04-14 | 120        | 1       | 13            | 1643          | 500000                        |
