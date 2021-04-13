@@ -13,7 +13,7 @@
 #8. 300 debt items
 #9. debts, 5 payments on 1 debt
 
-Feature: Multiple Debt Items
+Feature: Multiple Debt Items - Edge Cases
 
   Scenario: 5. 2 debts, 1 interest bearing. 1 non interest bearing
     Given a debt item
