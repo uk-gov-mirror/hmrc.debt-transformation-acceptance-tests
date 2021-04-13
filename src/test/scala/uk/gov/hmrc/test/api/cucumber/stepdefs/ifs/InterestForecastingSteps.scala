@@ -53,6 +53,30 @@ class InterestForecastingSteps extends BaseStepDef {
     )
   }
 
+  Given("(.*) debt items") { (numberItems: Int) =>
+    var debtItems: String = null
+    var n                 = 0
+
+    while (n < numberItems) {
+      val debtItem = getBodyAsString("debtItem")
+        .replaceAll("<REPLACE_uniqueItemReference>", "123")
+        .replaceAll("<REPLACE_amount>", "500000")
+        .replaceAll("<REPLACE_chargeType>", "NI")
+        .replaceAll("<REPLACE_regime>", "DRIER")
+        .replaceAll("<REPLACE_dateAmount>", "2021-12-16")
+        .replaceAll("<REPLACE_dateCalculationTo>", "2022-04-14")
+
+      if (n == 0) {
+        debtItems = debtItem
+      } else {
+        debtItems = debtItems.concat(",").concat(debtItem)
+      }
+
+      ScenarioContext.set("debtItems", debtItems.toString.replaceAll("<REPLACE_payments>", ""))
+      n = n + 1
+    }
+  }
+
   Given("the debt item has payment history") { (dataTable: DataTable) =>
     val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
     var payments        = ""
@@ -78,7 +102,7 @@ class InterestForecastingSteps extends BaseStepDef {
     )
   }
 
-  When("the debt item is sent to the ifs service") { () =>
+  When("the debt item(s) is sent to the ifs service") { () =>
     val request = getBodyAsString("debtCalcRequest")
       .replaceAllLiterally("<REPLACE_debtItems>", ScenarioContext.get("debtItems"))
 
