@@ -148,20 +148,20 @@ Feature: Multiple Debt Items
 #      | 500000 | 2020-12-16 | 2021-04-14        | DRIER  | NI         | true            |
     And the debt item has no payment history
     When the debt item is sent to the ifs service
-    Then the ifs service wilL return a total debts summary of
-      | dailyInterest | totalInterest | totalAmountToPay | totalAmountWithInterest | totalAmountOnWhichInterestDue |
-      | 23            | ?             | 900000           | ?                       | ?                             |
-    And the 1st debt summary will contain
-      | dailyInterest | totalInterest | totalAmountToPay | totalAmountWithInterest | totalAmountOnWhichInterestDue |
-      | 10            | ?             | ?                | ?                       | ?                             |
+#    Then the ifs service wilL return a total debts summary of
+#      | dailyInterest | totalInterest | totalAmountToPay | totalAmountWithInterest | totalAmountOnWhichInterestDue |
+#      | 23            | ?             | 900000           | ?                       | ?                             |
+#    And the 1st debt summary will contain
+#      | dailyInterest | totalInterest | totalAmountToPay | totalAmountWithInterest | totalAmountOnWhichInterestDue |
+#      | 10            | ?             | ?                | ?                       | ?                             |
     And the 1st debt summary will have calculation windows
       | dateFrom   | dateTo     | numberDays | intRate | dailyInterest | totalInterest | totalAmountOnWhichInterestDue |
       | 2020-12-16 | 2021-02-02 | 49         | 1       | 27            | 1342          | 1000000                       |
       | 2021-02-03 | 2021-02-02 | 0          | 1       | 24            | 0             | 900000                        |
-      | 2021-02-03 | 2021-02-05 | 3          | 1       | 21            | 65            | 800000                        |
-      | 2020-02-06 | 2021-02-12 | 7          | 1       |               |               | 700000                       |
-      | 2021-02-13 | 2021-02-12 | 0          | 1       | ?             | 0             | 600000                        |
-      | 2021-02-13 | 2021-04-14 | 61?        | 1       | ?             | ?             | 500000                        |
+      | 2021-02-03 | 2021-02-05 | 3          | 1       | 19            | 57            | 700000                        |
+      | 2021-02-06 | 2021-02-12 | 7          | 1       | 16            | 115           | 600000                        |
+      | 2021-02-13 | 2021-02-12 | 0          | 1       | 13            | 0             | 500000                        |
+      | 2021-02-13 | 2021-04-14 | 61         | 1       | 10            | 668           | 400000                        |
 
 #    And the 2nd debt summary will contain
 #      | dailyInterest | totalInterest | totalAmountToPay | totalAmountWithInterest | totalAmountOnWhichInterestDue |
