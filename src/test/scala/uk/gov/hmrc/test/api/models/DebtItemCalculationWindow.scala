@@ -9,13 +9,15 @@ import play.api.libs.json.{Json, OFormat}
 
 import java.time.LocalDate
 
-case class DebtItemCalculationWindow(dateFrom: LocalDate,
-                                     dateTo: LocalDate,
-                                     numberOfChargeableDays: Long,
-                                     interestRateApplied: Long,
-                                     dailyInterestAccrued: BigDecimal,
-                                     totalInterestAccrued: BigDecimal,
-                                     totalAmountOnWhichInterestDue: BigDecimal)
+
+case class DebtItemCalculationWindow(periodFrom: LocalDate,
+                                     periodTo: LocalDate,
+                                     numberOfDays: Long,
+                                     interestRate: Long,
+                                     interestDueWindow: BigDecimal,
+                                     interestDueDailyAccrual: BigDecimal,
+                                     amountOnIntDueWindow: BigDecimal,
+                                     unpaidAmountWindow: BigDecimal)
 
 object DebtItemCalculationWindow {
   implicit val formatDebtItemCalculationWindow: OFormat[DebtItemCalculationWindow] = Json.format[DebtItemCalculationWindow]

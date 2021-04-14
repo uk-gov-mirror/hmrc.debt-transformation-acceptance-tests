@@ -22,7 +22,7 @@ Feature: Get Debt For MainTrans (1525) case (mvp)
     And the debt item has no payment history
     When the debt item is sent to the ifs service
     Then the 1st debt summary will contain
-      | dailyInterest | totalInterest | intRate | totalAmountToPay | totalAmountWithInterest | numberChargeableDays | totalAmountOnWhichInterestDue |
+      | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
       | 13            | 109           | 1       | 500000           | 500109                  | 8                    | 500000                        |
 
   Scenario: Non Interest Bearing MainTrans (1525) debt (MVP)
@@ -32,7 +32,7 @@ Feature: Get Debt For MainTrans (1525) case (mvp)
     And the debt item has no payment history
     When the debt item is sent to the ifs service
     Then the 1st debt summary will contain
-      | dailyInterest | totalInterest | intRate | totalAmountToPay | totalAmountWithInterest | numberChargeableDays | totalAmountOnWhichInterestDue |
+      | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
       | 0             | 0             | 0       | 500000           | 500000                  | 0                    | 500000                        |
 
   Scenario: MainTrans (1525) debt Zero Amount Edge Case
@@ -42,7 +42,7 @@ Feature: Get Debt For MainTrans (1525) case (mvp)
     And the debt item has no payment history
     When the debt item is sent to the ifs service
     Then the 1st debt summary will contain
-      | dailyInterest | totalInterest | intRate | totalAmountToPay | totalAmountWithInterest | numberChargeableDays | totalAmountOnWhichInterestDue |
+      | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
       | 0             | 0             | 1       | 0                | 0                       | 8                    | 0                             |
 
 # Below scenario currently fails as api returns daily interest of -0.0001. Should negative amounts be possible?
@@ -54,7 +54,7 @@ Feature: Get Debt For MainTrans (1525) case (mvp)
     And the debt item has no payment history
     When the debt item is sent to the ifs service
     Then the 1st debt summary will contain
-      | dailyInterest | totalInterest | intRate | totalAmountToPay | totalAmountWithInterest | numberChargeableDays | totalAmountOnWhichInterestDue |
+      | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
       | 0             | 0             | 1       | 0                | 0                       | 8                    | 0                             |
 
   Scenario: MainTrans (1525) debt Amount non integer (Edge Case)

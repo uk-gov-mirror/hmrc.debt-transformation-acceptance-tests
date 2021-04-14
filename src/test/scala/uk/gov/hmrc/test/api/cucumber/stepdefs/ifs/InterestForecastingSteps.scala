@@ -21,7 +21,7 @@ import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import play.twirl.api.TwirlHelperImports.twirlJavaCollectionToScala
 import uk.gov.hmrc.test.api.cucumber.stepdefs.BaseStepDef
-import uk.gov.hmrc.test.api.models.DebtCalculation
+import uk.gov.hmrc.test.api.models.{DebtCalculation, DebtItemCalculation}
 import uk.gov.hmrc.test.api.requests.InterestForecastingRequests
 import uk.gov.hmrc.test.api.requests.InterestForecastingRequests.getBodyAsString
 import uk.gov.hmrc.test.api.utils.ScenarioContext
@@ -60,10 +60,10 @@ class InterestForecastingSteps extends BaseStepDef {
     while (n < numberItems) {
       val debtItem = getBodyAsString("debtItem")
         .replaceAll("<REPLACE_uniqueItemReference>", "123")
-        .replaceAll("<REPLACE_amount>", "500000")
-        .replaceAll("<REPLACE_chargeType>", "NI")
-        .replaceAll("<REPLACE_regime>", "DRIER")
-        .replaceAll("<REPLACE_dateAmount>", "2021-12-16")
+        .replaceAll("<REPLACE_originalAmount>", "500000")
+        .replaceAll("<REPLACE_subTrans>", "1000")
+        .replaceAll("<REPLACE_mainTrans>", "1525")
+        .replaceAll("<REPLACE_dateCreated>", "2021-12-16")
         .replaceAll("<REPLACE_dateCalculationTo>", "2022-04-14")
 
       if (n == 0) {
@@ -118,13 +118,13 @@ class InterestForecastingSteps extends BaseStepDef {
 
     val responseBody = Json.parse(response.body).as[DebtCalculation]
 
-    responseBody.dailyInterestAccrued.toString          shouldBe asMapTransposed.get("dailyInterest").toString
-    responseBody.totalInterestAccrued.toString          shouldBe asMapTransposed.get("totalInterest").toString
-    responseBody.totalAmountToPay.toString              shouldBe asMapTransposed.get("totalAmountToPay").toString
-    responseBody.totalAmountOnWhichInterestDue.toString shouldBe asMapTransposed
-      .get("totalAmountOnWhichInterestDue")
+    responseBody.combinedDailyAccrual.toString          shouldBe asMapTransposed.get("combinedDailyAccrual").toString
+    responseBody.interestDueCallTotal.toString          shouldBe asMapTransposed.get("interestDueCallTotal").toString
+    responseBody.unpaidAmountTotal.toString              shouldBe asMapTransposed.get("unpaidAmountTotal").toString
+    responseBody.amountOnIntDueTotal.toString shouldBe asMapTransposed
+      .get("amountOnIntDueTotal")
       .toString
-    responseBody.totalAmountWithInterest.toString       shouldBe asMapTransposed.get("totalAmountWithInterest").toString
+    responseBody.totalAmountIntTotal.toString       shouldBe asMapTransposed.get("totalAmountIntTotal").toString
   }
 
   Then("the ([0-9]\\d*)(?:st|nd|rd|th) debt summary will contain") { (index: Int, dataTable: DataTable) =>
@@ -132,14 +132,14 @@ class InterestForecastingSteps extends BaseStepDef {
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status should be(200)
 
-    val responseBody = Json.parse(response.body).as[DebtCalculation].debtCalculations(index - 1)
-    responseBody.dailyInterestAccrued.toString          shouldBe asMapTransposed.get("dailyInterest").toString
-    responseBody.totalInterestAccrued.toString          shouldBe asMapTransposed.get("totalInterest").toString
-    responseBody.totalAmountOnWhichInterestDue.toString shouldBe asMapTransposed
-      .get("totalAmountOnWhichInterestDue")
+    val responseBody: DebtItemCalculation = Json.parse(response.body).as[DebtCalculation].debtCalculations(index - 1)
+    responseBody.interestDueDailyAccrual.toString          shouldBe asMapTransposed.get("interestDueDailyAccrual").toString
+    responseBody.interestDueDebtTotal.toString          shouldBe asMapTransposed.get("interestDueDebtTotal").toString
+    responseBody.amountOnIntDueDebt.toString shouldBe asMapTransposed
+      .get("amountOnIntDueDebt")
       .toString
-    responseBody.totalAmountWithInterest.toString       shouldBe asMapTransposed.get("totalAmountWithInterest").toString
-    responseBody.totalAmountToPay.toString              shouldBe asMapTransposed.get("totalAmountToPay").toString
+    responseBody.totalAmountIntDebt.toString       shouldBe asMapTransposed.get("totalAmountIntDebt").toString
+    responseBody.unpaidAmountDebt.toString              shouldBe asMapTransposed.get("unpaidAmountDebt").toString
 
   }
 
@@ -158,14 +158,15 @@ class InterestForecastingSteps extends BaseStepDef {
         val responseBody =
           Json.parse(response.body).as[DebtCalculation].debtCalculations(summaryIndex - 1).calculationWindows(index)
 
-        responseBody.dateFrom.toString               shouldBe window.get("dateFrom").toString
-        responseBody.dateTo.toString                 shouldBe window.get("dateTo").toString
-        responseBody.numberOfChargeableDays.toString shouldBe window.get("numberDays").toString
-        responseBody.interestRateApplied.toString    shouldBe window.get("intRate").toString
-        responseBody.dailyInterestAccrued.toString   shouldBe window.get("dailyInterest").toString
-        responseBody.totalInterestAccrued.toString   shouldBe window.get("totalInterest").toString
-        responseBody.totalAmountOnWhichInterestDue
-          .toString()                                shouldBe window.get("totalAmountOnWhichInterestDue").toString
+        responseBody.periodFrom.toString               shouldBe window.get("periodFrom").toString
+        responseBody.periodTo.toString                 shouldBe window.get("periodTo").toString
+        responseBody.numberOfDays.toString shouldBe window.get("numberOfDays").toString
+        responseBody.interestRate.toString    shouldBe window.get("interestRate").toString
+        responseBody.interestDueDailyAccrual.toString   shouldBe window.get("interestDueDailyAccrual").toString
+        responseBody.interestDueWindow.toString   shouldBe window.get("interestDueWindow").toString
+        responseBody.unpaidAmountWindow.toString   shouldBe window.get("unpaidAmountWindow").toString
+        responseBody.amountOnIntDueWindow
+          .toString()                                shouldBe window.get("unpaidAmountWindow").toString
       }
   }
 }

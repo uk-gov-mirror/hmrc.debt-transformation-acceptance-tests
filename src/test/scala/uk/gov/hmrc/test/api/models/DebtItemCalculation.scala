@@ -7,14 +7,15 @@ package uk.gov.hmrc.test.api.models
 
 import play.api.libs.json.{Json, OFormat}
 
+
 case class DebtItemCalculation(
                                 uniqueItemReference: String,
-                                dailyInterestAccrued: BigDecimal,
-                                totalInterestAccrued: BigDecimal,
-                                totalAmountOnWhichInterestDue: BigDecimal,
+                                interestDueDailyAccrual: BigDecimal,
+                                interestDueDebtTotal: BigDecimal,
+                                amountOnIntDueDebt: BigDecimal,
                                 numberOfChargeableDays: Long,
-                                totalAmountWithInterest: BigDecimal,
-                                totalAmountToPay: BigDecimal,
+                                totalAmountIntDebt: BigDecimal,
+                                unpaidAmountDebt: BigDecimal,
                                 calculationWindows: List[DebtItemCalculationWindow] = Nil
                               )
 object DebtItemCalculation {
