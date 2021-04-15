@@ -152,10 +152,8 @@ Feature: Multiple Debt Items - Edge Cases
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2020-12-16 | 2021-02-02 | 49           | 1            | 27                      | 1342              | 1000000              | 1000000            |
-      | 2021-02-03 | 2021-02-02 | 0            | 1            | 24                      | 0                 | 900000               | 900000             |
       | 2021-02-03 | 2021-02-05 | 3            | 1            | 19                      | 57                | 700000               | 700000             |
       | 2021-02-06 | 2021-02-12 | 7            | 1            | 16                      | 115               | 600000               | 600000             |
-      | 2021-02-13 | 2021-02-12 | 0            | 1            | 13                      | 0                 | 500000               | 500000             |
       | 2021-02-13 | 2021-04-14 | 61           | 1            | 10                      | 668               | 400000               | 400000             |
     And the 2nd debt summary will contain
       | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
