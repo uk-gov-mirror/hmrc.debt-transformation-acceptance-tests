@@ -126,7 +126,6 @@ Feature: Multiple Debt Items - Edge Cases
       | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
       | 13                      | 1643                 | 500000           | 501643             | 500000             |
 
-#    Current implementation. 2 of the windows have toDates before fromDates. Helen confirming 13/4
   Scenario: 9. 2 debts, 5 payments on 1 debt
     Given a debt item
       | originalAmount | dateCreated | dateCalculationTo | mainTrans | subTrans | interestBearing |
