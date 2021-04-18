@@ -13,7 +13,7 @@ import java.time.LocalDate
 case class DebtItemCalculationWindow(periodFrom: LocalDate,
                                      periodTo: LocalDate,
                                      numberOfDays: Long,
-                                     interestRate: Long,
+                                     interestRate: Double,
                                      interestDueWindow: BigDecimal,
                                      interestDueDailyAccrual: BigDecimal,
                                      amountOnIntDueWindow: BigDecimal,
