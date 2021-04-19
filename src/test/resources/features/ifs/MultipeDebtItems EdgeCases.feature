@@ -126,7 +126,6 @@ Feature: Multiple Debt Items - Edge Cases
       | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
       | 35                      | 4273                 | 500000           | 504273             | 500000             |
 
-#    Current implementation. 2 of the windows have toDates before fromDates. Helen confirming 13/4
   Scenario: 9. 2 debts, 5 payments on 1 debt
     Given a debt item
       | originalAmount | dateCreated | dateCalculationTo | mainTrans | subTrans | interestBearing |
@@ -152,10 +151,8 @@ Feature: Multiple Debt Items - Edge Cases
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2020-12-16 | 2021-02-02 | 49           | 2.6          | 71                      | 3490              | 1000000              | 1000000            |
-      | 2021-02-03 | 2021-02-02 | 0            | 2.6          | 64                      | 0                 | 900000               | 900000             |
       | 2021-02-03 | 2021-02-05 | 3            | 2.6          | 49                      | 149               | 700000               | 700000             |
       | 2021-02-06 | 2021-02-12 | 7            | 2.6          | 42                      | 299               | 600000               | 600000             |
-      | 2021-02-13 | 2021-02-12 | 0            | 2.6          | 35                      | 0                 | 500000               | 500000             |
       | 2021-02-13 | 2021-04-14 | 61           | 2.6          | 28                      | 1738              | 400000               | 400000             |
     And the 2nd debt summary will contain
       | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
