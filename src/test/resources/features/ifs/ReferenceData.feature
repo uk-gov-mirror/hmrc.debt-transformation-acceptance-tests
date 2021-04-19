@@ -44,7 +44,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
   Scenario: Interest Bearing MainTrans (1545) debt SubTrans (1090)
     Given a debt item
       | originalAmount | dateCreated | dateCalculationTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2021-03-01  | 2021-03-08        | 1540      | 1090     | true            |
+      | 500000         | 2021-03-01  | 2021-03-08        | 1545      | 1090     | true            |
     And the debt item has no payment history
     When the debt item is sent to the ifs service
     Then the 1st debt summary will contain
@@ -129,7 +129,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
-      | 0                    | 0                    | 1900000           | 1900000              | 1900000            |
+      | 0                    | 0                    | 1900000           | 1800000              | 1800000            |
 
 
   Scenario: MainTrans (1525) debt empty subTrans (7006)
