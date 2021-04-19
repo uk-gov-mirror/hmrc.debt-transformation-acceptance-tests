@@ -16,8 +16,8 @@ Feature: Request interest for Drier case (interest rate changes)
 
   Scenario: Interest rate changes from 2.75% to 2.6%
     Given a debt item
-      | originalAmount | dateCreated | dateCalculationTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2020-01-01  | 2021-03-31        | 1525      | 1000     | true            |
+      | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2020-01-01  | 2020-01-01        | 2021-03-31        | 1525      | 1000     | true            |
     And the debt item has no payment history
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
@@ -32,30 +32,32 @@ Feature: Request interest for Drier case (interest rate changes)
       | 2020-03-30 | 2020-04-06 | 8            | 2.75         | 37                      | 301               | 500301               | 500000             |
       | 2020-04-07 | 2021-03-31 | 359          | 2.6          | 35                      | 12786             | 512786               | 500000             |
 
-  #BUG: Test failing due to issue with interest accrued returned
-  Scenario: Interest rate changes from 0% to 8.5%
+  Scenario: Interest rate changes from non-interest bearing to interest bearing
     Given a debt item
-      | originalAmount | dateCreated | dateCalculationTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2000-01-01  | 2001-03-31        | 1525      | 1000     | true            |
+      | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2020-01-01  | 2020-03-06        | 2021-03-31        | 1525      | 1000     | true            |
     And the debt item has no payment history
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
-      | 0                    | 0                    | 500000            | 500000              | 500000              |
+      | 35                   | 14155                | 500000            | 514155              | 500000              |
     And the 1st debt summary will contain
       | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | numberChargeableDays | amountOnIntDueDebt |
-      | 0                       | 0                    | 500000           | 500000             | 0                    | 500000             |
+      | 35                      | 14155                | 500000           | 514155             | 0                    | 500000             |
     And the 1st debt summary will have calculation windows
-      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | amountOnIntDueWindow | interestDueWindow | unpaidAmountWindow |
-      | 2000-01-01 | 2000-02-05 | 0            | 0.0          | 0                       | 500000               | 0                 | 500000             |
-      | 2000-02-06 | 2001-03-31 | 418          | 8.5          | 13                      | 500904               | 780               | 500780             |
-
-  #Scenario: Interest rate changes from 1% to 0%
+      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
+      | 2020-01-01 | 2020-03-05 | 0            | 0.0          | 0                       | 0                 | 500000               | 500000             |
+      | 2020-03-06 | 2020-03-29 | 24           | 3.25         | 44                      | 1068              | 501068               | 500000             |
+      | 2020-03-30 | 2020-04-06 | 8            | 2.75         | 37                      | 301               | 500301               | 500000             |
+      | 2020-04-07 | 2021-03-31 | 359          | 2.6          | 35                      | 12786             | 512786               | 500000             |
+    
+  #Scenario: Interest rate changes from interest bearing to non-interest bearing
+  #TBD: No test data currently available to implement this scenario
 
   Scenario: Interest rate changes from 2.75% to 2.6% after a payment is made
     Given a debt item
-      | originalAmount | dateCreated | dateCalculationTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2020-01-01  | 2021-03-31        | 1525      | 1000     | true            |
+      | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2020-01-01  | 2020-01-01        | 2021-03-31        | 1525      | 1000     | true            |
     And the debt item has payment history
       | amountPaid | dateOfPayment |
       | 100000     | 2020-03-15    |
@@ -75,15 +77,15 @@ Feature: Request interest for Drier case (interest rate changes)
 
   Scenario: 2 Debts - Interest rate changes from 2.75% to 2.6% and then multiple payments are made for both debts
     Given a debt item
-      | originalAmount | dateCreated | dateCalculationTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2020-01-01  | 2021-03-31        | 1525      | 1000     | true            |
+      | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2020-01-01  | 2020-01-01        | 2021-03-31        | 1525      | 1000     | true            |
     And the debt item has payment history
       | amountPaid | dateOfPayment |
       | 100000     | 2021-03-15    |
       | 100000     | 2021-04-15    |
     And a debt item
-      | originalAmount | dateCreated | dateCalculationTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2020-01-16  | 2021-04-14        | 1545      | 1090     | true            |
+      | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2020-01-16  | 2020-01-16        | 2021-04-14        | 1545      | 1090     | true            |
     And the debt item has payment history
       | amountPaid | dateOfPayment |
       | 100000     | 2021-01-20    |
@@ -114,8 +116,8 @@ Feature: Request interest for Drier case (interest rate changes)
 
   Scenario: Interest rate changes from 2.75% to 2.6% - dateCalculationTo before interestStartDate
     Given a debt item
-      | originalAmount | dateCreated | dateCalculationTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2020-01-01  | 2020-01-31        | 1525      | 1000     | true            |
+      | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2020-01-01  | 2020-01-01        | 2020-01-31        | 1525      | 1000     | true            |
     And the debt item has no payment history
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of

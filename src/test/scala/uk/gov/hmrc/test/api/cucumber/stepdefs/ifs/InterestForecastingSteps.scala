@@ -42,6 +42,7 @@ class InterestForecastingSteps extends BaseStepDef {
       .replaceAll("<REPLACE_subTrans>", asMapTransposed.get("subTrans"))
       .replaceAll("<REPLACE_mainTrans>", asMapTransposed.get("mainTrans"))
       .replaceAll("<REPLACE_dateCreated>", asMapTransposed.get("dateCreated"))
+      .replaceAll("<REPLACE_interestStartDate>", asMapTransposed.get("interestStartDate"))
       .replaceAll("<REPLACE_dateCalculationTo>", asMapTransposed.get("dateCalculationTo"))
 
     if (firstItem == true) { debtItems = debtItem }
@@ -64,6 +65,7 @@ class InterestForecastingSteps extends BaseStepDef {
         .replaceAll("<REPLACE_subTrans>", "1000")
         .replaceAll("<REPLACE_mainTrans>", "1525")
         .replaceAll("<REPLACE_dateCreated>", "2021-12-16")
+        .replaceAll("<REPLACE_interestStartDate>", "2021-12-16")
         .replaceAll("<REPLACE_dateCalculationTo>", "2022-04-14")
 
       if (n == 0) {
@@ -88,6 +90,7 @@ class InterestForecastingSteps extends BaseStepDef {
         .replaceAll("<REPLACE_subTrans>", "1000")
         .replaceAll("<REPLACE_mainTrans>", "1525")
         .replaceAll("<REPLACE_dateCreated>", "2020-01-01")
+        .replaceAll("<REPLACE_interestStartDate>", "2020-01-01")
         .replaceAll("<REPLACE_dateCalculationTo>", "2020-04-30")
 
       if (n == 0) {

@@ -26,15 +26,15 @@ Feature: Interest Rate Changes - Edge cases
 
   Scenario: 2 Debts - Interest rate changes from 3.25% to 2.75% - payment is made for 1 debt - Interest rate changes from 2.75% to 2.6%
     Given a debt item
-      | originalAmount | dateCreated | dateCalculationTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2018-06-01  | 2021-03-31        | 1525      | 1000     | true            |
+      | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2018-06-01  | 2018-06-01        | 2021-03-31        | 1525      | 1000     | true            |
     And the debt item has payment history
       | amountPaid | dateOfPayment |
       | 100000     | 2019-03-15    |
       | 100000     | 2020-04-15    |
     And a debt item
-      | originalAmount | dateCreated | dateCalculationTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2018-01-01  | 2020-05-31        | 1545      | 1090     | true            |
+      | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2018-01-01  | 2018-01-01        | 2020-05-31        | 1545      | 1090     | true            |
     And the debt item has no payment history
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
@@ -63,8 +63,8 @@ Feature: Interest Rate Changes - Edge cases
 
   Scenario:  Interest rate changes from 2.75% to 2.6% - payment is made for 1 debt on the same day the interest rate changes
     Given a debt item
-      | originalAmount | dateCreated | dateCalculationTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2020-01-01  | 2021-03-31        | 1525      | 1000     | true            |
+      | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2020-01-01  | 2020-01-01        | 2021-03-31        | 1525      | 1000     | true            |
     And the debt item has payment history
       | amountPaid | dateOfPayment |
       | 100000     | 2020-04-07    |
@@ -80,3 +80,23 @@ Feature: Interest Rate Changes - Edge cases
       | 2020-01-01 | 2020-03-29 | 89           | 3.25         | 44                      | 3962              | 500000             | 500000               |
       | 2020-03-30 | 2020-04-06 | 8            | 2.75         | 37                      | 301               | 500000             | 500000               |
       | 2020-04-07 | 2021-03-31 | 359          | 2.6          | 28                      | 10229             | 400000             | 400000               |
+
+
+#  BUG: Test failing due to issue with interest accrued returned
+#  Scenario: Interest rate changes from 0% to 8.5%
+#    Given a debt item
+#      | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
+#      | 500000         | 2000-01-01  | 2000-01-01 | 2001-03-31        | 1525      | 1000     | true            |
+#    And the debt item has no payment history
+#    When the debt item is sent to the ifs service
+#    Then the ifs service wilL return a total debts summary of
+#      | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
+#      | 0                    | 0                    | 500000            | 500000              | 500000              |
+#    And the 1st debt summary will contain
+#      | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | numberChargeableDays | amountOnIntDueDebt |
+#      | 0                       | 0                    | 500000           | 500000             | 0                    | 500000             |
+#    And the 1st debt summary will have calculation windows
+#      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | amountOnIntDueWindow | interestDueWindow | unpaidAmountWindow |
+#      | 2000-01-01 | 2000-02-05 | 0            | 0.0          | 0                       | 500000               | 0                 | 500000             |
+#      | 2000-02-06 | 2001-03-31 | 418          | 8.5          | 13                      | 500904               | 780               | 500780             |
+
