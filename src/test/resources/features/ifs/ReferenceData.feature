@@ -60,7 +60,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
     And the debt item has no payment history
     And a debt item
       | originalAmount | dateCreated | dateCalculationTo | mainTrans | subTrans | interestBearing |
-      | 100000         | 2021-03-01  | 2021-03-08        | 5330      | 7006     | false           |
+      | 100000         | 2021-03-01  | 2021-03-08        | 5330      | 7010     | false           |
     And the debt item has no payment history
     And a debt item
       | originalAmount | dateCreated | dateCalculationTo | mainTrans | subTrans | interestBearing |
@@ -105,10 +105,6 @@ Feature: Get Debt For all the SUPPORTED REGIMES
     And a debt item
       | originalAmount | dateCreated | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 100000         | 2021-03-01  | 2021-03-08        | 1520      | 1090     | false           |
-    And the debt item has no payment history
-    And a debt item
-      | originalAmount | dateCreated | dateCalculationTo | mainTrans | subTrans | interestBearing |
-      | 100000         | 2021-03-01  | 2021-03-08        | 1526      | 2000     | false           |
     And the debt item has no payment history
     And a debt item
       | originalAmount | dateCreated | dateCalculationTo | mainTrans | subTrans | interestBearing |
