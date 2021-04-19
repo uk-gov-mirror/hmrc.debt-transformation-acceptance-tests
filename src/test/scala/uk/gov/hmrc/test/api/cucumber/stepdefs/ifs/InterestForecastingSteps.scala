@@ -77,7 +77,7 @@ class InterestForecastingSteps extends BaseStepDef {
     }
   }
 
-  Given("(.*) debt items debt items where interest rate changes from 1% to 2.6%") { (numberItems: Int) =>
+  Given("(.*) debt items where interest rate changes from 2\\.75 to 2\\.6") { (numberItems: Int) =>
     var debtItems: String = null
     var n                 = 0
 
