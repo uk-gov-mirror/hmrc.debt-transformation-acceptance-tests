@@ -1,7 +1,7 @@
 # originalAmount (Amount) = 500,000
 # dateCreated (Date Amount) = 01/01/2020
-# mainTrans (Regime = DRIER) = 1085
-# subTrans (CHARGE_TYPE == Duty Repaid in Error - National Insurance) = 1025
+# mainTrans (Regime = DRIER) = 1525, 1545
+# subTrans (CHARGE_TYPE == Duty Repaid in Error - National Insurance) = 1000, 1090
 # interestStartDate (Interest start date = Date Amount) 01/02/2020
 # interestRateDate (New data item) = 07/04/2020
 # Interest requested to (add in old value) 31/03/2021

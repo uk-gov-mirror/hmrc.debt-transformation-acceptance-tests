@@ -1,7 +1,7 @@
 # originalAmount (Amount) = 500,000
 # dateCreated (Date Amount) = 01/01/2020
-# mainTrans (Regime = DRIER) = 1085
-# subTrans (CHARGE_TYPE == Duty Repaid in Error - National Insurance) = 1025
+# mainTrans (Regime = DRIER) = 1525, 1545
+# subTrans (CHARGE_TYPE == Duty Repaid in Error - National Insurance) = 1000, 1090
 # interestStartDate (Interest start date = Date Amount) 01/02/2020
 # interestRateDate (New data item) = 07/04/2020
 # Interest requested to (add in old value) 31/03/2021
@@ -117,15 +117,15 @@ Feature: Request interest for Drier case (interest rate changes)
   Scenario: Interest rate changes from 2.75% to 2.6% - dateCalculationTo before interestStartDate
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2020-01-01  | 2020-01-01        | 2020-01-31        | 1525      | 1000     | true            |
+      | 500000         | 2020-01-01  | 2020-04-10        | 2020-03-31        | 1525      | 1000     | true            |
     And the debt item has no payment history
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
-      | 44                   | 1380                 | 500000            | 501380              | 500000              |
+      | 0                    | 0                    | 500000            | 500000              | 500000              |
     And the 1st debt summary will contain
       | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | numberChargeableDays | amountOnIntDueDebt |
-      | 44                      | 1380                 | 500000           | 501380             | 31                   | 500000             |
+      | 0                       | 0                    | 500000           | 500000             | 0                    | 500000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
-      | 2020-01-01 | 2020-01-31 | 31           | 3.25         | 44                      | 1380              | 500000               | 500000             |
+      | 2020-01-01 | 2020-03-31 | 0            | 0.0          | 0                       | 0                 | 500000               | 500000             |
