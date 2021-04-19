@@ -23,7 +23,7 @@ Feature: Get Debt For MainTrans (1525) case (mvp)
     When the debt item is sent to the ifs service
     Then the 1st debt summary will contain
       | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
-      | 13                      | 109                  | 1       | 500000           | 500109             | 8            | 500000             |
+      | 35                      | 284                  | 2.6       | 500000          | 500284            | 8            | 500000             |
 
   Scenario: Non Interest Bearing MainTrans (1525) debt (MVP)
     Given a debt item
