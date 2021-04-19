@@ -44,7 +44,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
   Scenario: Interest Bearing MainTrans (1545) debt SubTrans (1090)
     Given a debt item
       | originalAmount | dateCreated | dateCalculationTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2021-03-01  | 2021-03-08        | 1540      | 1000     | true            |
+      | 500000         | 2021-03-01  | 2021-03-08        | 1540      | 1090     | true            |
     And the debt item has no payment history
     When the debt item is sent to the ifs service
     Then the 1st debt summary will contain
