@@ -129,7 +129,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
-      | 0                    | 0                    | 1900000           | 1800000              | 1800000            |
+      | 0                    | 0                    | 1800000           | 1800000              | 1800000            |
 
 
   Scenario: MainTrans (1525) debt empty subTrans (7006)
