@@ -13,9 +13,9 @@
 
 #  DTD-170 Get Debt For MainTrans (1525) case
 
-Feature: Get Debt For MainTrans (1525) case (mvp)
+Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
 
-  Scenario: Interest Bearing MainTrans (1525) debt (MVP)
+  Scenario: Interest Bearing TPSS MainTrans (1525) debt (MVP)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
@@ -25,7 +25,7 @@ Feature: Get Debt For MainTrans (1525) case (mvp)
       | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
       | 35                      | 284                  | 2.6       | 500000          | 500284            | 8            | 500000             |
 
-  Scenario: Non Interest Bearing MainTrans (1525) debt (MVP)
+  Scenario: Non Interest Bearing TPSS MainTrans (1525) debt (MVP)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1520      | 1090     | false           |
@@ -35,7 +35,7 @@ Feature: Get Debt For MainTrans (1525) case (mvp)
       | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
       | 0                       | 0                    | 0       | 500000           | 500000             | 0            | 500000             |
 
-  Scenario: MainTrans (1525) debt Zero Amount Edge Case
+  Scenario: TPSS MainTrans (1525) debt Zero Amount Edge Case
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 0              | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
@@ -47,7 +47,7 @@ Feature: Get Debt For MainTrans (1525) case (mvp)
 
 # Below scenario currently fails as api returns daily interest of -0.0001. Should negative amounts be possible?
   @ignore
-  Scenario: MainTrans (1525) debt Amount is negative (Edge Case)
+  Scenario: TPSS MainTrans (1525) debt Amount is negative (Edge Case)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | -1             | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
@@ -57,7 +57,7 @@ Feature: Get Debt For MainTrans (1525) case (mvp)
       | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
       | 0                       | 0                    | 1       | 0                | 0                  | 8            | 0                  |
 
-  Scenario: MainTrans (1525) debt Amount non integer (Edge Case)
+  Scenario: TPSS MainTrans (1525) debt Amount non integer (Edge Case)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | \"\"           | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
@@ -65,7 +65,7 @@ Feature: Get Debt For MainTrans (1525) case (mvp)
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /originalAmount' missing or invalid
 
-  Scenario: MainTrans (1525) debt Amount non integer (Edge Case)
+  Scenario: TPSS MainTrans (1525) debt Amount non integer (Edge Case)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 1.2            | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
@@ -73,7 +73,7 @@ Feature: Get Debt For MainTrans (1525) case (mvp)
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /originalAmount' missing or invalid
 
-  Scenario: MainTrans (1525) debt invalid entry in Date Amount (Edge Case)
+  Scenario: TPSS MainTrans (1525) debt invalid entry in Date Amount (Edge Case)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | d           | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
@@ -81,7 +81,7 @@ Feature: Get Debt For MainTrans (1525) case (mvp)
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /dateCreated' missing or invalid
 
-  Scenario: MainTrans (1525) debt empty entry in Date Amount (Edge Case)
+  Scenario: TPSS MainTrans (1525) debt empty entry in Date Amount (Edge Case)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         |             | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
@@ -89,7 +89,7 @@ Feature: Get Debt For MainTrans (1525) case (mvp)
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /dateCreated' missing or invalid
 
-  Scenario: MainTrans (1525) debt invalid Date Amount (Edge Case)
+  Scenario: TPSS MainTrans (1525) debt invalid Date Amount (Edge Case)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-02-30  | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
@@ -97,7 +97,7 @@ Feature: Get Debt For MainTrans (1525) case (mvp)
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /dateCreated' missing or invalid
 
-  Scenario: MainTrans (1525) debt invalid entry in dateCalculationTo (Edge Case)
+  Scenario: TPSS MainTrans (1525) debt invalid entry in dateCalculationTo (Edge Case)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-03-08  | 2021-03-08        | d                 | 1525      | 1000     | true            |
@@ -105,7 +105,7 @@ Feature: Get Debt For MainTrans (1525) case (mvp)
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /dateCalculationTo' missing or invalid
 
-  Scenario: MainTrans (1525) debt empty dateCalculationTo (Edge Case)
+  Scenario: TPSS MainTrans (1525) debt empty dateCalculationTo (Edge Case)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-03-08  | 2021-03-08        |                   | 1525      | 1000     | true            |
@@ -113,7 +113,7 @@ Feature: Get Debt For MainTrans (1525) case (mvp)
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /dateCalculationTo' missing or invalid
 
-  Scenario: MainTrans (1525) debt invalid dateCalculationTo (Edge Case)
+  Scenario: TPSS MainTrans (1525) debt invalid dateCalculationTo (Edge Case)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-02-01  | 2021-02-01        | 2021-02-30        | 1525      | 1000     | true            |
@@ -121,15 +121,15 @@ Feature: Get Debt For MainTrans (1525) case (mvp)
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /dateCalculationTo' missing or invalid
 
-  Scenario: MainTrans (1525) debt invalid mainTrans (Edge Case)
+  Scenario: Debt invalid mainTrans (Edge Case)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | DRIdER    | 1000     | true            |
+      | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 99999    | 1000     | true            |
     And the debt item has no payment history
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /mainTrans' missing or invalid
 
-  Scenario: MainTrans (1525) debt empty mainTrans (Edge Case)
+  Scenario: TPSS debt empty mainTrans (Edge Case)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        |           | 1000     | true            |
@@ -137,7 +137,7 @@ Feature: Get Debt For MainTrans (1525) case (mvp)
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /mainTrans' missing or invalid
 
-  Scenario: MainTrans (1525) debt invalid subTrans (Edge Case)
+  Scenario: TPSS MainTrans (1525) debt invalid subTrans (Edge Case)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1525      | invalid  | true            |
@@ -145,7 +145,7 @@ Feature: Get Debt For MainTrans (1525) case (mvp)
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /subTrans' missing or invalid
 
-  Scenario: MainTrans (1525) debt empty subTrans (Edge Case)
+  Scenario: TPSS MainTrans (1525) debt empty subTrans (Edge Case)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1525      |          | true            |

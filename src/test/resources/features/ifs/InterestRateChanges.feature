@@ -12,7 +12,7 @@
 
 # DTD-172 - Request interest for Drier case (interest rate changes)
 
-Feature: Request interest for Drier case (interest rate changes)
+Feature: Interest Rate Changes
 
   Scenario: Interest rate changes from 2.75% to 2.6%
     Given a debt item
