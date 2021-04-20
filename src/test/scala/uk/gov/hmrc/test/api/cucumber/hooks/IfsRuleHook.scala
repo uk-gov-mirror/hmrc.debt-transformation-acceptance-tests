@@ -9,10 +9,6 @@ class IfsRuleHook extends ScalaDsl with LazyLogging{
 
   Before() { _ =>
     ScenarioContext.reset()
-
-    //DTD-216: Workaround to load the rule set
-    val response = HelloWorldRequests.getInterestForecastingService("/hello-world")
-    Thread.sleep(2000)
   }
 
   After() { scenario =>
