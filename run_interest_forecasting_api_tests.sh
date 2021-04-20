@@ -10,4 +10,12 @@ fi
 
 echo "*** running on $environment for tags '$tags' ***"
 
+# DTD-216: Workaround to load the rule set
+status_code=$(curl --write-out %{http_code} --silent --output /dev/null http://localhost:9946/interest-forecasting/hello-world)
+if [[ "$status_code" -ne 200 ]] ; then
+  echo "hello world endpoint response error $status_code"
+  exit 1
+fi
+sleep 2
+
 sbt -Denvironment="$environment" -Dcucumber.options="--tags '$tags'" clean 'testOnly uk.gov.hmrc.test.api.cucumber.runner.InterestForecastingApiTestRunner'
