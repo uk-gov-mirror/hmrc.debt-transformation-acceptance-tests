@@ -1,6 +1,6 @@
 Feature: Get Debt For all the SUPPORTED REGIMES
 
-  Scenario: Interest Bearing MainTrans (1530) debt SubTrans (1000)
+  Scenario: Interest Bearing TPSS MainTrans (1530) debt SubTrans (1000)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1530      | 1000     | true            |
@@ -10,7 +10,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
       | 35                      | 284                  | 2.6     | 500000           | 500284             | 8            | 500000             |
 
-  Scenario: Interest Bearing MainTrans (1535) debt SubTrans (1000)
+  Scenario: Interest Bearing TPSS MainTrans (1535) debt SubTrans (1000)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1535      | 1000     | true            |
@@ -20,7 +20,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
       | 35                      | 284                  | 2.6     | 500000           | 500284             | 8            | 500000             |
 
-  Scenario: Interest Bearing MainTrans (1540) debt SubTrans (1000)
+  Scenario: Interest Bearing TPSS MainTrans (1540) debt SubTrans (1000)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1540      | 1000     | true            |
@@ -30,7 +30,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
       | 35                      | 284                  | 2.6     | 500000           | 500284             | 8            | 500000             |
 
-  Scenario: Interest Bearing MainTrans (1545) debt SubTrans (1000)
+  Scenario: Interest Bearing TPSS MainTrans (1545) debt SubTrans (1000)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1540      | 1000     | true            |
@@ -40,7 +40,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
       | 35                      | 284                  | 2.6     | 500000           | 500284             | 8            | 500000             |
 
-  Scenario: Interest Bearing MainTrans (1545) debt SubTrans (1090)
+  Scenario: Interest Bearing TPSS MainTrans (1545) debt SubTrans (1090)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1545      | 1090     | true            |
