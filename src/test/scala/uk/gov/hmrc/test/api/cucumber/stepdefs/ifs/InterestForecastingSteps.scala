@@ -220,4 +220,16 @@ class InterestForecastingSteps extends BaseStepDef {
       ScenarioContext.set("debtItems", jsonWithbreathingSpaces)
     }
   }
+
+  Given("no breathing spaces have been applied to the customer") { () =>
+
+    // Set scenario Context to be all debt items with payments.
+    ScenarioContext.set("debtItems", getBodyAsString("debtCalcRequest")
+            .replaceAllLiterally("<REPLACE_debtItems>", ScenarioContext.get("debtItems")))
+
+    ScenarioContext.set(
+      "debtItems",
+      ScenarioContext.get("debtItems").toString.replaceAll("<REPLACE_breathingSpaces>", "")
+    )
+  }
 }
