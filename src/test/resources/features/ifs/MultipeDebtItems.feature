@@ -32,7 +32,7 @@ Feature: Multiple Debt Items
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2020-12-16 | 2021-02-02 | 0            | 0.0            | 0                       | 0                 | 500000               | 500000             |
       | 2021-02-03 | 2021-04-14 | 0            | 0.0            | 0                       | 0                 | 400000               | 400000             |
-
+@runM
   Scenario: 2. Interest Bearing. 1 Payment of 1 debt.
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
