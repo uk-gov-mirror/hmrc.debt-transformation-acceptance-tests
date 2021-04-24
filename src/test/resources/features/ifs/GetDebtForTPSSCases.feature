@@ -35,7 +35,7 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
       | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
       | 0                       | 0                    | 0       | 500000           | 500000             | 0            | 500000             |
 
-#    TODO
+#    TODO DTD-200
 #  Scenario: TPSS MainTrans (1525) debt Zero Amount Edge Case
 #    Given a debt item
 #      | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
