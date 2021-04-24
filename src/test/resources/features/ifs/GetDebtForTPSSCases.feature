@@ -23,7 +23,7 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
     When the debt item is sent to the ifs service
     Then the 1st debt summary will contain
       | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
-      | 35                      | 284                  | 2.6       | 500000          | 500284            | 8            | 500000             |
+      | 35                      | 249                  | 2.6       | 500000          | 500249            | 8            | 500000             |
 
   Scenario: Non Interest Bearing TPSS MainTrans (1525) debt (MVP)
     Given a debt item
@@ -35,27 +35,28 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
       | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
       | 0                       | 0                    | 0       | 500000           | 500000             | 0            | 500000             |
 
-  Scenario: TPSS MainTrans (1525) debt Zero Amount Edge Case
-    Given a debt item
-      | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
-      | 0              | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
-    And the debt item has no payment history
-    When the debt item is sent to the ifs service
-    Then the 1st debt summary will contain
-      | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
-      | 0                       | 0                    | 1       | 0                | 0                  | 8            | 0                  |
-
-# Below scenario currently fails as api returns daily interest of -0.0001. Should negative amounts be possible?
-  @ignore
-  Scenario: TPSS MainTrans (1525) debt Amount is negative (Edge Case)
-    Given a debt item
-      | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
-      | -1             | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
-    And the debt item has no payment history
-    When the debt item is sent to the ifs service
-    Then the 1st debt summary will contain
-      | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
-      | 0                       | 0                    | 1       | 0                | 0                  | 8            | 0                  |
+#    TODO
+#  Scenario: TPSS MainTrans (1525) debt Zero Amount Edge Case
+#    Given a debt item
+#      | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
+#      | 0              | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
+#    And the debt item has no payment history
+#    When the debt item is sent to the ifs service
+#    Then the 1st debt summary will contain
+#      | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
+#      | 0                       | 0                    | 1       | 0                | 0                  | 8            | 0                  |
+#
+## Below scenario currently fails as api returns daily interest of -0.0001. Should negative amounts be possible?
+#  @ignore
+#  Scenario: TPSS MainTrans (1525) debt Amount is negative (Edge Case)
+#    Given a debt item
+#      | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
+#      | -1             | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
+#    And the debt item has no payment history
+#    When the debt item is sent to the ifs service
+#    Then the 1st debt summary will contain
+#      | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
+#      | 0                       | 0                    | 1       | 0                | 0                  | 8            | 0                  |
 
   Scenario: TPSS MainTrans (1525) debt Amount non integer (Edge Case)
     Given a debt item

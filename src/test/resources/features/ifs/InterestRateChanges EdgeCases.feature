@@ -19,10 +19,10 @@ Feature: Interest Rate Changes - Edge cases
     When the debt items is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
-      | 10500                | 1535100              | 150000000         | 151535100           | 150000000           |
+      | 10500                | 1499700              | 150000000         | 151499700           | 150000000           |
     And the 300th debt summary will contain
       | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
-      | 35                      | 5117                 | 500000           | 505117             | 500000             |
+      | 35                      | 4999                 | 500000           | 504999             | 500000             |
 
   Scenario: 2 Debts - Interest rate changes from 3.25% to 2.75% - payment is made for 1 debt - Interest rate changes from 2.75% to 2.6%
     Given a debt item
@@ -39,27 +39,31 @@ Feature: Interest Rate Changes - Edge cases
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
-      | 56                   | 71962                | 800000            | 871962              | 800000              |
+      | 56                   | 71674                | 800000            | 871674              | 800000              |
     And the 1st debt summary will contain
       | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
-      | 21                      | 34036                | 300000           | 334036             | 300000             |
+      | 21                      | 33906                | 300000           | 333906             | 300000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow | amountOnIntDueWindow |
-      | 2018-06-01 | 2018-08-20 | 81           | 3.0          | 41                      | 3328              | 500000             | 500000               |
-      | 2018-08-21 | 2019-03-14 | 206          | 3.25         | 44                      | 9171              | 500000             | 500000               |
-      | 2019-03-15 | 2020-03-29 | 381          | 3.25         | 35                      | 13569             | 400000             | 400000               |
-      | 2020-03-30 | 2020-04-06 | 8            | 2.75         | 30                      | 241               | 400000             | 400000               |
-      | 2020-04-07 | 2020-04-14 | 8            | 2.6          | 28                      | 227               | 400000             | 400000               |
-      | 2020-04-15 | 2021-03-31 | 351          | 2.6          | 21                      | 7500              | 300000             | 300000               |
+      | 2018-06-01 | 2018-08-20 | 80           | 3.0          | 8                       | 657               | 100657             | 100000               |
+      | 2018-08-21 | 2020-03-29 | 586          | 3.25         | 8                       | 5217              | 105217             | 100000               |
+      | 2020-03-30 | 2020-04-06 | 7            | 2.75         | 7                      | 52                | 100052             | 100000               |
+      | 2020-04-07 | 2020-04-15 | 8            | 2.6          | 7                       | 56                | 100056             | 100000               |
+      | 2018-06-01 | 2018-08-20 | 80           | 3.0          | 8                       | 657               | 100657             | 100000               |
+      | 2018-08-21 | 2019-03-15 | 206          | 3.25         | 8                       | 1834              | 101834             | 100000               |
+      | 2018-06-01 | 2018-08-20 | 80           | 3.0          | 24                      | 1972              | 301972             | 300000               |
+      | 2018-08-21 | 2020-03-29 | 586          | 3.25         | 26                      | 15653             | 315653             | 300000               |
+      | 2020-03-30 | 2020-04-06 | 7            | 2.75         | 22                      | 158               | 300158             | 300000               |
+      | 2020-04-07 | 2021-03-31 | 358          | 2.6          | 21                      | 7650              | 307650             | 300000               |
     And the 2nd debt summary will contain
       | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
-      | 35                      | 37926                | 500000           | 537926             | 500000             |
+      | 35                      | 37768                | 500000           | 537768             | 500000             |
     And the 2nd debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow | amountOnIntDueWindow |
-      | 2018-01-01 | 2018-08-20 | 232          | 3.0          | 41                      | 9534              | 500000             | 500000               |
-      | 2018-08-21 | 2020-03-29 | 587          | 3.25         | 44                      | 26133             | 500000             | 500000               |
-      | 2020-03-30 | 2020-04-06 | 8            | 2.75         | 37                      | 301               | 500000             | 500000               |
-      | 2020-04-07 | 2020-05-31 | 55           | 2.6          | 35                      | 1958              | 500000             | 500000               |
+      | 2018-01-01 | 2018-08-20 | 231          | 3.0          | 41                      | 9493              | 509493             | 500000               |
+      | 2018-08-21 | 2020-03-29 | 586          | 3.25         | 44                      | 26089             | 526089             | 500000               |
+      | 2020-03-30 | 2020-04-06 | 7            | 2.75         | 37                      | 263               | 500263             | 500000               |
+      | 2020-04-07 | 2020-05-31 | 54           | 2.6          | 35                      | 1923              | 501923             | 500000               |
 
   Scenario:  Interest rate changes from 2.75% to 2.6% - payment is made for 1 debt on the same day the interest rate changes
     Given a debt item
@@ -71,15 +75,17 @@ Feature: Interest Rate Changes - Edge cases
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
-      | 28                   | 14492                | 400000            | 414492              | 400000              |
+      | 28                   | 14387                | 400000            | 414387              | 400000              |
     And the 1st debt summary will contain
       | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | numberChargeableDays | amountOnIntDueDebt |
-      | 28                      | 14492                | 400000           | 414492             | 456                  | 400000             |
+      | 28                      | 14387                | 400000           | 414387             | 554                  | 400000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow | amountOnIntDueWindow |
-      | 2020-01-01 | 2020-03-29 | 89           | 3.25         | 44                      | 3962              | 500000             | 500000               |
-      | 2020-03-30 | 2020-04-06 | 8            | 2.75         | 37                      | 301               | 500000             | 500000               |
-      | 2020-04-07 | 2021-03-31 | 359          | 2.6          | 28                      | 10229             | 400000             | 400000               |
+      | 2020-01-01 | 2020-03-29 | 88           | 3.25         | 8                       | 783               | 100783             | 100000               |
+      | 2020-03-30 | 2020-04-07 | 8            | 2.75         | 7                       | 60                | 100060             | 100000               |
+      | 2020-01-01 | 2020-03-29 | 88           | 3.25         | 35                      | 3134              | 403134             | 400000               |
+      | 2020-03-30 | 2020-04-06 | 7            | 2.75         | 30                      | 210               | 400210             | 400000               |
+      | 2020-04-07 | 2021-03-31 | 358          | 2.6          | 28                      | 10200             | 410200             | 400000               |
 
 
 #  BUG: Test failing due to issue with interest accrued returned
