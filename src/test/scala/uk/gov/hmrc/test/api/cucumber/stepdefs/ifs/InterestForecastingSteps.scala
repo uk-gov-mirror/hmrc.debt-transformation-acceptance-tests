@@ -133,8 +133,10 @@ class InterestForecastingSteps extends BaseStepDef {
     val request = getBodyAsString("debtCalcRequest")
       .replaceAllLiterally("<REPLACE_debtItems>", ScenarioContext.get("debtItems"))
 
+
     val response =
       InterestForecastingRequests.getDebtCalculation(request)
+    println(s"RESP --> ${response.body}")
     ScenarioContext.set("response", response)
 
   }

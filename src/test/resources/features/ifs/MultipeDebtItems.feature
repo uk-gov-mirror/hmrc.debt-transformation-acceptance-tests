@@ -30,7 +30,7 @@ Feature: Multiple Debt Items
       | 0                       | 0                    | 400000           | 400000             | 0                    | 400000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
-      | 2020-12-16 | 2021-02-02 | 0            | 0.0            | 0                       | 0                 | 100000               | 100000             |
+      | 2020-12-16 | 2021-02-03 | 0            | 0.0            | 0                       | 0                 | 100000               | 100000             |
       | 2020-12-16 | 2021-04-14 | 0            | 0.0            | 0                       | 0                 | 400000               | 400000             |
 
   Scenario: 2. Interest Bearing. 1 Payment of 1 debt.
@@ -43,14 +43,14 @@ Feature: Multiple Debt Items
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
-      | 28                   | 3768                 | 400000            | 403768              | 400000              |
+      | 28                   | 3739                 | 400000            | 403739              | 400000              |
     And the 1st debt summary will contain
       | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
-      | 28                      | 3768                 | 400000           | 403768             | 400000             |
+      | 28                      | 3739                 | 400000           | 403739             | 400000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
-      | 2020-12-16 | 2021-02-02 | 49           | 2.6          | 7                      | 349                | 100000               | 100349             |
-      | 2020-12-16 | 2021-04-14 | 120           | 2.6          | 28                      | 3419             | 400000               | 403419             |
+      | 2020-12-16 | 2021-02-03 | 49           | 2.6          | 7                       | 349                | 100000               | 100349             |
+      | 2020-12-16 | 2021-04-14 | 119           | 2.6          | 28                      | 3390             | 400000               | 403390             |
 
   Scenario: 3. Interest Bearing. 2 Payments of 1 debt.
     Given a debt item
@@ -63,15 +63,15 @@ Feature: Multiple Debt Items
     When the debt items is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
-      | 21                   | 3617                 | 300000            | 303617              | 300000              |
+      | 21                   | 3596                 | 300000            | 303596              | 300000              |
     And the 1st debt summary will contain
       | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
-      | 21                      | 3617                 | 300000           | 303617             | 300000             |
+      | 21                      | 3596                 | 300000           | 303596             | 300000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
-      | 2020-12-16 | 2021-03-04 | 79           | 2.6           | 7                       | 562               | 100000               | 100562             |
-      | 2020-12-16 | 2021-02-22 | 69           | 2.6           | 7                       | 491               | 100000               | 100491             |
-      | 2020-12-16 | 2021-04-14 | 120          | 2.6           | 21                      | 2564              | 300000               | 302564             |
+      | 2020-12-16 | 2021-03-05 | 79           | 2.6           | 7                       | 562               | 100000               | 100562             |
+      | 2020-12-16 | 2021-02-23 | 69           | 2.6           | 7                       | 491               | 100000               | 100491             |
+      | 2020-12-16 | 2021-04-14 | 119          | 2.6           | 21                      | 2543              | 300000               | 302543             |
 
   Scenario: 4. Interest Bearing. 2 debts. 1 debt with payment the second debt with no payment.
     Given a debt item
@@ -87,18 +87,18 @@ Feature: Multiple Debt Items
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
-      | 63                   | 8041                 | 900000            | 908041              | 900000              |
+      | 63                   | 7977                 | 900000            | 907977              | 900000              |
     And the 1st debt summary will contain
       | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
-      | 28                      | 3768                 | 400000           | 403768             | 400000             |
+      | 28                      | 3739                 | 400000           | 403739             | 400000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
-      | 2020-12-16 | 2021-02-02 | 49           | 2.6          | 7                      | 349                | 100000               | 100349             |
-      | 2020-12-16 | 2021-04-14 | 120           | 2.6          | 28                     | 3419              | 400000               | 403419             |
+      | 2020-12-16 | 2021-02-03 | 49           | 2.6          | 7                      | 349                | 100000               | 100349             |
+      | 2020-12-16 | 2021-04-14 | 119          | 2.6          | 28                     | 3390               | 400000               | 403390             |
     And the 2nd debt summary will contain
       | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
-      | 35                      | 4273                 | 500000           | 504273             | 500000             |
+      | 35                      | 4238                 | 500000           | 504238             | 500000             |
     And the 2nd debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
-      | 2020-12-16 | 2021-04-14 | 120          | 2.6          | 35                      | 4273              | 500000               | 504273             |
+      | 2020-12-16 | 2021-04-14 | 119          | 2.6          | 35                      | 4238              | 500000               | 504238             |
 
