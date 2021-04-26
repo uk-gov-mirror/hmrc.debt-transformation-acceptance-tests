@@ -21,9 +21,15 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
     And the debt item has no payment history
     When the debt item is sent to the ifs service
+    Then the ifs service wilL return a total debts summary of
+      | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
+      | 35                   | 249                  | 500000            | 500249              | 500000              |
     Then the 1st debt summary will contain
       | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
-      | 35                      | 249                  | 2.6       | 500000          | 500249            | 8            | 500000             |
+      | 35                      | 249                  | 2.6     | 500000           | 500249             | 7            | 500000             |
+    And the 1st debt summary will have calculation windows
+      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
+      | 2021-03-01 | 2021-03-08 | 7            | 2.6          | 35                      | 249               | 500000               | 500249             |
 
   Scenario: Non Interest Bearing TPSS MainTrans (1525) debt (MVP)
     Given a debt item
@@ -31,9 +37,15 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1520      | 1090     | false           |
     And the debt item has no payment history
     When the debt item is sent to the ifs service
+    Then the ifs service wilL return a total debts summary of
+      | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
+      | 0                    | 0                    | 500000            | 500000              | 500000              |
     Then the 1st debt summary will contain
       | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
       | 0                       | 0                    | 0       | 500000           | 500000             | 0            | 500000             |
+    And the 1st debt summary will have calculation windows
+      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
+      | 2021-03-01 | 2021-03-08 | 0            | 0.0            | 0                       | 0                 | 500000               | 500000             |
 
 #    TODO DTD-200
 #  Scenario: TPSS MainTrans (1525) debt Zero Amount Edge Case
@@ -125,7 +137,7 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
   Scenario: Debt invalid mainTrans (Edge Case)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 99999    | 1000     | true            |
+      | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 99999     | 1000     | true            |
     And the debt item has no payment history
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /mainTrans' missing or invalid
