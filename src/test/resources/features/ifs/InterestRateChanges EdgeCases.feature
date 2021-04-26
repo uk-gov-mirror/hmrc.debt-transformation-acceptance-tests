@@ -11,8 +11,8 @@
 
 
 # DTD-172 - Request interest for Drier case (interest rate changes)
+@runMe
 Feature: Interest Rate Changes - Edge cases
-
 
   Scenario: 300 Debt items - Interest rate changes from 2.75% to 2.6%
     Given 300 debt items where interest rate changes from 2.75 to 2.6
@@ -21,8 +21,8 @@ Feature: Interest Rate Changes - Edge cases
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 10500                | 1499700              | 150000000         | 151499700           | 150000000           |
     And the 300th debt summary will contain
-      | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
-      | 35                      | 4999                 | 500000           | 504999             | 500000             |
+      | numberOfDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
+      | 118          | 35                      | 4999                 | 500000           | 504999             | 500000             |
 
   Scenario: 2 Debts - Interest rate changes from 3.25% to 2.75% - payment is made for 1 debt - Interest rate changes from 2.75% to 2.6%
     Given a debt item
@@ -41,13 +41,13 @@ Feature: Interest Rate Changes - Edge cases
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 56                   | 71674                | 800000            | 871674              | 800000              |
     And the 1st debt summary will contain
-      | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
-      | 21                      | 33906                | 300000           | 333906             | 300000             |
+      | numberOfDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
+      | 1998         | 21                      | 33906                | 300000           | 333906             | 300000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow | amountOnIntDueWindow |
       | 2018-06-01 | 2018-08-20 | 80           | 3.0          | 8                       | 657               | 100657             | 100000               |
       | 2018-08-21 | 2020-03-29 | 586          | 3.25         | 8                       | 5217              | 105217             | 100000               |
-      | 2020-03-30 | 2020-04-06 | 7            | 2.75         | 7                      | 52                | 100052             | 100000               |
+      | 2020-03-30 | 2020-04-06 | 7            | 2.75         | 7                       | 52                | 100052             | 100000               |
       | 2020-04-07 | 2020-04-15 | 8            | 2.6          | 7                       | 56                | 100056             | 100000               |
       | 2018-06-01 | 2018-08-20 | 80           | 3.0          | 8                       | 657               | 100657             | 100000               |
       | 2018-08-21 | 2019-03-15 | 206          | 3.25         | 8                       | 1834              | 101834             | 100000               |
@@ -56,8 +56,8 @@ Feature: Interest Rate Changes - Edge cases
       | 2020-03-30 | 2020-04-06 | 7            | 2.75         | 22                      | 158               | 300158             | 300000               |
       | 2020-04-07 | 2021-03-31 | 358          | 2.6          | 21                      | 7650              | 307650             | 300000               |
     And the 2nd debt summary will contain
-      | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
-      | 35                      | 37768                | 500000           | 537768             | 500000             |
+      | numberOfDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
+      | 878          | 35                      | 37768                | 500000           | 537768             | 500000             |
     And the 2nd debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow | amountOnIntDueWindow |
       | 2018-01-01 | 2018-08-20 | 231          | 3.0          | 41                      | 9493              | 509493             | 500000               |
@@ -77,8 +77,8 @@ Feature: Interest Rate Changes - Edge cases
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 28                   | 14387                | 400000            | 414387              | 400000              |
     And the 1st debt summary will contain
-      | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | numberChargeableDays | amountOnIntDueDebt |
-      | 28                      | 14387                | 400000           | 414387             | 554                  | 400000             |
+      | numberOfDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | numberChargeableDays | amountOnIntDueDebt |
+      | 549          | 28                      | 14387                | 400000           | 414387             | 554                  | 400000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow | amountOnIntDueWindow |
       | 2020-01-01 | 2020-03-29 | 88           | 3.25         | 8                       | 783               | 100783             | 100000               |
