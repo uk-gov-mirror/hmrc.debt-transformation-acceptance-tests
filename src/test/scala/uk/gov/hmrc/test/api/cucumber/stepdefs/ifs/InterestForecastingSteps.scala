@@ -79,7 +79,7 @@ class InterestForecastingSteps extends BaseStepDef {
     }
   }
 
-  Given("(.*) debt items where interest rate changes from 2\\.75 to 2\\.6") { (numberItems: Int) =>
+  Given("(.*) debt items where interest rate changes from 3\\.0 to 3\\.25") { (numberItems: Int) =>
     var debtItems: String = null
     var n                 = 0
 
@@ -89,9 +89,9 @@ class InterestForecastingSteps extends BaseStepDef {
         .replaceAll("<REPLACE_originalAmount>", "500000")
         .replaceAll("<REPLACE_subTrans>", "1000")
         .replaceAll("<REPLACE_mainTrans>", "1525")
-        .replaceAll("<REPLACE_dateCreated>", "2020-01-01")
-        .replaceAll("<REPLACE_interestStartDate>", "2020-01-01")
-        .replaceAll("<REPLACE_dateCalculationTo>", "2020-04-30")
+        .replaceAll("<REPLACE_dateCreated>", "2018-01-01")
+        .replaceAll("<REPLACE_interestStartDate>", "2018-01-01")
+        .replaceAll("<REPLACE_dateCalculationTo>", "2018-10-30")
 
       if (n == 0) {
         debtItems = debtItem
