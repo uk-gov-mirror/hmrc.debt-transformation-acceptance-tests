@@ -1,79 +1,78 @@
 {
-  "combinedDailyAccrual": 79,
-  "unpaidAmountTotal": 900000,
-  "interestDueCallTotal": 12356,
-  "totalAmountIntTotal": 912356,
-  "amountOnIntDueTotal": 900000,
+  "combinedDailyAccrual": 35,
+  "unpaidAmountTotal": 500000,
+  "interestDueCallTotal": 48512,
+  "totalAmountIntTotal": 548512,
+  "amountOnIntDueTotal": 500000,
   "debtCalculations": [
     {
       "uniqueItemReference": "123",
-      "numberOfChargeableDays": 279,
+      "numberOfChargeableDays": 1181,
       "interestDueDailyAccrual": 35,
-      "interestDueDebtTotal": 7059,
-      "amountOnIntDueDebt": 400000,
-      "totalAmountIntDebt": 407059,
-      "unpaidAmountDebt": 400000,
-      "calculationWindows": [
-        {
-          "periodFrom": "2018-12-16",
-          "periodTo": "2019-02-03",
-          "numberOfDays": 49,
-          "interestRate": 3.25,
-          "interestDueDailyAccrual": 26,
-          "interestDueWindow": 1308,
-          "amountOnIntDueWindow": 300000,
-          "unpaidAmountWindow": 301308
-        },
-        {
-          "periodFrom": "2018-12-16",
-          "periodTo": "2019-02-06",
-          "numberOfDays": 52,
-          "interestRate": 3.25,
-          "interestDueDailyAccrual": 8,
-          "interestDueWindow": 463,
-          "amountOnIntDueWindow": 100000,
-          "unpaidAmountWindow": 100463
-        },
-        {
-          "periodFrom": "2018-12-16",
-          "periodTo": "2019-02-13",
-          "numberOfDays": 59,
-          "interestRate": 3.25,
-          "interestDueDailyAccrual": 17,
-          "interestDueWindow": 1050,
-          "amountOnIntDueWindow": 200000,
-          "unpaidAmountWindow": 201050
-        },
-        {
-          "periodFrom": "2018-12-16",
-          "periodTo": "2019-04-14",
-          "numberOfDays": 119,
-          "interestRate": 3.25,
-          "interestDueDailyAccrual": 35,
-          "interestDueWindow": 4238,
-          "amountOnIntDueWindow": 400000,
-          "unpaidAmountWindow": 404238
-        }
-      ]
-    },
-    {
-      "uniqueItemReference": "123",
-      "numberOfChargeableDays": 119,
-      "interestDueDailyAccrual": 44,
-      "interestDueDebtTotal": 5297,
+      "interestDueDebtTotal": 48512,
       "amountOnIntDueDebt": 500000,
-      "totalAmountIntDebt": 505297,
+      "totalAmountIntDebt": 548512,
       "unpaidAmountDebt": 500000,
       "calculationWindows": [
         {
-          "periodFrom": "2018-12-16",
-          "periodTo": "2019-04-14",
-          "numberOfDays": 119,
+          "periodFrom": "2018-01-01",
+          "periodTo": "2018-08-20",
+          "numberOfDays": 231,
+          "interestRate": 3,
+          "interestDueDailyAccrual": 41,
+          "interestDueWindow": 9493,
+          "amountOnIntDueWindow": 500000,
+          "unpaidAmountWindow": 509493
+        },
+        {
+          "periodFrom": "2018-08-21",
+          "periodTo": "2019-12-31",
+          "numberOfDays": 497,
           "interestRate": 3.25,
           "interestDueDailyAccrual": 44,
-          "interestDueWindow": 5297,
+          "interestDueWindow": 22126,
           "amountOnIntDueWindow": 500000,
-          "unpaidAmountWindow": 505297
+          "unpaidAmountWindow": 522126
+        },
+        {
+          "periodFrom": "2020-01-01",
+          "periodTo": "2020-03-29",
+          "numberOfDays": 88,
+          "interestRate": 3.25,
+          "interestDueDailyAccrual": 44,
+          "interestDueWindow": 3907,
+          "amountOnIntDueWindow": 500000,
+          "unpaidAmountWindow": 503907
+        },
+        {
+          "periodFrom": "2020-03-30",
+          "periodTo": "2020-04-06",
+          "numberOfDays": 7,
+          "interestRate": 2.75,
+          "interestDueDailyAccrual": 37,
+          "interestDueWindow": 262,
+          "amountOnIntDueWindow": 500000,
+          "unpaidAmountWindow": 500262
+        },
+        {
+          "periodFrom": "2020-04-07",
+          "periodTo": "2020-12-31",
+          "numberOfDays": 268,
+          "interestRate": 2.6,
+          "interestDueDailyAccrual": 35,
+          "interestDueWindow": 9519,
+          "amountOnIntDueWindow": 500000,
+          "unpaidAmountWindow": 509519
+        },
+        {
+          "periodFrom": "2021-01-01",
+          "periodTo": "2021-04-01",
+          "numberOfDays": 90,
+          "interestRate": 2.6,
+          "interestDueDailyAccrual": 35,
+          "interestDueWindow": 3205,
+          "amountOnIntDueWindow": 500000,
+          "unpaidAmountWindow": 503205
         }
       ]
     }
