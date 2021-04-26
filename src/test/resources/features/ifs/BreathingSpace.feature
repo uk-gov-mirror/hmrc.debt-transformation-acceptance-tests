@@ -29,16 +29,16 @@ Feature: Breathing Space
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
-      | 28                   | 21689                | 500000            | 521689              | 500000              |
+      | 41                   | 24862                | 500000            | 524862              | 500000              |
     And the 1st debt summary will contain
-      | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
-      | 28                      | 21689                | 500000           | 521689             | 500000             |
+      | numOfDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
+      | 641       | 41                      | 24862                | 500000           | 524862             | 500000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
-      | 2014-01-01 | 2014-01-31 | 31           | 0            | 0                       | 0                 | 500000               | 500000             |
-      | 2014-02-01 | 2014-04-06 | 65           | 3.0          | 41                      | 2671              | 500000               | 502671             |
-      | 2014-04-07 | 2014-06-06 | 61           | 0            | 0                       | 0                 | 500000               | 500000             |
-      | 2014-06-07 | 2015-11-30 | 542          | 3.0          | 41                      | 22273             | 500000               | 522273             |
+      | 2014-01-01 | 2014-01-31 | 30           | 0            | 0                       | 0                 | 500000               | 500000             |
+      | 2014-02-01 | 2014-04-06 | 64           | 3.0          | 41                      | 2630              | 500000               | 502630             |
+      | 2014-04-07 | 2014-06-06 | 60           | 0            | 0                       | 0                 | 500000               | 500000             |
+      | 2014-06-07 | 2015-11-30 | 541          | 3.0          | 41                      | 22232             | 500000               | 522232             |
 
   Scenario: No breathing space applied
     Given a debt item
@@ -55,5 +55,5 @@ Feature: Breathing Space
       | 41                      | 27452                | 500000           | 527452             | 500000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
-      | 2020-01-01 | 2020-01-31 | 31           | 0            | 0                       | 0                 | 500000               | 500000             |
+      | 2020-01-01 | 2020-01-31 | 30           | 0            | 0                       | 0                 | 500000               | 500000             |
       | 2020-02-01 | 2021-11-30 | 668          | 3.0          | 41                      | 27452             | 500000               | 527452             |
