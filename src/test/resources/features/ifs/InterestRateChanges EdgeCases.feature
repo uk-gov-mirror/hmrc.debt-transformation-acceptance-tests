@@ -11,11 +11,11 @@
 
 
 # DTD-172 - Request interest for Drier case (interest rate changes)
-@runMe
 Feature: Interest Rate Changes - Edge cases
 
   Scenario: 300 Debt items - Interest rate changes from 3.0% to 3.25%
     Given 300 debt items where interest rate changes from 3.0 to 3.25
+    And no breathing spaces have been applied to the customer
     When the debt items is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
@@ -36,6 +36,7 @@ Feature: Interest Rate Changes - Edge cases
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2009-01-01  | 2009-01-01        | 2010-01-01        | 1545      | 1090     | true            |
     And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
@@ -76,6 +77,7 @@ Feature: Interest Rate Changes - Edge cases
     And the debt item has payment history
       | amountPaid | dateOfPayment |
       | 100000     | 2020-04-07    |
+    And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |

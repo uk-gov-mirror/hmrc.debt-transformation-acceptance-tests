@@ -130,9 +130,7 @@ class InterestForecastingSteps extends BaseStepDef {
   }
 
   When("the debt item(s) is sent to the ifs service") { () =>
-    val request = getBodyAsString("debtCalcRequest")
-      .replaceAllLiterally("<REPLACE_debtItems>", ScenarioContext.get("debtItems"))
-
+    val request = ScenarioContext.get("debtItems").toString
 
     val response =
       InterestForecastingRequests.getDebtCalculation(request)
@@ -184,8 +182,6 @@ class InterestForecastingSteps extends BaseStepDef {
       val asMapTransposed                = dataTable.asMaps(classOf[String], classOf[String])
       val response: StandaloneWSResponse = ScenarioContext.get("response")
 
-      println(s"RESP---> ${response.body}")
-
       asMapTransposed.zipWithIndex.foreach { case (window, index) =>
         val responseBody =
           Json.parse(response.body).as[DebtCalculation].debtCalculations(summaryIndex - 1).calculationWindows(index)
@@ -200,5 +196,41 @@ class InterestForecastingSteps extends BaseStepDef {
         responseBody.amountOnIntDueWindow
           .toString()                                 shouldBe window.get("amountOnIntDueWindow").toString
       }
+  }
+
+  Given("the customer has breathing spaces applied") { (dataTable: DataTable) =>
+
+    // Set scenario Context to be all debt items with payments.
+    ScenarioContext.set("debtItems", getBodyAsString("debtCalcRequest")
+            .replaceAllLiterally("<REPLACE_debtItems>", ScenarioContext.get("debtItems")))
+
+    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
+    var breathingSpaces = ""
+
+    asMapTransposed.zipWithIndex.foreach { case (breathingSpace, index) =>
+      breathingSpaces = breathingSpaces.concat(
+        getBodyAsString("breathingSpace")
+                .replaceAll("<REPLACE_debtRespiteFrom>", breathingSpace.get("debtRespiteFrom"))
+                .replaceAll("<REPLACE_debtRespiteTo>", breathingSpace.get("debtRespiteTo"))
+      )
+
+      if (index + 1 < asMapTransposed.size) breathingSpaces = breathingSpaces.concat(",")
+
+      val jsonWithbreathingSpaces =
+        ScenarioContext.get("debtItems").toString.replaceAll("<REPLACE_breathingSpaces>", breathingSpaces)
+      ScenarioContext.set("debtItems", jsonWithbreathingSpaces)
+    }
+  }
+
+  Given("no breathing spaces have been applied to the customer") { () =>
+
+    // Set scenario Context to be all debt items with payments.
+    ScenarioContext.set("debtItems", getBodyAsString("debtCalcRequest")
+            .replaceAllLiterally("<REPLACE_debtItems>", ScenarioContext.get("debtItems")))
+
+    ScenarioContext.set(
+      "debtItems",
+      ScenarioContext.get("debtItems").toString.replaceAll("<REPLACE_breathingSpaces>", "")
+    )
   }
 }
