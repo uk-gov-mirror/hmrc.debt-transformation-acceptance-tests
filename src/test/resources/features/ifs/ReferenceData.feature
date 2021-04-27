@@ -49,6 +49,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1545      | 1090     | true            |
     And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the 1st debt summary will contain
       | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
