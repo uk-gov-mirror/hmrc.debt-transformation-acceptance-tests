@@ -182,6 +182,8 @@ class InterestForecastingSteps extends BaseStepDef {
       val asMapTransposed                = dataTable.asMaps(classOf[String], classOf[String])
       val response: StandaloneWSResponse = ScenarioContext.get("response")
 
+      println(s"RESP---> ${response.body}")
+
       asMapTransposed.zipWithIndex.foreach { case (window, index) =>
         val responseBody =
           Json.parse(response.body).as[DebtCalculation].debtCalculations(summaryIndex - 1).calculationWindows(index)
@@ -194,10 +196,9 @@ class InterestForecastingSteps extends BaseStepDef {
         responseBody.interestDueWindow.toString       shouldBe window.get("interestDueWindow").toString
         responseBody.unpaidAmountWindow.toString      shouldBe window.get("unpaidAmountWindow").toString
         responseBody.amountOnIntDueWindow
-          .toString()                                 shouldBe window.get("unpaidAmountWindow").toString
+          .toString()                                 shouldBe window.get("amountOnIntDueWindow").toString
       }
   }
-
 
   Given("the customer has breathing spaces applied") { (dataTable: DataTable) =>
 
