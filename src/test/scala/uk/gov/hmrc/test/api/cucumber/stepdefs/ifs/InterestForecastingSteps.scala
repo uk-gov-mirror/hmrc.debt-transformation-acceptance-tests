@@ -182,8 +182,6 @@ class InterestForecastingSteps extends BaseStepDef {
       val asMapTransposed                = dataTable.asMaps(classOf[String], classOf[String])
       val response: StandaloneWSResponse = ScenarioContext.get("response")
 
-      println(s"RESP---> ${response.body}")
-
       asMapTransposed.zipWithIndex.foreach { case (window, index) =>
         val responseBody =
           Json.parse(response.body).as[DebtCalculation].debtCalculations(summaryIndex - 1).calculationWindows(index)
