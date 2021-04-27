@@ -19,6 +19,7 @@ Feature: Interest Rate Changes
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2020-01-01  | 2020-01-01        | 2021-03-31        | 1525      | 1000     | true            |
     And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
@@ -37,6 +38,7 @@ Feature: Interest Rate Changes
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2020-01-01  | 2020-03-06        | 2021-03-31        | 1525      | 1000     | true            |
     And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
@@ -61,6 +63,7 @@ Feature: Interest Rate Changes
       | amountPaid | dateOfPayment |
       | 100000     | 2020-03-15    |
     When the debt item is sent to the ifs service
+    And no breathing spaces have been applied to the customer
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 28                   | 14202                | 400000            | 414202              | 400000              |
@@ -89,6 +92,7 @@ Feature: Interest Rate Changes
       | amountPaid | dateOfPayment |
       | 100000     | 2021-01-20    |
       | 100000     | 2021-03-10    |
+    And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
@@ -127,6 +131,7 @@ Feature: Interest Rate Changes
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2020-01-01  | 2020-04-10        | 2020-03-31        | 1525      | 1000     | true            |
     And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |

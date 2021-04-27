@@ -20,6 +20,7 @@ Feature: Multiple Debt Items
     And the debt item has payment history
       | amountPaid | dateOfPayment |
       | 100000     | 2021-02-03    |
+    And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
@@ -83,6 +84,7 @@ Feature: Multiple Debt Items
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2020-12-16  | 2020-12-16        | 2021-04-14        | 1525      | 1000     | true            |
     And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |

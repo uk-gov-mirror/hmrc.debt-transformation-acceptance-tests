@@ -5,6 +5,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1530      | 1000     | true            |
     And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the 1st debt summary will contain
       | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
@@ -15,6 +16,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1535      | 1000     | true            |
     And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the 1st debt summary will contain
       | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
@@ -25,6 +27,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1540      | 1000     | true            |
     And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the 1st debt summary will contain
       | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
@@ -35,6 +38,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1540      | 1000     | true            |
     And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the 1st debt summary will contain
       | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
@@ -123,6 +127,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 100000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1546      | 2000     | false           |
     And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
@@ -133,5 +138,6 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1525      | 7006     | true            |
     And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with Invalid combination of mainTrans and subTrans. No rule found in the configured ones

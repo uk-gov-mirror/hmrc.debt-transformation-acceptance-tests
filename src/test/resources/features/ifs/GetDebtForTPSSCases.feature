@@ -20,6 +20,7 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
     And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
@@ -36,6 +37,7 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1520      | 1090     | false           |
     And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
@@ -75,6 +77,7 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | \"\"           | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
     And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /originalAmount' missing or invalid
 
@@ -83,6 +86,7 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 1.2            | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
     And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /originalAmount' missing or invalid
 
@@ -91,6 +95,7 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | d           | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
     And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /dateCreated' missing or invalid
 
@@ -107,6 +112,7 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-02-30  | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
     And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /dateCreated' missing or invalid
 
@@ -123,6 +129,7 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-03-08  | 2021-03-08        |                   | 1525      | 1000     | true            |
     And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /dateCalculationTo' missing or invalid
 
@@ -131,6 +138,7 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-02-01  | 2021-02-01        | 2021-02-30        | 1525      | 1000     | true            |
     And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /dateCalculationTo' missing or invalid
 
@@ -139,6 +147,7 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 99999     | 1000     | true            |
     And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /mainTrans' missing or invalid
 
@@ -147,6 +156,7 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        |           | 1000     | true            |
     And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /mainTrans' missing or invalid
 
@@ -155,6 +165,7 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1525      | invalid  | true            |
     And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /subTrans' missing or invalid
 
@@ -163,5 +174,6 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1525      |          | true            |
     And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /subTrans' missing or invalid
