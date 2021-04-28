@@ -11,7 +11,7 @@
 
 
 Feature: Interest Rate Changes
-@smoke
+
   Scenario: Interest rate changes from 3% to 3.25% with 2 payments on same date in a leap
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
