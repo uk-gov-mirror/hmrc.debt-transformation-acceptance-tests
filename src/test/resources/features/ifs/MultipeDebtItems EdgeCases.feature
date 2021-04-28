@@ -192,7 +192,7 @@ Feature: Multiple Debt Items - Edge Cases
       | 2020-04-07 | 2020-05-05 | 28           | 2.6          | 28                      | 795               | 400000               | 400795             |
 
 
-  Scenario: 7. 1 debts, 1  amount paid less than original debt amount
+  Scenario: 7. 1 debts, 1 Payment  Amount paid greater than original debt amount
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 50             | 2019-12-16  | 2019-12-16        | 2020-05-05        | 1525      | 1000     | true            |
@@ -204,7 +204,7 @@ Feature: Multiple Debt Items - Edge Cases
     Then the ifs service will respond with Could not parse body due to requirement failed: Amount paid in payments cannot be greater than Original Amount
 
 
-  Scenario: 8. 1 debt, 1 payment, interest start date before the debt created
+  Scenario: 8. 1 debt, 1 payment, interest start date is before the debt created
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2020-12-22  | 2020-10-16        | 2021-02-22        | 1525      | 1000     | true            |
