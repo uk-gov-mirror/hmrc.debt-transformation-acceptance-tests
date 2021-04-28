@@ -47,7 +47,7 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
       | 0                       | 0                    | 0       | 500000           | 500000             | 0            | 500000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
-      | 2021-03-01 | 2021-03-08 | 0            | 0.0            | 0                       | 0                 | 500000               | 500000             |
+      | 2021-03-01 | 2021-03-08 | 0            | 0.0          | 0                       | 0                 | 500000               | 500000             |
 
 #    TODO DTD-200
 #  Scenario: TPSS MainTrans (1525) debt Zero Amount Edge Case
@@ -55,22 +55,21 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
 #      | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
 #      | 0              | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
 #    And the debt item has no payment history
+#    And no breathing spaces have been applied to the customer
 #    When the debt item is sent to the ifs service
 #    Then the 1st debt summary will contain
 #      | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
 #      | 0                       | 0                    | 1       | 0                | 0                  | 8            | 0                  |
-#
-## Below scenario currently fails as api returns daily interest of -0.0001. Should negative amounts be possible?
-#  @ignore
-#  Scenario: TPSS MainTrans (1525) debt Amount is negative (Edge Case)
-#    Given a debt item
-#      | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
-#      | -1             | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
-#    And the debt item has no payment history
-#    When the debt item is sent to the ifs service
-#    Then the 1st debt summary will contain
-#      | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
-#      | 0                       | 0                    | 1       | 0                | 0                  | 8            | 0                  |
+
+
+  Scenario: TPSS MainTrans (1525) debt Amount is negative (Edge Case)
+    Given a debt item
+      | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
+      | -1             | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
+    And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service will respond with Could not parse body due to requirement failed: Original Amount can be zero or greater, negative values are not accepted
 
   Scenario: TPSS MainTrans (1525) debt Amount non integer (Edge Case)
     Given a debt item

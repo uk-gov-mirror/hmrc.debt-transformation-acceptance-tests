@@ -5,7 +5,7 @@ import cucumber.api.scala.ScalaDsl
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 import uk.gov.hmrc.test.api.requests.HelloWorldRequests
 
-class IfsRuleHook extends ScalaDsl with LazyLogging{
+class IfsRuleHook extends ScalaDsl with LazyLogging {
 
   Before() { _ =>
     ScenarioContext.reset()

@@ -1,5 +1,3 @@
-
-
 Feature: Leap years
 
   Scenario: Debt ending in a leap year
@@ -62,3 +60,31 @@ Feature: Leap years
       | 2020-03-30 | 2020-04-06 | 7            | 2.75         | 37                      | 262               | 500000               | 500262             |
       | 2020-04-07 | 2020-12-31 | 268          | 2.6          | 35                      | 9519              | 500000               | 509519             |
       | 2021-01-01 | 2021-04-01 | 90           | 2.6          | 35                      | 3205              | 500000               | 503205             |
+
+  Scenario: 2.Interest rate changes from 3.25%, 2.75% and 2.6% after a payment is made.
+    Given a debt item
+      | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2019-12-16  | 2019-12-16        | 2020-05-05        | 1525      | 1000     | true            |
+    And the debt item has payment history
+      | amountPaid | dateOfPayment |
+      | 100000     | 2020-05-03    |
+    And no breathing spaces have been applied to the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service wilL return a total debts summary of
+      | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
+      | 28                   | 5814                 | 400000            | 405814              | 400000              |
+    And the 1st debt summary will contain
+      | numberOfDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
+      | 274          | 28                      | 5814                 | 400000           | 405814             | 400000             |
+    And the 1st debt summary will have calculation windows
+      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
+      | 2019-12-16 | 2019-12-31 | 15           | 3.25         | 8                       | 133               | 100000               | 100133             |
+      | 2020-01-01 | 2020-03-29 | 88           | 3.25         | 8                       | 781               | 100000               | 100781             |
+      | 2020-03-30 | 2020-04-06 | 7            | 2.75         | 7                       | 52                | 100000               | 100052             |
+      | 2020-04-07 | 2020-05-03 | 26           | 2.6          | 7                       | 184               | 100000               | 100184             |
+      | 2019-12-16 | 2019-12-31 | 15           | 3.25         | 35                      | 534               | 400000               | 400534             |
+      | 2020-01-01 | 2020-03-29 | 88           | 3.25         | 35                      | 3125              | 400000               | 403125             |
+      | 2020-03-30 | 2020-04-06 | 7            | 2.75         | 30                      | 210               | 400000               | 400210             |
+      | 2020-04-07 | 2020-05-05 | 28           | 2.6          | 28                      | 795               | 400000               | 400795             |
+
+

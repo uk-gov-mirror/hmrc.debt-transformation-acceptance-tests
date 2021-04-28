@@ -154,13 +154,51 @@ Feature: Multiple Debt Items - Edge Cases
       | 279          | 35                      | 7059                 | 400000           | 407059             | 400000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
-      | 2018-12-16 | 2019-02-03 | 49           | 3.25          | 26                      | 1308              | 300000               | 301308             |
-      | 2018-12-16 | 2019-02-06 | 52           | 3.25          | 8                       | 463               | 100000               | 100463             |
-      | 2018-12-16 | 2019-02-13 | 59           | 3.25          | 17                      | 1050              | 200000               | 201050             |
-      | 2018-12-16 | 2019-04-14 | 119          | 3.25          | 35                      | 4238              | 400000               | 404238             |
+      | 2018-12-16 | 2019-02-03 | 49           | 3.25         | 26                      | 1308              | 300000               | 301308             |
+      | 2018-12-16 | 2019-02-06 | 52           | 3.25         | 8                       | 463               | 100000               | 100463             |
+      | 2018-12-16 | 2019-02-13 | 59           | 3.25         | 17                      | 1050              | 200000               | 201050             |
+      | 2018-12-16 | 2019-04-14 | 119          | 3.25         | 35                      | 4238              | 400000               | 404238             |
     And the 2nd debt summary will contain
       | numberOfDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
       | 119          | 44                      | 5297                 | 500000           | 505297             | 500000             |
     And the 2nd debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2018-12-16 | 2019-04-14 | 119          | 3.25         | 44                      | 5297              | 500000               | 505297             |
+
+
+  Scenario: 5. 1 debts, 1 payment payment date before date created
+    Given a debt item
+      | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2019-12-16  | 2019-12-16        | 2020-05-05        | 1525      | 1000     | true            |
+    And the debt item has payment history
+      | amountPaid | dateOfPayment |
+      | 100000     | 2019-02-03    |
+
+    And no breathing spaces have been applied to the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service wilL return a total debts summary of
+      | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
+      | 28                   | 4664                 | 400000            | 404664              | 400000              |
+    And the 1st debt summary will contain
+      | numberOfDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
+      | 138          | 28                      | 4664                 | 400000           | 404664             | 400000             |
+    And the 1st debt summary will have calculation windows
+      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
+      | 2019-12-16 | 2019-02-03 | 0            | 0.0          | 0                       | 0                 | 100000               | 100000             |
+      | 2019-12-16 | 2019-12-31 | 15           | 3.25         | 35                      | 534               | 400000               | 400534             |
+      | 2020-01-01 | 2020-03-29 | 88           | 3.25         | 35                      | 3125              | 400000               | 403125             |
+      | 2020-03-30 | 2020-04-06 | 7            | 2.75         | 30                      | 210               | 400000               | 400210             |
+      | 2020-04-07 | 2020-05-05 | 28           | 2.6          | 28                      | 795               | 400000               | 400795             |
+
+  Scenario: 5. 1 debts, 1  amount paid less than original debt amount
+    Given a debt item
+      | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
+      | 50             | 2019-12-16  | 2019-12-16        | 2020-05-05        | 1525      | 1000     | true            |
+    And the debt item has payment history
+      | amountPaid | dateOfPayment |
+      | 1000       | 2019-02-03    |
+    And no breathing spaces have been applied to the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service will respond with Could not parse body due to requirement failed: Amount paid in payments cannot be greater than Original Amount
+
+

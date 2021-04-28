@@ -199,10 +199,12 @@ class InterestForecastingSteps extends BaseStepDef {
   }
 
   Given("the customer has breathing spaces applied") { (dataTable: DataTable) =>
-
     // Set scenario Context to be all debt items with payments.
-    ScenarioContext.set("debtItems", getBodyAsString("debtCalcRequest")
-            .replaceAllLiterally("<REPLACE_debtItems>", ScenarioContext.get("debtItems")))
+    ScenarioContext.set(
+      "debtItems",
+      getBodyAsString("debtCalcRequest")
+        .replaceAllLiterally("<REPLACE_debtItems>", ScenarioContext.get("debtItems"))
+    )
 
     val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
     var breathingSpaces = ""
@@ -210,8 +212,8 @@ class InterestForecastingSteps extends BaseStepDef {
     asMapTransposed.zipWithIndex.foreach { case (breathingSpace, index) =>
       breathingSpaces = breathingSpaces.concat(
         getBodyAsString("breathingSpace")
-                .replaceAll("<REPLACE_debtRespiteFrom>", breathingSpace.get("debtRespiteFrom"))
-                .replaceAll("<REPLACE_debtRespiteTo>", breathingSpace.get("debtRespiteTo"))
+          .replaceAll("<REPLACE_debtRespiteFrom>", breathingSpace.get("debtRespiteFrom"))
+          .replaceAll("<REPLACE_debtRespiteTo>", breathingSpace.get("debtRespiteTo"))
       )
 
       if (index + 1 < asMapTransposed.size) breathingSpaces = breathingSpaces.concat(",")
@@ -223,10 +225,12 @@ class InterestForecastingSteps extends BaseStepDef {
   }
 
   Given("no breathing spaces have been applied to the customer") { () =>
-
     // Set scenario Context to be all debt items with payments.
-    ScenarioContext.set("debtItems", getBodyAsString("debtCalcRequest")
-            .replaceAllLiterally("<REPLACE_debtItems>", ScenarioContext.get("debtItems")))
+    ScenarioContext.set(
+      "debtItems",
+      getBodyAsString("debtCalcRequest")
+        .replaceAllLiterally("<REPLACE_debtItems>", ScenarioContext.get("debtItems"))
+    )
 
     ScenarioContext.set(
       "debtItems",

@@ -7,12 +7,14 @@ package uk.gov.hmrc.test.api.models
 
 import play.api.libs.json.{Json, OFormat}
 
-case class DebtCalculation(combinedDailyAccrual: BigDecimal,
-                           interestDueCallTotal: BigDecimal,
-                           totalAmountIntTotal: BigDecimal,
-                           amountOnIntDueTotal: BigDecimal,
-                           unpaidAmountTotal: BigDecimal,
-                           debtCalculations: List[DebtItemCalculation])
+case class DebtCalculation(
+  combinedDailyAccrual: BigDecimal,
+  interestDueCallTotal: BigDecimal,
+  totalAmountIntTotal: BigDecimal,
+  amountOnIntDueTotal: BigDecimal,
+  unpaidAmountTotal: BigDecimal,
+  debtCalculations: List[DebtItemCalculation]
+)
 
 object DebtCalculation {
   implicit val formatDebtCalculation: OFormat[DebtCalculation] = Json.format[DebtCalculation]
