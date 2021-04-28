@@ -44,6 +44,7 @@ Feature: Multiple Debt Items - Edge Cases
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2018-12-16 | 2019-04-14 | 0            | 0.0          | 0                       | 0                 | 500000               | 500000             |
 
+
   Scenario: 2. 2 debts, 1 payment each of different amounts
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
@@ -76,6 +77,7 @@ Feature: Multiple Debt Items - Edge Cases
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2018-12-16 | 2019-02-03 | 0            | 0.0          | 0                       | 0                 | 100000               | 100000             |
       | 2018-12-16 | 2019-04-14 | 0            | 0.0          | 0                       | 0                 | 400000               | 400000             |
+
 
   Scenario: 3. 3 debts, 1 payments
     And a debt item

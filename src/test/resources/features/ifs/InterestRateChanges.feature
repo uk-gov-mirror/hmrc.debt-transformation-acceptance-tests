@@ -145,6 +145,7 @@ Feature: Interest Rate Changes
       | 2018-01-16 | 2018-08-20 | 216          | 3.0          | 24                      | 5326              | 305326             | 300000               |
       | 2018-08-21 | 2019-04-14 | 236          | 3.25         | 26                      | 6304              | 306304             | 300000               |
 
+
   Scenario: Interest rate changes from 2.75% to 2.6% - dateCalculationTo before interestStartDate
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
