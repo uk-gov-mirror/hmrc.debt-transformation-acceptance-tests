@@ -17,7 +17,55 @@
 package uk.gov.hmrc.test.api.cucumber.stepdefs
 
 import cucumber.api.scala.{EN, ScalaDsl}
+import io.cucumber.datatable.DataTable
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually
+import play.api.libs.json.Json
+import play.api.libs.ws.StandaloneWSResponse
+import uk.gov.hmrc.test.api.models.{SolCalculation, SolCalculationSummary, SolCalculationSummaryResponse}
+import uk.gov.hmrc.test.api.utils.ScenarioContext
 
-trait BaseStepDef extends ScalaDsl with EN with Eventually with Matchers {}
+import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
+
+trait BaseStepDef extends ScalaDsl with EN with Eventually with Matchers {
+
+  Then("service returns debt statement of liability data") { (dataTable: DataTable) =>
+    val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[String])
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+    response.status should be(200)
+
+    val responseBody = Json.parse(response.body).as[SolCalculationSummaryResponse]
+    
+    responseBody.totalAmountIntDebt shouldBe asMapTransposed.get("totalAmountIntDebt").toString
+    responseBody.combinedDailyAccrual shouldBe asMapTransposed.get("combinedDailyAccrual").toString
+
+  }
+
+  Then("the ([0-9]\\d*)(?:st|nd|rd|th) debt summary will contain") { (index: Int, dataTable: DataTable) =>
+    val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[String])
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+    response.status should be(200)
+
+    val debt: SolCalculation = Json.parse(response.body).as[SolCalculationSummary].debts(index - 1)
+    debt.uniqueItemReference      shouldBe asMapTransposed.get("uniqueItemReference").toString
+    debt.mainTrans                shouldBe asMapTransposed.get("mainTrans").toString
+    debt.description              shouldBe asMapTransposed.get("description").toString
+    debt.periodEnd                shouldBe asMapTransposed.get("periodEnd").toString
+    debt.interestDueDebtTotal     shouldBe asMapTransposed.get("interestDueDebtTotal").toString
+  }
+
+  Then("the ([0-9])(?:st|nd|rd|th) debt summary will contain duties") { (debtIndex: Int, dataTable: DataTable) =>
+    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+
+    asMapTransposed.zipWithIndex.foreach { case (duty, index) => val responseBody = Json.parse(response.body).as[SolCalculationSummary]
+                                                     .debts(debtIndex - 1).duties(index)
+
+      responseBody.debtItemChargeID     shouldBe duty.get("debtItemChargeID").toString
+      responseBody.subTrans             shouldBe duty.get("subTrans").toString
+      responseBody.description          shouldBe duty.get("description").toString
+      responseBody.unpaidAmountDebt     shouldBe duty.get("unpaidAmountDebt").toString
+      responseBody.combinedDailyAccrual shouldBe duty.get("combinedDailyAccrual").toString
+    }
+  }
+}

@@ -3,10 +3,9 @@
  *
  */
 
-package uk.gov.hmrc.statementofliability.actions.responses
+package uk.gov.hmrc.test.api.models
 
 import play.api.libs.json.{Json, OFormat}
-import uk.gov.hmrc.statementofliability.models.{SolCalculation, SolCalculationSummary}
 
 case class SolCalculationSummaryResponse(totalAmountIntDebt: Int, combinedDailyAccrual: Int, debts: List[SolCalculation]) {
 }

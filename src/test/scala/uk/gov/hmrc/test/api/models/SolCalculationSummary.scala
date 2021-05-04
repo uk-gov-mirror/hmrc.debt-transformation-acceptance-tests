@@ -3,7 +3,7 @@
  *
  */
 
-package uk.gov.hmrc.statementofliability.models
+package uk.gov.hmrc.test.api.models
 
 import play.api.libs.json.{Json, OFormat}
 

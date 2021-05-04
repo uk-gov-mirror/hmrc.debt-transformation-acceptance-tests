@@ -3,13 +3,13 @@
  *
  */
 
-package uk.gov.hmrc.statementofliability.models
+package uk.gov.hmrc.test.api.models
 
 import play.api.libs.json.Json
 
 case class SolDuty(
         debtItemChargeID: String,
-        subTrans: SubTransType,
+        subTrans: String,
         description: String,
         unpaidAmountDebt: Int,
         combinedDailyAccrual: Int

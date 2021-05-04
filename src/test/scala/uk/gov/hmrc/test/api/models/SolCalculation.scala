@@ -3,7 +3,7 @@
  *
  */
 
-package uk.gov.hmrc.statementofliability.models
+package uk.gov.hmrc.test.api.models
 
 import play.api.libs.json.{Json, OFormat}
 
@@ -11,7 +11,7 @@ import java.time.LocalDate
 
 case class SolCalculation(
         uniqueItemReference: String,
-        mainTrans: MainTransType,
+        mainTrans: String,
         description: String,
         periodEnd: LocalDate,
         interestDueDebtTotal: Int,
