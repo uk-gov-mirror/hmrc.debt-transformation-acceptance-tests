@@ -17,8 +17,9 @@
 package uk.gov.hmrc.test.api.cucumber.stepdefs.sol
 
 import io.cucumber.datatable.DataTable
+import play.twirl.api.TwirlHelperImports.twirlJavaCollectionToScala
 import uk.gov.hmrc.test.api.cucumber.stepdefs.BaseStepDef
-import uk.gov.hmrc.test.api.requests.TestData
+import uk.gov.hmrc.test.api.requests.{RequestSolDetails, TestData}
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 
 class StatementOfLiabilityStepDef extends BaseStepDef {
@@ -33,22 +34,42 @@ class StatementOfLiabilityStepDef extends BaseStepDef {
     catch { case e: Exception => firstItem = true }
 
     val debtDetailsTestfile = getBodyAsString("debtDetailsTestfile")
-      .replaceAll("<REPLACE_solType>", "solType")
-      .replaceAll("<REPLACE_debtType>", asMapTransposed.get("debtType"))
-      .replaceAll("<REPLACE_dutyType>", asMapTransposed.get("dutyType"))
+      .replaceAll("<REPLACE_solType>", asMapTransposed.get("solType"))
+      .replaceAll("<REPLACE_uniqueItemReference>", asMapTransposed.get("debtId"))
       .replaceAll("<REPLACE_mainTrans>", asMapTransposed.get("mainTrans"))
       .replaceAll("<REPLACE_subTrans>", asMapTransposed.get("subTrans"))
 
-
     if (firstItem == true) { debtDetails = debtDetailsTestfile }
-    else { debtDetails = ScenarioContext.get("debtDetails").toString.concat(",").concat(debtDetailsTestfile) }
-print("requst json ::::::::::::::::::::::::::::::::::::" +debtDetails)
-    ScenarioContext.set(
-      "debtDetails",
-      debtDetails
-    )
+    else { debtDetails = ScenarioContext.get("debtDetails").toString.concat(",").concat(debtDetailsTestfile)}
+
+    ScenarioContext.set("debtDetails", debtDetails)
+    print("reqeust json ::::::::::::::::::::::::::::::::::::" +debtDetails)
   }
 
-  def getBodyAsString(variant: String): String =
+  def getBodyAsString(variant: String): String = {
     TestData.loadedFiles(variant)
+  }
+
+  And("""add debt item chargeIDs to the debt""") {(dataTable: DataTable)=>
+    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
+    var dutyChargeIds        = ""
+
+    asMapTransposed.zipWithIndex.foreach { case (dutyId, index) =>
+      dutyChargeIds = dutyChargeIds.concat(dutyId.get("dutyId"))
+      if (index + 1 < asMapTransposed.size) dutyChargeIds = dutyChargeIds.concat(",")
+    }
+    val jsonWithDutyChargeId = ScenarioContext.get("debtDetails").toString.replaceAll("<REPLACE_debtItemChargeIDs>", dutyChargeIds)
+    ScenarioContext.set("debtDetails", jsonWithDutyChargeId)
+  }
+
+  When("""a debt statement of liability is requested""") {
+    val request = ScenarioContext.get("debtDetails").toString
+
+    val response =
+      RequestSolDetails.getStatementOfLiability(request)
+    println(s"RESP --> ${response.body}")
+    ScenarioContext.set("response", response)
+  }
+
+
 }

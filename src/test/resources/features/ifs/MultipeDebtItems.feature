@@ -12,7 +12,7 @@
 #3. 2 payments of 1 debt with interest
 #4. 2 debts, 1 debt with a payment, the second debt with no payment
 Feature: Multiple Debt Items
-
+@wip1
   Scenario: 1. Non Interest Bearing. 1 Payment of 1 debt.
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |

@@ -25,6 +25,6 @@ import org.junit.runner.RunWith
   glue = Array("uk.gov.hmrc.test.api.cucumber.stepdefs.ifs",
     "uk.gov.hmrc.test.api.cucumber.hooks"),
   plugin = Array("pretty", "html:target/cucumber", "json:target/cucumber.json"),
-  tags = Array("")
+  tags = Array("@wip1")
 )
 class InterestForecastingApiTestRunner {}
