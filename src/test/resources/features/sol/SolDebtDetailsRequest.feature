@@ -1,6 +1,5 @@
 Feature: statement of liability Debt details
 
-
   Scenario: 1. debt statement of liability two duties.
     Given debt details
       | solType | debtId  | mainTrans | subTrans |
