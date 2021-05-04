@@ -17,13 +17,38 @@
 package uk.gov.hmrc.test.api.cucumber.stepdefs.sol
 
 import io.cucumber.datatable.DataTable
+import play.api.libs.json.Json
+import play.api.libs.ws.StandaloneWSResponse
 import play.twirl.api.TwirlHelperImports.twirlJavaCollectionToScala
 import uk.gov.hmrc.test.api.cucumber.stepdefs.BaseStepDef
-import uk.gov.hmrc.test.api.requests.{RequestSolDetails, TestData}
+import uk.gov.hmrc.test.api.models.HelloWorld
+import uk.gov.hmrc.test.api.requests.{HelloWorldRequests, RequestSolDetails, TestData}
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 
 class StatementOfLiabilityStepDef extends BaseStepDef {
 
+  When("a request is made to get response from sol hello world endpoint") { () =>
+    val response =
+      HelloWorldRequests.getStatementLiabilityService("/hello-world")
+    ScenarioContext.set("response", response)
+  }
+
+  When("a request is made to an invalid sol endpoint") { () =>
+    val response =
+      HelloWorldRequests.getStatementLiabilityService("/helloo-world")
+    ScenarioContext.set("response", response)
+  }
+
+  And("""the sol hello world response body should be (.*)""") { message: String =>
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+    val responseBody                   = Json.parse(response.body).as[HelloWorld]
+    responseBody.message should be(message)
+  }
+
+  Then("the sol response code should be {int}") { expectedCode: Int =>
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+    response.status should be(expectedCode)
+  }
 
   Given("""debt details""") { (dataTable: DataTable) =>
     val asMapTransposed   = dataTable.transpose().asMap(classOf[String], classOf[String])
