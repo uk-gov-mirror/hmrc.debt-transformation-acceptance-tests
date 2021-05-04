@@ -17,7 +17,7 @@
 
 
 Feature: Breathing Space
-@wip
+
   Scenario: Breathing Space applied to 1 debt
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |

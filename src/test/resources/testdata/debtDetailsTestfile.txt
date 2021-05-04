@@ -1,0 +1,7 @@
+{
+  "solType" : "<REPLACE_UI>",
+  "debts" : [ {
+    " <REPLACE_debt>"
+    " <REPLACE_debtItemChargeIDs>"
+  } ]
+}
