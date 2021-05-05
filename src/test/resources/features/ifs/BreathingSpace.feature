@@ -30,4 +30,4 @@ Feature: Breathing Space
       | 41                   | 27410                | 500000            | 527410              | 500000              |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
-      | 2014-02-01 | 2015-11-30 | 667           | 3.0            | 41                       | 27410                 | 500000               | 527410             |
+      | 2014-02-01 | 2015-11-30 | 667          | 3.0          | 41                      | 27410             | 500000               | 527410             |
