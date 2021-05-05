@@ -139,4 +139,9 @@ class StatementOfLiabilityStepDef extends BaseStepDef {
     }
   }
 
+  Then("""the sol service will respond with (.*)""") { (expectedMessage: String) =>
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+    response.body   should include(expectedMessage)
+  }
+
 }
