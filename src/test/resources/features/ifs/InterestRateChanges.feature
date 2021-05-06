@@ -1,3 +1,4 @@
+Feature: Interest Rate Changes
 # originalAmount (Amount) = 500,000
 # dateCreated (Date Amount) = 01/01/2020
 # mainTrans (Regime = DRIER) = 1525, 1545
@@ -8,9 +9,6 @@
 # No repayments
 # No suppression
 # No breathing space
-
-
-Feature: Interest Rate Changes
 
   Scenario: Interest rate changes from 3% to 3.25% with 2 payments on same date in a leap
     Given a debt item

@@ -52,6 +52,7 @@ class InterestForecastingSteps extends BaseStepDef {
       "debtItems",
       debtItems
     )
+    print("requst json ::::::::::::::::::::::::::::::::::::" + debtItems)
   }
 
   Given("(.*) debt items") { (numberItems: Int) =>
