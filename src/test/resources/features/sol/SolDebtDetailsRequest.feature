@@ -1,27 +1,35 @@
 
 #Assumptions
 #
-#Debt 1 dateCreated  = 01/01/2019
-#Debt 1 SubTran 1 originalAmount= 250,000
-#Debt 1 SubTran 2 originalAmount= 250,000
-#Debt 1 mainTrans  = 1545
+#Debt 1 dateCreated  = 2018-06-10
+#Debt 1 SubTran 1 originalAmount= 300000
+#Debt 1 SubTran 2 originalAmount= 300000
+#Debt 1 mainTrans  = 1085
 #Debt 1 subTrans = 1000 and 1090
 #Debt 1 periodEnd = 31/03/2021 (Provided by Pega)
-#Debt 1 interestStartDate = 01/01/2020
+#Debt 1 interestStartDate = 2018-06-10
 #Debt 1 = interest bearing
-#Debt 1 dateCreated  = 01/01/2019
+#Debt 1 dateCreated  = 2018-06-10
 #Debt 2 SubTran 1 originalAmount= 1,000
 #Debt 2 SubTran 2 originalAmount= 1,000
 #Debt 2 mainTrans = 1085
 #Debt 2 subTrans = 1000 and 1025
 #Debt 2 periodEnd = 31/03/2021 (Provided by Pega)
-#Debt 2 interestStartDate = 01/06/2020
+#Debt 2 interestStartDate = 2020-05-01
 #Debt 2 = not interest bearing
-#Debt 1 and Debt 2 interestRequestedTo = 31/07/2021
-#Debt 1 and Debt 2  solRequestedDate = 31/07/2021
+#Debt 1 and Debt 2 interestRequestedTo =2020-06-01
+#Debt 1 and Debt 2  solRequestedDate = 2021-08-10
 #Debt 1 and Debt 2  No repayments
 #Debt 1 and Debt 2  No suppression
 #Debt 1 and Debt 2  No breathing space
+#Debt 5 originalAmount= 400000
+#Debt 5 mainTrans 5350
+#Debt 5 subTrans 7012
+#Debt 5 interestStartDate 2019-01-01
+#Debt 5 dateCreated 2019-01-01
+#Debt 5 dateCalculationTo 2020-04-15
+#Debt 5 amountPaid 100000
+#Debt 5 dateOfPayment 2020-02-23
 Feature: statement of liability Debt details
 
   Scenario: 1. TPSS Account Tax Assessment debt statement of liability, 2 duties, no payment history.
@@ -107,7 +115,7 @@ Feature: statement of liability Debt details
 
     And the 1st sol debt summary will contain
       | uniqueItemReference | mainTrans | description           | periodEnd  | interestDueDebtTotal | interestRequestedTo | combinedDailyAccrual |
-      | debt005             | 5350      | CO: ChB Migrated Debt | 2021-07-31 | 0                    | 2021-07-31          | 0                    |
+      | debt005             | 5350      | CO: ChB Migrated Debt | 2020-01-01 | 0                    | 2021-05-05          | 0                    |
 
     And the 1st sol debt summary will contain duties
       | debtItemChargeID | subTrans | description                     | unpaidAmountDebt | combinedDailyAccrual |
