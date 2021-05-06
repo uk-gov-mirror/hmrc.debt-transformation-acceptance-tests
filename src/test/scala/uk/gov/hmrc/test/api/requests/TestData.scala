@@ -13,12 +13,11 @@ object TestData extends LazyLogging {
     .asScala
     .toList
 
-  lazy val loadedFiles: Map[String, String] = {
+  lazy val loadedFiles: Map[String, String] =
     files.map { file =>
       val source = Source.fromFile(file.getCanonicalPath)
       val data   = source.mkString
       source.close()
       file.getName.replace(".txt", "") -> data
     }.toMap
-  }
 }
