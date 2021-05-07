@@ -25,7 +25,7 @@ Feature: Breathing Space
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
-      | 35                   | 534                  | 500000            | 500534              | 500000              |
+      | 35                   | 534                  | 500000            | .500534              | 500000              |
     And the 1st debt summary will contain
       | numberChargeableDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
       | 15                   | 35                      | 534                  | 500000           | 500534             | 500000             |

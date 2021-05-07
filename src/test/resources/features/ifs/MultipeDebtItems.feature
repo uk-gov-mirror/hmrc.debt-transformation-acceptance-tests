@@ -61,7 +61,9 @@ Feature: Multiple Debt Items
       | amountPaid | dateOfPayment |
       | 100000     | 2019-02-23    |
       | 100000     | 2019-03-05    |
-    And no breathing spaces have been applied to the customer
+    And the customer has breathing spaces applied
+      | debtRespiteFrom | debtRespiteTo |
+      | 2019-01-01      | 2019-01-10    |
     When the debt items is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
@@ -73,8 +75,10 @@ Feature: Multiple Debt Items
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2018-12-16 | 2019-03-05 | 79           | 3.25         | 8                       | 703               | 100000               | 100703             |
       | 2018-12-16 | 2019-02-23 | 69           | 3.25         | 8                       | 614               | 100000               | 100614             |
+      | 2018-12-16 | 2019-02-28 | 74           | 3.25         | 8                       | 658               | 100000               | 100658             |
+      | 2019-03-01 | 2019-03-10 | 0            | 0.0          | 0                       | 0                 | 100000               | 100000             |
       | 2018-12-16 | 2019-04-14 | 119          | 3.25         | 26                      | 3178              | 300000               | 303178             |
-
+  @wi
   Scenario: 4. Interest Bearing. 2 debts. 1 debt with payment the second debt with no payment.
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
@@ -82,6 +86,9 @@ Feature: Multiple Debt Items
     And the debt item has payment history
       | amountPaid | dateOfPayment |
       | 100000     | 2019-02-03    |
+    And the customer has breathing spaces applied
+      | debtRespiteFrom | debtRespiteTo |
+      | 2019-01-01      | 2019-01-10    |
     And a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2018-12-16  | 2018-12-16        | 2019-04-14        | 1525      | 1000     | true            |

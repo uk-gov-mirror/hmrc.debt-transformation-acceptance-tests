@@ -40,4 +40,5 @@ trait BaseRequests extends RandomValues with BaseUris {
     authBearerToken
 
   }
+
 }
