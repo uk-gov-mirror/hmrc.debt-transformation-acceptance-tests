@@ -161,7 +161,7 @@ class InterestForecastingSteps extends BaseStepDef {
     response.status should be(200)
 
     val responseBody: DebtItemCalculation = Json.parse(response.body).as[DebtCalculation].debtCalculations(index - 1)
-    responseBody.numberOfChargeableDays.toString  shouldBe asMapTransposed.get("numberOfDays").toString
+    responseBody.numberOfChargeableDays.toString  shouldBe asMapTransposed.get("numberChargeableDays").toString
     responseBody.interestDueDailyAccrual.toString shouldBe asMapTransposed.get("interestDueDailyAccrual").toString
     responseBody.interestDueDebtTotal.toString    shouldBe asMapTransposed.get("interestDueDebtTotal").toString
     responseBody.amountOnIntDueDebt.toString      shouldBe asMapTransposed
