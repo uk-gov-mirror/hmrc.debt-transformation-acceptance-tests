@@ -11,8 +11,8 @@ Feature: Leap years
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 37                   | 35601                | 500000            | 535601              | 500000              |
     And the 1st debt summary will contain
-      | numberOfDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | numberChargeableDays | amountOnIntDueDebt |
-      | 818          | 37                      | 35601                | 500000           | 535601             | 0                    | 500000             |
+      | numberChargeableDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
+      | 818                  | 37                      | 35601                | 500000           | 535601             | 500000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2018-01-01 | 2018-08-20 | 231          | 3.0          | 41                      | 9493              | 500000               | 509493             |
@@ -32,8 +32,8 @@ Feature: Leap years
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 35                   | 12904                | 500000            | 512904              | 500000              |
     And the 1st debt summary will contain
-      | numberOfDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | numberChargeableDays | amountOnIntDueDebt |
-      | 363          | 35                      | 12904                | 500000           | 512904             | 0                    | 500000             |
+      | numberChargeableDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
+      | 363                  | 35                      | 12904                | 500000           | 512904             | 500000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2020-05-02 | 2020-12-31 | 243          | 2.6          | 35                      | 8631              | 500000               | 508631             |
@@ -50,8 +50,8 @@ Feature: Leap years
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 35                   | 48512                | 500000            | 548512              | 500000              |
     And the 1st debt summary will contain
-      | numberOfDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | numberChargeableDays | amountOnIntDueDebt |
-      | 1181         | 35                      | 48512                | 500000           | 548512             | 0                    | 500000             |
+      | numberChargeableDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
+      | 1181                 | 35                      | 48512                | 500000           | 548512             | 500000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2018-01-01 | 2018-08-20 | 231          | 3.0          | 41                      | 9493              | 500000               | 509493             |
@@ -74,8 +74,8 @@ Feature: Leap years
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 28                   | 5814                 | 400000            | 405814              | 400000              |
     And the 1st debt summary will contain
-      | numberOfDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
-      | 274          | 28                      | 5814                 | 400000           | 405814             | 400000             |
+      | numberChargeableDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
+      | 274                  | 28                      | 5814                 | 400000           | 405814             | 400000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2019-12-16 | 2019-12-31 | 15           | 3.25         | 8                       | 133               | 100000               | 100133             |
@@ -86,7 +86,7 @@ Feature: Leap years
       | 2020-01-01 | 2020-03-29 | 88           | 3.25         | 35                      | 3125              | 400000               | 403125             |
       | 2020-03-30 | 2020-04-06 | 7            | 2.75         | 30                      | 210               | 400000               | 400210             |
       | 2020-04-07 | 2020-05-05 | 28           | 2.6          | 28                      | 795               | 400000               | 400795             |
-    
+
   Scenario: Debt spanning multiple leap years
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
@@ -98,8 +98,8 @@ Feature: Leap years
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 37                   | 91282                | 500000            | 591282              | 500000              |
     And the 1st debt summary will contain
-      | numberOfDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | numberChargeableDays | amountOnIntDueDebt |
-      | 2239         | 37                      | 91282                | 500000           | 591282             | 0                    | 500000             |
+      | numberChargeableDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
+      | 2239         | 37                      | 91282                | 500000           | 591282             | 500000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2011-01-01 | 2011-12-31 | 364          | 3.0          | 41                      | 14958             | 500000               | 514958             |

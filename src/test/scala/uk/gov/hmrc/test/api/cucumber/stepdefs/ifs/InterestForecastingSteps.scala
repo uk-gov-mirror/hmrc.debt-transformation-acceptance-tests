@@ -132,6 +132,7 @@ class InterestForecastingSteps extends BaseStepDef {
 
   When("the debt item(s) is sent to the ifs service") { () =>
     val request = ScenarioContext.get("debtItems").toString
+    println(s"REQ --> $request")
 
     val response =
       InterestForecastingRequests.getDebtCalculation(request)
@@ -161,7 +162,7 @@ class InterestForecastingSteps extends BaseStepDef {
     response.status should be(200)
 
     val responseBody: DebtItemCalculation = Json.parse(response.body).as[DebtCalculation].debtCalculations(index - 1)
-    responseBody.numberOfChargeableDays.toString  shouldBe asMapTransposed.get("numberOfDays").toString
+    responseBody.numberOfChargeableDays.toString  shouldBe asMapTransposed.get("numberChargeableDays").toString
     responseBody.interestDueDailyAccrual.toString shouldBe asMapTransposed.get("interestDueDailyAccrual").toString
     responseBody.interestDueDebtTotal.toString    shouldBe asMapTransposed.get("interestDueDebtTotal").toString
     responseBody.amountOnIntDueDebt.toString      shouldBe asMapTransposed
@@ -211,18 +212,27 @@ class InterestForecastingSteps extends BaseStepDef {
     var breathingSpaces = ""
 
     asMapTransposed.zipWithIndex.foreach { case (breathingSpace, index) =>
-      breathingSpaces = breathingSpaces.concat(
-        getBodyAsString("breathingSpace")
-          .replaceAll("<REPLACE_debtRespiteFrom>", breathingSpace.get("debtRespiteFrom"))
-          .replaceAll("<REPLACE_debtRespiteTo>", breathingSpace.get("debtRespiteTo"))
-      )
+      if (breathingSpace.get("debtRespiteTo").toString.contains("-")) {
+        breathingSpaces = breathingSpaces.concat(
+          getBodyAsString("breathingSpace")
+            .replaceAll("<REPLACE_debtRespiteFrom>", breathingSpace.get("debtRespiteFrom"))
+            .replaceAll("<REPLACE_debtRespiteTo>", breathingSpace.get("debtRespiteTo"))
+        )
+      } else {
+        breathingSpaces = breathingSpaces.concat(
+          getBodyAsString("breathingSpace")
+            .replaceAll("<REPLACE_debtRespiteFrom>", breathingSpace.get("debtRespiteFrom"))
+            .replaceAll(",\"debtRespiteTo\" :\"<REPLACE_debtRespiteTo>\"", "")
+        )
+      }
 
       if (index + 1 < asMapTransposed.size) breathingSpaces = breathingSpaces.concat(",")
 
-      val jsonWithbreathingSpaces =
-        ScenarioContext.get("debtItems").toString.replaceAll("<REPLACE_breathingSpaces>", breathingSpaces)
-      ScenarioContext.set("debtItems", jsonWithbreathingSpaces)
     }
+
+    val jsonWithbreathingSpaces =
+      ScenarioContext.get("debtItems").toString.replaceAll("<REPLACE_breathingSpaces>", breathingSpaces)
+    ScenarioContext.set("debtItems", jsonWithbreathingSpaces)
   }
 
   Given("no breathing spaces have been applied to the customer") { () =>
