@@ -31,15 +31,15 @@ Feature: Multiple Debt Items - Edge Cases
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 35                   | 4674                 | 900000            | 904674              | 900000              |
     And the 1st debt summary will contain
-      | numberOfDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | numberChargeableDays | amountOnIntDueDebt |
-      | 168          | 35                      | 4674                 | 400000           | 404674             | 400000               | 400000             |
+      | numberChargeableDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
+      | 168                  | 35                      | 4674                 | 400000           | 404674             | 400000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2018-12-16 | 2019-02-03 | 49           | 3.25         | 8                       | 436               | 100000               | 100436             |
       | 2018-12-16 | 2019-04-14 | 119          | 3.25         | 35                      | 4238              | 400000               | 404238             |
     And the 2nd debt summary will contain
-      | numberOfDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | numberChargeableDays | amountOnIntDueDebt |
-      | 0            | 0                       | 0                    | 500000           | 500000             | 500000               | 500000             |
+      | numberChargeableDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
+      | 0                    | 0                       | 0                    | 500000           | 500000             | 500000             |
     And the 2nd debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2018-12-16 | 2019-04-14 | 0            | 0.0          | 0                       | 0                 | 500000               | 500000             |
@@ -64,15 +64,15 @@ Feature: Multiple Debt Items - Edge Cases
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 35                   | 4674                 | 800000            | 804674              | 800000              |
     And the 1st debt summary will contain
-      | numberOfDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | numberChargeableDays | amountOnIntDueDebt |
-      | 168          | 35                      | 4674                 | 400000           | 404674             | 400000               | 400000             |
+      | numberChargeableDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
+      | 168                  | 35                      | 4674                 | 400000           | 404674             | 400000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2018-12-16 | 2019-02-03 | 49           | 3.25         | 8                       | 436               | 100000               | 100436             |
       | 2018-12-16 | 2019-04-14 | 119          | 3.25         | 35                      | 4238              | 400000               | 404238             |
     And the 2nd debt summary will contain
-      | numberOfDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | numberChargeableDays | amountOnIntDueDebt |
-      | 0            | 0                       | 0                    | 400000           | 400000             | 400000               | 400000             |
+      | numberChargeableDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
+      | 0                    | 0                       | 0                    | 400000           | 400000             | 400000             |
     And the 2nd debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2018-12-16 | 2019-02-03 | 0            | 0.0          | 0                       | 0                 | 100000               | 100000             |
@@ -100,21 +100,21 @@ Feature: Multiple Debt Items - Edge Cases
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 123                  | 15268                | 1400000           | 1415268             | 1400000             |
     And the 1st debt summary will contain
-      | numberOfDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | numberChargeableDays | amountOnIntDueDebt |
-      | 119          | 44                      | 5297                 | 500000           | 505297             | 500000               | 500000             |
+      | numberChargeableDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
+      | 119                  | 44                      | 5297                 | 500000           | 505297             | 500000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2018-12-16 | 2019-04-14 | 119          | 3.25         | 44                      | 5297              | 500000               | 505297             |
     And the 2nd debt summary will contain
-      | numberOfDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | numberChargeableDays | amountOnIntDueDebt |
-      | 168          | 35                      | 4674                 | 400000           | 404674             | 400000               | 400000             |
+      | numberChargeableDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
+      | 168                  | 35                      | 4674                 | 400000           | 404674             | 400000             |
     And the 2nd debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2018-12-16 | 2019-02-03 | 49           | 3.25         | 8                       | 436               | 100000               | 100436             |
       | 2018-12-16 | 2019-04-14 | 119          | 3.25         | 35                      | 4238              | 400000               | 404238             |
     And the 3rd debt summary will contain
-      | numberOfDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | numberChargeableDays | amountOnIntDueDebt |
-      | 119          | 44                      | 5297                 | 500000           | 505297             | 500000               | 500000             |
+      | numberChargeableDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
+      | 119                  | 44                      | 5297                 | 500000           | 505297             | 500000             |
     And the 3rd debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2018-12-16 | 2019-04-14 | 119          | 3.25         | 44                      | 5297              | 500000               | 505297             |
@@ -128,8 +128,8 @@ Feature: Multiple Debt Items - Edge Cases
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 10500                | 1271400              | 150000000         | 151271400           | 150000000           |
     And the 300th debt summary will contain
-      | numberOfDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
-      | 119          | 35                      | 4238                 | 500000           | 504238             | 500000             |
+      | numberChargeableDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
+      | 119                  | 35                      | 4238                 | 500000           | 504238             | 500000             |
 
 
   Scenario: 5. 2 debts, 5 payments on 1 debt
@@ -153,8 +153,8 @@ Feature: Multiple Debt Items - Edge Cases
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 79                   | 12356                | 900000            | 912356              | 900000              |
     And the 1st debt summary will contain
-      | numberOfDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
-      | 279          | 35                      | 7059                 | 400000           | 407059             | 400000             |
+      | numberChargeableDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
+      | 279                  | 35                      | 7059                 | 400000           | 407059             | 400000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2018-12-16 | 2019-02-03 | 49           | 3.25         | 26                      | 1308              | 300000               | 301308             |
@@ -162,7 +162,7 @@ Feature: Multiple Debt Items - Edge Cases
       | 2018-12-16 | 2019-02-13 | 59           | 3.25         | 17                      | 1050              | 200000               | 201050             |
       | 2018-12-16 | 2019-04-14 | 119          | 3.25         | 35                      | 4238              | 400000               | 404238             |
     And the 2nd debt summary will contain
-      | numberOfDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
+      | numberChargeableDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
       | 119          | 44                      | 5297                 | 500000           | 505297             | 500000             |
     And the 2nd debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
@@ -183,8 +183,8 @@ Feature: Multiple Debt Items - Edge Cases
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 28                   | 4664                 | 400000            | 404664              | 400000              |
     And the 1st debt summary will contain
-      | numberOfDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
-      | 138          | 28                      | 4664                 | 400000           | 404664             | 400000             |
+      | numberChargeableDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
+      | 138                  | 28                      | 4664                 | 400000           | 404664             | 400000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2019-12-16 | 2019-02-03 | 0            | 0.0          | 0                       | 0                 | 100000               | 100000             |
@@ -205,6 +205,28 @@ Feature: Multiple Debt Items - Edge Cases
     When the debt item is sent to the ifs service
     Then the ifs service will respond with Could not parse body due to requirement failed: Amount paid in payments cannot be greater than Original Amount
 
+  Scenario: 6. 1 debts, 1 payment amount paid less than zero
+    Given a debt item
+      | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
+      | 50             | 2019-12-16  | 2019-12-16        | 2020-05-05        | 1525      | 1000     | true            |
+    And the debt item has payment history
+      | amountPaid | dateOfPayment |
+      | -1000      | 2019-02-03    |
+    And no breathing spaces have been applied to the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service will respond with Could not parse body due to requirement failed: Amount paid in payments cannot be negative values
+
+  Scenario: 7. 1 debts, 2 payment amount paid less than zero
+    Given a debt item
+      | originalAmount | dateCreated | interestStartDate | dateCalculationTo | mainTrans | subTrans | interestBearing |
+      | 50000          | 2019-12-16  | 2019-12-16        | 2020-05-05        | 1525      | 1000     | true            |
+    And the debt item has payment history
+      | amountPaid | dateOfPayment |
+      | 1000       | 2019-02-03    |
+      | -1000      | 2019-03-03    |
+    And no breathing spaces have been applied to the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service will respond with Could not parse body due to requirement failed: Amount paid in payments cannot be negative values
 
   Scenario: 8. 1 debt, 1 payment, interest start date is before the debt created
     Given a debt item
@@ -219,12 +241,12 @@ Feature: Multiple Debt Items - Edge Cases
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 28                   | 2176                 | 400000            | 402176              | 400000              |
     And the 1st debt summary will contain
-      | numberOfDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
+      | numberChargeableDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
       | 123          | 28                      | 2176                 | 400000           | 402176             | 400000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2020-12-22 | 2020-12-31 | 9            | 2.6          | 7                       | 63                | 100000               | 100063             |
       | 2021-01-01 | 2021-02-23 | 53           | 2.6          | 7                       | 377               | 100000               | 100377             |
-      | 2020-12-22 | 2020-12-31 | 9            | 2.6          | 28                       | 255                | 400000               | 400255             |
-      | 2021-01-01 | 2021-02-22 | 52           | 2.6          | 28                       | 1481               | 400000               | 401481             |
+      | 2020-12-22 | 2020-12-31 | 9            | 2.6          | 28                      | 255               | 400000               | 400255             |
+      | 2021-01-01 | 2021-02-22 | 52           | 2.6          | 28                      | 1481              | 400000               | 401481             |
 

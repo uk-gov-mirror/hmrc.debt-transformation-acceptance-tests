@@ -8,7 +8,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
     And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the 1st debt summary will contain
-      | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
+      | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberChargeableDays | amountOnIntDueDebt |
       | 35                      | 249                  | 2.6     | 500000           | 500249             | 7            | 500000             |
 
   Scenario: Interest Bearing TPSS MainTrans (1535) debt SubTrans (1000)
@@ -19,7 +19,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
     And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the 1st debt summary will contain
-      | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
+      | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberChargeableDays | amountOnIntDueDebt |
       | 35                      | 249                  | 2.6     | 500000           | 500249             | 7            | 500000             |
 
   Scenario: Interest Bearing TPSS MainTrans (1540) debt SubTrans (1000)
@@ -30,7 +30,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
     And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the 1st debt summary will contain
-      | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
+      | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberChargeableDays | amountOnIntDueDebt |
       | 35                      | 249                  | 2.6     | 500000           | 500249             | 7            | 500000             |
 
   Scenario: Interest Bearing TPSS MainTrans (1545) debt SubTrans (1000)
@@ -41,7 +41,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
     And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the 1st debt summary will contain
-      | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
+      | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberChargeableDays | amountOnIntDueDebt |
       | 35                      | 249                  | 2.6     | 500000           | 500249             | 7            | 500000             |
 
   Scenario: Interest Bearing TPSS MainTrans (1545) debt SubTrans (1090)
@@ -52,7 +52,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
     And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the 1st debt summary will contain
-      | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberOfDays | amountOnIntDueDebt |
+      | interestDueDailyAccrual | interestDueDebtTotal | intRate | unpaidAmountDebt | totalAmountIntDebt | numberChargeableDays | amountOnIntDueDebt |
       | 35                      | 249                  | 2.6     | 500000           | 500249             | 7            | 500000             |
 
   Scenario: All Non Interest Bearing MainTrans and SunTrans

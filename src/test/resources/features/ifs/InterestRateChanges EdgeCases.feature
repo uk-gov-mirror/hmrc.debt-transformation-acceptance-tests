@@ -21,7 +21,7 @@ Feature: Interest Rate Changes - Edge cases
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 13200                | 3782700              | 150000000         | 153782700           | 150000000           |
     And the 300th debt summary will contain
-      | numberOfDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
+      | numberChargeableDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
       | 301          | 44                      | 12609                 | 500000          | 512609             | 500000             |
 
   Scenario: 2 Debts - Interest rate changes from 3.25% to 2.75% - leap year - payment is made for 1 debt - Interest rate changes from 2.75% to 2.6%
@@ -42,7 +42,7 @@ Feature: Interest Rate Changes - Edge cases
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 62                   | 48293                | 800000            | 848293              | 800000              |
     And the 1st debt summary will contain
-      | numberOfDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
+      | numberChargeableDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
       | 1995         | 21                      | 33823                | 300000           |  333823             | 300000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow | amountOnIntDueWindow |
@@ -60,7 +60,7 @@ Feature: Interest Rate Changes - Edge cases
       | 2020-04-07 | 2020-12-31 | 268          | 2.6          | 21                      | 5711              | 305711             | 300000               |
       | 2021-01-01 | 2021-03-31 | 89           | 2.6          | 21                      | 1901              | 301901             | 300000               |
     And the 2nd debt summary will contain
-      | numberOfDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
+      | numberChargeableDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | amountOnIntDueDebt |
       | 361          | 41                      | 14470                | 500000           | 514470             | 500000             |
     And the 2nd debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow | amountOnIntDueWindow |
@@ -83,8 +83,8 @@ Feature: Interest Rate Changes - Edge cases
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 28                   | 14326                | 400000            | 414326              | 400000              |
     And the 1st debt summary will contain
-      | numberOfDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt | numberChargeableDays | amountOnIntDueDebt |
-      | 548          | 28                      | 14326                | 400000           | 414326             | 554                  | 400000             |
+      | numberChargeableDays | interestDueDailyAccrual | interestDueDebtTotal | unpaidAmountDebt | totalAmountIntDebt |  amountOnIntDueDebt |
+      | 548          | 28                      | 14326                | 400000           | 414326                              | 400000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow | amountOnIntDueWindow |
       | 2020-01-01 | 2020-03-29 | 88           | 3.25         | 8                       | 781               | 100781             | 100000               |

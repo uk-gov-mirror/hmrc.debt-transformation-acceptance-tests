@@ -41,5 +41,4 @@ trait BaseRequests extends RandomValues with BaseUris {
 
   }
 
-
 }
