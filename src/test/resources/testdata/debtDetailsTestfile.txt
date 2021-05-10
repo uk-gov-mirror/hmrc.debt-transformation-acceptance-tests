@@ -1,7 +1,7 @@
 {
   "solType" : "<REPLACE_solType>",
   "debts" : [{
-    "uniqueItemReference": "<REPLACE_uniqueItemReference>",
-    "debtItemChargeIDs":[<REPLACE_debtItemChargeIDs>]
+    "debtID": "<REPLACE_debtID>",
+    "dutyID":[<REPLACE_debtItemChargeIDs>]
    }]
 }

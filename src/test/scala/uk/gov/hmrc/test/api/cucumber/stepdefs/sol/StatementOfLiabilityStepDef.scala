@@ -60,7 +60,7 @@ class StatementOfLiabilityStepDef extends BaseStepDef {
 
     val debtDetailsTestfile = getBodyAsString("debtDetailsTestfile")
       .replaceAll("<REPLACE_solType>", asMapTransposed.get("solType"))
-      .replaceAll("<REPLACE_uniqueItemReference>", asMapTransposed.get("debtId"))
+      .replaceAll("<REPLACE_debtID>", asMapTransposed.get("debtId"))
       .replaceAll("<REPLACE_mainTrans>", asMapTransposed.get("mainTrans"))
       .replaceAll("<REPLACE_subTrans>", asMapTransposed.get("subTrans"))
 
@@ -137,6 +137,11 @@ class StatementOfLiabilityStepDef extends BaseStepDef {
       responseBody.unpaidAmountDebt.toString     shouldBe duty.get("unpaidAmountDebt").toString
       responseBody.combinedDailyAccrual.toString shouldBe duty.get("combinedDailyAccrual").toString
     }
+  }
+
+  Then("""the sol service will respond with (.*)""") { (expectedMessage: String) =>
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+    response.body   should include(expectedMessage)
   }
 
 }
