@@ -60,7 +60,7 @@ class StatementOfLiabilityStepDef extends BaseStepDef {
 
     val debtDetailsTestfile = getBodyAsString("debtDetailsTestfile")
       .replaceAll("<REPLACE_solType>", asMapTransposed.get("solType"))
-      .replaceAll("<REPLACE_uniqueItemReference>", asMapTransposed.get("debtId"))
+      .replaceAll("<REPLACE_debtID>", asMapTransposed.get("debtId"))
       .replaceAll("<REPLACE_mainTrans>", asMapTransposed.get("mainTrans"))
       .replaceAll("<REPLACE_subTrans>", asMapTransposed.get("subTrans"))
 

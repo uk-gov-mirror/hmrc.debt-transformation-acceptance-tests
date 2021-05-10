@@ -25,3 +25,15 @@ Feature: Statement of liability Unhappy Path (Service Errors)
     Then the sol response code should be 404
     And the sol service will respond with {name: ReferenceDataLookupError, statusCode: 404, uniqueReference: 1085, 1000}
 
+    @runMe
+  Scenario: Sol IFS 400 failure - DateCalculationTo should be after dateCreated
+    Given debt details
+      | solType | debtId  | mainTrans | subTrans |
+      | UI      | debt006 | 1525      | 1000     |
+    And add debt item chargeIDs to the debt
+      | dutyId   |
+      | "duty01" |
+    When a debt statement of liability is requested
+    Then the sol response code should be 400
+    And the sol service will respond with {name: IfsDebtCalculationError, statusCode: 400, uniqueReference: }
+
