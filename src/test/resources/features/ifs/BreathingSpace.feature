@@ -32,7 +32,7 @@ Feature: Breathing Space
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2021-03-01 | 2021-03-06 | 5            | 2.6          | 35                      | 178               | 500000               | 500178             |
-      | 2021-03-07 | 2021-03-09 | 0            | 0.0          | 0                       | 0                 | 500000               | 500000             |
+      | 2021-03-07 | 2021-03-10 | 0            | 0.0          | 0                       | 0                 | 500000               | 500000             |
       | 2021-03-10 | 2021-03-20 | 10           | 2.6          | 35                      | 356               | 500000               | 500356             |
 
   Scenario: Breathing Space - open ended

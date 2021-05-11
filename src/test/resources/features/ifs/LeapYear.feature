@@ -3,34 +3,34 @@ Feature: Leap years
   Scenario: Debt ending in a leap year
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2018-01-01  | 2018-01-01        | 2020-04-01        | 1525      | 1000     | true            |
+      | 500000         | 2018-01-01  | 2018-01-01        | 2020-04-01          | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
-      | 37                   | 35601                | 500000            | 535601              | 500000              |
+      | 37                   | 35727                | 500000            | 535727         | 500000              |
     And the 1st debt summary will contain
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
-      | true            | 818                  | 37                      | 35601                | 500000           | 535601             | 500000             |
+      | true            | 821                  | 37                      | 35727                | 500000           | 5035727            | 500000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2018-01-01 | 2018-08-20 | 231          | 3.0          | 41                      | 9493              | 500000               | 509493             |
-      | 2018-08-21 | 2019-12-31 | 497          | 3.25         | 44                      | 22126             | 500000               | 522126             |
-      | 2020-01-01 | 2020-03-29 | 88           | 3.25         | 44                      | 3907              | 500000               | 503907             |
-      | 2020-03-30 | 2020-04-01 | 2            | 2.75         | 37                      | 75                | 500000               | 500075             |
+      | 2018-08-21 | 2019-12-31 | 498          | 3.25         | 44                      | 22171             | 500000               | 522171             |
+      | 2020-01-01 | 2020-03-29 | 89           | 3.25         | 44                      | 3951              | 500000               | 503951             |
+      | 2020-03-30 | 2020-04-01 | 3            | 2.75         | 37                      | 112               | 500000               | 500112             |
 
 
   Scenario: Debt starting in a leap year
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2020-05-02  | 2020-05-02        | 2021-05-01        | 1525      | 1000     | true            |
+      | 500000         | 2020-05-02  | 2020-05-02        | 2021-05-01          | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
-      | 35                   | 12904                | 500000            | 512904              | 500000              |
+      | 35                   | 12904                | 500000            | 512904         | 500000              |
     And the 1st debt summary will contain
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
       | true            | 363                  | 35                      | 12904                | 500000           | 512904             | 500000             |
@@ -42,13 +42,13 @@ Feature: Leap years
   Scenario: Debt crossing a leap year
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2018-01-01  | 2018-01-01        | 2021-04-01        | 1525      | 1000     | true            |
+      | 500000         | 2018-01-01  | 2018-01-01        | 2021-04-01          | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
-      | 35                   | 48512                | 500000            | 548512              | 500000              |
+      | 35                   | 48512                | 500000            | 548512         | 500000              |
     And the 1st debt summary will contain
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
       | true            | 1181                 | 35                      | 48512                | 500000           | 548512             | 500000             |
@@ -64,15 +64,15 @@ Feature: Leap years
   Scenario: 2.Interest rate changes from 3.25%, 2.75% and 2.6% after a payment is made.
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2019-12-16  | 2019-12-16        | 2020-05-05        | 1525      | 1000     | true            |
+      | 500000         | 2019-12-16  | 2019-12-16        | 2020-05-05          | 1525      | 1000     | true            |
     And the debt item has payment history
       | paymentAmount | paymentDate |
-      | 100000     | 2020-05-03    |
+      | 100000        | 2020-05-03  |
     And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
-      | 28                   | 5814                 | 400000            | 405814              | 400000              |
+      | 28                   | 5814                 | 400000            | 405814         | 400000              |
     And the 1st debt summary will contain
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
       | true            | 274                  | 28                      | 5814                 | 400000           | 405814             | 400000             |
@@ -90,16 +90,16 @@ Feature: Leap years
   Scenario: Debt spanning multiple leap years
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2011-01-01  | 2011-01-01        | 2017-02-22        | 1525      | 1000     | true            |
+      | 500000         | 2011-01-01  | 2011-01-01        | 2017-02-22          | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
-      | 37                   | 91282                | 500000            | 591282              | 500000              |
+      | 37                   | 91282                | 500000            | 591282         | 500000              |
     And the 1st debt summary will contain
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
-      | true            | 2239         | 37                      | 91282                | 500000           | 591282             | 500000             |
+      | true            | 2239                 | 37                      | 91282                | 500000           | 591282             | 500000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2011-01-01 | 2011-12-31 | 364          | 3.0          | 41                      | 14958             | 500000               | 514958             |
