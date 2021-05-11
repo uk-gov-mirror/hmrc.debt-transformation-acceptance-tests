@@ -10,6 +10,7 @@ Feature: Interest Rate Changes
 # No suppression
 # No breathing space
 
+  @dtd-257 @wip
   Scenario: Interest rate changes from 3.25% to 2.75% with 2 payments on same date in a leap
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |

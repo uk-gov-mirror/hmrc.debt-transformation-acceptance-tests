@@ -1,5 +1,6 @@
 Feature: Leap years
 
+  @dtd-257 @wip
   Scenario: Debt ending in a leap year
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
