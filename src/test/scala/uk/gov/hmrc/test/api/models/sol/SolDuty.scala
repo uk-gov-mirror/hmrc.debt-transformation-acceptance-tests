@@ -3,17 +3,17 @@
  *
  */
 
-package uk.gov.hmrc.test.api.models
+package uk.gov.hmrc.test.api.models.sol
 
 import play.api.libs.json.Json
 
 case class SolDuty(
-  debtItemChargeID: String,
+  dutyID: String,
   subTrans: String,
-  description: String,
+  dutyTypeDescription: String,
   unpaidAmountDuty: Int,
   combinedDailyAccrual: Int
-) {}
+)
 
 object SolDuty {
   implicit val format = Json.format[SolDuty]

@@ -42,16 +42,16 @@ Feature: statement of liability Debt details
     When a debt statement of liability is requested
     Then service returns debt statement of liability data
       | amountIntTotal | combinedDailyAccrual |
-      | 906166           | 63                   |
+      | 903459         | 0                    |
 
     And the 1st sol debt summary will contain
       | debtID  | mainTrans | debtTypeDescription         | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
-      | debt001 | 1525      | TPSS Account Tax Assessment | 6166                 | 906166             | 63                   |
+      | debt001 | 1525      | TPSS Account Tax Assessment | 3459                 | 903459             | 0                    |
 
     And the 1st sol debt summary will contain duties
       | dutyID | subTrans | dutyTypeDescription | unpaidAmountDuty | combinedDailyAccrual |
-      | duty01 | 1000     | IT                  | 500000           | 35                   |
-      | duty02 | 1000     | IT                  | 400000           | 28                   |
+      | duty01 | 1000     | IT                  | 500000           | 0                    |
+      | duty02 | 1000     | IT                  | 400000           | 0                    |
 
 
   Scenario: 2. Child benefit debt statement of liability, 2 duties, with payment history.
@@ -66,7 +66,7 @@ Feature: statement of liability Debt details
 
     Then service returns debt statement of liability data
       | amountIntTotal | combinedDailyAccrual |
-      | 2156           | 14                   |
+      | 602156         | 14                   |
 
     And the 1st sol debt summary will contain
       | debtID  | mainTrans | debtTypeDescription | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
@@ -74,7 +74,7 @@ Feature: statement of liability Debt details
 
     And the 1st sol debt summary will contain duties
       | dutyID | subTrans | dutyTypeDescription    | unpaidAmountDuty | combinedDailyAccrual |
-      | duty01 | 7006     | UI: Child Benefit Debt | 400000           | 0                    |
+      | duty01 | 7006     | UI: Child Benefit Debt | 400000           | 0                   |
       | duty02 | 1000     | IT                     | 200000           | 14                   |
 
   Scenario: 3. CO: Child Benefit Migrated Debt statement of liability, 1 duty, no payment history.
@@ -88,7 +88,7 @@ Feature: statement of liability Debt details
 
     Then service returns debt statement of liability data
       | amountIntTotal | combinedDailyAccrual |
-      | 200000              | 0                    |
+      | 200000         | 0                    |
 
     And the 1st sol debt summary will contain
       | debtID  | mainTrans | debtTypeDescription   | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
@@ -110,7 +110,7 @@ Feature: statement of liability Debt details
 
     Then service returns debt statement of liability data
       | amountIntTotal | combinedDailyAccrual |
-      | 200000              | 0                    |
+      | 200000         | 0                    |
 
     And the 1st sol debt summary will contain
       | debtID  | mainTrans | debtTypeDescription   | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |

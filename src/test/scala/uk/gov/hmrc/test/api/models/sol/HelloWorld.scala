@@ -1,4 +1,4 @@
-package uk.gov.hmrc.test.api.models
+package uk.gov.hmrc.test.api.models.sol
 
 import play.api.libs.json.{Json, OFormat}
 
