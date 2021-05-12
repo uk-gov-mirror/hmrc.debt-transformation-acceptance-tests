@@ -21,7 +21,7 @@ import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import play.twirl.api.TwirlHelperImports.twirlJavaCollectionToScala
 import uk.gov.hmrc.test.api.cucumber.stepdefs.BaseStepDef
-import uk.gov.hmrc.test.api.models.{HelloWorld, SolCalculation, SolCalculationSummary, SolCalculationSummaryResponse}
+import uk.gov.hmrc.test.api.models.sol.{HelloWorld, SolCalculation, SolCalculationSummaryResponse}
 import uk.gov.hmrc.test.api.requests.{HelloWorldRequests, RequestSolDetails, TestData}
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 
@@ -102,7 +102,7 @@ class StatementOfLiabilityStepDef extends BaseStepDef {
 
     val responseBody = Json.parse(response.body).as[SolCalculationSummaryResponse]
 
-    responseBody.totalAmountIntDuty.toString   shouldBe asMapTransposed.get("totalAmountIntDuty").toString
+    responseBody.amountIntTotal.toString   shouldBe asMapTransposed.get("amountIntTotal").toString
     responseBody.combinedDailyAccrual.toString shouldBe asMapTransposed.get("combinedDailyAccrual").toString
 
   }
@@ -112,12 +112,13 @@ class StatementOfLiabilityStepDef extends BaseStepDef {
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status should be(200)
 
-    val debt: SolCalculation = Json.parse(response.body).as[SolCalculationSummary].debts(index - 1)
-    debt.debtID           shouldBe asMapTransposed.get("debtID").toString
+    val debt: SolCalculation = Json.parse(response.body).as[SolCalculationSummaryResponse].debts(index - 1)
+    debt.debtID                        shouldBe asMapTransposed.get("debtID").toString
     debt.mainTrans                     shouldBe asMapTransposed.get("mainTrans").toString
-    debt.description                   shouldBe asMapTransposed.get("description").toString
-    debt.periodEnd.toString            shouldBe asMapTransposed.get("periodEnd").toString
-    debt.interestDueDutyTotal.toString shouldBe asMapTransposed.get("interestDueDutyTotal").toString
+    debt.debtTypeDescription           shouldBe asMapTransposed.get("debtTypeDescription").toString
+    debt.interestDueDebtTotal.toString shouldBe asMapTransposed.get("interestDueDebtTotal").toString
+    debt.totalAmountIntDebt.toString shouldBe asMapTransposed.get("totalAmountIntDebt").toString
+    debt.combinedDailyAccrual.toString shouldBe asMapTransposed.get("combinedDailyAccrual").toString
   }
 
   Then("the ([0-9])(?:st|nd|rd|th) sol debt summary will contain duties") { (debtIndex: Int, dataTable: DataTable) =>
@@ -127,13 +128,13 @@ class StatementOfLiabilityStepDef extends BaseStepDef {
     asMapTransposed.zipWithIndex.foreach { case (duty, index) =>
       val responseBody = Json
         .parse(response.body)
-        .as[SolCalculationSummary]
+        .as[SolCalculationSummaryResponse]
         .debts(debtIndex - 1)
         .duties(index)
 
-      responseBody.debtItemChargeID              shouldBe duty.get("debtItemChargeID").toString
+      responseBody.dutyID              shouldBe duty.get("dutyID").toString
       responseBody.subTrans                      shouldBe duty.get("subTrans").toString
-      responseBody.description                   shouldBe duty.get("description").toString
+      responseBody.dutyTypeDescription                   shouldBe duty.get("dutyTypeDescription").toString
       responseBody.unpaidAmountDuty.toString     shouldBe duty.get("unpaidAmountDuty").toString
       responseBody.combinedDailyAccrual.toString shouldBe duty.get("combinedDailyAccrual").toString
     }
@@ -141,7 +142,7 @@ class StatementOfLiabilityStepDef extends BaseStepDef {
 
   Then("""the sol service will respond with (.*)""") { (expectedMessage: String) =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
-    response.body   should include(expectedMessage)
+    response.body should include(expectedMessage)
   }
 
 }

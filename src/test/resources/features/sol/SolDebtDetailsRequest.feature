@@ -1,4 +1,3 @@
-
 #Assumptions
 #
 #Debt 1 dateCreated  = 2018-06-10
@@ -42,17 +41,17 @@ Feature: statement of liability Debt details
       | "duty02" |
     When a debt statement of liability is requested
     Then service returns debt statement of liability data
-      | totalAmountIntDuty | combinedDailyAccrual |
-      | 6166               | 63                   |
+      | amountIntTotal | combinedDailyAccrual |
+      | 906166           | 63                   |
 
     And the 1st sol debt summary will contain
-      | debtID | mainTrans | description                 | periodEnd  | interestDueDutyTotal | interestRequestedTo | combinedDailyAccrual |
-      | debt001             | 1525      | TPSS Account Tax Assessment | 2020-01-01 | 6166                 | 2021-05-04          | 63                   |
+      | debtID  | mainTrans | debtTypeDescription         | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
+      | debt001 | 1525      | TPSS Account Tax Assessment | 6166                 | 906166             | 63                   |
 
     And the 1st sol debt summary will contain duties
-      | debtItemChargeID | subTrans | description | unpaidAmountDuty | combinedDailyAccrual |
-      | duty01           | 1000     | IT          | 500000           | 35                   |
-      | duty02           | 1000     | IT          | 400000           | 28                   |
+      | dutyID | subTrans | dutyTypeDescription | unpaidAmountDuty | combinedDailyAccrual |
+      | duty01 | 1000     | IT                  | 500000           | 35                   |
+      | duty02 | 1000     | IT                  | 400000           | 28                   |
 
 
   Scenario: 2. Child benefit debt statement of liability, 2 duties, with payment history.
@@ -66,17 +65,17 @@ Feature: statement of liability Debt details
     When a debt statement of liability is requested
 
     Then service returns debt statement of liability data
-      | totalAmountIntDuty | combinedDailyAccrual |
-      | 2156               | 14                   |
+      | amountIntTotal | combinedDailyAccrual |
+      | 2156           | 14                   |
 
     And the 1st sol debt summary will contain
-      | debtID | mainTrans | description  | periodEnd  | interestDueDutyTotal | interestRequestedTo | combinedDailyAccrual |
-      | debt003             | 5330      | UI: ChB Debt | 2020-01-01 | 2156                 | 2021-05-05          | 14                   |
+      | debtID  | mainTrans | debtTypeDescription | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
+      | debt003 | 5330      | UI: ChB Debt        | 2156                 | 602156             | 14                   |
 
     And the 1st sol debt summary will contain duties
-      | debtItemChargeID | subTrans | description            | unpaidAmountDuty | combinedDailyAccrual |
-      | duty01           | 7006     | UI: Child Benefit Debt | 400000           | 0                    |
-      | duty02           | 1000     | IT                     | 200000           | 14                   |
+      | dutyID | subTrans | dutyTypeDescription    | unpaidAmountDuty | combinedDailyAccrual |
+      | duty01 | 7006     | UI: Child Benefit Debt | 400000           | 0                    |
+      | duty02 | 1000     | IT                     | 200000           | 14                   |
 
   Scenario: 3. CO: Child Benefit Migrated Debt statement of liability, 1 duty, no payment history.
     Given debt details
@@ -88,16 +87,16 @@ Feature: statement of liability Debt details
     When a debt statement of liability is requested
 
     Then service returns debt statement of liability data
-      | totalAmountIntDuty | combinedDailyAccrual |
-      | 0                  | 0                    |
+      | amountIntTotal | combinedDailyAccrual |
+      | 200000              | 0                    |
 
     And the 1st sol debt summary will contain
-      | debtID | mainTrans | description           | periodEnd  | interestDueDutyTotal | interestRequestedTo | combinedDailyAccrual |
-      | debt004             | 5350      | CO: ChB Migrated Debt | 2020-01-01 | 0                    | 2021-05-05          | 0                    |
+      | debtID  | mainTrans | debtTypeDescription   | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
+      | debt004 | 5350      | CO: ChB Migrated Debt | 0                    | 200000             | 0                    |
 
     And the 1st sol debt summary will contain duties
-      | debtItemChargeID | subTrans | description                     | unpaidAmountDuty | combinedDailyAccrual |
-      | duty04           | 7012     | CO: Child Benefit Migrated Debt | 200000           | 0                    |
+      | dutyID | subTrans | dutyTypeDescription             | unpaidAmountDuty | combinedDailyAccrual |
+      | duty04 | 7012     | CO: Child Benefit Migrated Debt | 200000           | 0                    |
 
 
   Scenario: 4. MainTrans and subTrans non interest bearing - IFS still calculates interest and it is zero
@@ -110,13 +109,13 @@ Feature: statement of liability Debt details
     When a debt statement of liability is requested
 
     Then service returns debt statement of liability data
-      | totalAmountIntDuty | combinedDailyAccrual |
-      | 0                  | 0                    |
+      | amountIntTotal | combinedDailyAccrual |
+      | 200000              | 0                    |
 
     And the 1st sol debt summary will contain
-      | debtID | mainTrans | description           | periodEnd  | interestDueDutyTotal | interestRequestedTo | combinedDailyAccrual |
-      | debt005             | 5350      | CO: ChB Migrated Debt | 2020-01-01 | 0                    | 2021-05-05          | 0                    |
+      | debtID  | mainTrans | debtTypeDescription   | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
+      | debt005 | 5350      | CO: ChB Migrated Debt | 0                    | 200000             | 0                    |
 
     And the 1st sol debt summary will contain duties
-      | debtItemChargeID | subTrans | description                     | unpaidAmountDuty | combinedDailyAccrual |
-      | duty06           | 7012     | CO: Child Benefit Migrated Debt | 200000           | 0                    |
+      | dutyID | subTrans | dutyTypeDescription             | unpaidAmountDuty | combinedDailyAccrual |
+      | duty06 | 7012     | CO: Child Benefit Migrated Debt | 200000           | 0                    |
