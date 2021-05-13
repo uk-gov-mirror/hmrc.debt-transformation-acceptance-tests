@@ -15,16 +15,17 @@
 
 Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
 
+  @runMe
   Scenario: Interest Bearing TPSS MainTrans (1525) debt (MVP)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
+      | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
-      | 35                   | 249                  | 500000            | 500249              | 500000              |
+      | 35                   | 249                  | 500000            | 500249         | 500000              |
     Then the 1st debt summary will contain
       | interestBearing | interestDueDailyAccrual | interestDueDutyTotal | intRate | unpaidAmountDuty | totalAmountIntDuty | numberChargeableDays | amountOnIntDueDuty | interestOnlyIndicator |
       | true            | 35                      | 249                  | 2.6     | 500000           | 500249             | 7                    | 500000             | false                 |
@@ -35,13 +36,13 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
   Scenario: Non Interest Bearing TPSS MainTrans (1525) debt (MVP)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1520      | 1090     | false           |
+      | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1520      | 1090     | false           |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
-      | 0                    | 0                    | 500000            | 500000              | 500000              |
+      | 0                    | 0                    | 500000            | 500000         | 500000              |
     Then the 1st debt summary will contain
       | interestBearing | interestDueDailyAccrual | interestDueDutyTotal | intRate | unpaidAmountDuty | totalAmountIntDuty | numberChargeableDays | amountOnIntDueDuty | interestOnlyIndicator |
       | false           | 0                       | 0                    | 0       | 500000           | 500000             | 0                    | 500000             | false                 |
@@ -65,7 +66,7 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
   Scenario: TPSS MainTrans (1525) debt Amount is negative (Edge Case)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | -1             | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
+      | -1             | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
@@ -74,7 +75,7 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
   Scenario: TPSS MainTrans (1525) debt Amount non integer (Edge Case)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | \"\"           | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
+      | \"\"           | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
@@ -83,7 +84,7 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
   Scenario: TPSS MainTrans (1525) debt Amount non integer (Edge Case)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 1.2            | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
+      | 1.2            | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
@@ -92,7 +93,7 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
   Scenario: TPSS MainTrans (1525) debt invalid entry in Date Created (Edge Case)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | d           | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
+      | 500000         | d           | 2021-03-01        | 2021-03-08          | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
@@ -101,7 +102,7 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
   Scenario: TPSS MainTrans (1525) debt empty entry in Date Created (Edge Case)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         |             | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
+      | 500000         |             | 2021-03-01        | 2021-03-08          | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
@@ -110,7 +111,7 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
   Scenario: TPSS MainTrans (1525) debt invalid Date Created (Edge Case)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2021-02-30  | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
+      | 500000         | 2021-02-30  | 2021-03-01        | 2021-03-08          | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
@@ -119,7 +120,7 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
   Scenario: TPSS MainTrans (1525) debt invalid entry in interestRequestedTo (Edge Case)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2021-03-08  | 2021-03-08        | d                 | 1525      | 1000     | true            |
+      | 500000         | 2021-03-08  | 2021-03-08        | d                   | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
@@ -128,7 +129,7 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
   Scenario: TPSS MainTrans (1525) debt empty interestRequestedTo (Edge Case)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2021-03-08  | 2021-03-08        |                   | 1525      | 1000     | true            |
+      | 500000         | 2021-03-08  | 2021-03-08        |                     | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
@@ -137,7 +138,7 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
   Scenario: TPSS MainTrans (1525) debt invalid interestRequestedTo (Edge Case)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2021-02-01  | 2021-02-01        | 2021-02-30        | 1525      | 1000     | true            |
+      | 500000         | 2021-02-01  | 2021-02-01        | 2021-02-30          | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
@@ -146,7 +147,7 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
   Scenario: Debt invalid mainTrans (Edge Case)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 99999     | 1000     | true            |
+      | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 99999     | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
@@ -155,7 +156,7 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
   Scenario: TPSS debt empty mainTrans (Edge Case)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        |           | 1000     | true            |
+      | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08          |           | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
@@ -164,7 +165,7 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
   Scenario: TPSS MainTrans (1525) debt invalid subTrans (Edge Case)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1525      | invalid  | true            |
+      | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1525      | invalid  | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
@@ -173,7 +174,7 @@ Feature: Debt Calculation For TPSS MainTrans (1525) case (MVP)
   Scenario: TPSS MainTrans (1525) debt empty subTrans (Edge Case)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1525      |          | true            |
+      | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1525      |          | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
