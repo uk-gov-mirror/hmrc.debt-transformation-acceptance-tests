@@ -147,13 +147,22 @@ class InterestForecastingSteps extends BaseStepDef {
 
     val responseBody = Json.parse(response.body).as[DebtCalculation]
 
-    responseBody.combinedDailyAccrual.toString shouldBe asMapTransposed.get("combinedDailyAccrual").toString
-    responseBody.interestDueCallTotal.toString shouldBe asMapTransposed.get("interestDueCallTotal").toString
-    responseBody.unpaidAmountTotal.toString    shouldBe asMapTransposed.get("unpaidAmountTotal").toString
-    responseBody.amountOnIntDueTotal.toString  shouldBe asMapTransposed
-      .get("amountOnIntDueTotal")
-      .toString
-    responseBody.amountIntTotal.toString  shouldBe asMapTransposed.get("amountIntTotal").toString
+    if (asMapTransposed.containsKey("combinedDailyAccrual")) {
+      responseBody.combinedDailyAccrual.toString shouldBe asMapTransposed.get("combinedDailyAccrual").toString
+    }
+    if (asMapTransposed.containsKey("interestDueCallTotal")) {
+      responseBody.interestDueCallTotal.toString shouldBe asMapTransposed.get("interestDueCallTotal").toString
+    }
+
+    if (asMapTransposed.containsKey("unpaidAmountTotal")) {
+      responseBody.unpaidAmountTotal.toString shouldBe asMapTransposed.get("unpaidAmountTotal").toString
+    }
+    if (asMapTransposed.containsKey("amountOnIntDueTotal")) {
+      responseBody.amountOnIntDueTotal.toString shouldBe asMapTransposed.get("amountOnIntDueTotal").toString
+    }
+    if (asMapTransposed.containsKey("amountIntTotal")) {
+      responseBody.amountIntTotal.toString shouldBe asMapTransposed.get("amountIntTotal").toString
+    }
   }
 
   Then("the ([0-9]\\d*)(?:st|nd|rd|th) debt summary will contain") { (index: Int, dataTable: DataTable) =>
@@ -162,17 +171,28 @@ class InterestForecastingSteps extends BaseStepDef {
     response.status should be(200)
 
     val responseBody: DebtItemCalculation = Json.parse(response.body).as[DebtCalculation].debtCalculations(index - 1)
-    responseBody.interestBearing.toString         shouldBe asMapTransposed.get("interestBearing").toString
-    responseBody.numberOfChargeableDays.toString  shouldBe asMapTransposed.get("numberChargeableDays").toString
-    responseBody.interestDueDailyAccrual.toString shouldBe asMapTransposed.get("interestDueDailyAccrual").toString
-    responseBody.interestDueDutyTotal.toString    shouldBe asMapTransposed.get("interestDueDutyTotal").toString
-    responseBody.amountOnIntDueDuty.toString      shouldBe asMapTransposed
-      .get("amountOnIntDueDuty")
-      .toString
-    responseBody.totalAmountIntDuty.toString      shouldBe asMapTransposed.get("totalAmountIntDuty").toString
-    responseBody.unpaidAmountDuty.toString        shouldBe asMapTransposed.get("unpaidAmountDuty").toString
-    responseBody.interestOnlyIndicator.toString    shouldBe asMapTransposed.get("interestOnlyIndicator").toString
 
+    if (asMapTransposed.containsKey("interestBearing")) {
+      responseBody.interestBearing.toString shouldBe asMapTransposed.get("interestBearing").toString
+    }
+    if (asMapTransposed.containsKey("numberChargeableDays")) {
+      responseBody.numberOfChargeableDays.toString shouldBe asMapTransposed.get("numberChargeableDays").toString
+    }
+    if (asMapTransposed.containsKey("interestDueDailyAccrual")) {
+      responseBody.interestDueDailyAccrual.toString shouldBe asMapTransposed.get("interestDueDailyAccrual").toString
+    }
+    if (asMapTransposed.containsKey("interestDueDutyTotal")) {
+      responseBody.interestDueDutyTotal.toString shouldBe asMapTransposed.get("interestDueDutyTotal").toString
+    }
+    if (asMapTransposed.containsKey("amountOnIntDueDuty")) {
+      responseBody.amountOnIntDueDuty.toString shouldBe asMapTransposed.get("amountOnIntDueDuty").toString
+    }
+    if (asMapTransposed.containsKey("totalAmountIntDuty")) {
+      responseBody.totalAmountIntDuty.toString shouldBe asMapTransposed.get("totalAmountIntDuty").toString
+    }
+    if (asMapTransposed.containsKey("unpaidAmountDuty")) {
+      responseBody.unpaidAmountDuty.toString shouldBe asMapTransposed.get("unpaidAmountDuty").toString
+    }
   }
 
   Then("""the ifs service will respond with (.*)""") { (expectedMessage: String) =>
@@ -190,15 +210,30 @@ class InterestForecastingSteps extends BaseStepDef {
         val responseBody =
           Json.parse(response.body).as[DebtCalculation].debtCalculations(summaryIndex - 1).calculationWindows(index)
 
-        responseBody.periodFrom.toString              shouldBe window.get("periodFrom").toString
-        responseBody.periodTo.toString                shouldBe window.get("periodTo").toString
-        responseBody.numberOfDays.toString            shouldBe window.get("numberOfDays").toString
-        responseBody.interestRate.toString            shouldBe window.get("interestRate").toString
-        responseBody.interestDueDailyAccrual.toString shouldBe window.get("interestDueDailyAccrual").toString
-        responseBody.interestDueWindow.toString       shouldBe window.get("interestDueWindow").toString
-        responseBody.unpaidAmountWindow.toString      shouldBe window.get("unpaidAmountWindow").toString
-        responseBody.amountOnIntDueWindow
-          .toString()                                 shouldBe window.get("amountOnIntDueWindow").toString
+        if (window.containsKey("periodFrom")) {
+          responseBody.periodFrom.toString shouldBe window.get("periodFrom").toString
+        }
+        if (window.containsKey("periodTo")) {
+          responseBody.periodTo.toString shouldBe window.get("periodTo").toString
+        }
+        if (window.containsKey("numberOfDays")) {
+          responseBody.numberOfDays.toString shouldBe window.get("numberOfDays").toString
+        }
+        if (window.containsKey("interestRate")) {
+          responseBody.interestRate.toString shouldBe window.get("interestRate").toString
+        }
+        if (window.containsKey("interestDueDailyAccrual")) {
+          responseBody.interestDueDailyAccrual.toString shouldBe window.get("interestDueDailyAccrual").toString
+        }
+        if (window.containsKey("interestDueWindow")) {
+          responseBody.interestDueWindow.toString shouldBe window.get("interestDueWindow").toString
+        }
+        if (window.containsKey("unpaidAmountWindow")) {
+          responseBody.unpaidAmountWindow.toString shouldBe window.get("unpaidAmountWindow").toString
+        }
+        if (window.containsKey("amountOnIntDueWindow")) {
+          responseBody.amountOnIntDueWindow.toString() shouldBe window.get("amountOnIntDueWindow").toString
+        }
       }
   }
 
