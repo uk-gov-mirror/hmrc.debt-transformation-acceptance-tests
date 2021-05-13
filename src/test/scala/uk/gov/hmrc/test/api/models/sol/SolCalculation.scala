@@ -3,19 +3,16 @@
  *
  */
 
-package uk.gov.hmrc.test.api.models
+package uk.gov.hmrc.test.api.models.sol
 
 import play.api.libs.json.{Json, OFormat}
-
-import java.time.LocalDate
 
 case class SolCalculation(
   debtID: String,
   mainTrans: String,
-  description: String,
-  periodEnd: LocalDate,
-  interestDueDutyTotal: Int,
-  interestRequestedTo: LocalDate,
+  debtTypeDescription: String,
+  interestDueDebtTotal: Int,
+  totalAmountIntDebt: Int,
   combinedDailyAccrual: Int,
   duties: Seq[SolDuty]
 )
