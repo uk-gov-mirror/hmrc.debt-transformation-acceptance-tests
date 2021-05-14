@@ -54,4 +54,3 @@ Feature: Breathing Space
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow |
       | 2021-03-01 | 2021-03-06 | 5            | 2.6          | 35                      | 178               |
       | 2021-03-07 | 2021-03-20 | 13            | 0.0          | 0                       | 0                 |
-
