@@ -31,10 +31,11 @@
 #Debt 5 paymentDate 2020-02-23
 Feature: statement of liability Debt details
 
+  @wip
   Scenario: 1. TPSS Account Tax Assessment debt statement of liability, 2 duties, no payment history.
     Given debt details
-      | solType | debtId  | mainTrans | subTrans |
-      | UI      | debt001 | 1525      | 1000     |
+      | solType | debtId  | mainTrans | subTrans | interestRequestedTo |
+      | UI      | debt001 | 1525      | 1000     | 2021-08-10          |
     And add debt item chargeIDs to the debt
       | dutyId   |
       | "duty01" |
@@ -42,16 +43,16 @@ Feature: statement of liability Debt details
     When a debt statement of liability is requested
     Then service returns debt statement of liability data
       | amountIntTotal | combinedDailyAccrual |
-      | 903459         | 0                    |
+      | 907754         | 63                   |
 
     And the 1st sol debt summary will contain
       | debtID  | mainTrans | debtTypeDescription         | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
-      | debt001 | 1525      | TPSS Account Tax Assessment | 3459                 | 903459             | 0                    |
+      | debt001 | 1525      | TPSS Account Tax Assessment | 7754                 | 907754             | 63                   |
 
     And the 1st sol debt summary will contain duties
-      | dutyID | subTrans | dutyTypeDescription | unpaidAmountDuty | combinedDailyAccrual |
-      | duty01 | 1000     | IT                  | 500000           | 0                    |
-      | duty02 | 1000     | IT                  | 400000           | 0                    |
+      | dutyID | subTrans | dutyTypeDescription | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
+      | duty01 | 1000     | IT                  | 500000           | 35                   | true            | true                  |
+      | duty02 | 1000     | IT                  | 400000           | 28                   | false           | false                 |
 
 
   Scenario: 2. Child benefit debt statement of liability, 2 duties, with payment history.
@@ -74,7 +75,7 @@ Feature: statement of liability Debt details
 
     And the 1st sol debt summary will contain duties
       | dutyID | subTrans | dutyTypeDescription    | unpaidAmountDuty | combinedDailyAccrual |
-      | duty01 | 7006     | UI: Child Benefit Debt | 400000           | 0                   |
+      | duty01 | 7006     | UI: Child Benefit Debt | 400000           | 0                    |
       | duty02 | 1000     | IT                     | 200000           | 14                   |
 
   Scenario: 3. CO: Child Benefit Migrated Debt statement of liability, 1 duty, no payment history.

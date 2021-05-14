@@ -12,8 +12,12 @@ case class SolDuty(
   subTrans: String,
   dutyTypeDescription: String,
   unpaidAmountDuty: Int,
-  combinedDailyAccrual: Int
-)
+  combinedDailyAccrual: Int,
+  interestBearing: Boolean,
+  interestOnlyIndicator: Boolean
+
+
+                  )
 
 object SolDuty {
   implicit val format = Json.format[SolDuty]

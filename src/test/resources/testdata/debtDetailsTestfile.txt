@@ -2,6 +2,7 @@
   "solType" : "<REPLACE_solType>",
   "debts" : [{
     "debtID": "<REPLACE_debtID>",
-    "dutyID":[<REPLACE_debtItemChargeIDs>]
+    "dutyID":[<REPLACE_debtItemChargeIDs>],
+    "interestRequestedTo": "REPLACE_interestRequestedTo"
    }]
 }

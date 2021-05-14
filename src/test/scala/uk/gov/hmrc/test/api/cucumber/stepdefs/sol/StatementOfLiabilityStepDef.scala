@@ -61,6 +61,7 @@ class StatementOfLiabilityStepDef extends BaseStepDef {
     val debtDetailsTestfile = getBodyAsString("debtDetailsTestfile")
       .replaceAll("<REPLACE_solType>", asMapTransposed.get("solType"))
       .replaceAll("<REPLACE_debtID>", asMapTransposed.get("debtId"))
+      .replaceAll("REPLACE_interestRequestedTo",asMapTransposed.get("interestRequestedTo"))
       .replaceAll("<REPLACE_mainTrans>", asMapTransposed.get("mainTrans"))
       .replaceAll("<REPLACE_subTrans>", asMapTransposed.get("subTrans"))
 
@@ -84,6 +85,8 @@ class StatementOfLiabilityStepDef extends BaseStepDef {
     val jsonWithDutyChargeId =
       ScenarioContext.get("debtDetails").toString.replaceAll("<REPLACE_debtItemChargeIDs>", dutyChargeIds)
     ScenarioContext.set("debtDetails", jsonWithDutyChargeId)
+    print(" ******************************* "  +jsonWithDutyChargeId)
+
   }
 
   When("""a debt statement of liability is requested""") {
@@ -137,6 +140,8 @@ class StatementOfLiabilityStepDef extends BaseStepDef {
       responseBody.dutyTypeDescription                   shouldBe duty.get("dutyTypeDescription").toString
       responseBody.unpaidAmountDuty.toString     shouldBe duty.get("unpaidAmountDuty").toString
       responseBody.combinedDailyAccrual.toString shouldBe duty.get("combinedDailyAccrual").toString
+      responseBody.interestBearing.toString shouldBe duty.get("interestBearing")
+      responseBody.interestOnlyIndicator.toString shouldBe duty.get("interestOnlyIndicator")
     }
   }
 
