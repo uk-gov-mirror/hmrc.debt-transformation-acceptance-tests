@@ -168,7 +168,6 @@ Feature: Multiple Debt Items - Edge Cases
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow |
       | 2018-12-16 | 2019-04-14 | 119          | 3.25         | 44                      | 505297             |
 
-
   Scenario: 6. 1 debts, 1 payment, payment date before date created
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
@@ -181,17 +180,17 @@ Feature: Multiple Debt Items - Edge Cases
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | amountIntTotal |
-      | 28                   | 404664         |
+      | 28                   | 404759         |
     And the 1st debt summary will contain
       | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
-      | 138                  | 28                      | 404664             |
+      | 141                  | 28                      | 404759             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow |
       | 2019-12-16 | 2019-02-03 | 0            | 0.0          | 0                       | 100000             |
       | 2019-12-16 | 2019-12-31 | 15           | 3.25         | 35                      | 400534             |
-      | 2020-01-01 | 2020-03-29 | 88           | 3.25         | 35                      | 403125             |
-      | 2020-03-30 | 2020-04-06 | 7            | 2.75         | 30                      | 400210             |
-      | 2020-04-07 | 2020-05-05 | 28           | 2.6          | 28                      | 400795             |
+      | 2020-01-01 | 2020-03-29 | 89           | 3.25         | 35                      | 403161             |
+      | 2020-03-30 | 2020-04-06 | 8            | 2.75         | 30                      | 400240             |
+      | 2020-04-07 | 2020-05-05 | 29           | 2.6          | 28                      | 400824             |
 
 
   Scenario: 7. 1 debts, 1 Payment  Amount paid greater than original debt amount
@@ -239,14 +238,14 @@ Feature: Multiple Debt Items - Edge Cases
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | amountIntTotal |
-      | 28                   | 402176         |
+      | 28                   | 402212         |
     And the 1st debt summary will contain
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
-      | true            | 123                  | 28                      | 402176             |
+      | true            | 125                  | 28                      | 402212             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow |
       | 2020-12-22 | 2020-12-31 | 9            | 2.6          | 7                       | 100063             |
-      | 2021-01-01 | 2021-02-23 | 53           | 2.6          | 7                       | 100377             |
+      | 2021-01-01 | 2021-02-23 | 54           | 2.6          | 7                       | 100384             |
       | 2020-12-22 | 2020-12-31 | 9            | 2.6          | 28                      | 400255             |
-      | 2021-01-01 | 2021-02-22 | 52           | 2.6          | 28                      | 401481             |
+      | 2021-01-01 | 2021-02-22 | 53           | 2.6          | 28                      | 401510             |
 
