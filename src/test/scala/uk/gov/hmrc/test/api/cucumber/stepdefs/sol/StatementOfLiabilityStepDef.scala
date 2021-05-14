@@ -71,6 +71,29 @@ class StatementOfLiabilityStepDef extends BaseStepDef {
     ScenarioContext.set("debtDetails", debtDetails)
   }
 
+  Given("""statement of liability multiple debt requests""") { (dataTable: DataTable) =>
+    val asMapTransposed     = dataTable.transpose().asMap(classOf[String], classOf[String])
+    var firstItem           = false
+    var multipleDebtDetails: String = null
+
+    try ScenarioContext.get("debtDetails")
+    catch { case e: Exception => firstItem = true }
+
+    val SolMultipleDebts = getBodyAsString("SolMultipleDebts")
+      .replaceAll("<REPLACE_solType>", asMapTransposed.get("solType"))
+      .replaceAll("REPLACE_solRequestedDate",asMapTransposed.get("solRequestedDate"))
+      .replaceAll("REPLACE_debtID",asMapTransposed.get("debtID"))
+      .replaceAll("REPLACE_ID",asMapTransposed.get("debtID2"))
+      .replaceAll("REPLACE_interestRequestedTo",asMapTransposed.get("interestRequestedTo"))
+      .replaceAll("REPLACE_interestRequestedTo2",asMapTransposed.get("interestRequestedTo"))
+
+
+    if (firstItem == true) { multipleDebtDetails = SolMultipleDebts }
+    else { multipleDebtDetails = ScenarioContext.get("debtDetails").toString.concat(",").concat(SolMultipleDebts) }
+
+    ScenarioContext.set("debtDetails", multipleDebtDetails)
+  }
+
   def getBodyAsString(variant: String): String =
     TestData.loadedFiles(variant)
 
@@ -140,8 +163,8 @@ class StatementOfLiabilityStepDef extends BaseStepDef {
       responseBody.dutyTypeDescription                   shouldBe duty.get("dutyTypeDescription").toString
       responseBody.unpaidAmountDuty.toString     shouldBe duty.get("unpaidAmountDuty").toString
       responseBody.combinedDailyAccrual.toString shouldBe duty.get("combinedDailyAccrual").toString
-      responseBody.interestBearing.toString shouldBe duty.get("interestBearing")
-      responseBody.interestOnlyIndicator.toString shouldBe duty.get("interestOnlyIndicator")
+      responseBody.interestBearing.toString shouldBe duty.get("interestBearing").toString
+     responseBody.interestOnlyIndicator.toString shouldBe duty.get("interestOnlyIndicator").toString
     }
   }
 

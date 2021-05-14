@@ -1,0 +1,16 @@
+{
+  "solType" : "<REPLACE_solType>",
+  "solRequestedDate": "REPLACE_solRequestedDate",
+  "debts" : [ {
+    "debtID" : "REPLACE_debtID",
+    "dutyID" : [<REPLACE_debtItemChargeIDs>],
+    "interestRequestedTo": "REPLACE_interestRequestedTo"
+  },
+  {
+    "debtID" : "REPLACE_ID",
+    "dutyID" : [<REPLACE_debtItemChargeIDs>],
+    "interestRequestedTo": "REPLACE_interestRequestedTo"
+
+  }
+  ]
+}
