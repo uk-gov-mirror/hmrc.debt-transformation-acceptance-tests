@@ -27,9 +27,6 @@ Feature: statement of liability Debt details
     Given debt details
       | solType | debtId  | mainTrans | subTrans | interestRequestedTo |solRequestedDate|
       | UI      | debt001 | 1525      | 1000     | 2021-08-10          |2021-05-13      |
-    Given 2 debt details
-      | solType | debtId  | mainTrans | subTrans | interestRequestedTo |
-      | UI      | debt002 | 1525      | 1000     | 2021-08-10          |
 
     And add debt item chargeIDs to the debt
       | dutyId   |
@@ -38,11 +35,11 @@ Feature: statement of liability Debt details
     When a debt statement of liability is requested
     Then service returns debt statement of liability data
       | amountIntTotal | combinedDailyAccrual |
-      | 907754         | 63                   |
+      | 907917         | 63                   |
 
     And the 1st sol debt summary will contain
       | debtID  | mainTrans | debtTypeDescription         | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
-      | debt001 | 1525      | TPSS Account Tax Assessment | 7754                 | 907754             | 63                   |
+      | debt001 | 1525      | TPSS Account Tax Assessment | 7917                | 907917            | 63                   |
 
     And the 1st sol debt summary will contain duties
       | dutyID | subTrans | dutyTypeDescription | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |

@@ -15,9 +15,7 @@ case class SolDuty(
   combinedDailyAccrual: Int,
   interestBearing: Boolean,
   interestOnlyIndicator: Boolean
-
-
-                  )
+)
 
 object SolDuty {
   implicit val format = Json.format[SolDuty]
