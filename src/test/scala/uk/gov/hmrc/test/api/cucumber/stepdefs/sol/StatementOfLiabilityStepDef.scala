@@ -167,24 +167,6 @@ class StatementOfLiabilityStepDef extends BaseStepDef {
     }
   }
 
-  Then("the ([0-9]\\d*)(?:st|nd|rd|th) multiple statement of liability debt summary will contains debts") {
-    (index: Int, dataTable: DataTable) =>
-      //  val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[java.util.List[String]])
-      val asMapTransposed = List(dataTable.asList().get(1))
-
-      val response: StandaloneWSResponse = ScenarioContext.get("response")
-      response.status should be(200)
-
-      val debt: SolCalculation = Json.parse(response.body).as[SolCalculationSummaryResponse].debts(index - 1)
-      debt.debtID shouldBe asMapTransposed.head.toString
-      //debt.debtID                        shouldBe asMapTransposed.get("debtID").toString
-//    debt.mainTrans                     shouldBe asMapTransposed.get("mainTrans").toString
-//    debt.debtTypeDescription           shouldBe asMapTransposed.get("debtTypeDescription").toString
-//    debt.interestDueDebtTotal.toString shouldBe asMapTransposed.get("interestDueDebtTotal").toString
-//    debt.totalAmountIntDebt.toString shouldBe asMapTransposed.get("totalAmountIntDebt").toString
-//    debt.combinedDailyAccrual.toString shouldBe asMapTransposed.get("combinedDailyAccrualDebt").toString
-  }
-
   Then("the ([0-9]\\d*)(?:st|nd|rd|th) multiple statement of liability debt summary will contain duties") {
     (debtIndex: Int, dataTable: DataTable) =>
       val asMapTransposed                = dataTable.asMaps(classOf[String], classOf[String])
