@@ -168,6 +168,78 @@ class StatementOfLiabilityStepDef extends BaseStepDef {
     }
   }
 
+
+
+  Then("the ([0-9]\\d*)(?:st|nd|rd|th) multiple statement of liability debt summary will contains debts") { (index: Int, dataTable: DataTable) =>
+  //  val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[java.util.List[String]])
+    val asMapTransposed                = List(dataTable.asList().get(1))
+
+
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+    response.status should be(200)
+
+    val debt: SolCalculation = Json.parse(response.body).as[SolCalculationSummaryResponse].debts(index-1)
+    debt.debtID                        shouldBe asMapTransposed.head.toString
+    //debt.debtID                        shouldBe asMapTransposed.get("debtID").toString
+//    debt.mainTrans                     shouldBe asMapTransposed.get("mainTrans").toString
+//    debt.debtTypeDescription           shouldBe asMapTransposed.get("debtTypeDescription").toString
+//    debt.interestDueDebtTotal.toString shouldBe asMapTransposed.get("interestDueDebtTotal").toString
+//    debt.totalAmountIntDebt.toString shouldBe asMapTransposed.get("totalAmountIntDebt").toString
+//    debt.combinedDailyAccrual.toString shouldBe asMapTransposed.get("combinedDailyAccrualDebt").toString
+  }
+
+
+  Then ("the ([0-9]\\d*)(?:st|nd|rd|th) multiple statement of liability debt summary will contain duties") { (debtIndex: Int, dataTable: DataTable) =>
+    val asMapTransposed                = dataTable.asMaps(classOf[String], classOf[String])
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+
+    asMapTransposed.zipWithIndex.foreach { case (duty, index) =>
+      val responseBody = Json.parse(response.body).as[SolCalculationSummaryResponse].debts(0)
+      responseBody.debtID             shouldBe duty.get("debtID").toString
+      responseBody.mainTrans                      shouldBe duty.get("mainTrans").toString
+      responseBody.debtTypeDescription                   shouldBe duty.get("debtTypeDescription").toString
+      responseBody.interestDueDebtTotal.toString     shouldBe duty.get("interestDueDebtTotal").toString
+      responseBody.totalAmountIntDebt.toString shouldBe duty.get("totalAmountIntDebt").toString
+      responseBody.combinedDailyAccrual.toString shouldBe duty.get("combinedDailyAccrualDebt").toString
+      responseBody.duties.head.dutyID shouldBe duty.get("dutyID").toString
+      responseBody.duties.head.subTrans shouldBe duty.get("subTrans").toString
+      responseBody.duties.head.unpaidAmountDuty.toString shouldBe duty.get("unpaidAmountDuty").toString
+      responseBody.duties.head.combinedDailyAccrual.toString shouldBe duty.get("combinedDailyAccrual").toString
+      responseBody.duties.head.interestBearing.toString shouldBe duty.get("interestBearing").toString
+      responseBody.duties.head.interestOnlyIndicator.toString shouldBe duty.get("interestOnlyIndicator").toString
+
+
+      print(" new array duty id **********  " +    responseBody)
+
+    }}
+
+  Then ("""the statement of liability debt summary response""") { ( dataTable: DataTable) =>
+    val asMapTransposed                = dataTable.asMaps(classOf[String], classOf[String])
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+
+    asMapTransposed.zipWithIndex.foreach { case (debt, index) =>
+      val responseBody = Json.parse(response.body).as[SolCalculationSummaryResponse].debts(1)
+      responseBody.debtID             shouldBe debt.get("debtID").toString
+      responseBody.mainTrans                      shouldBe debt.get("mainTrans").toString
+      responseBody.debtTypeDescription                   shouldBe debt.get("debtTypeDescription").toString
+      responseBody.interestDueDebtTotal.toString     shouldBe debt.get("interestDueDebtTotal").toString
+      responseBody.totalAmountIntDebt.toString shouldBe debt.get("totalAmountIntDebt").toString
+      responseBody.combinedDailyAccrual.toString shouldBe debt.get("combinedDailyAccrualDebt").toString
+      responseBody.duties.head.dutyID shouldBe debt.get("dutyID").toString
+      responseBody.duties.head.subTrans shouldBe debt.get("subTrans").toString
+      responseBody.duties.head.unpaidAmountDuty.toString shouldBe debt.get("unpaidAmountDuty").toString
+      responseBody.duties.head.combinedDailyAccrual.toString shouldBe debt.get("combinedDailyAccrual").toString
+      responseBody.duties.head.interestBearing.toString shouldBe debt.get("interestBearing").toString
+      responseBody.duties.head.interestOnlyIndicator.toString shouldBe debt.get("interestOnlyIndicator").toString
+
+
+      print(" new array duty id **********  " +    responseBody)
+
+    }}
+
+
+
+
   Then("""the sol service will respond with (.*)""") { (expectedMessage: String) =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.body should include(expectedMessage)
