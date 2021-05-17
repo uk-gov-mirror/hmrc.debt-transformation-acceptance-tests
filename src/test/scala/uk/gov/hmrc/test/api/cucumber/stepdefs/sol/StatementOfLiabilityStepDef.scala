@@ -61,6 +61,7 @@ class StatementOfLiabilityStepDef extends BaseStepDef {
     val debtDetailsTestfile = getBodyAsString("debtDetailsTestfile")
       .replaceAll("<REPLACE_solType>", asMapTransposed.get("solType"))
       .replaceAll("<REPLACE_debtID>", asMapTransposed.get("debtId"))
+      .replaceAll("REPLACE_interestRequestedTo", asMapTransposed.get("interestRequestedTo"))
       .replaceAll("<REPLACE_mainTrans>", asMapTransposed.get("mainTrans"))
       .replaceAll("<REPLACE_subTrans>", asMapTransposed.get("subTrans"))
 
@@ -68,6 +69,28 @@ class StatementOfLiabilityStepDef extends BaseStepDef {
     else { debtDetails = ScenarioContext.get("debtDetails").toString.concat(",").concat(debtDetailsTestfile) }
 
     ScenarioContext.set("debtDetails", debtDetails)
+  }
+
+  Given("""statement of liability multiple debt requests""") { (dataTable: DataTable) =>
+    val asMapTransposed             = dataTable.transpose().asMap(classOf[String], classOf[String])
+    var firstItem                   = false
+    var multipleDebtDetails: String = null
+
+    try ScenarioContext.get("debtDetails")
+    catch { case e: Exception => firstItem = true }
+
+    val SolMultipleDebts = getBodyAsString("SolMultipleDebts")
+      .replaceAll("<REPLACE_solType>", asMapTransposed.get("solType"))
+      .replaceAll("REPLACE_solRequestedDate", asMapTransposed.get("solRequestedDate"))
+      .replaceAll("REPLACE_debtID", asMapTransposed.get("debtID"))
+      .replaceAll("REPLACE_ID", asMapTransposed.get("debtID2"))
+      .replaceAll("REPLACE_interestRequestedTo", asMapTransposed.get("interestRequestedTo"))
+      .replaceAll("REPLACE_interestRequestedTo2", asMapTransposed.get("interestRequestedTo"))
+
+    if (firstItem == true) { multipleDebtDetails = SolMultipleDebts }
+    else { multipleDebtDetails = ScenarioContext.get("debtDetails").toString.concat(",").concat(SolMultipleDebts) }
+
+    ScenarioContext.set("debtDetails", multipleDebtDetails)
   }
 
   def getBodyAsString(variant: String): String =
@@ -84,6 +107,8 @@ class StatementOfLiabilityStepDef extends BaseStepDef {
     val jsonWithDutyChargeId =
       ScenarioContext.get("debtDetails").toString.replaceAll("<REPLACE_debtItemChargeIDs>", dutyChargeIds)
     ScenarioContext.set("debtDetails", jsonWithDutyChargeId)
+    print(" ******************************* " + jsonWithDutyChargeId)
+
   }
 
   When("""a debt statement of liability is requested""") {
@@ -102,7 +127,7 @@ class StatementOfLiabilityStepDef extends BaseStepDef {
 
     val responseBody = Json.parse(response.body).as[SolCalculationSummaryResponse]
 
-    responseBody.amountIntTotal.toString   shouldBe asMapTransposed.get("amountIntTotal").toString
+    responseBody.amountIntTotal.toString       shouldBe asMapTransposed.get("amountIntTotal").toString
     responseBody.combinedDailyAccrual.toString shouldBe asMapTransposed.get("combinedDailyAccrual").toString
 
   }
@@ -117,7 +142,7 @@ class StatementOfLiabilityStepDef extends BaseStepDef {
     debt.mainTrans                     shouldBe asMapTransposed.get("mainTrans").toString
     debt.debtTypeDescription           shouldBe asMapTransposed.get("debtTypeDescription").toString
     debt.interestDueDebtTotal.toString shouldBe asMapTransposed.get("interestDueDebtTotal").toString
-    debt.totalAmountIntDebt.toString shouldBe asMapTransposed.get("totalAmountIntDebt").toString
+    debt.totalAmountIntDebt.toString   shouldBe asMapTransposed.get("totalAmountIntDebt").toString
     debt.combinedDailyAccrual.toString shouldBe asMapTransposed.get("combinedDailyAccrual").toString
   }
 
@@ -132,11 +157,62 @@ class StatementOfLiabilityStepDef extends BaseStepDef {
         .debts(debtIndex - 1)
         .duties(index)
 
-      responseBody.dutyID              shouldBe duty.get("dutyID").toString
-      responseBody.subTrans                      shouldBe duty.get("subTrans").toString
-      responseBody.dutyTypeDescription                   shouldBe duty.get("dutyTypeDescription").toString
-      responseBody.unpaidAmountDuty.toString     shouldBe duty.get("unpaidAmountDuty").toString
-      responseBody.combinedDailyAccrual.toString shouldBe duty.get("combinedDailyAccrual").toString
+      responseBody.dutyID                         shouldBe duty.get("dutyID").toString
+      responseBody.subTrans                       shouldBe duty.get("subTrans").toString
+      responseBody.dutyTypeDescription            shouldBe duty.get("dutyTypeDescription").toString
+      responseBody.unpaidAmountDuty.toString      shouldBe duty.get("unpaidAmountDuty").toString
+      responseBody.combinedDailyAccrual.toString  shouldBe duty.get("combinedDailyAccrual").toString
+      responseBody.interestBearing.toString       shouldBe duty.get("interestBearing").toString
+      responseBody.interestOnlyIndicator.toString shouldBe duty.get("interestOnlyIndicator").toString
+    }
+  }
+
+  Then("the ([0-9]\\d*)(?:st|nd|rd|th) multiple statement of liability debt summary will contain duties") {
+    (debtIndex: Int, dataTable: DataTable) =>
+      val asMapTransposed                = dataTable.asMaps(classOf[String], classOf[String])
+      val response: StandaloneWSResponse = ScenarioContext.get("response")
+
+      asMapTransposed.zipWithIndex.foreach { case (duty, index) =>
+        val responseBody = Json.parse(response.body).as[SolCalculationSummaryResponse].debts(0)
+        responseBody.debtID                                     shouldBe duty.get("debtID").toString
+        responseBody.mainTrans                                  shouldBe duty.get("mainTrans").toString
+        responseBody.debtTypeDescription                        shouldBe duty.get("debtTypeDescription").toString
+        responseBody.interestDueDebtTotal.toString              shouldBe duty.get("interestDueDebtTotal").toString
+        responseBody.totalAmountIntDebt.toString                shouldBe duty.get("totalAmountIntDebt").toString
+        responseBody.combinedDailyAccrual.toString              shouldBe duty.get("combinedDailyAccrualDebt").toString
+        responseBody.duties.head.dutyID                         shouldBe duty.get("dutyID").toString
+        responseBody.duties.head.subTrans                       shouldBe duty.get("subTrans").toString
+        responseBody.duties.head.unpaidAmountDuty.toString      shouldBe duty.get("unpaidAmountDuty").toString
+        responseBody.duties.head.combinedDailyAccrual.toString  shouldBe duty.get("combinedDailyAccrual").toString
+        responseBody.duties.head.interestBearing.toString       shouldBe duty.get("interestBearing").toString
+        responseBody.duties.head.interestOnlyIndicator.toString shouldBe duty.get("interestOnlyIndicator").toString
+
+        print(" new array duty id **********  " + responseBody)
+
+      }
+  }
+
+  Then("""the statement of liability debt summary response""") { (dataTable: DataTable) =>
+    val asMapTransposed                = dataTable.asMaps(classOf[String], classOf[String])
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+
+    asMapTransposed.zipWithIndex.foreach { case (debt, index) =>
+      val responseBody = Json.parse(response.body).as[SolCalculationSummaryResponse].debts(1)
+      responseBody.debtID                                     shouldBe debt.get("debtID").toString
+      responseBody.mainTrans                                  shouldBe debt.get("mainTrans").toString
+      responseBody.debtTypeDescription                        shouldBe debt.get("debtTypeDescription").toString
+      responseBody.interestDueDebtTotal.toString              shouldBe debt.get("interestDueDebtTotal").toString
+      responseBody.totalAmountIntDebt.toString                shouldBe debt.get("totalAmountIntDebt").toString
+      responseBody.combinedDailyAccrual.toString              shouldBe debt.get("combinedDailyAccrualDebt").toString
+      responseBody.duties.head.dutyID                         shouldBe debt.get("dutyID").toString
+      responseBody.duties.head.subTrans                       shouldBe debt.get("subTrans").toString
+      responseBody.duties.head.unpaidAmountDuty.toString      shouldBe debt.get("unpaidAmountDuty").toString
+      responseBody.duties.head.combinedDailyAccrual.toString  shouldBe debt.get("combinedDailyAccrual").toString
+      responseBody.duties.head.interestBearing.toString       shouldBe debt.get("interestBearing").toString
+      responseBody.duties.head.interestOnlyIndicator.toString shouldBe debt.get("interestOnlyIndicator").toString
+
+      print(" new array duty id **********  " + responseBody)
+
     }
   }
 
