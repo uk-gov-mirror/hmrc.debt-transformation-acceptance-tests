@@ -1,5 +1,6 @@
 {
   "solType" : "<REPLACE_solType>",
+  "customerUniqueRef": "customer-1",
   "debts" : [{
     "debtID": "<REPLACE_debtID>",
     "dutyID":[<REPLACE_debtItemChargeIDs>],
