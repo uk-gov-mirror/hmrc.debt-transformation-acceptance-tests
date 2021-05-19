@@ -2,8 +2,8 @@
   "solType" : "<REPLACE_solType>",
   "customerUniqueRef": "customer-1",
   "debts" : [{
-    "debtID": "<REPLACE_debtID>",
-    "dutyID":[<REPLACE_debtItemChargeIDs>],
+    "debtId": "<REPLACE_debtID>",
+    "dutyIds":[<REPLACE_debtItemChargeIDs>],
     "interestRequestedTo": "REPLACE_interestRequestedTo"
    }]
 }
