@@ -17,6 +17,7 @@
 #* suppressionDateFrom = 04/04/2021
 #* suppressionDateTo = 04/05/2021
 
+@wip
 Feature: Supression
 
   Scenario: Suppression applied to sub trans
