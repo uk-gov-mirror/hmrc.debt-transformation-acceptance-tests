@@ -17,8 +17,13 @@
 #* suppressionDateFrom = 04/04/2021
 #* suppressionDateTo = 04/05/2021
 
-@wip
-Feature: Supression
+#Supression scenario edge cases to add
+#Scenario: Suppression, interest rate change before suppression
+#Scenario: Suppression, interest rate change after suppression
+#Scenario: Suppression, 2 interest rate changes during suppression
+#Scenario: Suppression, payment before suppression
+#Scenario: Suppression, payment after suppression
+Feature: Suppression
 
   Scenario: Suppression applied to sub trans
     Given a debt item
@@ -38,9 +43,6 @@ Feature: Supression
       | 2021-02-01 | 2021-04-03 | 61           | 2.6          | 35                      | 2172              | 500000               | 502172             |
       | 2021-04-04 | 2021-05-04 | 31           | 0.0          | 0                       | 0                 | 500000               | 500000             |
       | 2021-05-05 | 2021-07-06 | 63           | 2.6          | 35                      | 2243              | 500000               | 502243             |
-
-#TODO Need to agree interest rate change and suppression dates.
-# Scenario: Suppression, interest rate change during suppression
 
   Scenario: Suppression, 2 payments on same day during suppression
     Given a debt item
@@ -66,7 +68,7 @@ Feature: Supression
       | 2021-04-04 | 2021-05-04 | 31           | 0.0          | 0                       | 350000             |
       | 2021-05-05 | 2021-07-06 | 63           | 2.6          | 24                      | 351570             |
 
- Scenario: Suppression, 2 duties, 2 payments on same day for one of the duties
+  Scenario: Suppression, 2 duties, 2 payments on same day for one of the duties
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 400000         | 2020-01-01  | 2021-02-01        | 2021-04-03          | 1535      | 1000     |
@@ -110,26 +112,43 @@ Feature: Supression
       | numberChargeableDays | unpaidAmountDuty |
       | 174                  | 500000           |
 
-  Scenario: Suppression, 1 duty, 2 overlapping suppressions
+  Scenario: Suppression, interest rate change during suppression
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2020-01-01  | 2021-02-01        | 2021-04-03          | 1535      | 1000     |
-    And the debt item has payment history
-      | paymentAmount | paymentDate |
-      | 100000        | 2021-04-20  |
+      | 500000         | 2020-01-01  | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
+    And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
     Then the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | amountOnIntDueWindow |
-      | 2021-02-01 | 2021-04-03 | 61           | 2.6          | 500000               |
+      | 2021-02-01 | 2021-04-03 | 61           | 2.75         | 500000               |
       | 2021-04-04 | 2021-05-04 | 31           | 0.0          | 500000               |
-      | 2021-05-05 | 2021-05-20 | 16           | 0.0          | 500000               |
-      | 2021-05-21 | 2021-07-06 | 47           | 2.6          | 500000               |
+      | 2021-05-05 | 2021-07-06 | 63           | 2.6          | 500000               |
+    And the ifs service wilL return a total debts summary of
+      | combinedDailyAccrual | unpaidAmountTotal |
+      | 35                   | 500000            |
+    And the 1st debt summary will contain
+      | numberChargeableDays |
+      | 124                  |
+
+  Scenario: Suppression, 1 duty, 2 overlapping suppressions
+    Given a debt item
+      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2020-01-01  | 2020-02-01        | 2020-04-03          | 1535      | 1000     |
+    And the debt item has payment history
+      | paymentAmount | paymentDate |
+      | 100000        | 2020-04-20  |
+    And no breathing spaces have been applied to the customer
+    When the debt item is sent to the ifs service
+    Then the 1st debt summary will have calculation windows
+      | periodFrom | periodTo   | numberOfDays | interestRate | amountOnIntDueWindow |
+      | 2020-02-01 | 2020-04-03 | 61           | 2.6          | 500000               |
+      | 2020-04-04 | 2020-05-04 | 31           | 0.0          | 500000               |
+      | 2020-05-05 | 2020-05-20 | 16           | 0.0          | 500000               |
+      | 2020-05-21 | 2020-07-06 | 47           | 2.6          | 500000               |
     And the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | unpaidAmountTotal |
       | 35                   | 500000            |
     And the 1st debt summary will contain
       | numberChargeableDays |
       | 155                  |
-
-
