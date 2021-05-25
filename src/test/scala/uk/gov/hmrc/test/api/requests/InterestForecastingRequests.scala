@@ -16,15 +16,17 @@
 
 package uk.gov.hmrc.test.api.requests
 
+import cucumber.api.scala.{EN, ScalaDsl}
 import io.cucumber.datatable.DataTable
+import org.scalatest.Matchers
+import org.scalatest.concurrent.Eventually
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import play.twirl.api.TwirlHelperImports.twirlJavaCollectionToScala
 import uk.gov.hmrc.test.api.client.WsClient
-import uk.gov.hmrc.test.api.cucumber.stepdefs.BaseStepDef
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 
-object InterestForecastingRequests extends BaseStepDef with BaseRequests {
+object InterestForecastingRequests extends ScalaDsl with EN with Eventually with Matchers with BaseRequests {
 
   def getDebtCalculation(json: String): StandaloneWSResponse = {
     val bearerToken = createBearerToken(enrolments = Seq("read:interest-forecasting"))

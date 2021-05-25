@@ -16,17 +16,19 @@
 
 package uk.gov.hmrc.test.api.cucumber.stepdefs.ifs
 
+import cucumber.api.scala.{EN, ScalaDsl}
 import io.cucumber.datatable.DataTable
+import org.scalatest.Matchers
+import org.scalatest.concurrent.Eventually
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import play.twirl.api.TwirlHelperImports.twirlJavaCollectionToScala
-import uk.gov.hmrc.test.api.cucumber.stepdefs.BaseStepDef
 import uk.gov.hmrc.test.api.models.{DebtCalculation, DebtItemCalculation}
-import uk.gov.hmrc.test.api.requests.RequestSolDetails.getBodyAsString
 import uk.gov.hmrc.test.api.requests.InterestForecastingRequests._
+import uk.gov.hmrc.test.api.requests.RequestSolDetails.getBodyAsString
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 
-class InterestForecastingSteps extends BaseStepDef {
+class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Matchers {
 
   Given("a debt item") { (dataTable: DataTable) =>
     createInterestFocastingRequestBody(dataTable)
