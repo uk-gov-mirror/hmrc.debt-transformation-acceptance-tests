@@ -22,37 +22,15 @@ import play.api.libs.ws.StandaloneWSResponse
 import play.twirl.api.TwirlHelperImports.twirlJavaCollectionToScala
 import uk.gov.hmrc.test.api.cucumber.stepdefs.BaseStepDef
 import uk.gov.hmrc.test.api.models.{DebtCalculation, DebtItemCalculation}
-import uk.gov.hmrc.test.api.requests.InterestForecastingRequests
-import uk.gov.hmrc.test.api.requests.InterestForecastingRequests.getBodyAsString
+import uk.gov.hmrc.test.api.requests.RequestSolDetails.getBodyAsString
+import uk.gov.hmrc.test.api.requests.InterestForecastingRequests._
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 
 class InterestForecastingSteps extends BaseStepDef {
 
   Given("a debt item") { (dataTable: DataTable) =>
-    val asMapTransposed   = dataTable.transpose().asMap(classOf[String], classOf[String])
-    var firstItem         = false
-    var debtItems: String = null
+    createInterestFocastingRequestBody(dataTable)
 
-    try ScenarioContext.get("debtItems")
-    catch { case e: Exception => firstItem = true }
-
-    val debtItem = getBodyAsString("debtItem")
-      .replaceAll("<REPLACE_debtID>", "123")
-      .replaceAll("<REPLACE_originalAmount>", asMapTransposed.get("originalAmount"))
-      .replaceAll("<REPLACE_subTrans>", asMapTransposed.get("subTrans"))
-      .replaceAll("<REPLACE_mainTrans>", asMapTransposed.get("mainTrans"))
-      .replaceAll("<REPLACE_dateCreated>", asMapTransposed.get("dateCreated"))
-      .replaceAll("<REPLACE_interestStartDate>", asMapTransposed.get("interestStartDate"))
-      .replaceAll("<REPLACE_interestRequestedTo>", asMapTransposed.get("interestRequestedTo"))
-
-    if (firstItem == true) { debtItems = debtItem }
-    else { debtItems = ScenarioContext.get("debtItems").toString.concat(",").concat(debtItem) }
-
-    ScenarioContext.set(
-      "debtItems",
-      debtItems
-    )
-    print("requst json ::::::::::::::::::::::::::::::::::::" + debtItems)
   }
 
   Given("(.*) debt items") { (numberItems: Int) =>
@@ -106,39 +84,19 @@ class InterestForecastingSteps extends BaseStepDef {
   }
 
   Given("the debt item has payment history") { (dataTable: DataTable) =>
-    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
-    var payments        = ""
-
-    asMapTransposed.zipWithIndex.foreach { case (payment, index) =>
-      payments = payments.concat(
-        getBodyAsString("payment")
-          .replaceAll("<REPLACE_paymentAmount>", payment.get("paymentAmount"))
-          .replaceAll("<REPLACE_paymentDate>", payment.get("paymentDate"))
-      )
-
-      if (index + 1 < asMapTransposed.size) payments = payments.concat(",")
-    }
-
-    val jsonWithPayments = ScenarioContext.get("debtItems").toString.replaceAll("<REPLACE_payments>", payments)
-    ScenarioContext.set("debtItems", jsonWithPayments)
+    addPaymentHistory(dataTable)
   }
 
   Given("the debt item has no payment history") { () =>
-    ScenarioContext.set(
-      "debtItems",
-      ScenarioContext.get("debtItems").toString.replaceAll("<REPLACE_payments>", "")
-    )
+    customerWithNoPaymentHistory()
   }
 
   When("the debt item(s) is sent to the ifs service") { () =>
-    val request = ScenarioContext.get("debtItems").toString
+    val request  = ScenarioContext.get("debtItems").toString
     println(s"REQ --> $request")
-
-    val response =
-      InterestForecastingRequests.getDebtCalculation(request)
+    val response = getDebtCalculation(request)
     println(s"RESP --> ${response.body}")
     ScenarioContext.set("response", response)
-
   }
 
   Then("the ifs service wilL return a total debts summary of") { (dataTable: DataTable) =>
@@ -238,51 +196,10 @@ class InterestForecastingSteps extends BaseStepDef {
   }
 
   Given("the customer has breathing spaces applied") { (dataTable: DataTable) =>
-    // Set scenario Context to be all debt items with payments.
-    ScenarioContext.set(
-      "debtItems",
-      getBodyAsString("debtCalcRequest")
-        .replaceAllLiterally("<REPLACE_debtItems>", ScenarioContext.get("debtItems"))
-    )
-
-    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
-    var breathingSpaces = ""
-
-    asMapTransposed.zipWithIndex.foreach { case (breathingSpace, index) =>
-      if (breathingSpace.get("debtRespiteTo").toString.contains("-")) {
-        breathingSpaces = breathingSpaces.concat(
-          getBodyAsString("breathingSpace")
-            .replaceAll("<REPLACE_debtRespiteFrom>", breathingSpace.get("debtRespiteFrom"))
-            .replaceAll("<REPLACE_debtRespiteTo>", breathingSpace.get("debtRespiteTo"))
-        )
-      } else {
-        breathingSpaces = breathingSpaces.concat(
-          getBodyAsString("breathingSpace")
-            .replaceAll("<REPLACE_debtRespiteFrom>", breathingSpace.get("debtRespiteFrom"))
-            .replaceAll(",\"debtRespiteTo\" :\"<REPLACE_debtRespiteTo>\"", "")
-        )
-      }
-
-      if (index + 1 < asMapTransposed.size) breathingSpaces = breathingSpaces.concat(",")
-
-    }
-
-    val jsonWithbreathingSpaces =
-      ScenarioContext.get("debtItems").toString.replaceAll("<REPLACE_breathingSpaces>", breathingSpaces)
-    ScenarioContext.set("debtItems", jsonWithbreathingSpaces)
+    addBreathingSpace(dataTable)
   }
 
   Given("no breathing spaces have been applied to the customer") { () =>
-    // Set scenario Context to be all debt items with payments.
-    ScenarioContext.set(
-      "debtItems",
-      getBodyAsString("debtCalcRequest")
-        .replaceAllLiterally("<REPLACE_debtItems>", ScenarioContext.get("debtItems"))
-    )
-
-    ScenarioContext.set(
-      "debtItems",
-      ScenarioContext.get("debtItems").toString.replaceAll("<REPLACE_breathingSpaces>", "")
-    )
+    noBreathingSpace()
   }
 }

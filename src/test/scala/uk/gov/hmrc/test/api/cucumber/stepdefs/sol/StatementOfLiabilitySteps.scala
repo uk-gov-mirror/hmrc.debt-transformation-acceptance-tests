@@ -25,7 +25,7 @@ import uk.gov.hmrc.test.api.models.sol.{HelloWorld, SolCalculation, SolCalculati
 import uk.gov.hmrc.test.api.requests.{HelloWorldRequests, RequestSolDetails, TestData}
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 
-class StatementOfLiabilityStepDef extends BaseStepDef {
+class StatementOfLiabilitySteps extends BaseStepDef {
 
   When("a request is made to get response from sol hello world endpoint") { () =>
     val response =
