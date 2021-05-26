@@ -13,7 +13,6 @@
 # Payments being made or interest rate change while breathing space is applied
 
 Feature: Breathing Space
-
   Scenario: Breathing Space applied to 1 debt
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
