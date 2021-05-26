@@ -24,7 +24,7 @@ import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import play.twirl.api.TwirlHelperImports.twirlJavaCollectionToScala
 import uk.gov.hmrc.test.api.client.WsClient
-import uk.gov.hmrc.test.api.utils.ScenarioContext
+import uk.gov.hmrc.test.api.utils.{BaseRequests, ScenarioContext, TestData}
 
 object InterestForecastingRequests extends ScalaDsl with EN with Eventually with Matchers with BaseRequests {
 
@@ -38,6 +38,30 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
     )
     print("url ************************" + baseUri)
     WsClient.post(baseUri, headers = headers, Json.parse(json))
+  }
+
+  def postSuppressionData(json: String): StandaloneWSResponse = {
+    val bearerToken = createBearerToken(enrolments = Seq("read:suppression-data"))
+    val baseUri     = s"$interestForecostingApiUrl/suppression-data"
+    val headers     = Map(
+      "Authorization" -> s"Bearer $bearerToken",
+      "Content-Type"  -> "application/json",
+      "Accept"        -> "application/vnd.hmrc.1.0+json"
+    )
+    print("url ************************" + baseUri)
+    WsClient.post(baseUri, headers = headers, Json.parse(json))
+  }
+
+  def deleteSuppressionData(): StandaloneWSResponse = {
+    val bearerToken = createBearerToken(enrolments = Seq("read:suppression-data"))
+    val baseUri     = s"$interestForecostingApiUrl/suppression-data"
+    val headers     = Map(
+      "Authorization" -> s"Bearer $bearerToken",
+      "Content-Type"  -> "application/json",
+      "Accept"        -> "application/vnd.hmrc.1.0+json"
+    )
+    print("url ************************" + baseUri)
+    WsClient.delete(baseUri, headers = headers)
   }
 
   def getBodyAsString(variant: String): String =

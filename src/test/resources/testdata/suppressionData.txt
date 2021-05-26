@@ -1,0 +1,8 @@
+     {
+          "code": "<REPLACE_code>",
+          "reason": <REPLACE_reason>,
+          "isActive": "<REPLACE_isActive>",
+          "dateFrom": "<REPLACE_dateFrom>",
+          "dateTo": "<REPLACE_dateTo>",
+     }
+

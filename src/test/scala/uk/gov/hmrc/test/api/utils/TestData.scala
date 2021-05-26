@@ -1,9 +1,9 @@
-package uk.gov.hmrc.test.api.requests
+package uk.gov.hmrc.test.api.utils
 
 import com.typesafe.scalalogging.LazyLogging
-import org.apache.commons.io.FileUtils
-import scala.collection.JavaConverters._
 import java.io.File
+import org.apache.commons.io.FileUtils
+import scala.collection.JavaConverters.collectionAsScalaIterableConverter
 import scala.io.Source
 
 object TestData extends LazyLogging {

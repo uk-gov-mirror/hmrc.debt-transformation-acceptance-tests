@@ -24,8 +24,8 @@ import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import play.twirl.api.TwirlHelperImports.twirlJavaCollectionToScala
 import uk.gov.hmrc.test.api.models.{DebtCalculation, DebtItemCalculation}
-import uk.gov.hmrc.test.api.requests.InterestForecastingRequests._
-import uk.gov.hmrc.test.api.requests.RequestSolDetails.getBodyAsString
+import uk.gov.hmrc.test.api.requests.InterestForecastingRequests
+import uk.gov.hmrc.test.api.requests.InterestForecastingRequests.{getBodyAsString, _}
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 
 class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Matchers {
@@ -203,5 +203,18 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
 
   Given("no breathing spaces have been applied to the customer") { () =>
     noBreathingSpace()
+  }
+
+  Given("suppression data has been created") { (dataTable: DataTable) =>
+    val asMapTransposed = dataTable.transpose().asMap(classOf[String], classOf[String])
+    val request         = getBodyAsString("suppressionData")
+      .replaceAll("<REPLACE_code>", "1")
+      .replaceAll("<REPLACE_reason>", asMapTransposed.get("reason"))
+      .replaceAll("<REPLACE_isActive>", asMapTransposed.get("isActive"))
+      .replaceAll("<REPLACE_fromDate>", asMapTransposed.get("fromDate"))
+      .replaceAll("<REPLACE_toDate>", asMapTransposed.get("dateDate"))
+
+    val response = InterestForecastingRequests.postSuppressionData(request)
+    response.status should be(200)
   }
 }

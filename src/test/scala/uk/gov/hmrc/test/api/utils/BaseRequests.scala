@@ -1,8 +1,7 @@
-package uk.gov.hmrc.test.api.requests
+package uk.gov.hmrc.test.api.utils
 
 import play.api.libs.json.Json
 import uk.gov.hmrc.test.api.client.WsClient
-import uk.gov.hmrc.test.api.utils.{BaseUris, RandomValues}
 
 trait BaseRequests extends RandomValues with BaseUris {
 
