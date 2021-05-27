@@ -42,7 +42,7 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
 
   def postSuppressionData(json: String): StandaloneWSResponse = {
     val bearerToken = createBearerToken(enrolments = Seq("read:suppression-data"))
-    val baseUri     = s"$interestForecostingApiUrl/suppression-data"
+    val baseUri     = s"$interestForecostingApiUrl/suppressions/1/suppression"
     val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
       "Content-Type"  -> "application/json",
@@ -54,7 +54,7 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
 
   def deleteSuppressionData(): StandaloneWSResponse = {
     val bearerToken = createBearerToken(enrolments = Seq("read:suppression-data"))
-    val baseUri     = s"$interestForecostingApiUrl/suppression-data"
+    val baseUri     = s"$interestForecostingApiUrl/suppressions"
     val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
       "Content-Type"  -> "application/json",
@@ -90,7 +90,7 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
       "debtItems",
       debtItems
     )
-    print("requst json ::::::::::::::::::::::::::::::::::::" + debtItems)
+    print("request json ::::::::::::::::::::::::::::::::::::" + debtItems)
   }
 
   def addPaymentHistory(dataTable: DataTable): Unit = {
@@ -162,4 +162,24 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
     )
   }
 
+  def addSuppressions(dataTable: DataTable): Unit = {
+    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
+    var suppressions    = ""
+
+    asMapTransposed.zipWithIndex.foreach { case (suppression, index) =>
+      suppressions = suppressions.concat(
+        getBodyAsString("suppression")
+          .replaceAll("<REPLACE_code>", "1")
+          .replaceAll("<REPLACE_reason>", suppression.get("reason").toString)
+          .replaceAll("<REPLACE_enabled>", suppression.get("enabled"))
+          .replaceAll("<REPLACE_fromDate>", suppression.get("fromDate").toString)
+          .replaceAll("<REPLACE_toDate>", suppression.get("toDate").toString)
+      )
+
+      if (index + 1 < asMapTransposed.size) suppressions = suppressions.concat(",")
+    }
+    val request  = getBodyAsString("suppressions").replaceAll("<REPLACE_suppressions>", suppressions)
+    val response = InterestForecastingRequests.postSuppressionData(request)
+    response.status should be(202)
+  }
 }

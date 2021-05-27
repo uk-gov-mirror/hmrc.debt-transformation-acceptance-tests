@@ -206,15 +206,6 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
   }
 
   Given("suppression data has been created") { (dataTable: DataTable) =>
-    val asMapTransposed = dataTable.transpose().asMap(classOf[String], classOf[String])
-    val request         = getBodyAsString("suppressionData")
-      .replaceAll("<REPLACE_code>", "1")
-      .replaceAll("<REPLACE_reason>", asMapTransposed.get("reason"))
-      .replaceAll("<REPLACE_isActive>", asMapTransposed.get("isActive"))
-      .replaceAll("<REPLACE_fromDate>", asMapTransposed.get("fromDate"))
-      .replaceAll("<REPLACE_toDate>", asMapTransposed.get("dateDate"))
-
-    val response = InterestForecastingRequests.postSuppressionData(request)
-    response.status should be(200)
+    addSuppressions(dataTable)
   }
 }

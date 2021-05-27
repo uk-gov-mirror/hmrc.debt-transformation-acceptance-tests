@@ -25,12 +25,14 @@
 #Scenario: Suppression, payment after suppression
 #Scenario: Suppression, breathing space with suppression
 
+@wip
 Feature: Suppression
 
   Scenario: Suppression applied to sub trans
     Given suppression data has been created
-      | reason      | isActive | fromDate   | toDate     |
-      | LEGISLATIVE | true     | 2021-04-04 | 2021-05-04 |
+      | reason      | enabled | fromDate   | toDate     |
+      | LEGISLATIVE | true    | 2021-04-04 | 2021-05-04 |
+      | code-2      | false   | 2021-04-04 | 2021-05-04 |
     And a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2020-01-01  | 2021-02-01        | 2021-02-06          | 1535      | 1000     |
