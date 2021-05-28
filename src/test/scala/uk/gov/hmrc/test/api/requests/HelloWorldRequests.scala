@@ -17,15 +17,6 @@ object HelloWorldRequests extends BaseRequests with BaseUris {
     WsClient.get(baseUri, headers = headers)
   }
 
-  def getTimeToPayProxy(endpoint: String): StandaloneWSResponse = {
-    val baseUri     = s"$statementOfLiabilityApiUrl$endpoint"
-    val headers     = Map(
-      "Content-Type"  -> "application/json",
-      "Accept"        -> "application/vnd.hmrc.1.0+json"
-    )
-    WsClient.get(baseUri, headers = headers)
-  }
-
   def getInterestForecastingService(endpoint: String): StandaloneWSResponse = {
     val bearerToken = createBearerToken(enrolments = Seq("read:interest-forecasting"))
     val baseUri     = s"$interestForecostingApiUrl$endpoint"
@@ -36,4 +27,14 @@ object HelloWorldRequests extends BaseRequests with BaseUris {
     )
     WsClient.get(baseUri, headers = headers)
   }
+
+  def getTimeToPayProxy(endpoint: String): StandaloneWSResponse = {
+    val baseUri     = s"$statementOfLiabilityApiUrl$endpoint"
+    val headers     = Map(
+      "Content-Type"  -> "application/json",
+      "Accept"        -> "application/vnd.hmrc.1.0+json"
+    )
+    WsClient.get(baseUri, headers = headers)
+  }
+
 }
