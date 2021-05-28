@@ -13,9 +13,19 @@ class IfsRuleHook extends ScalaDsl with LazyLogging {
 
     val deleteResponse = InterestForecastingRequests.deleteSuppressionData()
     deleteResponse.status should be(200)
+
+//    TODO uncomment when dtd-352 has been implemented
+//    val deleteRuleResponse = InterestForecastingRequests.deleteSuppressionRules()
+//    deleteRuleResponse.status should be(200)
   }
 
   After() { scenario =>
+    val deleteResponse = InterestForecastingRequests.deleteSuppressionData()
+    deleteResponse.status should be(200)
+
+    val deleteRuleResponse = InterestForecastingRequests.deleteSuppressionRules()
+    deleteRuleResponse.status should be(200)
+
     if (scenario.isFailed) {
       println("")
       logger.info(s"*********** rules in database after running ${scenario.getName} ***********")

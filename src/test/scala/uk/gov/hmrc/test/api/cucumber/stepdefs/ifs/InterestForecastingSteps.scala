@@ -24,7 +24,6 @@ import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import play.twirl.api.TwirlHelperImports.twirlJavaCollectionToScala
 import uk.gov.hmrc.test.api.models.{DebtCalculation, DebtItemCalculation}
-import uk.gov.hmrc.test.api.requests.InterestForecastingRequests
 import uk.gov.hmrc.test.api.requests.InterestForecastingRequests.{getBodyAsString, _}
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 
@@ -207,5 +206,10 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
 
   Given("suppression data has been created") { (dataTable: DataTable) =>
     addSuppressions(dataTable)
+  }
+
+  Given("suppression rules have been created") { (dataTable: DataTable) =>
+//    TODO below is currently not working. Uncomment when dtd-352 has been implemented
+//    addSuppressionRules(dataTable)
   }
 }

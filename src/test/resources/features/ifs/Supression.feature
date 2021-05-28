@@ -1,23 +1,13 @@
 #*Assumptions*
-#* originalAmount = 500,000
-#* dateCreated = 01/01/2020
+
 #* mainTrans = 1535
 #* subTrans = 1000
-#* interestStartDate = 01/02/2021
-#
 #* interestBearing = True
-#* interestRate = 2.6%
-#* No changes to interest rates
-#
-#* Interest requested to 6/7/2021
-#* No repayments
-#* No breathing space is applied
-#* mainTrans, subTrans, addressPostcode and period end are mandatory fields
 #* Suppression is on mainTrans 1535 and subTrans 1000
-#* suppressionDateFrom = 04/04/2021
-#* suppressionDateTo = 04/05/2021
 
-#Supression scenario edge cases to add
+#BELOW Suppression scenario edge cases can be added as part of DTD-299?
+
+#Suppression added to postcode
 #Scenario: Suppression, interest rate change before suppression
 #Scenario: Suppression, interest rate change after suppression
 #Scenario: Suppression, 2 interest rate changes during suppression
@@ -25,17 +15,21 @@
 #Scenario: Suppression, payment after suppression
 #Scenario: Suppression, breathing space with suppression
 
-@wip
+#BELOW SCENARIOS cover ac in DTD-157 and DTD-299
+
+#TODO include step shown in first scenario 'And suppression rules have been created' to all scenarios when DTD-352 is implemented
 Feature: Suppression
 
   Scenario: Suppression applied to sub trans
     Given suppression data has been created
-      | reason      | enabled | fromDate   | toDate     |
-      | LEGISLATIVE | true    | 2021-04-04 | 2021-05-04 |
-      | code-2      | false   | 2021-04-04 | 2021-05-04 |
+      | reason | enabled | fromDate   | toDate     |
+      | POLICY | false   | 2021-04-04 | 2021-05-04 |
+    And suppression rules have been created
+      | ruleId | postCode | suppressionIds |
+      | 1      | TW3 4QQ  | 1              |
     And a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2020-01-01  | 2021-02-01        | 2021-02-06          | 1535      | 1000     |
+      | 500000         | 2020-01-01  | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     When the debt item is sent to the ifs service
@@ -127,8 +121,8 @@ Feature: Suppression
 
   Scenario: Suppression, interest rate change during suppression
     Given suppression data has been created
-      | reason      | isActive | fromDate   | toDate     |
-      | LEGISLATIVE | true     | 2020-04-04 | 2020-05-04 |
+      | reason | isActive | fromDate   | toDate     |
+      | POLICY | true     | 2020-04-04 | 2020-05-04 |
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2020-01-01  | 2020-04-01        | 2020-07-06          | 1535      | 1000     |

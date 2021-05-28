@@ -64,8 +64,35 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
     WsClient.delete(baseUri, headers = headers)
   }
 
+  def postSuppressionRules(json: String): StandaloneWSResponse = {
+    val bearerToken = createBearerToken(enrolments = Seq("read:suppression-rule"))
+    val baseUri     = s"$interestForecostingApiUrl/suppression-rules/1/suppression-rule"
+    val headers     = Map(
+      "Authorization" -> s"Bearer $bearerToken",
+      "Content-Type"  -> "application/json",
+      "Accept"        -> "application/vnd.hmrc.1.0+json"
+    )
+    print("url ************************" + baseUri)
+    WsClient.post(baseUri, headers = headers, Json.parse(json))
+  }
+
+  def deleteSuppressionRules(): StandaloneWSResponse = {
+    val bearerToken = createBearerToken(enrolments = Seq("read:suppression-rule"))
+    val baseUri     = s"$interestForecostingApiUrl/suppression-rules"
+    val headers     = Map(
+      "Authorization" -> s"Bearer $bearerToken",
+      "Content-Type"  -> "application/json",
+      "Accept"        -> "application/vnd.hmrc.1.0+json"
+    )
+    print("url ************************" + baseUri)
+    WsClient.delete(baseUri, headers = headers)
+  }
+
   def getBodyAsString(variant: String): String =
     TestData.loadedFiles(variant)
+
+  def getSuppressionBodyAsString(variant: String): String =
+    TestData.loadedSuppressionFiles(variant)
 
   def createInterestFocastingRequestBody(dataTable: DataTable): Unit = {
     val asmapTransposed   = dataTable.transpose().asMap(classOf[String], classOf[String])
@@ -168,7 +195,7 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
 
     asMapTransposed.zipWithIndex.foreach { case (suppression, index) =>
       suppressions = suppressions.concat(
-        getBodyAsString("suppression")
+        getSuppressionBodyAsString("suppressionData")
           .replaceAll("<REPLACE_code>", "1")
           .replaceAll("<REPLACE_reason>", suppression.get("reason").toString)
           .replaceAll("<REPLACE_enabled>", suppression.get("enabled"))
@@ -178,8 +205,29 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
 
       if (index + 1 < asMapTransposed.size) suppressions = suppressions.concat(",")
     }
-    val request  = getBodyAsString("suppressions").replaceAll("<REPLACE_suppressions>", suppressions)
+    val request  = getSuppressionBodyAsString("suppressionsData").replaceAll("<REPLACE_suppressions>", suppressions)
     val response = InterestForecastingRequests.postSuppressionData(request)
-    response.status should be(202)
+    response.status should be(200)
+  }
+
+  def addSuppressionRules(dataTable: DataTable): Unit = {
+    //  TODO MAY REQUIRE SOME TWEAKING when DTD-352 has been implemented
+    val asMapTransposed  = dataTable.asMaps(classOf[String], classOf[String])
+    var suppressionRules = ""
+
+    asMapTransposed.zipWithIndex.foreach { case (rule, index) =>
+      suppressionRules = suppressionRules.concat(
+        getSuppressionBodyAsString("suppressionRule")
+          .replaceAll("<REPLACE_ruleId>", rule.get("ruleId").toString)
+          .replaceAll("<REPLACE_postCode>", rule.get("postCode").toString)
+          .replaceAll("<REPLACE_suppressionIds>", rule.get("suppressionIds"))
+      )
+
+      if (index + 1 < asMapTransposed.size) suppressionRules = suppressionRules.concat(",")
+    }
+    val request  =
+      getSuppressionBodyAsString("suppressionRules").replaceAll("<REPLACE_suppressionRules>", suppressionRules)
+    val response = InterestForecastingRequests.postSuppressionData(request)
+    response.status should be(200)
   }
 }
