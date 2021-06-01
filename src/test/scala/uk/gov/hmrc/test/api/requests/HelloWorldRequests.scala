@@ -6,5 +6,9 @@ import uk.gov.hmrc.test.api.utils.{BaseRequests, BaseUris}
 
 object HelloWorldRequests extends BaseRequests with BaseUris {
 
+  def getTimeToPayProxy(endpoint: String): StandaloneWSResponse = {
+    val baseUri     = s"$timeToPayProxyApiUrl$endpoint"
+    WsClient.get(baseUri, headers = Map())
+  }
 
 }
