@@ -27,4 +27,10 @@ object HelloWorldRequests extends BaseRequests with BaseUris {
     )
     WsClient.get(baseUri, headers = headers)
   }
+
+  def getTimeToPayProxy(endpoint: String): StandaloneWSResponse = {
+    val baseUri     = s"$timeToPayProxyApiUrl$endpoint"
+    WsClient.get(baseUri, headers = Map())
+  }
+
 }
