@@ -21,6 +21,7 @@ Feature: Breathing Space
     And the customer has breathing spaces applied
       | debtRespiteFrom | debtRespiteTo |
       | 2021-03-07      | 2021-03-10    |
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
@@ -42,6 +43,7 @@ Feature: Breathing Space
     And the customer has breathing spaces applied
       | debtRespiteFrom | debtRespiteTo |
       | 2021-03-07      |               |
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | amountIntTotal |

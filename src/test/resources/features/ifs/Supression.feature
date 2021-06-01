@@ -17,21 +17,24 @@
 
 #BELOW SCENARIOS cover ac in DTD-157 and DTD-299
 
-#TODO include step shown in first scenario 'And suppression rules have been created' to all scenarios when DTD-352 is implemented
 Feature: Suppression
 
   Scenario: Suppression applied to sub trans
     Given suppression data has been created
       | reason | enabled | fromDate   | toDate     |
-      | POLICY | false   | 2021-04-04 | 2021-05-04 |
+      | POLICY | true    | 2021-04-04 | 2021-05-04 |
     And suppression rules have been created
       | ruleId | postCode | suppressionIds |
-      | 1      | TW3 4QQ  | 1              |
+      | 1      | TW3      | 1              |
     And a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2020-01-01  | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
+    And the customer has post codes
+      | postCode | postCodeDate |
+      | TW3 4QQ  | 2019-07-06   |
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
@@ -47,8 +50,8 @@ Feature: Suppression
 
   Scenario: Suppression, 2 payments on same day during suppression
     Given suppression data has been created
-      | reason      | isActive | fromDate   | toDate     |
-      | LEGISLATIVE | true     | 2021-04-04 | 2021-05-04 |
+      | reason      | enabled | fromDate   | toDate     |
+      | LEGISLATIVE | true    | 2021-04-04 | 2021-05-04 |
     And a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2020-01-01  | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
@@ -57,6 +60,9 @@ Feature: Suppression
       | 100000        | 2021-04-20  |
       | 50000         | 2021-04-20  |
     And no breathing spaces have been applied to the customer
+    And the customer has post codes
+      | postCode | postCodeDate |
+      | TW3 4QQ  | 2019-07-06   |
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | amountIntTotal |
@@ -74,8 +80,8 @@ Feature: Suppression
 
   Scenario: Suppression, 2 duties, 2 payments on same day for one of the duties
     Given suppression data has been created
-      | reason      | isActive | fromDate   | toDate     |
-      | LEGISLATIVE | true     | 2021-04-04 | 2021-05-04 |
+      | reason      | enabled | fromDate   | toDate     |
+      | LEGISLATIVE | true    | 2021-04-04 | 2021-05-04 |
     And a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 400000         | 2020-01-01  | 2021-02-01        | 2021-04-03          | 1535      | 1000     |
@@ -84,6 +90,10 @@ Feature: Suppression
       | 100000        | 2021-02-20  |
       | 50000         | 2021-02-20  |
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
+    And the customer has post codes
+      | postCode | postCodeDate |
+      | TW3 4QQ  | 2019-07-06   |
     When the debt item is sent to the ifs service
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
@@ -93,6 +103,7 @@ Feature: Suppression
       | 100000        | 2021-02-20  |
       | 50000         | 2021-02-20  |
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | amountOnIntDueWindow | suppressionApplied | suppressionReasonDesc |
@@ -121,13 +132,17 @@ Feature: Suppression
 
   Scenario: Suppression, interest rate change during suppression
     Given suppression data has been created
-      | reason | isActive | fromDate   | toDate     |
-      | POLICY | true     | 2020-04-04 | 2020-05-04 |
+      | reason | enabled | fromDate   | toDate     |
+      | POLICY | true    | 2020-04-04 | 2020-05-04 |
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2020-01-01  | 2020-04-01        | 2020-07-06          | 1535      | 1000     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
+    And the customer has post codes
+      | postCode | postCodeDate |
+      | TW3 4QQ  | 2019-07-06   |
     When the debt item is sent to the ifs service
     Then the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | amountOnIntDueWindow | suppressionApplied | suppressionReasonDesc |
@@ -143,11 +158,11 @@ Feature: Suppression
 
   Scenario: Suppression, 1 duty, 2 overlapping suppressions
     Given suppression data has been created
-      | reason      | isActive | fromDate   | toDate     |
-      | LEGISLATIVE | true     | 2021-04-04 | 2021-05-04 |
+      | reason      | enabled | fromDate   | toDate     |
+      | LEGISLATIVE | true    | 2021-04-04 | 2021-05-04 |
     And suppression data has been created
-      | reason      | isActive | fromDate   | toDate     |
-      | LEGISLATIVE | true     | 2021-04-04 | 2021-05-20 |
+      | reason      | enabled | fromDate   | toDate     |
+      | LEGISLATIVE | true    | 2021-04-04 | 2021-05-20 |
     And a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2021-01-01  | 2021-02-01        | 2021-04-03          | 1535      | 1000     |
@@ -155,6 +170,10 @@ Feature: Suppression
       | paymentAmount | paymentDate |
       | 100000        | 2021-04-20  |
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
+    And the customer has post codes
+      | postCode | postCodeDate |
+      | TW3 4QQ  | 2019-07-06   |
     When the debt item is sent to the ifs service
     Then the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | amountOnIntDueWindow | suppressionApplied | suppressionReasonDesc |
@@ -171,11 +190,11 @@ Feature: Suppression
 
   Scenario: Suppression, open ended suppression
     Given suppression data has been created
-      | reason      | isActive | fromDate   | toDate     |
-      | LEGISLATIVE | true     | 2021-04-04 | 2021-05-04 |
+      | reason      | enabled | fromDate   | toDate     |
+      | LEGISLATIVE | true    | 2021-04-04 | 2021-05-04 |
     And suppression data has been created
-      | reason      | isActive | fromDate   | toDate     |
-      | LEGISLATIVE | true     | 2021-04-04 | 2021-05-20 |
+      | reason      | enabled | fromDate   | toDate     |
+      | LEGISLATIVE | true    | 2021-04-04 | 2021-05-20 |
     And a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2021-01-01  | 2021-02-01        | 2021-04-03          | 1535      | 1000     |
@@ -183,6 +202,10 @@ Feature: Suppression
       | paymentAmount | paymentDate |
       | 100000        | 2021-04-20  |
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
+    And the customer has post codes
+      | postCode | postCodeDate |
+      | TW3 4QQ  | 2019-07-06   |
     When the debt item is sent to the ifs service
     Then the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | amountOnIntDueWindow | suppressionApplied | suppressionReasonDesc |

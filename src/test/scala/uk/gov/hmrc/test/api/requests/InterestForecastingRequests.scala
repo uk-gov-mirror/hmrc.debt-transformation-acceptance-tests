@@ -189,6 +189,33 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
     )
   }
 
+  def addCustomerPostCodes(dataTable: DataTable): Unit = {
+    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
+    var customerPostCodes = ""
+
+    asMapTransposed.zipWithIndex.foreach { case (postCode, index) =>
+        customerPostCodes = customerPostCodes.concat(
+          getBodyAsString("customerPostCodes")
+                  .replaceAll("<REPLACE_postCode>", postCode.get("postCode"))
+                  .replaceAll("<REPLACE_postCodeDate>", postCode.get("postCodeDate")))
+
+
+      if (index + 1 < asMapTransposed.size) customerPostCodes = customerPostCodes.concat(",")
+
+    }
+
+    val jsonWithCustomerPostCodes =
+      ScenarioContext.get("debtItems").toString.replaceAll("<REPLACE_customerPostCodes>", customerPostCodes)
+    ScenarioContext.set("debtItems", jsonWithCustomerPostCodes)
+  }
+
+  def noCustomerPostCodes() {
+    ScenarioContext.set(
+      "debtItems",
+      ScenarioContext.get("debtItems").toString.replaceAll("<REPLACE_customerPostCodes>", "")
+    )
+  }
+
   def addSuppressions(dataTable: DataTable): Unit = {
     val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
     var suppressions    = ""
@@ -227,7 +254,7 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
     }
     val request  =
       getSuppressionBodyAsString("suppressionRules").replaceAll("<REPLACE_suppressionRules>", suppressionRules)
-    val response = InterestForecastingRequests.postSuppressionData(request)
+    val response = InterestForecastingRequests.postSuppressionRules(request)
     response.status should be(200)
   }
 }

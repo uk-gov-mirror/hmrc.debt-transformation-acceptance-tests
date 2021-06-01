@@ -1,6 +1,5 @@
 
 {
- 	"referenceId": "1",
  	"suppressionRules": [
  			<REPLACE_suppressionRules>
  	]

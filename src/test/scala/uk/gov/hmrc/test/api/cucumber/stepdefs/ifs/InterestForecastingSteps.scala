@@ -204,12 +204,19 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     noBreathingSpace()
   }
 
+  Given("the customer has post codes") { (dataTable: DataTable) =>
+    addCustomerPostCodes(dataTable)
+  }
+
+  Given("no post codes have been provided for the customer") { () =>
+    noCustomerPostCodes()
+  }
+
   Given("suppression data has been created") { (dataTable: DataTable) =>
     addSuppressions(dataTable)
   }
 
   Given("suppression rules have been created") { (dataTable: DataTable) =>
-//    TODO below is currently not working. Uncomment when dtd-352 has been implemented
-//    addSuppressionRules(dataTable)
+    addSuppressionRules(dataTable)
   }
 }
