@@ -193,6 +193,12 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
         if (window.containsKey("amountOnIntDueWindow")) {
           responseBody.amountOnIntDueWindow.toString() shouldBe window.get("amountOnIntDueWindow").toString
         }
+        if (window.containsKey("reason") && (window.get("reason") != "")) {
+          responseBody.suppressionApplied.head.reason shouldBe window.get("reason").toString
+        }
+        if (window.containsKey("code") && (window.get("code") != "")) {
+          responseBody.suppressionApplied.head.code shouldBe window.get("code").toString
+        }
       }
   }
 
