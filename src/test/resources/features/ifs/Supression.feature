@@ -155,8 +155,8 @@ Feature: Suppression
       | numberChargeableDays |
       | 65                   |
 
-  @wip @bug
-  Scenario: Suppression, 1 duty, 2 overlapping suppressions
+  @wip @DTD-366
+  Scenario: Suppression, 1 duty, 2 overlapping suppressions that start on same day
     Given suppression data has been created
       | reason      | enabled | fromDate   | toDate     |
       | LEGISLATIVE | true    | 2021-04-04 | 2021-05-04 |

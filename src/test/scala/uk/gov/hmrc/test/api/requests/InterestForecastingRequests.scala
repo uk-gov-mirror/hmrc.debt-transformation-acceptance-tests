@@ -233,12 +233,12 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
       if (index + 1 < asMapTransposed.size) suppressions = suppressions.concat(",")
     }
     val request  = getSuppressionBodyAsString("suppressionsData").replaceAll("<REPLACE_suppressions>", suppressions)
+    println(s"SUPPRESSION DATA REQUEST --> ${request}")
     val response = InterestForecastingRequests.postSuppressionData(request)
     response.status should be(200)
   }
 
   def addSuppressionRules(dataTable: DataTable): Unit = {
-    //  TODO MAY REQUIRE SOME TWEAKING when DTD-352 has been implemented
     val asMapTransposed  = dataTable.asMaps(classOf[String], classOf[String])
     var suppressionRules = ""
 
@@ -254,6 +254,7 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
     }
     val request  =
       getSuppressionBodyAsString("suppressionRules").replaceAll("<REPLACE_suppressionRules>", suppressionRules)
+    println(s"SUPPRESSION RULES REQUEST --> ${request}")
     val response = InterestForecastingRequests.postSuppressionRules(request)
     response.status should be(200)
   }
