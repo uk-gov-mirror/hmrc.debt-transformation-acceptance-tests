@@ -1,0 +1,6 @@
+
+{
+ 	"suppressionRules": [
+ 			<REPLACE_suppressionRules>
+ 	]
+}

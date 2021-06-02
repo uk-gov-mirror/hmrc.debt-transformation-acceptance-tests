@@ -21,6 +21,7 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
@@ -32,12 +33,13 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2021-03-01 | 2021-03-08 | 7            | 2.6          | 35                      | 249               | 500000               | 500249             |
 
-    Scenario: Non Interest Bearing TPSS MainTrans 1525 debt
+  Scenario: Non Interest Bearing TPSS MainTrans 1525 debt
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1520      | 1090     | false           |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
@@ -56,6 +58,7 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
 #      | 0              | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
 #    And the debt item has no payment history
 #    And no breathing spaces have been applied to the customer
+#    And no post codes have been provided for the customer
 #    When the debt item is sent to the ifs service
 #    Then the 1st debt summary will contain
 #      | interestBearing | interestDueDailyAccrual | interestDueDutyTotal | intRate | unpaidAmountDuty | totalAmountIntDuty | numberOfDays | amountOnIntDueDuty | interestOnlyIndicator |
@@ -68,6 +71,7 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | -1             | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with Could not parse body due to requirement failed: Original Amount can be zero or greater, negative values are not accepted
 
@@ -77,6 +81,7 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | \"\"           | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /originalAmount' missing or invalid
 
@@ -86,6 +91,7 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | 1.2            | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /originalAmount' missing or invalid
 
@@ -95,6 +101,7 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | 500000         | d           | 2021-03-01        | 2021-03-08          | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /dateCreated' missing or invalid
 
@@ -104,6 +111,7 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | 500000         |             | 2021-03-01        | 2021-03-08          | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /dateCreated' missing or invalid
 
@@ -113,6 +121,7 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | 500000         | 2021-02-30  | 2021-03-01        | 2021-03-08          | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /dateCreated' missing or invalid
 
@@ -122,6 +131,7 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | 500000         | 2021-03-08  | 2021-03-08        | d                   | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /interestRequestedTo' missing or invalid
 
@@ -131,6 +141,7 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | 500000         | 2021-03-08  | 2021-03-08        |                     | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /interestRequestedTo' missing or invalid
 
@@ -140,6 +151,7 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | 500000         | 2021-02-01  | 2021-02-01        | 2021-02-30          | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /interestRequestedTo' missing or invalid
 
@@ -149,6 +161,7 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 99999     | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /mainTrans' missing or invalid
 
@@ -158,6 +171,7 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08          |           | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /mainTrans' missing or invalid
 
@@ -167,6 +181,7 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1525      | invalid  | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /subTrans' missing or invalid
 
@@ -176,14 +191,16 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1525      |          | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with /subTrans' missing or invalid
 
   Scenario: TPSS interestStartDate debt before 2001 jan 01 - Edge Case
-        Given a debt item
-          | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-          | 500000             | 2000-03-01  | 2000-12-01        | 2001-03-08          | 1525      | 1000     | true            |
-        And the debt item has no payment history
-        And no breathing spaces have been applied to the customer
-        When the debt item is sent to the ifs service
-        Then the ifs service will respond with Invalid Interest Start Date. IFS does not store or calculate historic interest rates
+    Given a debt item
+      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2000-03-01  | 2000-12-01        | 2001-03-08          | 1525      | 1000     | true            |
+    And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service will respond with Invalid Interest Start Date. IFS does not store or calculate historic interest rates

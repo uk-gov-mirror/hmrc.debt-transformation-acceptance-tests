@@ -23,7 +23,6 @@
 
 Feature: statement of liability multiple debts
 
-
   Scenario: 1. TPSS Account Tax Assessment debt statement of liability, 2 duties, no payment history.
     Given statement of liability multiple debt requests
       | solType | solRequestedDate | debtID  | debtID2 | interestRequestedTo | interestRequestedTo2 |

@@ -5,6 +5,10 @@
 
   "breathingSpaces": [
     <REPLACE_breathingSpaces>
+  ],
+
+  "customerPostCodes": [
+  <REPLACE_customerPostCodes>
   ]
 
 }

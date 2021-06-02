@@ -21,6 +21,7 @@ Feature: Multiple Debt Items
       | paymentAmount | paymentDate |
       | 100000        | 2019-02-03  |
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
@@ -41,6 +42,7 @@ Feature: Multiple Debt Items
       | paymentAmount | paymentDate |
       | 100000        | 2019-02-03  |
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal |
@@ -62,6 +64,7 @@ Feature: Multiple Debt Items
       | 100000        | 2019-02-23  |
       | 100000        | 2019-03-05  |
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt items is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal |
@@ -87,6 +90,7 @@ Feature: Multiple Debt Items
       | 500000         | 2018-12-16  | 2018-12-16        | 2019-04-14          | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | amountIntTotal |

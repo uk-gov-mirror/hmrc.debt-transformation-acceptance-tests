@@ -1,4 +1,3 @@
-
 Feature: Leap years
 
   Scenario: Debt ending in a leap year
@@ -7,13 +6,14 @@ Feature: Leap years
       | 500000         | 2018-01-01  | 2018-01-01        | 2020-04-01          | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
       | 37                   | 35727                | 500000            | 535727         | 500000              |
     And the 1st debt summary will contain
-      | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |interestOnlyIndicator|
-      | true            | 821                  | 37                      | 35727                | 500000           | 535727            | 500000             |false                |
+      | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty | interestOnlyIndicator |
+      | true            | 821                  | 37                      | 35727                | 500000           | 535727             | 500000             | false                 |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2018-01-01 | 2018-08-20 | 231          | 3.0          | 41                      | 9493              | 500000               | 509493             |
@@ -28,6 +28,7 @@ Feature: Leap years
       | 500000         | 2020-05-02  | 2020-05-02        | 2021-05-01          | 1525      | 1000     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal |
@@ -46,6 +47,7 @@ Feature: Leap years
       | 500000         | 2018-01-01  | 2018-01-01        | 2021-04-01          | 1525      | 1000     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal |
@@ -70,6 +72,7 @@ Feature: Leap years
       | paymentAmount | paymentDate |
       | 100000        | 2020-05-03  |
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
@@ -94,6 +97,7 @@ Feature: Leap years
       | 500000         | 2011-01-01  | 2011-01-01        | 2017-02-22          | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal |

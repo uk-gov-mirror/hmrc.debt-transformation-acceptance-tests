@@ -16,6 +16,7 @@ Feature: Interest Rate Changes
       | 500000         | 2017-12-01  | 2017-12-01        | 2019-03-31          | 1525      | 1000     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
@@ -37,6 +38,7 @@ Feature: Interest Rate Changes
       | 100000        | 2020-02-01  |
       | 100000        | 2020-02-01  |
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
@@ -58,6 +60,7 @@ Feature: Interest Rate Changes
       | 500000         | 2017-12-01  | 2017-12-01        | 2019-03-31          | 1525      | 1000     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal |
@@ -81,6 +84,7 @@ Feature: Interest Rate Changes
       | paymentAmount | paymentDate |
       | 100000        | 2018-03-15  |
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal |
@@ -103,6 +107,7 @@ Feature: Interest Rate Changes
       | 100000        | 2018-09-01  |
       | 100000        | 2018-09-01  |
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal |
@@ -130,6 +135,7 @@ Feature: Interest Rate Changes
       | 100000        | 2019-01-20  |
       | 100000        | 2019-03-10  |
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | amountIntTotal | amountOnIntDueTotal |
@@ -164,6 +170,7 @@ Feature: Interest Rate Changes
       | 500000         | 2020-01-01  | 2020-04-10        | 2020-03-31          | 1525      | 1000     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | amountIntTotal |

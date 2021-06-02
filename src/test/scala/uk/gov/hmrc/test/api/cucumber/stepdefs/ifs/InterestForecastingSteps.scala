@@ -24,8 +24,7 @@ import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import play.twirl.api.TwirlHelperImports.twirlJavaCollectionToScala
 import uk.gov.hmrc.test.api.models.{DebtCalculation, DebtItemCalculation}
-import uk.gov.hmrc.test.api.requests.InterestForecastingRequests._
-import uk.gov.hmrc.test.api.requests.RequestSolDetails.getBodyAsString
+import uk.gov.hmrc.test.api.requests.InterestForecastingRequests.{getBodyAsString, _}
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 
 class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Matchers {
@@ -194,6 +193,12 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
         if (window.containsKey("amountOnIntDueWindow")) {
           responseBody.amountOnIntDueWindow.toString() shouldBe window.get("amountOnIntDueWindow").toString
         }
+        if (window.containsKey("reason") && (window.get("reason") != "")) {
+          responseBody.suppressionApplied.head.reason shouldBe window.get("reason").toString
+        }
+        if (window.containsKey("code") && (window.get("code") != "")) {
+          responseBody.suppressionApplied.head.code shouldBe window.get("code").toString
+        }
       }
   }
 
@@ -203,5 +208,21 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
 
   Given("no breathing spaces have been applied to the customer") { () =>
     noBreathingSpace()
+  }
+
+  Given("the customer has post codes") { (dataTable: DataTable) =>
+    addCustomerPostCodes(dataTable)
+  }
+
+  Given("no post codes have been provided for the customer") { () =>
+    noCustomerPostCodes()
+  }
+
+  Given("suppression data has been created") { (dataTable: DataTable) =>
+    addSuppressions(dataTable)
+  }
+
+  Given("suppression rules have been created") { (dataTable: DataTable) =>
+    addSuppressionRules(dataTable)
   }
 }

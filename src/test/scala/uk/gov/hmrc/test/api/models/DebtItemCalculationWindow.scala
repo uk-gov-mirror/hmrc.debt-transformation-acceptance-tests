@@ -6,7 +6,6 @@
 package uk.gov.hmrc.test.api.models
 
 import play.api.libs.json.{Json, OFormat}
-
 import java.time.LocalDate
 
 case class DebtItemCalculationWindow(
@@ -17,9 +16,16 @@ case class DebtItemCalculationWindow(
   interestDueWindow: BigDecimal,
   interestDueDailyAccrual: BigDecimal,
   amountOnIntDueWindow: BigDecimal,
-  unpaidAmountWindow: BigDecimal
+  unpaidAmountWindow: BigDecimal,
+  suppressionApplied: Option[SuppressionApplied]
 )
 
+
+case class SuppressionApplied(reason: String, code: String)
+
+object SuppressionApplied {
+  implicit val formatCalculationWindow: OFormat[SuppressionApplied] = Json.format[SuppressionApplied]
+}
 object DebtItemCalculationWindow {
   implicit val formatDebtItemCalculationWindow: OFormat[DebtItemCalculationWindow] =
     Json.format[DebtItemCalculationWindow]
