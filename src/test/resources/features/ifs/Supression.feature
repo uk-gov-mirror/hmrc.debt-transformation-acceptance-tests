@@ -173,7 +173,7 @@ Feature: Suppression
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual |
       | 2021-02-01 | 2021-07-06 | 155          | 2.6          | 35                      |
 
-  Scenario: Suppression, 2 payments before suppression
+  Scenario: Suppression, 2 payments before suppression dates
     Given suppression data has been created
       | reason      | enabled | fromDate   | toDate     |
       | LEGISLATIVE | true    | 2021-04-04 | 2021-05-04 |
@@ -207,7 +207,7 @@ Feature: Suppression
       | 2021-05-05 | 2021-07-06 | 63           | 2.6          | 24                      | 351570             |             |      |
 
 
-  Scenario: Suppression, 2 payments after suppression
+  Scenario: Suppression, 2 payments after suppression dates
     Given suppression data has been created
       | reason      | enabled | fromDate   | toDate     |
       | LEGISLATIVE | true    | 2021-02-04 | 2021-03-04 |
