@@ -214,7 +214,7 @@ Feature: Suppression
       | 37                   | 500000            |
     And the 1st debt summary will contain
       | numberChargeableDays |
-      | 33                  |
+      | 33                   |
 
   #Fails Incorrect int rate when interest rate changes after suppression
   @wip @DTD-377
