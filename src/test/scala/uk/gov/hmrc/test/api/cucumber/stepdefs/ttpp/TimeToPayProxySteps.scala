@@ -37,6 +37,11 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
     ScenarioContext.set("response", response)
   }
 
+  When("a request is made to get response from ttpp hello world endpoint without bearer token") { () =>
+    val response = HelloWorldRequests.getTimeToPayProxyWithoutBearerToken("/hello-world")
+    ScenarioContext.set("response", response)
+  }
+
   And("""the ttpp hello world response body should be (.*)""") { message: String =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     val responseBody                   = response.body
