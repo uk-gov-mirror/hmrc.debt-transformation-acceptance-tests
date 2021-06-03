@@ -9,3 +9,7 @@ Feature: Time To Pay Proxy Hello World test
   Scenario: Unable to retrieve hello world response from Time to Pay Proxy
     When a request is made to an invalid ttpp endpoint
     Then the ttpp response code should be 404
+
+  Scenario: Unauthorised call to retrieve hello world response from Time to Pay Proxy
+    When a request is made to get response from ttpp hello world endpoint without bearer token
+    Then the ttpp response code should be 401
