@@ -190,15 +190,15 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
   }
 
   def addCustomerPostCodes(dataTable: DataTable): Unit = {
-    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
+    val asMapTransposed   = dataTable.asMaps(classOf[String], classOf[String])
     var customerPostCodes = ""
 
     asMapTransposed.zipWithIndex.foreach { case (postCode, index) =>
-        customerPostCodes = customerPostCodes.concat(
-          getBodyAsString("customerPostCodes")
-                  .replaceAll("<REPLACE_postCode>", postCode.get("postCode"))
-                  .replaceAll("<REPLACE_postCodeDate>", postCode.get("postCodeDate")))
-
+      customerPostCodes = customerPostCodes.concat(
+        getBodyAsString("customerPostCodes")
+          .replaceAll("<REPLACE_postCode>", postCode.get("postCode"))
+          .replaceAll("<REPLACE_postCodeDate>", postCode.get("postCodeDate"))
+      )
 
       if (index + 1 < asMapTransposed.size) customerPostCodes = customerPostCodes.concat(",")
 
@@ -233,7 +233,7 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
       if (index + 1 < asMapTransposed.size) suppressions = suppressions.concat(",")
     }
     val request  = getSuppressionBodyAsString("suppressionsData").replaceAll("<REPLACE_suppressions>", suppressions)
-    println(s"SUPPRESSION DATA REQUEST --> ${request}")
+    println(s"SUPPRESSION DATA REQUEST --> $request")
     val response = InterestForecastingRequests.postSuppressionData(request)
     response.status should be(200)
   }
@@ -254,7 +254,7 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
     }
     val request  =
       getSuppressionBodyAsString("suppressionRules").replaceAll("<REPLACE_suppressionRules>", suppressionRules)
-    println(s"SUPPRESSION RULES REQUEST --> ${request}")
+    println(s"SUPPRESSION RULES REQUEST --> $request")
     val response = InterestForecastingRequests.postSuppressionRules(request)
     response.status should be(200)
   }

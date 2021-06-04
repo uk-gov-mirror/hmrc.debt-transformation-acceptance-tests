@@ -1,5 +1,0 @@
-{
-       "debtItemChargeIDs" : [ "<REPLACE_debtItemChargeIDs>"]
-
-  }
-

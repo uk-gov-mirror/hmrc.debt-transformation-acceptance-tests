@@ -32,5 +32,4 @@ class commonSteps extends ScalaDsl with EN with Eventually with Matchers {
     addSuppressionRules(dataTable)
   }
 
-
 }
