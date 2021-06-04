@@ -3,9 +3,8 @@ package uk.gov.hmrc.test.api.requests
 import io.cucumber.datatable.DataTable
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
-import uk.gov.hmrc.test.api.client.WsClient
-import uk.gov.hmrc.test.api.requests.InterestForecastingRequests.getBodyAsString
 import play.twirl.api.TwirlHelperImports.twirlJavaCollectionToScala
+import uk.gov.hmrc.test.api.client.WsClient
 import uk.gov.hmrc.test.api.utils.{BaseRequests, RandomValues, ScenarioContext, TestData}
 
 object StatementOfLiabilityRequests extends BaseRequests with RandomValues {
@@ -53,6 +52,6 @@ object StatementOfLiabilityRequests extends BaseRequests with RandomValues {
     val jsonWithCustomerPostCodes =
       ScenarioContext.get("debtDetails").toString.replaceAll("<REPLACE_dutyItemChargeId>", dutyIds)
     ScenarioContext.set("debtDetails", jsonWithCustomerPostCodes)
-    print(jsonWithCustomerPostCodes)
+    print("duty id **********************   "+jsonWithCustomerPostCodes)
   }
 }

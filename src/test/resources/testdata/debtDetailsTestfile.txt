@@ -3,7 +3,7 @@
   "customerUniqueRef": "customer-1",
   "debts" : [{
     "debtId": "<REPLACE_debtID>",
-    "dutyIds":[<REPLACE_debtItemChargeIDs>],
+    "dutyIds":[<REPLACE_dutyItemChargeId>],
     "interestRequestedTo": "REPLACE_interestRequestedTo"
    }]
 }

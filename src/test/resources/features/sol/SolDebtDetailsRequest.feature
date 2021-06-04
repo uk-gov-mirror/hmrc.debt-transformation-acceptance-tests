@@ -22,7 +22,7 @@
 #Debt 1 and Debt 2  No breathing space
 Feature: statement of liability Debt details
 
-  @WIP2
+
   Scenario: 1. TPSS Account Tax Assessment debt statement of liability, 2 duties, no payment history.
     Given debt details
       | solType | debtId  | mainTrans | subTrans | interestRequestedTo |solRequestedDate|
