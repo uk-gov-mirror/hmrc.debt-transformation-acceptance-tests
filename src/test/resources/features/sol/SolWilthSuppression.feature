@@ -1,3 +1,4 @@
+
 Feature: Sol With Suppression
 
   Scenario: 1. Customer Outputs SoL where suppression is applied

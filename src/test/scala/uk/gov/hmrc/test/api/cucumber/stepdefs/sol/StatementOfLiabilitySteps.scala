@@ -24,14 +24,12 @@ import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import play.twirl.api.TwirlHelperImports.twirlJavaCollectionToScala
 import uk.gov.hmrc.test.api.models.sol.{HelloWorld, SolCalculation, SolCalculationSummaryResponse}
-import uk.gov.hmrc.test.api.requests.{HelloWorldRequests, StatementOfLiabilityRequests}
+import uk.gov.hmrc.test.api.requests.StatementOfLiabilityRequests
 import uk.gov.hmrc.test.api.utils.{ScenarioContext, TestData}
-
 class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Matchers {
 
   When("a request is made to get response from sol hello world endpoint") { () =>
-    val response =
-      StatementOfLiabilityRequests.getStatementLiabilityHelloWorld("/hello-world")
+    val response = StatementOfLiabilityRequests.getStatementLiabilityHelloWorld("/hello-world")
     ScenarioContext.set("response", response)
   }
 
