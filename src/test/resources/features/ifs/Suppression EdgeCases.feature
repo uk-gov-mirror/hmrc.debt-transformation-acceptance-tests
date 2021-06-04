@@ -37,7 +37,7 @@ Feature: Suppression - Edge cases
       | numberChargeableDays |
       | 65                   |
 
-  #Fails Incorrect int rate when interest rate changes after suppression
+  #TODO Fails Incorrect int rate when interest rate changes after suppression
   @wip @DTD-377
   Scenario: Suppression, interest rate change after suppression ends
     Given suppression data has been created
@@ -97,7 +97,7 @@ Feature: Suppression - Edge cases
       | numberChargeableDays |
       | 33                   |
 
-  #Fails Incorrect int rate when interest rate changes after suppression
+  #TODO Fails Incorrect int rate when interest rate changes after suppression
   @wip @DTD-377
   Scenario: Suppression, interest rate change before and after suppression
     Given suppression data has been created
@@ -129,7 +129,7 @@ Feature: Suppression - Edge cases
       | numberChargeableDays |
       | 124                  |
 
-  #Fails 2 overlapping suppressions that start on same day returns incorrect interest rate in calc window
+  # TODO Fails 2 overlapping suppressions that start on same day returns incorrect interest rate in calc window
   @wip @DTD-366
   Scenario: Suppression, 1 duty, 2 overlapping suppressions that start on same day
     Given suppression data has been created
@@ -191,7 +191,7 @@ Feature: Suppression - Edge cases
       | numberChargeableDays |
       | 108                  |
 
-# Fails. IFS returns 400 when suppression starts before interest start date
+# TODO Fails. IFS returns 400 when suppression starts before interest start date
   @DTD-371 @wip
   Scenario: Suppression period starts before interest start date
     Given suppression data has been created
@@ -220,8 +220,9 @@ Feature: Suppression - Edge cases
       | 2021-02-01 | 2021-05-04 | 93           | 0.0          | 0                       |
       | 2021-05-05 | 2021-07-06 | 63           | 2.6          | 35                      |
 
-# Fails. An additional calc window is created with a value of -1 days
-  @DTD-371 @wip
+# TODO Fails. Calc window error when suppression period starts on same day as interest start date
+#  An additional calc window is created with a value of -1 days
+  @DTD-380 @wip
   Scenario: Suppression period starts on same day as interest start date
     Given suppression data has been created
       | reason | enabled | fromDate   | toDate     |
