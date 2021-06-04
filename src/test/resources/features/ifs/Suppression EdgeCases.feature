@@ -37,7 +37,7 @@ Feature: Suppression - Edge cases
       | numberChargeableDays |
       | 65                   |
 
-  #DODO Fails Incorrect int rate when interest rate changes after suppression
+  #TODO Fails Incorrect int rate when interest rate changes after suppression
   @wip @DTD-377
   Scenario: Suppression, interest rate change after suppression ends
     Given suppression data has been created
@@ -97,7 +97,7 @@ Feature: Suppression - Edge cases
       | numberChargeableDays |
       | 33                   |
 
-  #DODO Fails Incorrect int rate when interest rate changes after suppression
+  #TODO Fails Incorrect int rate when interest rate changes after suppression
   @wip @DTD-377
   Scenario: Suppression, interest rate change before and after suppression
     Given suppression data has been created
