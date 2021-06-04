@@ -13,7 +13,7 @@ Feature: Sol With Suppression
       | CO      | debt008 | 1545      | 1090     | 2021-03-08          | 2021-03-08       |
     And add debt item chargeIDs to the debt
       | dutyId   |
-      | "duty01" |
+      | duty01 |
     When a debt statement of liability is requested
     Then service returns debt statement of liability data
       | amountIntTotal | combinedDailyAccrual |
@@ -37,7 +37,7 @@ Feature: Sol With Suppression
       | CO      | debt008 | 1545      | 1090     | 2021-03-08          | 2021-03-08       |
     And add debt item chargeIDs to the debt
       | dutyId   |
-      | "duty01" |
+      | duty01 |
     When a debt statement of liability is requested
     Then service returns debt statement of liability data
       | amountIntTotal | combinedDailyAccrual |

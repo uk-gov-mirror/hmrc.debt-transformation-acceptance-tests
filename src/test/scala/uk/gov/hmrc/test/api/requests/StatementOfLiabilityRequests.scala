@@ -1,9 +1,12 @@
 package uk.gov.hmrc.test.api.requests
 
+import io.cucumber.datatable.DataTable
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import uk.gov.hmrc.test.api.client.WsClient
-import uk.gov.hmrc.test.api.utils.{BaseRequests, RandomValues, TestData}
+import uk.gov.hmrc.test.api.requests.InterestForecastingRequests.getBodyAsString
+import play.twirl.api.TwirlHelperImports.twirlJavaCollectionToScala
+import uk.gov.hmrc.test.api.utils.{BaseRequests, RandomValues, ScenarioContext, TestData}
 
 object StatementOfLiabilityRequests extends BaseRequests with RandomValues {
 
@@ -34,4 +37,22 @@ object StatementOfLiabilityRequests extends BaseRequests with RandomValues {
   def getBodyAsString(variant: String): String =
     TestData.loadedFiles(variant)
 
+  def addDutyIds(dataTable: DataTable): Unit = {
+    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
+    var dutyIds = ""
+
+    asMapTransposed.zipWithIndex.foreach { case (dutyId, index) =>
+      dutyIds = dutyIds.concat(
+        getBodyAsString("dutyItemChargeId")
+          .replaceAll("<REPLACE_dutyId>", dutyId.get("dutyId")))
+
+      if (index + 1 < asMapTransposed.size) dutyIds = dutyIds.concat(",")
+
+    }
+
+    val jsonWithCustomerPostCodes =
+      ScenarioContext.get("debtDetails").toString.replaceAll("<REPLACE_dutyItemChargeId>", dutyIds)
+    ScenarioContext.set("debtDetails", jsonWithCustomerPostCodes)
+    print(jsonWithCustomerPostCodes)
+  }
 }

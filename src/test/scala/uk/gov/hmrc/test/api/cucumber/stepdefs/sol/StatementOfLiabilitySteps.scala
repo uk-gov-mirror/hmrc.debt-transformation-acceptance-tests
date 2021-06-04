@@ -97,7 +97,7 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
     TestData.loadedFiles(variant)
 
   And("""add debt item chargeIDs to the debt""") { (dataTable: DataTable) =>
-    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
+    /*val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
     var dutyChargeIds   = ""
 
     asMapTransposed.zipWithIndex.foreach { case (dutyId, index) =>
@@ -107,8 +107,8 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
     val jsonWithDutyChargeId =
       ScenarioContext.get("debtDetails").toString.replaceAll("<REPLACE_debtItemChargeIDs>", dutyChargeIds)
     ScenarioContext.set("debtDetails", jsonWithDutyChargeId)
-    print(" ******************************* " + jsonWithDutyChargeId)
-
+    print(" ******************************* " + jsonWithDutyChargeId)*/
+    StatementOfLiabilityRequests.addDutyIds(dataTable)
   }
 
   When("""a debt statement of liability is requested""") {

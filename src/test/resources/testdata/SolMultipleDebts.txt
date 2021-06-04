@@ -4,12 +4,12 @@
   "solRequestedDate": "REPLACE_solRequestedDate",
   "debts" : [ {
     "debtId" : "REPLACE_debtID",
-    "dutyIds" : [<REPLACE_debtItemChargeIDs>],
+    "dutyIds" : [<REPLACE_dutyItemChargeId>],
     "interestRequestedTo": "REPLACE_interestRequestedTo"
   },
   {
     "debtId" : "REPLACE_ID",
-    "dutyIds" : [<REPLACE_debtItemChargeIDs>],
+    "dutyIds" : [<REPLACE_dutyItemChargeId>],
     "interestRequestedTo": "REPLACE_interestRequestedTo"
 
   }

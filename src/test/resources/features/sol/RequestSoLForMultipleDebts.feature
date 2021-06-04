@@ -29,9 +29,9 @@ Feature: statement of liability multiple debts
       | UI      | 2021-05-13       | debt001 | debt004 | 2021-08-10          | 2021-08-10           |
 
     And add debt item chargeIDs to the debt
-      | dutyId   |
-      | "duty01" |
-      | "duty02" |
+      | dutyId |
+      | duty01 |
+      | duty02 |
     When a debt statement of liability is requested
     Then service returns debt statement of liability data
       | amountIntTotal | combinedDailyAccrual |

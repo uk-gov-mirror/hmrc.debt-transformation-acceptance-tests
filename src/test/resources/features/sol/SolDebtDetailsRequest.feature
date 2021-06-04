@@ -22,16 +22,16 @@
 #Debt 1 and Debt 2  No breathing space
 Feature: statement of liability Debt details
 
-
+  @WIP2
   Scenario: 1. TPSS Account Tax Assessment debt statement of liability, 2 duties, no payment history.
     Given debt details
       | solType | debtId  | mainTrans | subTrans | interestRequestedTo |solRequestedDate|
       | UI      | debt001 | 1525      | 1000     | 2021-08-10          |2021-05-13      |
 
     And add debt item chargeIDs to the debt
-      | dutyId   |
-      | "duty01" |
-      | "duty02" |
+      | dutyId |
+      | duty01 |
+      | duty02 |
     When a debt statement of liability is requested
     Then service returns debt statement of liability data
       | amountIntTotal | combinedDailyAccrual |
@@ -53,8 +53,8 @@ Feature: statement of liability Debt details
       | UI      | debt003 | 5330      | 7006     | 2021-08-10          |
     And add debt item chargeIDs to the debt
       | dutyId   |
-      | "duty01" |
-      | "duty02" |
+      | duty01 |
+      | duty02 |
     When a debt statement of liability is requested
 
     Then service returns debt statement of liability data
@@ -75,8 +75,8 @@ Feature: statement of liability Debt details
       | solType | debtId  | mainTrans | subTrans | interestRequestedTo |
       | CO      | debt004 | 5350      | 7012     | 2021-08-10          |
     And add debt item chargeIDs to the debt
-      | dutyId   |
-      | "duty04" |
+      | dutyId |
+      | duty04 |
     When a debt statement of liability is requested
 
     Then service returns debt statement of liability data
@@ -97,8 +97,8 @@ Feature: statement of liability Debt details
       | solType | debtId  | mainTrans | subTrans | interestRequestedTo |
       | CO      | debt005 | 5350      | 7012     |2021-08-10           |
     And add debt item chargeIDs to the debt
-      | dutyId   |
-      | "duty06" |
+      | dutyId |
+      | duty06 |
     When a debt statement of liability is requested
 
     Then service returns debt statement of liability data
