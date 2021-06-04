@@ -38,12 +38,13 @@ object StatementOfLiabilityRequests extends BaseRequests with RandomValues {
 
   def addDutyIds(dataTable: DataTable): Unit = {
     val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
-    var dutyIds = ""
+    var dutyIds         = ""
 
     asMapTransposed.zipWithIndex.foreach { case (dutyId, index) =>
       dutyIds = dutyIds.concat(
         getBodyAsString("dutyItemChargeId")
-          .replaceAll("<REPLACE_dutyId>", dutyId.get("dutyId")))
+          .replaceAll("<REPLACE_dutyId>", dutyId.get("dutyId"))
+      )
 
       if (index + 1 < asMapTransposed.size) dutyIds = dutyIds.concat(",")
 
@@ -52,6 +53,6 @@ object StatementOfLiabilityRequests extends BaseRequests with RandomValues {
     val jsonWithCustomerPostCodes =
       ScenarioContext.get("debtDetails").toString.replaceAll("<REPLACE_dutyItemChargeId>", dutyIds)
     ScenarioContext.set("debtDetails", jsonWithCustomerPostCodes)
-    print("duty id **********************   "+jsonWithCustomerPostCodes)
+    print("duty id **********************   " + jsonWithCustomerPostCodes)
   }
 }

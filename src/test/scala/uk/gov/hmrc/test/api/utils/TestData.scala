@@ -14,9 +14,9 @@ object TestData extends LazyLogging {
     .toList
 
   private lazy val suppressionFiles: Seq[File] = FileUtils
-          .listFiles(new File("src/test/resources/testdata/suppression"), Array("txt"), false)
-          .asScala
-          .toList
+    .listFiles(new File("src/test/resources/testdata/suppression"), Array("txt"), false)
+    .asScala
+    .toList
 
   lazy val loadedFiles: Map[String, String] =
     files.map { file =>

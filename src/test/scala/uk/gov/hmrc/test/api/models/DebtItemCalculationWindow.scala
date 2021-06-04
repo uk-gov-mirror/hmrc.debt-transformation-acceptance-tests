@@ -20,7 +20,6 @@ case class DebtItemCalculationWindow(
   suppressionApplied: Option[SuppressionApplied]
 )
 
-
 case class SuppressionApplied(reason: String, code: String)
 
 object SuppressionApplied {
