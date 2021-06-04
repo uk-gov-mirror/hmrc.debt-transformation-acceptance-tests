@@ -217,12 +217,4 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
   Given("no post codes have been provided for the customer") { () =>
     noCustomerPostCodes()
   }
-
-  Given("suppression data has been created") { (dataTable: DataTable) =>
-    addSuppressions(dataTable)
-  }
-
-  Given("suppression rules have been created") { (dataTable: DataTable) =>
-    addSuppressionRules(dataTable)
-  }
 }
