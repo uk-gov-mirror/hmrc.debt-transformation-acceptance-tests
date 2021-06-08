@@ -25,8 +25,8 @@ Feature: statement of liability Debt details
 
   Scenario: 1. TPSS Account Tax Assessment debt statement of liability, 2 duties, no payment history.
     Given debt details
-      | solType | debtId  | mainTrans | subTrans | interestRequestedTo |solRequestedDate|
-      | UI      | debt001 | 1525      | 1000     | 2021-08-10          |2021-05-13      |
+      | solType | debtId  | mainTrans | subTrans | interestRequestedTo | solRequestedDate |
+      | UI      | debt001 | 1525      | 1000     | 2021-08-10          | 2021-05-13       |
 
     And add debt item chargeIDs to the debt
       | dutyId |
@@ -39,7 +39,7 @@ Feature: statement of liability Debt details
 
     And the 1st sol debt summary will contain
       | debtID  | mainTrans | debtTypeDescription         | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
-      | debt001 | 1525      | TPSS Account Tax Assessment | 13624                | 913624            | 63                   |
+      | debt001 | 1525      | TPSS Account Tax Assessment | 13624                | 913624             | 63                   |
 
     And the 1st sol debt summary will contain duties
       | dutyID | subTrans | dutyTypeDescription | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
@@ -52,7 +52,7 @@ Feature: statement of liability Debt details
       | solType | debtId  | mainTrans | subTrans | interestRequestedTo |
       | UI      | debt003 | 5330      | 7006     | 2021-08-10          |
     And add debt item chargeIDs to the debt
-      | dutyId   |
+      | dutyId |
       | duty01 |
       | duty02 |
     When a debt statement of liability is requested
@@ -63,7 +63,7 @@ Feature: statement of liability Debt details
 
     And the 1st sol debt summary will contain
       | debtID  | mainTrans | debtTypeDescription | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
-      | debt003 | 5330      | UI: ChB Debt        | 8629                 | 608629              | 14                   |
+      | debt003 | 5330      | UI: ChB Debt        | 8629                 | 608629             | 14                   |
 
     And the 1st sol debt summary will contain duties
       | dutyID | subTrans | dutyTypeDescription    | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
@@ -91,11 +91,10 @@ Feature: statement of liability Debt details
       | dutyID | subTrans | dutyTypeDescription             | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
       | duty04 | 7012     | CO: Child Benefit Migrated Debt | 200000           | 0                    | false           | false                 |
 
-
   Scenario: 4. MainTrans and subTrans non interest bearing - IFS still calculates interest and it is zero
     Given debt details
       | solType | debtId  | mainTrans | subTrans | interestRequestedTo |
-      | CO      | debt005 | 5350      | 7012     |2021-08-10           |
+      | CO      | debt005 | 5350      | 7012     | 2021-08-10          |
     And add debt item chargeIDs to the debt
       | dutyId |
       | duty06 |
@@ -112,3 +111,25 @@ Feature: statement of liability Debt details
     And the 1st sol debt summary will contain duties
       | dutyID | subTrans | dutyTypeDescription             | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
       | duty06 | 7012     | CO: Child Benefit Migrated Debt | 200000           | 0                    | false           | false                 |
+
+  @smoke
+  Scenario: PEGA only -TPSS Account Tax Assessment debt statement of liability, 2 duties, no payment history
+    Given debt details
+      | solType | debtId  | customerUniqueRef | mainTrans | subTrans | interestRequestedTo | solRequestedDate |
+      | UI      | Idle_01 | NEHA1234          | 1525      | 1000     | 2021-08-10          | 2021-05-13       |
+
+    And add debt item chargeIDs to the debt
+      | dutyId  |
+      | Idle_01 |
+    When a debt statement of liability is requested
+    Then service returns debt statement of liability data
+      | amountIntTotal | combinedDailyAccrual |
+      | 250            | 0                    |
+
+    And the 1st sol debt summary will contain
+      | debtID  | mainTrans | debtTypeDescription              | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
+      | Idle_01 | 1520      | TPSS Accounting For Tax Charge + | 0                    | 250                | 0                    |
+
+    And the 1st sol debt summary will contain duties
+      | dutyID  | subTrans | dutyTypeDescription | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
+      | Idle_01 | 1090     | Tax Interest        | 250              | 0                    | false           | false                 |
