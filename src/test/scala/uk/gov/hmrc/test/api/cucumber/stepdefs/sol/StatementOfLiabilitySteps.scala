@@ -54,13 +54,17 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
     val asMapTransposed     = dataTable.transpose().asMap(classOf[String], classOf[String])
     var firstItem           = false
     var debtDetails: String = null
-
+   var customerReferenceId:String=null
+    if (asMapTransposed.containsKey("customerUniqueRef")) {
+      customerReferenceId=asMapTransposed.get("customerUniqueRef")
+    }else{customerReferenceId="customer-1"}
     try ScenarioContext.get("debtDetails")
     catch { case e: Exception => firstItem = true }
 
     val debtDetailsTestfile = getBodyAsString("debtDetailsTestfile")
       .replaceAll("<REPLACE_solType>", asMapTransposed.get("solType"))
       .replaceAll("<REPLACE_debtID>", asMapTransposed.get("debtId"))
+     .replaceAll("<REPLACE_customerReference>", asMapTransposed.get("customerUniqueRef"))
       .replaceAll("REPLACE_interestRequestedTo", asMapTransposed.get("interestRequestedTo"))
       .replaceAll("<REPLACE_mainTrans>", asMapTransposed.get("mainTrans"))
       .replaceAll("<REPLACE_subTrans>", asMapTransposed.get("subTrans"))
