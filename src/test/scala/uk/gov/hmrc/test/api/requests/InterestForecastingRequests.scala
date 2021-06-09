@@ -40,59 +40,8 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
     WsClient.post(baseUri, headers = headers, Json.parse(json))
   }
 
-//  def postSuppressionData(json: String): StandaloneWSResponse = {
-//    val bearerToken = createBearerToken(enrolments = Seq("read:suppression-data"))
-//    val baseUri     = s"$interestForecostingApiUrl/suppressions/1/suppression"
-//    val headers     = Map(
-//      "Authorization" -> s"Bearer $bearerToken",
-//      "Content-Type"  -> "application/json",
-//      "Accept"        -> "application/vnd.hmrc.1.0+json"
-//    )
-//    print("url ************************" + baseUri)
-//    WsClient.post(baseUri, headers = headers, Json.parse(json))
-//  }
-//
-//  def deleteSuppressionData(): StandaloneWSResponse = {
-//    val bearerToken = createBearerToken(enrolments = Seq("read:suppression-data"))
-//    val baseUri     = s"$interestForecostingApiUrl/suppressions"
-//    val headers     = Map(
-//      "Authorization" -> s"Bearer $bearerToken",
-//      "Content-Type"  -> "application/json",
-//      "Accept"        -> "application/vnd.hmrc.1.0+json"
-//    )
-//    print("url ************************" + baseUri)
-//    WsClient.delete(baseUri, headers = headers)
-//  }
-//
-//  def postSuppressionRules(json: String, rulesId: String): StandaloneWSResponse = {
-//    val bearerToken = createBearerToken(enrolments = Seq("read:suppression-rule"))
-//    val baseUri     = s"$interestForecostingApiUrl/suppression-rules/" + rulesId + "/suppression-rule"
-//    val headers     = Map(
-//      "Authorization" -> s"Bearer $bearerToken",
-//      "Content-Type"  -> "application/json",
-//      "Accept"        -> "application/vnd.hmrc.1.0+json"
-//    )
-//    print("url ************************" + baseUri)
-//    WsClient.post(baseUri, headers = headers, Json.parse(json))
-//  }
-//
-//  def deleteSuppressionRules(): StandaloneWSResponse = {
-//    val bearerToken = createBearerToken(enrolments = Seq("read:suppression-rule"))
-//    val baseUri     = s"$interestForecostingApiUrl/suppression-rules"
-//    val headers     = Map(
-//      "Authorization" -> s"Bearer $bearerToken",
-//      "Content-Type"  -> "application/json",
-//      "Accept"        -> "application/vnd.hmrc.1.0+json"
-//    )
-//    print("url ************************" + baseUri)
-//    WsClient.delete(baseUri, headers = headers)
-//  }
-
   def getBodyAsString(variant: String): String =
     TestData.loadedFiles(variant)
-
-//  def getSuppressionBodyAsString(variant: String): String =
-//    TestData.loadedSuppressionFiles(variant)
 
   def createInterestFocastingRequestBody(dataTable: DataTable): Unit = {
     val asmapTransposed   = dataTable.transpose().asMap(classOf[String], classOf[String])
