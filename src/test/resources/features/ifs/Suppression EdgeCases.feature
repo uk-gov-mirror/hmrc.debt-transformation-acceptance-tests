@@ -1,12 +1,3 @@
-#*Assumptions*
-#* Suppression is on mainTrans 1535 and subTrans 1000
-
-#BELOW Suppression scenario edge cases to be added
-
-#Scenario: Suppression, payment before suppression
-#Scenario: Suppression, payment after suppression
-#Scenario: Suppression, breathing space with suppression
-
 Feature: Suppression - Edge cases
 
   Scenario: Suppression, interest rate change during suppression

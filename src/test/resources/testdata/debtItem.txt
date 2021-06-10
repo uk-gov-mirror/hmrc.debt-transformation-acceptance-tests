@@ -6,6 +6,7 @@
           "dateCreated": "<REPLACE_dateCreated>",
           "interestStartDate": "<REPLACE_interestStartDate>",
           "interestRequestedTo": "<REPLACE_interestRequestedTo>",
+          <REPLACE_periodEnd>
           "paymentHistory": [
           		 <REPLACE_payments>
           ]

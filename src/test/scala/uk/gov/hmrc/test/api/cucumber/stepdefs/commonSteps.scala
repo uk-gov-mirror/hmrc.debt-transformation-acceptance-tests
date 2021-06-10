@@ -20,7 +20,7 @@ import cucumber.api.scala.{EN, ScalaDsl}
 import io.cucumber.datatable.DataTable
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually
-import uk.gov.hmrc.test.api.requests.InterestForecastingRequests.{addSuppressionRules, addSuppressions}
+import uk.gov.hmrc.test.api.requests.SuppressionRulesRequests.{addSuppressionRules, addSuppressions}
 
 class commonSteps extends ScalaDsl with EN with Eventually with Matchers {
 

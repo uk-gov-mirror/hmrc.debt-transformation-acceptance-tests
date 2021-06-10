@@ -98,6 +98,47 @@ Feature: Interest Rate Changes - Edge cases
       | 2020-04-07 | 2020-12-31 | 2.6          | 28                      | 7643              | 400000               |
       | 2021-01-01 | 2021-03-31 | 2.6          | 28                      | 2564              | 400000               |
 
+
+    @wip
+  Scenario:  Interest rate changes on same day as interest start date
+    Given a debt item
+      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2020-01-01  | 2020-04-07        | 2020-12-31          | 1525      | 1000     | true            |
+    And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service wilL return a total debts summary of
+      | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal |
+      | 35                   | 9519                 | 500000            |
+    And the 1st debt summary will contain
+      | interestBearing | numberChargeableDays | totalAmountIntDuty |
+      | true            | 268                  | 509519             |
+    And the 1st debt summary will have calculation windows
+      | periodFrom | periodTo   | interestRate | numberOfDays | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow |
+      | 2020-04-07 | 2020-12-31 | 2.6          | 268          | 35                      | 9519              | 500000               |
+
+  @wip
+  Scenario:  Interest rate changes day prior to interest start date
+    Given a debt item
+      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2020-01-01  | 2020-04-06        | 2020-12-31          | 1525      | 1000     | true            |
+    And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service wilL return a total debts summary of
+      | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal |
+      | 35                   | 9554                 | 500000            |
+    And the 1st debt summary will contain
+      | interestBearing | numberChargeableDays | totalAmountIntDuty |
+      | true            | 268                  | 509519             |
+    And the 1st debt summary will have calculation windows
+      | periodFrom | periodTo   | interestRate | numberOfDays | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow |
+      | 2020-04-06 | 2020-04-06 | 2.75         | 0            | 7                       | 67                | 500000               |
+      | 2020-04-07 | 2020-12-31 | 2.6          | 268          | 35                      | 9519              | 500000               |
+
+
 #  BUG: Test failing due to issue with interest accrued returned
 #  Scenario: Interest rate changes from 0% to 8.5%
 #    Given a debt item

@@ -1,4 +1,4 @@
 {
  			"ruleId": "<REPLACE_ruleId>",
- 			"rule": "IF postCode LIKE '<REPLACE_postCode>' -> suppression = <REPLACE_suppressionIds>"
+ 			"rule": "<REPLACE_rule> -> suppression = <REPLACE_suppressionIds>"
  		}
