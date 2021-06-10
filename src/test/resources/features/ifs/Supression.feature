@@ -1,15 +1,6 @@
-#*Assumptions*
-#* Suppression is on mainTrans 1535 and subTrans 1000
-
-#BELOW Suppression scenario edge cases to be added
-
-#Scenario: Suppression, payment before suppression
-#Scenario: Suppression, payment after suppression
-#Scenario: Suppression, breathing space with suppression
-
 Feature: Suppression
 
-    Scenario: Suppression applied to main trans
+  Scenario: Suppression applied to main trans
     Given suppression data has been created
       | reason | enabled | fromDate   | toDate     |
       | POLICY | true    | 2021-04-04 | 2021-05-04 |
@@ -144,7 +135,7 @@ Feature: Suppression
       | numberChargeableDays |
       | 2                    |
 
-   Scenario: Suppression, 2 payments before suppression dates
+  Scenario: Suppression, 2 payments before suppression dates
     Given suppression data has been created
       | reason      | enabled | fromDate   | toDate     |
       | LEGISLATIVE | true    | 2021-04-04 | 2021-05-04 |
