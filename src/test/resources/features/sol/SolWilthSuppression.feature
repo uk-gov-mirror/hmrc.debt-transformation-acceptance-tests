@@ -1,6 +1,6 @@
 Feature: Sol With Suppression
 
-  Scenario: 1. Customer Outputs SoL where suppression is applied
+  Scenario: Customer Outputs SoL where suppression is applied
     Given suppression data has been created
       | reason      | enabled | fromDate   | toDate     |
       | LEGISLATIVE | true    | 2021-03-04 | 2021-03-05 |
@@ -24,7 +24,7 @@ Feature: Sol With Suppression
       | dutyID | subTrans | dutyTypeDescription | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
       | duty01 | 1090     | CO: TGPEN           | 500000           | 35                   | true            | false                 |
 
-  Scenario: 1. Customer Outputs SoL suppression NOT applied to a different postcode
+  Scenario: Customer Outputs SoL suppression NOT applied to a different postcode
     Given suppression data has been created
       | reason      | enabled | fromDate   | toDate     |
       | LEGISLATIVE | true    | 2021-03-04 | 2021-03-05 |
@@ -45,9 +45,9 @@ Feature: Sol With Suppression
       | debtID  | mainTrans | debtTypeDescription          | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
       | debt008 | 1545      | CO: TPSS Contract Settlement | 249                  | 500249             | 35                   |
 
-#    Fail. Suppression is not being applied by period end when request is sent from SOL. Is this a bug?
-  @ignore
-  Scenario: 1. Customer Outputs SoL where suppression is applied by Period End
+#  Fail. Suppression is not being applied by period end when request is sent from SOL. Is this a bug?
+  @ignore @DTD-409
+  Scenario: Customer Outputs SoL where suppression is applied by Period End
     Given suppression data has been created
       | reason      | enabled | fromDate   | toDate     |
       | LEGISLATIVE | true    | 2021-03-04 | 2021-03-05 |
@@ -71,7 +71,7 @@ Feature: Sol With Suppression
       | dutyID | subTrans | dutyTypeDescription | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
       | duty01 | 1090     | CO: TGPEN           | 500000           | 35                   | true            | false                 |
 
-  Scenario: 1. Customer Outputs SoL where suppression is applied by Main Trans
+  Scenario: Customer Outputs SoL where suppression is applied by Main Trans
     Given suppression data has been created
       | reason      | enabled | fromDate   | toDate     |
       | LEGISLATIVE | true    | 2021-03-04 | 2021-03-05 |
@@ -95,7 +95,7 @@ Feature: Sol With Suppression
       | dutyID | subTrans | dutyTypeDescription | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
       | duty01 | 1090     | CO: TGPEN           | 500000           | 35                   | true            | false                 |
 
-  Scenario: 1. Customer Outputs SoL suppression NOT applied to a different mainTrans
+  Scenario: Customer Outputs SoL suppression NOT applied to a different mainTrans
     Given suppression data has been created
       | reason      | enabled | fromDate   | toDate     |
       | LEGISLATIVE | true    | 2021-03-04 | 2021-03-05 |
