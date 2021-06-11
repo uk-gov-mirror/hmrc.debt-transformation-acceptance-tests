@@ -65,7 +65,7 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
 
     val debtDetailsTestfile = getBodyAsString("debtDetailsTestfile")
       .replaceAll("<REPLACE_solType>", asMapTransposed.get("solType"))
-      .replaceAll("<REPLACE_debtID>", asMapTransposed.get("debtId"))
+      .replaceAll("<REPLACE_debtId>", asMapTransposed.get("debtId"))
       .replaceAll("<REPLACE_customerReference>", asMapTransposed.get("customerUniqueRef"))
       .replaceAll("REPLACE_interestRequestedTo", asMapTransposed.get("interestRequestedTo"))
       .replaceAll("<REPLACE_mainTrans>", asMapTransposed.get("mainTrans"))
@@ -88,8 +88,8 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
     val SolMultipleDebts = getBodyAsString("SolMultipleDebts")
       .replaceAll("<REPLACE_solType>", asMapTransposed.get("solType"))
       .replaceAll("REPLACE_solRequestedDate", asMapTransposed.get("solRequestedDate"))
-      .replaceAll("REPLACE_debtID", asMapTransposed.get("debtID"))
-      .replaceAll("REPLACE_ID", asMapTransposed.get("debtID2"))
+      .replaceAll("REPLACE_debtId", asMapTransposed.get("debtId"))
+      .replaceAll("REPLACE_ID", asMapTransposed.get("debtId2"))
       .replaceAll("REPLACE_interestRequestedTo", asMapTransposed.get("interestRequestedTo"))
       .replaceAll("REPLACE_interestRequestedTo2", asMapTransposed.get("interestRequestedTo"))
 
@@ -103,7 +103,7 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
     TestData.loadedFiles(variant)
 
   And("""add debt item chargeIDs to the debt""") { (dataTable: DataTable) =>
-    StatementOfLiabilityRequests.addDutyIds(dataTable)
+    StatementOfLiabilityRequests.adddutyIds(dataTable)
   }
 
   When("""a debt statement of liability is requested""") {
@@ -133,7 +133,7 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
     response.status should be(200)
 
     val debt: SolCalculation = Json.parse(response.body).as[SolCalculationSummaryResponse].debts(index - 1)
-    debt.debtID                        shouldBe asMapTransposed.get("debtID").toString
+    debt.debtId                        shouldBe asMapTransposed.get("debtId").toString
     debt.mainTrans                     shouldBe asMapTransposed.get("mainTrans").toString
     debt.debtTypeDescription           shouldBe asMapTransposed.get("debtTypeDescription").toString
     debt.interestDueDebtTotal.toString shouldBe asMapTransposed.get("interestDueDebtTotal").toString
@@ -152,7 +152,7 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
         .debts(debtIndex - 1)
         .duties(index)
 
-      responseBody.dutyID                         shouldBe duty.get("dutyID").toString
+      responseBody.dutyId                         shouldBe duty.get("dutyId").toString
       responseBody.subTrans                       shouldBe duty.get("subTrans").toString
       responseBody.dutyTypeDescription            shouldBe duty.get("dutyTypeDescription").toString
       responseBody.unpaidAmountDuty.toString      shouldBe duty.get("unpaidAmountDuty").toString
@@ -169,13 +169,13 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
 
       asMapTransposed.zipWithIndex.foreach { case (duty, index) =>
         val responseBody = Json.parse(response.body).as[SolCalculationSummaryResponse].debts(0)
-        responseBody.debtID                                     shouldBe duty.get("debtID").toString
+        responseBody.debtId                                     shouldBe duty.get("debtId").toString
         responseBody.mainTrans                                  shouldBe duty.get("mainTrans").toString
         responseBody.debtTypeDescription                        shouldBe duty.get("debtTypeDescription").toString
         responseBody.interestDueDebtTotal.toString              shouldBe duty.get("interestDueDebtTotal").toString
         responseBody.totalAmountIntDebt.toString                shouldBe duty.get("totalAmountIntDebt").toString
         responseBody.combinedDailyAccrual.toString              shouldBe duty.get("combinedDailyAccrualDebt").toString
-        responseBody.duties.head.dutyID                         shouldBe duty.get("dutyID").toString
+        responseBody.duties.head.dutyId                         shouldBe duty.get("dutyId").toString
         responseBody.duties.head.subTrans                       shouldBe duty.get("subTrans").toString
         responseBody.duties.head.unpaidAmountDuty.toString      shouldBe duty.get("unpaidAmountDuty").toString
         responseBody.duties.head.combinedDailyAccrual.toString  shouldBe duty.get("combinedDailyAccrual").toString
@@ -193,13 +193,13 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
 
     asMapTransposed.zipWithIndex.foreach { case (debt, index) =>
       val responseBody = Json.parse(response.body).as[SolCalculationSummaryResponse].debts(1)
-      responseBody.debtID                                     shouldBe debt.get("debtID").toString
+      responseBody.debtId                                     shouldBe debt.get("debtId").toString
       responseBody.mainTrans                                  shouldBe debt.get("mainTrans").toString
       responseBody.debtTypeDescription                        shouldBe debt.get("debtTypeDescription").toString
       responseBody.interestDueDebtTotal.toString              shouldBe debt.get("interestDueDebtTotal").toString
       responseBody.totalAmountIntDebt.toString                shouldBe debt.get("totalAmountIntDebt").toString
       responseBody.combinedDailyAccrual.toString              shouldBe debt.get("combinedDailyAccrualDebt").toString
-      responseBody.duties.head.dutyID                         shouldBe debt.get("dutyID").toString
+      responseBody.duties.head.dutyId                         shouldBe debt.get("dutyId").toString
       responseBody.duties.head.subTrans                       shouldBe debt.get("subTrans").toString
       responseBody.duties.head.unpaidAmountDuty.toString      shouldBe debt.get("unpaidAmountDuty").toString
       responseBody.duties.head.combinedDailyAccrual.toString  shouldBe debt.get("combinedDailyAccrual").toString

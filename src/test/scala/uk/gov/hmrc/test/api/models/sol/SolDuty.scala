@@ -8,7 +8,7 @@ package uk.gov.hmrc.test.api.models.sol
 import play.api.libs.json.Json
 
 case class SolDuty(
-  dutyID: String,
+  dutyId: String,
   subTrans: String,
   dutyTypeDescription: String,
   unpaidAmountDuty: Int,

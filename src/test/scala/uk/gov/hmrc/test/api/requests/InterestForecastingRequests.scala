@@ -56,7 +56,7 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
     } else { periodEnd = "" }
 
     val debtItem = getBodyAsString("debtItem")
-      .replaceAll("<REPLACE_debtID>", "123")
+      .replaceAll("<REPLACE_debtId>", "123")
       .replaceAll("<REPLACE_originalAmount>", asmapTransposed.get("originalAmount"))
       .replaceAll("<REPLACE_subTrans>", asmapTransposed.get("subTrans"))
       .replaceAll("<REPLACE_mainTrans>", asmapTransposed.get("mainTrans"))

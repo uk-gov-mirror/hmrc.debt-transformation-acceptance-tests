@@ -40,7 +40,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
 
     while (n < numberItems) {
       val debtItem = getBodyAsString("debtItem")
-        .replaceAll("<REPLACE_debtID>", "123")
+        .replaceAll("<REPLACE_debtId>", "123")
         .replaceAll("<REPLACE_originalAmount>", "500000")
         .replaceAll("<REPLACE_subTrans>", "1000")
         .replaceAll("<REPLACE_mainTrans>", "1525")
@@ -66,7 +66,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
 
     while (n < numberItems) {
       val debtItem = getBodyAsString("debtItem")
-        .replaceAll("<REPLACE_debtID>", "123")
+        .replaceAll("<REPLACE_debtId>", "123")
         .replaceAll("<REPLACE_originalAmount>", "500000")
         .replaceAll("<REPLACE_subTrans>", "1000")
         .replaceAll("<REPLACE_mainTrans>", "1525")

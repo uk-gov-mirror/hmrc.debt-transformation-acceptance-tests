@@ -36,7 +36,7 @@ object StatementOfLiabilityRequests extends BaseRequests with RandomValues {
   def getBodyAsString(variant: String): String =
     TestData.loadedFiles(variant)
 
-  def addDutyIds(dataTable: DataTable): Unit = {
+  def adddutyIds(dataTable: DataTable): Unit = {
     val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
     var dutyIds         = ""
 

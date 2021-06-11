@@ -18,10 +18,10 @@ Feature: Sol With Suppression
       | amountIntTotal | combinedDailyAccrual |
       | 500177         | 35                   |
     And the 1st sol debt summary will contain
-      | debtID  | mainTrans | debtTypeDescription          | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
+      | debtId  | mainTrans | debtTypeDescription          | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
       | debt008 | 1545      | CO: TPSS Contract Settlement | 177                  | 500177             | 35                   |
     And the 1st sol debt summary will contain duties
-      | dutyID | subTrans | dutyTypeDescription | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
+      | dutyId | subTrans | dutyTypeDescription | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
       | duty01 | 1090     | CO: TGPEN           | 500000           | 35                   | true            | false                 |
 
   Scenario: Customer Outputs SoL suppression NOT applied to a different postcode
@@ -42,7 +42,7 @@ Feature: Sol With Suppression
       | amountIntTotal | combinedDailyAccrual |
       | 500249         | 35                   |
     And the 1st sol debt summary will contain
-      | debtID  | mainTrans | debtTypeDescription          | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
+      | debtId  | mainTrans | debtTypeDescription          | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
       | debt008 | 1545      | CO: TPSS Contract Settlement | 249                  | 500249             | 35                   |
 
 #  Fail. Suppression is not being applied by period end when request is sent from SOL. Is this a bug?
@@ -65,10 +65,10 @@ Feature: Sol With Suppression
       | amountIntTotal | combinedDailyAccrual | a
       | 500177         | 35                   |
     And the 1st sol debt summary will contain
-      | debtID  | mainTrans | debtTypeDescription          | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
+      | debtId  | mainTrans | debtTypeDescription          | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
       | debt008 | 1545      | CO: TPSS Contract Settlement | 177                  | 500177             | 35                   |
     And the 1st sol debt summary will contain duties
-      | dutyID | subTrans | dutyTypeDescription | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
+      | dutyId | subTrans | dutyTypeDescription | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
       | duty01 | 1090     | CO: TGPEN           | 500000           | 35                   | true            | false                 |
 
   Scenario: Customer Outputs SoL where suppression is applied by Main Trans
@@ -89,10 +89,10 @@ Feature: Sol With Suppression
       | amountIntTotal | combinedDailyAccrual |
       | 500177         | 35                   |
     And the 1st sol debt summary will contain
-      | debtID  | mainTrans | debtTypeDescription          | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
+      | debtId  | mainTrans | debtTypeDescription          | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
       | debt008 | 1545      | CO: TPSS Contract Settlement | 177                  | 500177             | 35                   |
     And the 1st sol debt summary will contain duties
-      | dutyID | subTrans | dutyTypeDescription | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
+      | dutyId | subTrans | dutyTypeDescription | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
       | duty01 | 1090     | CO: TGPEN           | 500000           | 35                   | true            | false                 |
 
   Scenario: Customer Outputs SoL suppression NOT applied to a different mainTrans
@@ -113,5 +113,5 @@ Feature: Sol With Suppression
       | amountIntTotal | combinedDailyAccrual |
       | 500249         | 35                   |
     And the 1st sol debt summary will contain
-      | debtID  | mainTrans | debtTypeDescription          | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
+      | debtId  | mainTrans | debtTypeDescription          | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
       | debt008 | 1545      | CO: TPSS Contract Settlement | 249                  | 500249             | 35                   |

@@ -8,7 +8,7 @@ package uk.gov.hmrc.test.api.models.sol
 import play.api.libs.json.{Json, OFormat}
 
 case class SolCalculation(
-  debtID: String,
+  debtId: String,
   mainTrans: String,
   debtTypeDescription: String,
   interestDueDebtTotal: Int,
