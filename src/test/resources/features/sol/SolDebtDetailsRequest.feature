@@ -38,11 +38,11 @@ Feature: statement of liability Debt details
       | 913624         | 63                   |
 
     And the 1st sol debt summary will contain
-      | debtID  | mainTrans | debtTypeDescription         | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
+      | debtId  | mainTrans | debtTypeDescription         | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
       | debt001 | 1525      | TPSS Account Tax Assessment | 13624                | 913624             | 63                   |
 
     And the 1st sol debt summary will contain duties
-      | dutyID | subTrans | dutyTypeDescription | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
+      | dutyId | subTrans | dutyTypeDescription | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
       | duty01 | 1000     | IT                  | 500000           | 35                   | true            | false                 |
       | duty02 | 1000     | IT                  | 400000           | 28                   | true            | false                 |
 
@@ -62,11 +62,11 @@ Feature: statement of liability Debt details
       | 608629         | 14                   |
 
     And the 1st sol debt summary will contain
-      | debtID  | mainTrans | debtTypeDescription | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
+      | debtId  | mainTrans | debtTypeDescription | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
       | debt003 | 5330      | UI: ChB Debt        | 8629                 | 608629             | 14                   |
 
     And the 1st sol debt summary will contain duties
-      | dutyID | subTrans | dutyTypeDescription    | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
+      | dutyId | subTrans | dutyTypeDescription    | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
       | duty01 | 7006     | UI: Child Benefit Debt | 400000           | 0                    | false           | false                 |
       | duty02 | 1000     | IT                     | 200000           | 14                   | true            | false                 |
 
@@ -84,11 +84,11 @@ Feature: statement of liability Debt details
       | 200000         | 0                    |
 
     And the 1st sol debt summary will contain
-      | debtID  | mainTrans | debtTypeDescription   | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
+      | debtId  | mainTrans | debtTypeDescription   | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
       | debt004 | 5350      | CO: ChB Migrated Debt | 0                    | 200000             | 0                    |
 
     And the 1st sol debt summary will contain duties
-      | dutyID | subTrans | dutyTypeDescription             | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
+      | dutyId | subTrans | dutyTypeDescription             | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
       | duty04 | 7012     | CO: Child Benefit Migrated Debt | 200000           | 0                    | false           | false                 |
 
   Scenario: 4. MainTrans and subTrans non interest bearing - IFS still calculates interest and it is zero
@@ -105,11 +105,11 @@ Feature: statement of liability Debt details
       | 200000         | 0                    |
 
     And the 1st sol debt summary will contain
-      | debtID  | mainTrans | debtTypeDescription   | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
+      | debtId  | mainTrans | debtTypeDescription   | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
       | debt005 | 5350      | CO: ChB Migrated Debt | 0                    | 200000             | 0                    |
 
     And the 1st sol debt summary will contain duties
-      | dutyID | subTrans | dutyTypeDescription             | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
+      | dutyId | subTrans | dutyTypeDescription             | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
       | duty06 | 7012     | CO: Child Benefit Migrated Debt | 200000           | 0                    | false           | false                 |
 
   @smoke
@@ -127,9 +127,9 @@ Feature: statement of liability Debt details
       | 250            | 0                    |
 
     And the 1st sol debt summary will contain
-      | debtID  | mainTrans | debtTypeDescription              | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
+      | debtId  | mainTrans | debtTypeDescription              | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
       | Idle_01 | 1520      | TPSS Accounting For Tax Charge + | 0                    | 250                | 0                    |
 
     And the 1st sol debt summary will contain duties
-      | dutyID  | subTrans | dutyTypeDescription | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
+      | dutyId  | subTrans | dutyTypeDescription | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
       | Idle_01 | 1090     | Tax Interest        | 250              | 0                    | false           | false                 |
