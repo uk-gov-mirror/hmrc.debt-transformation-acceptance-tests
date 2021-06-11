@@ -103,7 +103,7 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
     TestData.loadedFiles(variant)
 
   And("""add debt item chargeIDs to the debt""") { (dataTable: DataTable) =>
-    StatementOfLiabilityRequests.adddutyIds(dataTable)
+    StatementOfLiabilityRequests.addDutyIds(dataTable)
   }
 
   When("""a debt statement of liability is requested""") {
