@@ -1,0 +1,13 @@
+{
+  "customerReference": "<REPLACE_customerReference>",
+  "debtAmount": <REPLACE_debtAmount>,
+  "adHocs": [
+    <REPLACE_adHocs>
+  ],
+  "customer": [
+    <REPLACE_customer>
+  ],
+  "debts": [
+    <REPLACE_debts>
+  ]
+}
