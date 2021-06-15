@@ -28,6 +28,8 @@ object ScenarioContext {
       .get(key)
       .fold(throw new Exception(s"Key $key not found in scenario context"))(_.asInstanceOf[T])
 
+  def remove(key: String): Unit = scenarioValues = scenarioValues - key
+
   def reset() {
     scenarioValues = Map.empty[String, Any]
   }

@@ -1,0 +1,9 @@
+{
+    "dutyId": "<REPLACE_dutyId>",
+    "subtrans": "<REPLACE_subTrans>",
+    "originalDebtAmount": <REPLACE_originalDebtAmount>,
+    "interestStartDate": "<REPLACE_interestStartDate>",
+    "breathingSpaces": [
+        <REPLACE_breathingSpaces>
+    ]
+}

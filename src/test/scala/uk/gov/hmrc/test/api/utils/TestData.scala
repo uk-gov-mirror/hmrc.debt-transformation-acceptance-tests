@@ -26,6 +26,19 @@ object TestData extends LazyLogging {
       file.getName.replace(".txt", "") -> data
     }.toMap
 
+  private lazy val ttppFiles: Seq[File] = FileUtils
+    .listFiles(new File("src/test/resources/testdata/ttpp"), Array("txt"), false)
+    .asScala
+    .toList
+
+  lazy val loadedTtppFiles: Map[String, String] =
+    ttppFiles.map { file =>
+      val source = Source.fromFile(file.getCanonicalPath)
+      val data   = source.mkString
+      source.close()
+      file.getName.replace(".txt", "") -> data
+    }.toMap
+
   lazy val loadedSuppressionFiles: Map[String, String] =
     suppressionFiles.map { file =>
       val source = Source.fromFile(file.getCanonicalPath)
