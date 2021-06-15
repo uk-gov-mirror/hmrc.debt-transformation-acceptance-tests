@@ -41,48 +41,32 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
   }
 
   def postNewInterestRatesTable(json: String): StandaloneWSResponse = {
-    val bearerToken = createBearerToken(enrolments = Seq("read:interest-forecasting"))
-    val baseUri     = s"$interestForecostingApiUrl/rates"
-    val headers     = Map(
-      "Authorization" -> s"Bearer $bearerToken",
-      "Content-Type"  -> "application/json",
-      "Accept"        -> "application/vnd.hmrc.1.0+json"
-    )
-    WsClient.post(baseUri, headers = headers, Json.parse(json))
+    WsClient.post(dataForIFSApis("rates")._1, headers = dataForIFSApis("rates")._2, Json.parse(json))
   }
 
   def getAllRules = {
-    val bearerToken = createBearerToken(enrolments = Seq("read:interest-forecasting"))
-    val baseUri     = s"$interestForecostingApiUrl/rules"
-    val headers     = Map(
-      "Authorization" -> s"Bearer $bearerToken",
-      "Content-Type"  -> "application/json",
-      "Accept"        -> "application/vnd.hmrc.1.0+json"
-    )
-    WsClient.get(baseUri, headers = headers)
+    WsClient.get(dataForIFSApis("rules")._1, headers = dataForIFSApis("rules")._2)
   }
 
   def postNewInterestRate(json: String, referenceId: String): StandaloneWSResponse = {
-    val bearerToken = createBearerToken(enrolments = Seq("read:interest-forecasting"))
-    val baseUri     = s"$interestForecostingApiUrl/rates/${referenceId}/interestRate"
-    val headers     = Map(
-      "Authorization" -> s"Bearer $bearerToken",
-      "Content-Type"  -> "application/json",
-      "Accept"        -> "application/vnd.hmrc.1.0+json"
-    )
-    WsClient.put(baseUri, headers = headers, Json.parse(json))
+    WsClient.put(dataForIFSApis(s"rates/${referenceId}/interestRate")._1, headers = dataForIFSApis(s"rates/${referenceId}/interestRate")._2, Json.parse(json))
   }
 
   def postNewRulesTable(json: String): StandaloneWSResponse = {
+    WsClient.post(dataForIFSApis("rules")._1, headers = dataForIFSApis("rules")._2, Json.parse(json))
+  }
+
+  private def dataForIFSApis(uri: String) = {
     val bearerToken = createBearerToken(enrolments = Seq("read:interest-forecasting"))
-    val baseUri     = s"$interestForecostingApiUrl/rules"
+    val baseUri     = s"$interestForecostingApiUrl/$uri"
     val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
       "Content-Type"  -> "application/json",
       "Accept"        -> "application/vnd.hmrc.1.0+json"
     )
-    WsClient.post(baseUri, headers = headers, Json.parse(json))
+    (baseUri, headers)
   }
+
 
 
   def getBodyAsString(variant: String): String =
