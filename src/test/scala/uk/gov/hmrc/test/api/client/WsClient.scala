@@ -87,7 +87,6 @@ object WsClient extends LazyLogging {
   }
 
   def put(uri: String, headers: Map[String, String], json: JsValue): StandaloneWSResponse = {
-    println("")
     logger.info(s"PUT request URI: $uri")
     logger.debug(s"PUT request headers: $headers")
     logger.debug(s"PUT request body: $json")
@@ -102,7 +101,6 @@ object WsClient extends LazyLogging {
       timeout
     )
 
-    println("")
     logger.debug(s"PUT response status: ${response.status}")
     logger.debug(s"PUT response headers: ${response.headers}")
     logger.debug(s"PUT response body: ${response.body}")
