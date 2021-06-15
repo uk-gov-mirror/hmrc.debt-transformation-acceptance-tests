@@ -23,9 +23,11 @@ import org.scalatest.concurrent.Eventually
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import play.twirl.api.TwirlHelperImports.twirlJavaCollectionToScala
-import uk.gov.hmrc.test.api.models.{DebtCalculation, DebtItemCalculation}
+import uk.gov.hmrc.test.api.models.{DebtCalculation, DebtItemCalculation, GetRulesResponse, InterestRate, InterestRates}
 import uk.gov.hmrc.test.api.requests.InterestForecastingRequests.{getBodyAsString, _}
 import uk.gov.hmrc.test.api.utils.ScenarioContext
+
+import java.time.LocalDate
 
 class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Matchers {
 
@@ -34,9 +36,49 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
 
   }
 
+  Given("a new interest rate table") { () =>
+    val newIntTable = InterestRates(22, Seq(InterestRate(LocalDate.of(2010, 1, 1), 1),
+      InterestRate(LocalDate.of(2020, 1, 1), 10),
+      InterestRate(LocalDate.of(2021, 1, 1), 20)))
+    postNewInterestRatesTable(Json.toJson(newIntTable).toString())
+  }
+
+  When("a rule has been updated") {(dataTable: DataTable) =>
+    val asmapTransposed   = dataTable.transpose().asMap(classOf[String], classOf[String])
+    val newRule = asmapTransposed.get("rule")
+    val responseGEtRules = getAllRules
+    val collection = Json.parse(responseGEtRules.body).as[GetRulesResponse]
+    val newRules: List[String] = collection.rules.find(_.enabled) match {
+      case Some(activeRules) => {
+        val rules = activeRules.rules.filterNot(vl => (vl.contains(asmapTransposed.get("mainTrans")) && vl.contains(asmapTransposed.get("subTrans"))))
+        rules ++ List(s"IF mainTrans == '${asmapTransposed.get("mainTrans")}' AND subTrans == '${asmapTransposed.get("subTrans")}' -> intRate = ${asmapTransposed.get("intRate")} AND interestOnlyDebt = false")
+
+      }
+    }
+
+    postNewRulesTable(Json.toJson(CreateRuleRequest(newRules)).toString())
+  }
+
+  Given("the current set of rules") { () =>
+    val responseGEtRules = getAllRules
+
+    val collection = Json.parse(responseGEtRules.body).as[GetRulesResponse]
+    val existingProdRules = collection.rules.find(_.version ==1)
+    existingProdRules match {
+      case Some(rules) => postNewRulesTable(Json.toJson(CreateRuleRequest(rules.rules)).toString())
+      case _ => println("Error. No rules with version 1 found")
+    }
+  }
+
+  When("a new interest rate is added") {(dataTable: DataTable) =>
+    val asmapTransposed   = dataTable.transpose().asMap(classOf[String], classOf[String])
+    postNewInterestRate(Json.toJson(InterestRate(LocalDate.parse(asmapTransposed.get("date")),
+      asmapTransposed.get("interestRate").toString.toDouble)).toString(), "22")
+  }
+
   Given("(.*) debt items") { (numberItems: Int) =>
     var debtItems: String = null
-    var n                 = 0
+    var n = 0
 
     while (n < numberItems) {
       val debtItem = getBodyAsString("debtItem")
@@ -62,7 +104,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
 
   Given("(.*) debt items where interest rate changes from 3\\.0 to 3\\.25") { (numberItems: Int) =>
     var debtItems: String = null
-    var n                 = 0
+    var n = 0
 
     while (n < numberItems) {
       val debtItem = getBodyAsString("debtItem")
@@ -95,7 +137,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
   }
 
   When("the debt item(s) is sent to the ifs service") { () =>
-    val request  = ScenarioContext.get("debtItems").toString
+    val request = ScenarioContext.get("debtItems").toString
     println(s"IFS REQUST --> $request")
     val response = getDebtCalculation(request)
     println(s"RESP --> ${response.body}")
@@ -103,7 +145,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
   }
 
   Then("the ifs service wilL return a total debts summary of") { (dataTable: DataTable) =>
-    val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[String])
+    val asMapTransposed = dataTable.transpose().asMap(classOf[String], classOf[String])
     val response: StandaloneWSResponse = ScenarioContext.get("response")
 
     val responseBody = Json.parse(response.body).as[DebtCalculation]
@@ -127,7 +169,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
   }
 
   Then("the ([0-9]\\d*)(?:st|nd|rd|th) debt summary will contain") { (index: Int, dataTable: DataTable) =>
-    val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[String])
+    val asMapTransposed = dataTable.transpose().asMap(classOf[String], classOf[String])
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status should be(200)
 
@@ -158,13 +200,13 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
 
   Then("""the ifs service will respond with (.*)""") { (expectedMessage: String) =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
-    response.body   should include(expectedMessage)
+    response.body should include(expectedMessage)
     response.status should be(400)
   }
 
   Then("the ([0-9])(?:st|nd|rd|th) debt summary will have calculation windows") {
     (summaryIndex: Int, dataTable: DataTable) =>
-      val asMapTransposed                = dataTable.asMaps(classOf[String], classOf[String])
+      val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
       val response: StandaloneWSResponse = ScenarioContext.get("response")
 
       asMapTransposed.zipWithIndex.foreach { case (window, index) =>
