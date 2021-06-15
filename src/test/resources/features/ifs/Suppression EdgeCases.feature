@@ -116,8 +116,6 @@ Feature: Suppression - Edge cases
       | numberChargeableDays |
       | 58                  |
 
-  # TODO Fails 2 overlapping suppressions that start on same day returns incorrect interest rate in calc window
-  @wip @DTD-366
   Scenario: Suppression, 1 duty, 2 overlapping suppressions that start on same day
     Given suppression data has been created
       | reason      | enabled | fromDate   | toDate     |
