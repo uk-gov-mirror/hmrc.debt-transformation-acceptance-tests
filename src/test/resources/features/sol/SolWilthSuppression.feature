@@ -62,7 +62,7 @@ Feature: Sol With Suppression
       | duty01 |
     When a debt statement of liability is requested
     Then service returns debt statement of liability data
-      | amountIntTotal | combinedDailyAccrual | a
+      | amountIntTotal | combinedDailyAccrual |
       | 500177         | 35                   |
     And the 1st sol debt summary will contain
       | debtId  | mainTrans | debtTypeDescription          | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
