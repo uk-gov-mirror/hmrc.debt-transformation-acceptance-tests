@@ -49,7 +49,8 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | true            | 35                      | 500249             | false                 |
 
   Scenario: No Interest Bearing and InterestOnlyDebt MainTrans (1546) debt SubTrans (2000)
-    Given a debt item
+    Given the current set of rules
+    And a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1546      | 2000     |
     And the debt item has no payment history

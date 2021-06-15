@@ -40,6 +40,51 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
     WsClient.post(baseUri, headers = headers, Json.parse(json))
   }
 
+  def postNewInterestRatesTable(json: String): StandaloneWSResponse = {
+    val bearerToken = createBearerToken(enrolments = Seq("read:interest-forecasting"))
+    val baseUri     = s"$interestForecostingApiUrl/rates"
+    val headers     = Map(
+      "Authorization" -> s"Bearer $bearerToken",
+      "Content-Type"  -> "application/json",
+      "Accept"        -> "application/vnd.hmrc.1.0+json"
+    )
+    WsClient.post(baseUri, headers = headers, Json.parse(json))
+  }
+
+  def getAllRules = {
+    val bearerToken = createBearerToken(enrolments = Seq("read:interest-forecasting"))
+    val baseUri     = s"$interestForecostingApiUrl/rules"
+    val headers     = Map(
+      "Authorization" -> s"Bearer $bearerToken",
+      "Content-Type"  -> "application/json",
+      "Accept"        -> "application/vnd.hmrc.1.0+json"
+    )
+    WsClient.get(baseUri, headers = headers)
+  }
+
+  def postNewInterestRate(json: String, referenceId: String): StandaloneWSResponse = {
+    val bearerToken = createBearerToken(enrolments = Seq("read:interest-forecasting"))
+    val baseUri     = s"$interestForecostingApiUrl/rates/${referenceId}/interestRate"
+    val headers     = Map(
+      "Authorization" -> s"Bearer $bearerToken",
+      "Content-Type"  -> "application/json",
+      "Accept"        -> "application/vnd.hmrc.1.0+json"
+    )
+    WsClient.put(baseUri, headers = headers, Json.parse(json))
+  }
+
+  def postNewRulesTable(json: String): StandaloneWSResponse = {
+    val bearerToken = createBearerToken(enrolments = Seq("read:interest-forecasting"))
+    val baseUri     = s"$interestForecostingApiUrl/rules"
+    val headers     = Map(
+      "Authorization" -> s"Bearer $bearerToken",
+      "Content-Type"  -> "application/json",
+      "Accept"        -> "application/vnd.hmrc.1.0+json"
+    )
+    WsClient.post(baseUri, headers = headers, Json.parse(json))
+  }
+
+
   def getBodyAsString(variant: String): String =
     TestData.loadedFiles(variant)
 

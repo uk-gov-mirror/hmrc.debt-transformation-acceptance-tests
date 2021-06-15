@@ -86,6 +86,31 @@ object WsClient extends LazyLogging {
     response
   }
 
+  def put(uri: String, headers: Map[String, String], json: JsValue): StandaloneWSResponse = {
+    println("")
+    logger.info(s"PUT request URI: $uri")
+    logger.debug(s"PUT request headers: $headers")
+    logger.debug(s"PUT request body: $json")
+
+    val client   = asyncClient
+    val request  = client.url(uri)
+    val response = Await.result(
+      request
+        .withHttpHeaders(headers.toSeq: _*)
+        .withFollowRedirects(false)
+        .put(json),
+      timeout
+    )
+
+    println("")
+    logger.debug(s"PUT response status: ${response.status}")
+    logger.debug(s"PUT response headers: ${response.headers}")
+    logger.debug(s"PUT response body: ${response.body}")
+
+    response
+  }
+
+
   def delete(uri: String, headers: Map[String, String]): StandaloneWSResponse = {
     println("")
     logger.info(s"DELETE request URI: $uri")
