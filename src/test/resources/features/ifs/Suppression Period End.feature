@@ -44,8 +44,6 @@ Feature: Suppression - Period End
       | combinedDailyAccrual | interestDueCallTotal |
       | 35                   | 5520                 |
 
-#  Fails. Get 400 error when suppression period is before interest start date
-  @wip @DTD-403
   Scenario: Period End Suppression should NOT be applied where suppression period is before interest start date
     Given suppression data has been created
       | reason | description | enabled | fromDate   | toDate     |
