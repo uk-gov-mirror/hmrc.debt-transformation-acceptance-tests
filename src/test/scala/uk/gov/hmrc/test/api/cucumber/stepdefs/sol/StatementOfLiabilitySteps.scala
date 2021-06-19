@@ -65,6 +65,7 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
 
     val debtDetailsTestfile = getBodyAsString("debtDetailsTestfile")
       .replaceAll("<REPLACE_solType>", asMapTransposed.get("solType"))
+      .replaceAll("<REPLACE_solRequestedDate>", asMapTransposed.get("solRequestedDate"))
       .replaceAll("<REPLACE_debtId>", asMapTransposed.get("debtId"))
       .replaceAll("<REPLACE_customerReference>", asMapTransposed.get("customerUniqueRef"))
       .replaceAll("REPLACE_interestRequestedTo", asMapTransposed.get("interestRequestedTo"))
@@ -84,12 +85,11 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
 
     try ScenarioContext.get("debtDetails")
     catch { case e: Exception => firstItem = true }
-
     val SolMultipleDebts = getBodyAsString("SolMultipleDebts")
       .replaceAll("<REPLACE_solType>", asMapTransposed.get("solType"))
-      .replaceAll("REPLACE_solRequestedDate", asMapTransposed.get("solRequestedDate"))
+      .replaceAll("<REPLACE_solRequestedDate>", asMapTransposed.get("solRequestedDate"))
       .replaceAll("REPLACE_debtId", asMapTransposed.get("debtId"))
-      .replaceAll("REPLACE_ID", asMapTransposed.get("debtId2"))
+      .replaceAll("REPLACE_Id", asMapTransposed.get("debtId2"))
       .replaceAll("REPLACE_interestRequestedTo", asMapTransposed.get("interestRequestedTo"))
       .replaceAll("REPLACE_interestRequestedTo2", asMapTransposed.get("interestRequestedTo"))
 

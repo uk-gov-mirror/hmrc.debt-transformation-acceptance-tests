@@ -127,9 +127,9 @@ Feature: statement of liability Debt details
       | 250            | 0                    |
 
     And the 1st sol debt summary will contain
-      | debtId  | mainTrans | debtTypeDescription              | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
-      | Idle_01 | 1520      | TPSS Accounting For Tax Charge + | 0                    | 250                | 0                    |
+      | debtId  | mainTrans | debtTypeDescription | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
+      | Idle_01 | 1520      | TPSS Penalty        | 0                    | 250                | 0                    |
 
     And the 1st sol debt summary will contain duties
-      | dutyId  | subTrans | dutyTypeDescription | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
-      | Idle_01 | 1090     | Tax Interest        | 250              | 0                    | false           | false                 |
+      | dutyId        | subTrans | dutyTypeDescription | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
+      | Idle_01-1090 | 1090     | Penalty             | 250              | 0                    | false           | false                 |
