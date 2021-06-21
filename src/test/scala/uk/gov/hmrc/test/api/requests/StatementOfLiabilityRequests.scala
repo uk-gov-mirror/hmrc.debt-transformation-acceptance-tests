@@ -8,9 +8,8 @@ import uk.gov.hmrc.test.api.client.WsClient
 import uk.gov.hmrc.test.api.utils.{BaseRequests, RandomValues, ScenarioContext, TestData}
 
 object StatementOfLiabilityRequests extends BaseRequests with RandomValues {
-  val bearerToken = createBearerToken(enrolments = Seq("read:statement-of-liability"),userType = getRandomAffinityGroup,utr="123456789012")
 
- // val bearerToken = createBearerToken(enrolments = Seq("read:statement-of-liability"))
+  val bearerToken = createBearerToken(enrolments = Seq("read:statement-of-liability"))
 
   def getStatementOfLiability(json: String): StandaloneWSResponse = {
     val baseUri = s"$statementOfLiabilityApiUrl/sol"
@@ -24,9 +23,7 @@ object StatementOfLiabilityRequests extends BaseRequests with RandomValues {
 
   //Used by hello world only
   def getStatementLiabilityHelloWorld(endpoint: String): StandaloneWSResponse = {
-    val bearerToken = createBearerToken(enrolments = Seq("read:statement-of-liability"),userType = getRandomAffinityGroup,utr="123456789012")
-
-    //val bearerToken = createBearerToken(enrolments = Seq("read:statement-of-liability"))
+    val bearerToken = createBearerToken(enrolments = Seq("read:statement-of-liability"))
     val baseUri     = s"$statementOfLiabilityApiUrl$endpoint"
     val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
@@ -49,7 +46,9 @@ object StatementOfLiabilityRequests extends BaseRequests with RandomValues {
           .replaceAll("<REPLACE_dutyId>", dutyId.get("dutyId"))
       )
 
-      if (index + 1 < asMapTransposed.size) dutyIds = dutyIds.concat(",")}
+      if (index + 1 < asMapTransposed.size) dutyIds = dutyIds.concat(",")
+
+    }
 
     val jsonWithCustomerPostCodes =
       ScenarioContext.get("debtDetails").toString.replaceAll("<REPLACE_dutyItemChargeId>", dutyIds)

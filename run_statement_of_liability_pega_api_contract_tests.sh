@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-environment="qa"
+environment="local"
 tags="@smoke and not @ignore"
 if [ $# -gt 0 -a "$1" != "$environment" ];
 then
@@ -10,4 +10,4 @@ fi
 
 echo "*** running on $environment for tags '$tags' ***"
 
-sbt -Denvironment="$environment" -Dcucumber.options="--tags '$tags'" clean 'testOnly uk.gov.hmrc.test.api.cucumber.runner.StatementOfLiabilityApiPegaTestRunner'
+sbt -Denvironment="$environment" -Dcucumber.options="--tags '$tags'" clean 'testOnly uk.gov.hmrc.test.api.cucumber.runner.StatementOfLiabilityApiTestRunner'

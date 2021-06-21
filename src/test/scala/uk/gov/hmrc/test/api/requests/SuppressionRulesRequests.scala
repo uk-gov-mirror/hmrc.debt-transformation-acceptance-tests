@@ -29,8 +29,7 @@ import uk.gov.hmrc.test.api.utils.{BaseRequests, TestData}
 object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Matchers with BaseRequests {
 
   def postSuppressionData(json: String): StandaloneWSResponse = {
-    val bearerToken = createBearerToken(enrolments = Seq("read:suppression-data"),userType = getRandomAffinityGroup,utr="123456789012")
-
+    val bearerToken = createBearerToken(enrolments = Seq("read:suppression-data"))
     val baseUri     = s"$interestForecostingApiUrl/suppressions/1/suppression"
     val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
@@ -42,7 +41,7 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
   }
 
   def deleteSuppressionData(): StandaloneWSResponse = {
-    val bearerToken = createBearerToken(enrolments = Seq("read:interest-forecasting"),userType = getRandomAffinityGroup,utr="123456789012")
+    val bearerToken = createBearerToken(enrolments = Seq("read:suppression-data"))
     val baseUri     = s"$interestForecostingApiUrl/suppressions"
     val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
@@ -54,7 +53,7 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
   }
 
   def postSuppressionRules(json: String, rulesID: String): StandaloneWSResponse = {
-    val bearerToken = createBearerToken(enrolments = Seq("read:suppression-rule"),userType = getRandomAffinityGroup,utr="123456789012")
+    val bearerToken = createBearerToken(enrolments = Seq("read:suppression-rule"))
     val baseUri     = s"$interestForecostingApiUrl/suppression-rules/" + rulesID + "/suppression-rule"
     val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
@@ -66,7 +65,7 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
   }
 
   def deleteSuppressionRules(): StandaloneWSResponse = {
-    val bearerToken = createBearerToken(enrolments = Seq("read:interest-forecasting"),userType = getRandomAffinityGroup,utr="123456789012")
+    val bearerToken = createBearerToken(enrolments = Seq("read:suppression-rule"))
     val baseUri     = s"$interestForecostingApiUrl/suppression-rules"
     val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
