@@ -75,7 +75,7 @@ Feature: Suppression
       | paymentAmount | paymentDate |
       | 100000        | 2021-02-20  |
       | 50000         | 2021-02-20  |
-    Given a debt item
+    And a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 400000         | 2020-01-01  | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
     And the debt item has no payment history
@@ -148,7 +148,7 @@ Feature: Suppression
     And suppression rules have been created
       | ruleId | postCode | suppressionIds |
       | 1      | TW3      | 1              |
-    Given a debt item
+    And a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2020-01-01  | 2020-04-01        | 2020-07-06          | 1535      | 1000     |
     And the debt item has no payment history
@@ -243,13 +243,13 @@ Feature: Suppression
       | ruleId | mainTrans | suppressionIds |
       | 1      | 1546      | 1              |
       | 1      | 1535      | 1              |
-       Given suppression data has been created
+    And suppression data has been created
       | suppressionId | reason     | description | enabled | fromDate   | toDate     |
       | 3             | PERIOD-END | desc-3      | true    | 2021-06-01 | 2021-06-20 |
     And suppression rules have been created
       | ruleId | periodEnd  | suppressionIds |
       | 1      | 2019-05-20 | 3              |
-    Given suppression data has been created
+    And suppression data has been created
       | suppressionId | reason   | description | enabled | fromDate   | toDate     |
       | 2             | POSTCODE | desc-2      | true    | 2021-04-24 | 2021-06-04 |
     And suppression rules have been created

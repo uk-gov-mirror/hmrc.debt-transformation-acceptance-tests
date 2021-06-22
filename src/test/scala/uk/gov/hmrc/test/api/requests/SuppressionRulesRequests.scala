@@ -30,7 +30,7 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
 
   def postSuppressionData(json: String, id: String): StandaloneWSResponse = {
     val bearerToken = createBearerToken(enrolments = Seq("read:suppression-data"))
-    val baseUri     = s"$interestForecostingApiUrl/suppressions/" + id + "/suppression"
+    val baseUri     = s"$interestForecostingApiUrl/suppressions/$id/suppression"
     val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
       "Content-Type"  -> "application/json",
@@ -54,7 +54,7 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
 
   def postSuppressionRules(json: String, rulesID: String): StandaloneWSResponse = {
     val bearerToken = createBearerToken(enrolments = Seq("read:suppression-rule"))
-    val baseUri     = s"$interestForecostingApiUrl/suppression-rules/" + rulesID + "/suppression-rule"
+    val baseUri     = s"$interestForecostingApiUrl/suppression-rules/$rulesID/suppression-rule"
     val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
       "Content-Type"  -> "application/json",
