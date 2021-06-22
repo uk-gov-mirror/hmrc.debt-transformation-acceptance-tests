@@ -28,9 +28,9 @@ import uk.gov.hmrc.test.api.utils.{BaseRequests, TestData}
 
 object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Matchers with BaseRequests {
 
-  def postSuppressionData(json: String): StandaloneWSResponse = {
+  def postSuppressionData(json: String, id: String): StandaloneWSResponse = {
     val bearerToken = createBearerToken(enrolments = Seq("read:suppression-data"))
-    val baseUri     = s"$interestForecostingApiUrl/suppressions/1/suppression"
+    val baseUri     = s"$interestForecostingApiUrl/suppressions/" + id + "/suppression"
     val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
       "Content-Type"  -> "application/json",
@@ -82,6 +82,7 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
   def addSuppressions(dataTable: DataTable): Unit = {
     val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
     var suppressions    = ""
+    var id: String      = null
 
     asMapTransposed.zipWithIndex.foreach { case (suppression, index) =>
       suppressions = suppressions.concat(
@@ -94,18 +95,23 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
           .replaceAll("<REPLACE_toDate>", suppression.get("toDate").toString)
       )
 
+      if (asMapTransposed.toString.contains("suppressionId")) {
+        id = suppression.get("suppressionId")
+      } else (id = "1")
+
       if (index + 1 < asMapTransposed.size) suppressions = suppressions.concat(",")
     }
+
     val request  = getSuppressionBodyAsString("suppressionsData").replaceAll("<REPLACE_suppressions>", suppressions)
     println(s"SUPPRESSION DATA REQUEST --> $request")
-    val response = SuppressionRulesRequests.postSuppressionData(request)
+    val response = SuppressionRulesRequests.postSuppressionData(request, id)
     response.status should be(200)
   }
 
   def addSuppressionRules(dataTable: DataTable): Unit = {
-    val asMapTransposed          = dataTable.asMaps(classOf[String], classOf[String])
+    val asMapTransposed  = dataTable.asMaps(classOf[String], classOf[String])
     var suppressionRules = ""
-    var rulesID = ""
+    var rulesID          = ""
 
     if (asMapTransposed.toString.contains("postCode")) {
       asMapTransposed.zipWithIndex.foreach { case (rule, index) =>
