@@ -45,8 +45,6 @@ Feature: Sol With Suppression
       | debtId  | mainTrans | debtTypeDescription          | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
       | debt008 | 1545      | CO: TPSS Contract Settlement | 249                  | 500249             | 35                   |
 
-#  Fail. Suppression is not being applied by period end when request is sent from SOL. Is this a bug?
-  @ignore @DTD-409
   Scenario: Customer Outputs SoL where suppression is applied by Period End
     Given suppression data has been created
       | reason      | description | enabled | fromDate   | toDate     |
