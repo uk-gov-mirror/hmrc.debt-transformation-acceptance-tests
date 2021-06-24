@@ -207,7 +207,6 @@ Feature: Suppression - Edge cases
 
 #Temp scenario that does not incl numberOfDays in suppression calc window. Currently zero and incorrect
 # Fix for DTD-419 required
-  @runMe
   Scenario: Suppression period starts on same day as interest start date
     Given suppression data has been created
       | reason | description | enabled | fromDate   | toDate     |

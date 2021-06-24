@@ -3,7 +3,7 @@ Feature: Suppression
   Scenario: Suppression applied to main trans
     Given suppression data has been created
       | reason | description | enabled | fromDate   | toDate     |
-      | POLICY |   COVID    | true    | 2021-04-04 | 2021-05-04 |
+      | POLICY | COVID       | true    | 2021-04-04 | 2021-05-04 |
     And suppression rules have been created
       | ruleId | mainTrans | suppressionIds |
       | 1      | 1546      | 1              |
@@ -64,7 +64,7 @@ Feature: Suppression
   Scenario: Suppression, 2 duties, 2 payments on same day for one of the duties
     Given suppression data has been created
       | reason      | description | enabled | fromDate   | toDate     |
-      | LEGISLATIVE |  COVID      | true    | 2021-04-04 | 2021-05-04 |
+      | LEGISLATIVE | COVID       | true    | 2021-04-04 | 2021-05-04 |
     And suppression rules have been created
       | ruleId | postCode | suppressionIds |
       | 1      | TW3      | 1              |
@@ -75,7 +75,7 @@ Feature: Suppression
       | paymentAmount | paymentDate |
       | 100000        | 2021-02-20  |
       | 50000         | 2021-02-20  |
-    Given a debt item
+    And a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 400000         | 2020-01-01  | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
     And the debt item has no payment history
@@ -108,14 +108,47 @@ Feature: Suppression
       | numberChargeableDays | unpaidAmountDuty |
       | 124                  | 400000           |
 
+  Scenario: Suppression, 2 duties, 1 matching on period end
+    Given suppression data has been created
+      | reason | description | enabled | fromDate   | toDate     |
+      | POLICY | COVID       | true    | 2021-04-04 | 2021-05-04 |
+    And suppression rules have been created
+      | ruleId | periodEnd  | suppressionIds |
+      | 1      | 2020-12-20 | 1              |
+    And a debt item
+      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | periodEnd  |
+      | 500000         | 2020-01-01  | 2021-02-01        | 2021-07-06          | 1535      | 1000     | 2020-12-20 |
+    And the debt item has no payment history
+    And a debt item
+      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | periodEnd  |
+      | 500000         | 2020-01-01  | 2021-02-01        | 2021-07-06          | 1535      | 1000     | 2021-12-21 |
+    And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    And the 1st debt summary will contain
+      | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
+      | 124                  | 35                      | 504415             |
+    And the 1st debt summary will have calculation windows
+      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow | reason | code | description |
+      | 2021-02-01 | 2021-04-03 | 61           | 2.6          | 35                      | 502172             |        |      |             |
+      | 2021-04-04 | 2021-05-04 | 31           | 0.0          | 0                       | 500000             | POLICY | 1    | COVID       |
+      | 2021-05-05 | 2021-07-06 | 63           | 2.6          | 35                      | 502243             |        |      |             |
+    And the 2nd debt summary will contain
+      | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
+      | 155                  | 35                      | 505520             |
+    And the 2nd debt summary will have calculation windows
+      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual |
+      | 2021-02-01 | 2021-07-06 | 155          | 2.6          | 35                      |
+
   Scenario: Suppression, open ended suppression
     Given suppression data has been created
       | reason      | description | enabled | fromDate   | toDate     |
-      | LEGISLATIVE |  COVID      | true    | 2020-04-04 | 9999-12-31 |
+      | LEGISLATIVE | COVID       | true    | 2020-04-04 | 9999-12-31 |
     And suppression rules have been created
       | ruleId | postCode | suppressionIds |
       | 1      | TW3      | 1              |
-    Given a debt item
+    And a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2020-01-01  | 2020-04-01        | 2020-07-06          | 1535      | 1000     |
     And the debt item has no payment history
@@ -138,7 +171,7 @@ Feature: Suppression
   Scenario: Suppression, 2 payments before suppression dates
     Given suppression data has been created
       | reason      | description | enabled | fromDate   | toDate     |
-      | LEGISLATIVE |  COVID      | true    | 2021-04-04 | 2021-05-04 |
+      | LEGISLATIVE | COVID       | true    | 2021-04-04 | 2021-05-04 |
     And suppression rules have been created
       | ruleId | postCode | suppressionIds |
       | 1      | TW3      | 1              |
@@ -171,7 +204,7 @@ Feature: Suppression
   Scenario: Suppression, 2 payments after suppression dates
     Given suppression data has been created
       | reason      | description | enabled | fromDate   | toDate     |
-      | LEGISLATIVE |  COVID      | true    | 2021-02-04 | 2021-03-04 |
+      | LEGISLATIVE | COVID       | true    | 2021-02-04 | 2021-03-04 |
     And suppression rules have been created
       | ruleId | postCode | suppressionIds |
       | 1      | TW3      | 1              |
@@ -201,3 +234,43 @@ Feature: Suppression
       | 2021-02-01 | 2021-02-03 | 2            | 2.6          | 24                      | 350049             |             |      |             |
       | 2021-02-04 | 2021-03-04 | 29           | 0.0          | 0                       | 350000             | LEGISLATIVE | 1    | COVID       |
       | 2021-03-05 | 2021-07-06 | 124          | 2.6          | 24                      | 353091             |             |      |             |
+
+  Scenario: Suppression applied when multiple applying suppressions with multiple rule types exist.
+    Given suppression data has been created
+      | suppressionId | reason    | description | enabled | fromDate   | toDate     |
+      | 1             | MAINTRANS | desc-1      | true    | 2021-04-04 | 2021-05-04 |
+    And suppression rules have been created
+      | ruleId | mainTrans | suppressionIds |
+      | 1      | 1546      | 1              |
+      | 1      | 1535      | 1              |
+    And suppression data has been created
+      | suppressionId | reason     | description | enabled | fromDate   | toDate     |
+      | 3             | PERIOD-END | desc-3      | true    | 2021-06-01 | 2021-06-20 |
+    And suppression rules have been created
+      | ruleId | periodEnd  | suppressionIds |
+      | 1      | 2019-05-20 | 3              |
+    And suppression data has been created
+      | suppressionId | reason   | description | enabled | fromDate   | toDate     |
+      | 2             | POSTCODE | desc-2      | true    | 2021-04-24 | 2021-06-04 |
+    And suppression rules have been created
+      | ruleId | postCode | suppressionIds |
+      | 1      | S9       | 2              |
+    And a debt item
+      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | periodEnd  |
+      | 500000         | 2020-01-01  | 2021-02-01        | 2021-07-05          | 1535      | 1000     | 2019-05-20 |
+    And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
+    And the customer has post codes
+      | postCode | postCodeDate |
+      | S9 2YR   | 2020-05-04   |
+    When the debt item is sent to the ifs service
+    Then the ifs service wilL return a total debts summary of
+      | combinedDailyAccrual | interestDueCallTotal |
+      | 35                   | 2706                 |
+    And the 1st debt summary will have calculation windows
+      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow | reason     | description |
+      | 2021-02-01 | 2021-04-03 | 61           | 2.6          | 35                      | 502172             |            |             |
+      | 2021-04-04 | 2021-05-04 | 31           | 0.0          | 0                       | 500000             | MAINTRANS  | desc-1      |
+      | 2021-05-05 | 2021-06-04 | 31           | 0.0          | 0                       | 500000             | POSTCODE   | desc-2      |
+      | 2021-06-05 | 2021-06-20 | 16           | 0.0          | 0                       | 500000             | PERIOD-END | desc-3      |
+      | 2021-06-21 | 2021-07-05 | 15           | 2.6          | 35                      | 500534             |            |             |
