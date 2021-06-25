@@ -242,19 +242,19 @@ Feature: Suppression
     And suppression rules have been created
       | ruleId | mainTrans | suppressionIds |
       | 1      | 1546      | 1              |
-      | 1      | 1535      | 1              |
+      | 2      | 1535      | 1              |
     And suppression data has been created
       | suppressionId | reason     | description | enabled | fromDate   | toDate     |
       | 3             | PERIOD-END | desc-3      | true    | 2021-06-01 | 2021-06-20 |
     And suppression rules have been created
       | ruleId | periodEnd  | suppressionIds |
-      | 1      | 2019-05-20 | 3              |
+      | 3      | 2019-05-20 | 3              |
     And suppression data has been created
       | suppressionId | reason   | description | enabled | fromDate   | toDate     |
       | 2             | POSTCODE | desc-2      | true    | 2021-04-24 | 2021-06-04 |
     And suppression rules have been created
       | ruleId | postCode | suppressionIds |
-      | 1      | S9       | 2              |
+      | 4      | S9       | 2              |
     And a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | periodEnd  |
       | 500000         | 2020-01-01  | 2021-02-01        | 2021-07-05          | 1535      | 1000     | 2019-05-20 |
