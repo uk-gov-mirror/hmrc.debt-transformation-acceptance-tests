@@ -205,38 +205,6 @@ Feature: Suppression - Edge cases
       | 2021-02-01 | 2021-05-04 | 93           | 0.0          | 0                       |
       | 2021-05-05 | 2021-07-06 | 63           | 2.6          | 35                      |
 
-#Temp scenario that does not incl numberOfDays in suppression calc window. Currently zero and incorrect
-# Fix for DTD-419 required
-  Scenario: Suppression period starts on same day as interest start date
-    Given suppression data has been created
-      | reason | description | enabled | fromDate   | toDate     |
-      | POLICY |  COVID      | true    | 2021-02-01 | 2021-05-04 |
-    And suppression rules have been created
-      | ruleId | postCode | suppressionIds |
-      | 1      | TW3      | 1              |
-    And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2020-01-01  | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
-    And the debt item has no payment history
-    And no breathing spaces have been applied to the customer
-    And the customer has post codes
-      | postCode | postCodeDate |
-      | TW3 4QQ  | 2019-07-06   |
-    When the debt item is sent to the ifs service
-    Then the ifs service wilL return a total debts summary of
-      | combinedDailyAccrual | interestDueCallTotal |
-      | 35                   | 2243                 |
-    And the 1st debt summary will contain
-      | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
-      | 63                   | 35                      | 502243             |
-    And the 1st debt summary will have calculation windows
-      | periodFrom | periodTo   | interestRate | interestDueDailyAccrual |
-      | 2021-02-01 | 2021-05-04 | 0.0          | 0                       |
-      | 2021-05-05 | 2021-07-06 | 2.6          | 35                      |
-
-    # TODO Fails. numberOfDays in suppression calc window is zero but should be 93
-#  Remove above temp scenario when this one passes
-  @DTD-419 @wip
   Scenario: Suppression period starts on same day as interest start date
     Given suppression data has been created
       | reason | description | enabled | fromDate   | toDate     |
