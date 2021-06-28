@@ -1,3 +1,4 @@
+@suppression
 Feature: Suppression - Period End
 
   Scenario: Suppression applied to period End
