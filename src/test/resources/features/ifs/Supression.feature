@@ -1,3 +1,4 @@
+@suppression
 Feature: Suppression
 
   Scenario: Suppression applied to main trans

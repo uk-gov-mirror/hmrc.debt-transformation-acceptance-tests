@@ -1,3 +1,4 @@
+@suppression
 Feature: Suppression - Edge cases
 
   Scenario: Suppression, interest rate change during suppression

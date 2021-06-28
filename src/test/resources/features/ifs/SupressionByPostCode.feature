@@ -1,4 +1,4 @@
-
+@suppression
 Feature: Suppression by Postcode
 
   Scenario: Suppression applied to postcode
