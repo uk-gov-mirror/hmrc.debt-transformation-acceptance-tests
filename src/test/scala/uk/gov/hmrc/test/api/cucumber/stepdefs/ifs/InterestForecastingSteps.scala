@@ -23,10 +23,9 @@ import org.scalatest.concurrent.Eventually
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import play.twirl.api.TwirlHelperImports.twirlJavaCollectionToScala
-import uk.gov.hmrc.test.api.models.{DebtCalculation, DebtItemCalculation, GetRulesResponse, InterestRate, InterestRates}
+import uk.gov.hmrc.test.api.models.{DebtCalculation, DebtItemCalculation, Errors, GetRulesResponse, InterestRate, InterestRates}
 import uk.gov.hmrc.test.api.requests.InterestForecastingRequests.{getBodyAsString, _}
 import uk.gov.hmrc.test.api.utils.ScenarioContext
-
 import java.time.LocalDate
 
 class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Matchers {
@@ -198,9 +197,26 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     }
   }
 
-  Then("""the ifs service will respond with (.*)""") { (expectedMessage: String) =>
+//  Then("""the ifs service will respond with (.*)""") { (expectedMessage: String) =>
+//    val response: StandaloneWSResponse = ScenarioContext.get("response")
+//    response.body should include(expectedMessage)
+//    response.status should be(400)
+//  }
+
+  Then("the ifs service will respond with") { (dataTable: DataTable) =>
+    val asMapTransposed = dataTable.transpose().asMap(classOf[String], classOf[String])
     val response: StandaloneWSResponse = ScenarioContext.get("response")
-    response.body should include(expectedMessage)
+    val errorResponse = Json.parse(response.body).as[Errors]
+
+    if (asMapTransposed.containsKey("statusCode")) {
+      errorResponse.statusCode.toString shouldBe asMapTransposed.get("statusCode").toString
+    }
+    if (asMapTransposed.containsKey("reason")) {
+      errorResponse.reason shouldBe asMapTransposed.get("reason").toString
+    }
+    if (asMapTransposed.containsKey("message")) {
+      errorResponse.message shouldBe asMapTransposed.get("message").toString
+    }
     response.status should be(400)
   }
 
