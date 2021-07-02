@@ -73,7 +73,9 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service will respond with Could not parse body due to requirement failed: Original Amount can be zero or greater, negative values are not accepted
+    Then the ifs service will respond with
+      | statusCode | reason       | message                                                                                                                  |
+      | 400        | Invalid Json | Could not parse body due to requirement failed: Original Amount can be zero or greater, negative values are not accepted |
 
   Scenario: TPSS MainTrans (1525) debt Amount non integer - Edge Case
     Given a debt item
@@ -83,7 +85,9 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service will respond with /originalAmount' missing or invalid
+    Then the ifs service will respond with
+      | statusCode | reason       | message                                                         |
+      | 400        | Invalid Json | Field at path '/debtItems(0)/originalAmount' missing or invalid |
 
   Scenario: TPSS MainTrans (1525) debt Amount non integer - Edge Case
     Given a debt item
@@ -93,7 +97,9 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service will respond with /originalAmount' missing or invalid
+    Then the ifs service will respond with
+      | statusCode | reason       | message                                                         |
+      | 400        | Invalid Json | Field at path '/debtItems(0)/originalAmount' missing or invalid |
 
   Scenario: TPSS MainTrans (1525) debt invalid entry in Date Created - Edge Case
     Given a debt item
@@ -103,7 +109,9 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service will respond with /dateCreated' missing or invalid
+    Then the ifs service will respond with
+      | statusCode | reason       | message                                                      |
+      | 400        | Invalid Json | Field at path '/debtItems(0)/dateCreated' missing or invalid |
 
   Scenario: TPSS MainTrans (1525) debt empty entry in Date Created - Edge Case
     Given a debt item
@@ -113,7 +121,9 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service will respond with /dateCreated' missing or invalid
+    Then the ifs service will respond with
+      | statusCode | reason       | message                                                      |
+      | 400        | Invalid Json | Field at path '/debtItems(0)/dateCreated' missing or invalid |
 
   Scenario: TPSS MainTrans (1525) debt invalid Date Created - Edge Case
     Given a debt item
@@ -123,7 +133,9 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service will respond with /dateCreated' missing or invalid
+    Then the ifs service will respond with
+      | statusCode | reason       | message                                                      |
+      | 400        | Invalid Json | Field at path '/debtItems(0)/dateCreated' missing or invalid |
 
   Scenario: TPSS MainTrans (1525) debt invalid entry in interestRequestedTo - Edge Case
     Given a debt item
@@ -133,7 +145,9 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service will respond with /interestRequestedTo' missing or invalid
+    Then the ifs service will respond with
+      | statusCode | reason       | message                                                              |
+      | 400        | Invalid Json | Field at path '/debtItems(0)/interestRequestedTo' missing or invalid |
 
   Scenario: TPSS MainTrans (1525) debt empty interestRequestedTo - Edge Case
     Given a debt item
@@ -143,7 +157,9 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service will respond with /interestRequestedTo' missing or invalid
+    Then the ifs service will respond with
+      | statusCode | reason       | message                                                              |
+      | 400        | Invalid Json | Field at path '/debtItems(0)/interestRequestedTo' missing or invalid |
 
   Scenario: TPSS MainTrans (1525) debt invalid interestRequestedTo - Edge Case
     Given a debt item
@@ -153,7 +169,9 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service will respond with /interestRequestedTo' missing or invalid
+    Then the ifs service will respond with
+      | statusCode | reason       | message                                                              |
+      | 400        | Invalid Json | Field at path '/debtItems(0)/interestRequestedTo' missing or invalid |
 
   Scenario: Debt invalid mainTrans - Edge Case
     Given a debt item
@@ -163,7 +181,9 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service will respond with /mainTrans' missing or invalid
+    Then the ifs service will respond with
+      | statusCode | reason       | message                                                    |
+      | 400        | Invalid Json | Field at path '/debtItems(0)/mainTrans' missing or invalid |
 
   Scenario: TPSS debt empty mainTrans - Edge Case
     Given a debt item
@@ -173,7 +193,9 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service will respond with /mainTrans' missing or invalid
+    Then the ifs service will respond with
+      | statusCode | reason       | message                                                    |
+      | 400        | Invalid Json | Field at path '/debtItems(0)/mainTrans' missing or invalid |
 
   Scenario: TPSS MainTrans (1525) debt invalid subTrans - Edge Case
     Given a debt item
@@ -183,7 +205,9 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service will respond with /subTrans' missing or invalid
+    Then the ifs service will respond with
+      | statusCode | reason       | message                                                   |
+      | 400        | Invalid Json | Field at path '/debtItems(0)/subTrans' missing or invalid |
 
   Scenario: TPSS MainTrans (1525) debt empty subTrans - Edge Case
     Given a debt item
@@ -193,7 +217,9 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service will respond with /subTrans' missing or invalid
+    Then the ifs service will respond with
+      | statusCode | reason       | message                                                   |
+      | 400        | Invalid Json | Field at path '/debtItems(0)/subTrans' missing or invalid |
 
   Scenario: TPSS interestStartDate debt before 2001 jan 01 - Edge Case
     Given a debt item
@@ -203,4 +229,6 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service will respond with Invalid Interest Start Date. IFS does not store or calculate historic interest rates
+    Then the ifs service will respond with
+      | statusCode | reason       | message                                                                              |
+      | 400        | Invalid Json | Invalid Interest Start Date. IFS does not store or calculate historic interest rates |
