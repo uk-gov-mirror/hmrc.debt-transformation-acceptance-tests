@@ -197,11 +197,11 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     }
   }
 
-//  Then("""the ifs service will respond with (.*)""") { (expectedMessage: String) =>
-//    val response: StandaloneWSResponse = ScenarioContext.get("response")
-//    response.body should include(expectedMessage)
-//    response.status should be(400)
-//  }
+  Then("""the ifs service will respond with (.*)""") { (expectedMessage: String) =>
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+    response.body should include(expectedMessage)
+    response.status should be(400)
+  }
 
   Then("the ifs service will respond with") { (dataTable: DataTable) =>
     val asMapTransposed = dataTable.transpose().asMap(classOf[String], classOf[String])
