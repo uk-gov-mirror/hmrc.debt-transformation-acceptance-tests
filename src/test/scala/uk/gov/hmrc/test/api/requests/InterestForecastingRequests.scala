@@ -40,6 +40,19 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
     WsClient.post(baseUri, headers = headers, Json.parse(json))
   }
 
+  def getPaymentPlan(json: String): StandaloneWSResponse = {
+    val bearerToken = createBearerToken(enrolments = Seq("read:interest-forecasting"))
+    val baseUri     = s"$interestForecostingApiUrl/payment-plan"
+    val headers     = Map(
+      "Authorization" -> s"Bearer $bearerToken",
+      "Content-Type"  -> "application/json",
+      "Accept"        -> "application/vnd.hmrc.1.0+json"
+    )
+    print("url ************************" + baseUri)
+    WsClient.post(baseUri, headers = headers, Json.parse(json))
+  }
+
+
   def postNewInterestRatesTable(json: String): StandaloneWSResponse = {
     WsClient.post(dataForIFSApis("rates")._1, headers = dataForIFSApis("rates")._2, Json.parse(json))
   }
@@ -199,5 +212,38 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
       ScenarioContext.get("debtItems").toString.replaceAll("<REPLACE_customerPostCodes>", "")
     )
   }
+
+  def createPaymentPlanRequestBody(dataTable: DataTable): Unit = {
+    val asmapTransposed   = dataTable.transpose().asMap(classOf[String], classOf[String])
+    var firstItem         = false
+    var paymentPlan: String = null
+    try ScenarioContext.get("paymentPlan")
+    catch { case e: Exception => firstItem = true }
+
+    var periodEnd = ""
+    if (asmapTransposed.toString.contains("periodEnd")) {
+      periodEnd = "\"periodEnd\": \"" + asmapTransposed.get("periodEnd") + "\","
+    } else { periodEnd = "" }
+    paymentPlan = getBodyAsString("paymentPlan")
+      .replaceAll("<REPLACE_debtId>", "debtId")
+      .replaceAll("<REPLACE_debtAmount>", asmapTransposed.get("debtAmount"))
+      .replaceAll("<REPLACE_instalmentAmount>", asmapTransposed.get("instalmentAmount"))
+      .replaceAll("<REPLACE_paymentFrequency>", asmapTransposed.get("paymentFrequency"))
+      .replaceAll("<REPLACE_instalmentDate>", asmapTransposed.get("instalmentDate"))
+      .replaceAll("<REPLACE_mainTrans>", asmapTransposed.get("mainTrans"))
+      .replaceAll("<REPLACE_subTrans>", asmapTransposed.get("subTrans"))
+      .replaceAll("<REPLACE_outstandingInterest>", asmapTransposed.get("outstandingInterest"))
+
+
+    if (firstItem == true) { paymentPlan = paymentPlan }
+    else { paymentPlan = ScenarioContext.get("paymentPlan").toString.concat(",").concat(paymentPlan) }
+
+    ScenarioContext.set(
+      "paymentPlan",
+      paymentPlan
+    )
+    print("request json ::::::::::::::::::::::::::::::::::::" + paymentPlan)
+  }
+
 
 }

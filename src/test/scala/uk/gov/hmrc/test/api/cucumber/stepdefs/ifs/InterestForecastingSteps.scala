@@ -23,9 +23,10 @@ import org.scalatest.concurrent.Eventually
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import play.twirl.api.TwirlHelperImports.twirlJavaCollectionToScala
-import uk.gov.hmrc.test.api.models.{DebtCalculation, DebtItemCalculation, Errors, GetRulesResponse, InterestRate, InterestRates}
+import uk.gov.hmrc.test.api.models._
 import uk.gov.hmrc.test.api.requests.InterestForecastingRequests.{getBodyAsString, _}
 import uk.gov.hmrc.test.api.utils.ScenarioContext
+
 import java.time.LocalDate
 
 class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Matchers {
@@ -167,6 +168,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     }
   }
 
+
   Then("the ([0-9]\\d*)(?:st|nd|rd|th) debt summary will contain") { (index: Int, dataTable: DataTable) =>
     val asMapTransposed = dataTable.transpose().asMap(classOf[String], classOf[String])
     val response: StandaloneWSResponse = ScenarioContext.get("response")
@@ -261,6 +263,71 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
         }
       }
   }
+  When("the payment plan detail(s) is sent to the ifs service") { () =>
+    val request = ScenarioContext.get("paymentPlan").toString
+    println(s"IFS REQUST --> $request")
+    val response = getPaymentPlan(request)
+    println(s"RESP --> ${response.body}")
+    ScenarioContext.set("response", response)
+
+  }
+
+  Then("ifs returns payment frequency summary") { (dataTable: DataTable) =>
+    val asMapTransposed = dataTable.transpose().asMap(classOf[String], classOf[String])
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+    response.status should be(200)
+
+    val responseBody= Json.parse(response.body).as[PaymentPlanSummary]
+    if (asMapTransposed.containsKey("totalDebtAmount")) {
+      responseBody.totalDebtAmount.toString shouldBe asMapTransposed.get("totalDebtAmount").toString
+    }
+    if (asMapTransposed.containsKey("totalPlanInt")) {
+      responseBody.totalPlanInt.toString shouldBe asMapTransposed.get("totalPlanInt").toString
+    }
+    if (asMapTransposed.containsKey("interestAccrued")) {
+      responseBody.interestAccrued.toString() shouldBe asMapTransposed.get("interestAccrued").toString
+    }
+  }
+
+  Then("ifs service return the following payment plan calculation instalment") {(dataTable: DataTable) =>
+  val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
+  val response: StandaloneWSResponse = ScenarioContext.get("response")
+
+  asMapTransposed.zipWithIndex.foreach { case (window,index) =>
+    val responseBody = {
+      Json.parse(response.body).as[PaymentPlanSummary].paymentPlanCalculationResponse(index)
+
+    }
+    print("Body coming back here ************************************** "+responseBody )
+    if (window.containsKey("serialNo")) {
+      responseBody.serialNo.toString shouldBe window.get("serialNo").toString
+    }
+    if (window.containsKey("paymentDueDate")) {
+      responseBody.paymentDueDate.toString shouldBe window.get("paymentDueDate").toString
+    }
+    if (window.containsKey("numberOfDays")) {
+      responseBody.numberOfDays.toString shouldBe window.get("numberOfDays").toString
+    }
+    if (window.containsKey("amountDue")) {
+      responseBody.amountDue.toString shouldBe window.get("amountDue").toString
+    }
+    if (window.containsKey("uniqueDebtId")) {
+      responseBody.uniqueDebtId.toString shouldBe window.get("uniqueDebtId").toString
+    }
+    if (window.containsKey("balance")) {
+      responseBody.balance.toString shouldBe window.get("balance").toString
+    }
+    if (window.containsKey("interestDue")) {
+      responseBody.interestDue.toString shouldBe window.get("interestDue").toString
+    }
+    if (window.containsKey("totalPaidAmount")) {
+      responseBody.totalPaidAmount.toString() shouldBe window.get("totalPaidAmount").toString
+    }
+    if (window.containsKey("intRate") && (window.get("intRate") != "")) {
+      responseBody.intRate.toString shouldBe window.get("intRate").toString
+    }
+  }
+}
 
   Given("the customer has breathing spaces applied") { (dataTable: DataTable) =>
     addBreathingSpace(dataTable)
@@ -276,5 +343,9 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
 
   Given("no post codes have been provided for the customer") { () =>
     noCustomerPostCodes()
+  }
+
+  Given("debt payment plan details"){(dataTable: DataTable) =>
+    createPaymentPlanRequestBody(dataTable)
   }
 }

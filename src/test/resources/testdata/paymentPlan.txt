@@ -1,0 +1,10 @@
+{
+	"debtId": "<REPLACE_debtId>",
+	"debtAmount": <REPLACE_debtAmount>,
+	"instalmentAmount": <REPLACE_instalmentAmount>,
+	"paymentFrequency":"<REPLACE_paymentFrequency>",
+	"instalmentDate": "<REPLACE_instalmentDate>",
+	"mainTrans": "<REPLACE_mainTrans>",
+	"subTrans": "<REPLACE_subTrans>",
+	"outstandingInterest": <REPLACE_outstandingInterest>
+}
