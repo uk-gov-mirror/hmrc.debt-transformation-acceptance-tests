@@ -16,14 +16,14 @@ Feature: Multiple Debt Items - Edge Cases
 
   Scenario: 1. 2 debts, 1 interest bearing. 1 non interest bearing
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2018-12-16  | 2018-12-16        | 2019-04-14          | 1525      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2018-12-16        | 2019-04-14          | 1525      | 1000     |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 100000        | 2019-02-03  |
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2018-12-16  | 2018-12-16        | 2019-04-14          | 1520      | 1090     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2018-12-16        | 2019-04-14          | 1520      | 1090     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
@@ -48,14 +48,14 @@ Feature: Multiple Debt Items - Edge Cases
 
   Scenario: 2. 2 debts, 1 payment each of different amounts
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2018-12-16  | 2018-12-16        | 2019-04-14          | 1525      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2018-12-16        | 2019-04-14          | 1525      | 1000     |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 100000        | 2019-02-03  |
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2018-12-16  | 2018-12-16        | 2019-04-14          | 1520      | 1090     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2018-12-16        | 2019-04-14          | 1520      | 1090     |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 100000        | 2019-02-03  |
@@ -83,18 +83,18 @@ Feature: Multiple Debt Items - Edge Cases
 
   Scenario: 3. 3 debts, 1 payments
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2018-12-16  | 2018-12-16        | 2019-04-14          | 1525      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2018-12-16        | 2019-04-14          | 1525      | 1000     |
     And the debt item has no payment history
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2018-12-16  | 2018-12-16        | 2019-04-14          | 1525      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2018-12-16        | 2019-04-14          | 1525      | 1000     |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 100000        | 2019-02-03  |
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2018-12-16  | 2018-12-16        | 2019-04-14          | 1525      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2018-12-16        | 2019-04-14          | 1525      | 1000     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
@@ -138,8 +138,8 @@ Feature: Multiple Debt Items - Edge Cases
 
   Scenario: 5. 2 debts, 5 payments on 1 debt
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 1000000        | 2018-12-16  | 2018-12-16        | 2019-04-14          | 1525      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 1000000        | 2018-12-16        | 2019-04-14          | 1525      | 1000     |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 100000        | 2019-02-03  |
@@ -148,8 +148,8 @@ Feature: Multiple Debt Items - Edge Cases
       | 100000        | 2019-02-06  |
       | 100000        | 2019-02-13  |
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2018-12-16  | 2018-12-16        | 2019-04-14          | 1525      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2018-12-16        | 2019-04-14          | 1525      | 1000     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
@@ -175,8 +175,8 @@ Feature: Multiple Debt Items - Edge Cases
 
   Scenario: 6. 1 debts, 1 payment, payment date before date created
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2019-12-16  | 2019-12-16        | 2020-05-05          | 1525      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2019-12-16        | 2020-05-05          | 1525      | 1000     |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 100000        | 2019-02-03  |
@@ -201,8 +201,8 @@ Feature: Multiple Debt Items - Edge Cases
 
   Scenario: 7. 1 debts, 1 Payment  Amount paid greater than original debt amount
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 50             | 2019-12-16  | 2019-12-16        | 2020-05-05          | 1525      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 50             | 2019-12-16        | 2020-05-05          | 1525      | 1000     |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 1000          | 2019-02-03  |
@@ -213,8 +213,8 @@ Feature: Multiple Debt Items - Edge Cases
 
   Scenario: 6. 1 debts, 1 payment amount paid less than zero
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 50             | 2019-12-16  | 2019-12-16        | 2020-05-05          | 1525      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 50             | 2019-12-16        | 2020-05-05          | 1525      | 1000     |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | -1000         | 2019-02-03  |
@@ -225,8 +225,8 @@ Feature: Multiple Debt Items - Edge Cases
 
   Scenario: 7. 1 debts, 2 payment amount paid less than zero
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 50000          | 2019-12-16  | 2019-12-16        | 2020-05-05          | 1525      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 50000          | 2019-12-16        | 2020-05-05          | 1525      | 1000     |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 1000          | 2019-02-03  |
@@ -248,14 +248,14 @@ Feature: Multiple Debt Items - Edge Cases
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | amountIntTotal |
-      | 28                   | 402212         |
+      | 28                   | 404592         |
     And the 1st debt summary will contain
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
-      | true            | 125                  | 28                      | 402212             |
+      | true            | 259                  | 28                      | 404592             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow |
-      | 2020-12-22 | 2020-12-31 | 9            | 2.6          | 7                       | 100063             |
+      | 2020-10-16 | 2020-12-31 | 76           | 2.6          | 7                       | 100539             |
       | 2021-01-01 | 2021-02-23 | 54           | 2.6          | 7                       | 100384             |
-      | 2020-12-22 | 2020-12-31 | 9            | 2.6          | 28                      | 400255             |
+      | 2020-10-16 | 2020-12-31 | 76           | 2.6          | 28                      | 402159             |
       | 2021-01-01 | 2021-02-22 | 53           | 2.6          | 28                      | 401510             |
 
