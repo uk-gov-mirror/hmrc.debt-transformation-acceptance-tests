@@ -2,8 +2,8 @@ Feature: Get Debt For all the SUPPORTED REGIMES
 
   Scenario: Interest Bearing TPSS MainTrans (1530) debt SubTrans (1000)
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1530      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2021-03-01        | 2021-03-08          | 1530      | 1000     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
@@ -14,8 +14,8 @@ Feature: Get Debt For all the SUPPORTED REGIMES
 
   Scenario: Interest Bearing TPSS MainTrans (1535) debt SubTrans (1000)
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1535      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2021-03-01        | 2021-03-08          | 1535      | 1000     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
@@ -26,8 +26,8 @@ Feature: Get Debt For all the SUPPORTED REGIMES
 
   Scenario: Interest Bearing TPSS MainTrans (1540) debt SubTrans (1000)
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1540      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2021-03-01        | 2021-03-08          | 1540      | 1000     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
@@ -38,8 +38,8 @@ Feature: Get Debt For all the SUPPORTED REGIMES
 
   Scenario: Interest Bearing TPSS MainTrans (1545) debt SubTrans (1000)
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1540      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2021-03-01        | 2021-03-08          | 1540      | 1000     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
@@ -51,8 +51,8 @@ Feature: Get Debt For all the SUPPORTED REGIMES
   Scenario: No Interest Bearing and InterestOnlyDebt MainTrans (1546) debt SubTrans (2000)
     Given the current set of rules
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1546      | 2000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2021-03-01        | 2021-03-08          | 1546      | 2000     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
@@ -63,8 +63,8 @@ Feature: Get Debt For all the SUPPORTED REGIMES
 
   Scenario: Interest Bearing TPSS MainTrans (1545) debt SubTrans (1090)
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1545      | 1090     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2021-03-01        | 2021-03-08          | 1545      | 1090     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
@@ -75,76 +75,76 @@ Feature: Get Debt For all the SUPPORTED REGIMES
 
   Scenario: All Non Interest Bearing MainTrans and SunTrans
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 100000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 5330      | 7006     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 100000         | 2021-03-01        | 2021-03-08          | 5330      | 7006     |
     And the debt item has no payment history
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 100000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 5330      | 7010     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 100000         | 2021-03-01        | 2021-03-08          | 5330      | 7010     |
     And the debt item has no payment history
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 100000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 5330      | 7011     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 100000         | 2021-03-01        | 2021-03-08          | 5330      | 7011     |
     And the debt item has no payment history
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 100000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 5350      | 7012     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 100000         | 2021-03-01        | 2021-03-08          | 5350      | 7012     |
     And the debt item has no payment history
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 100000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 5350      | 7014     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 100000         | 2021-03-01        | 2021-03-08          | 5350      | 7014     |
     And the debt item has no payment history
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 100000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 5350      | 7013     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 100000         | 2021-03-01        | 2021-03-08          | 5350      | 7013     |
     And the debt item has no payment history
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 100000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1085      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 100000         | 2021-03-01        | 2021-03-08          | 1085      | 1000     |
     And the debt item has no payment history
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 100000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1085      | 1020     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 100000         | 2021-03-01        | 2021-03-08          | 1085      | 1020     |
     And the debt item has no payment history
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 100000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1085      | 1025     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 100000         | 2021-03-01        | 2021-03-08          | 1085      | 1025     |
     And the debt item has no payment history
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 100000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1085      | 1180     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 100000         | 2021-03-01        | 2021-03-08          | 1085      | 1180     |
     And the debt item has no payment history
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 100000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1511      | 2000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 100000         | 2021-03-01        | 2021-03-08          | 1511      | 2000     |
     And the debt item has no payment history
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 100000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1515      | 1090     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 100000         | 2021-03-01        | 2021-03-08          | 1515      | 1090     |
     And the debt item has no payment history
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 100000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1520      | 1090     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 100000         | 2021-03-01        | 2021-03-08          | 1520      | 1090     |
     And the debt item has no payment history
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 100000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1526      | 2000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 100000         | 2021-03-01        | 2021-03-08          | 1526      | 2000     |
     And the debt item has no payment history
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 100000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1531      | 2000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 100000         | 2021-03-01        | 2021-03-08          | 1531      | 2000     |
     And the debt item has no payment history
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 100000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1536      | 2000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 100000         | 2021-03-01        | 2021-03-08          | 1536      | 2000     |
     And the debt item has no payment history
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 100000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1541      | 2000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 100000         | 2021-03-01        | 2021-03-08          | 1541      | 2000     |
     And the debt item has no payment history
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 100000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1546      | 2000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 100000         | 2021-03-01        | 2021-03-08          | 1546      | 2000     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
@@ -155,8 +155,8 @@ Feature: Get Debt For all the SUPPORTED REGIMES
 
   Scenario: MainTrans (1525) debt empty subTrans (7006)
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1525      | 7006     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2021-03-01        | 2021-03-08          | 1525      | 7006     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
