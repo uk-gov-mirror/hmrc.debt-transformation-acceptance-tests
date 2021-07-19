@@ -15,8 +15,8 @@ Feature: Multiple Debt Items
 
   Scenario: 1. Non Interest Bearing. 1 Payment of 1 debt.
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2018-12-16  | 2018-12-16        | 2019-04-14          | 1520      | 1090     | true            |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2018-12-16        | 2019-04-14          | 1520      | 1090     | true            |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 100000        | 2019-02-03  |
@@ -36,8 +36,8 @@ Feature: Multiple Debt Items
 
   Scenario: 2. Interest Bearing. 1 Payment of 1 debt.
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2018-12-16  | 2018-12-16        | 2019-04-14          | 1525      | 1000     | true            |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2018-12-16        | 2019-04-14          | 1525      | 1000     | true            |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 100000        | 2019-02-03  |
@@ -57,8 +57,8 @@ Feature: Multiple Debt Items
 
   Scenario: 3. Interest Bearing. 2 Payments of 1 debt.
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2018-12-16  | 2018-12-16        | 2019-04-14          | 1525      | 1000     | true            |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2018-12-16        | 2019-04-14          | 1525      | 1000     | true            |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 100000        | 2019-02-23  |
@@ -80,14 +80,14 @@ Feature: Multiple Debt Items
 
   Scenario: 4. Interest Bearing. 2 debts. 1 debt with payment the second debt with no payment.
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2018-12-16  | 2018-12-16        | 2019-04-14          | 1525      | 1000     | true            |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2018-12-16        | 2019-04-14          | 1525      | 1000     | true            |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 100000        | 2019-02-03  |
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2018-12-16  | 2018-12-16        | 2019-04-14          | 1525      | 1000     | true            |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2018-12-16        | 2019-04-14          | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer

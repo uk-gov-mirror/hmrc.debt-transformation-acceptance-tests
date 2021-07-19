@@ -12,8 +12,8 @@ Feature: Interest Rate Changes
 
   Scenario: Interest rate changes from 3% to 3.25%
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2017-12-01  | 2017-12-01        | 2019-03-31          | 1525      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2017-12-01        | 2019-03-31          | 1525      | 1000     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
@@ -31,8 +31,8 @@ Feature: Interest Rate Changes
 
   Scenario: Interest rate changes from 3% to 3.25% with 2 payments on same date in a leap year
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2019-01-01  | 2019-01-01        | 2020-03-31          | 1525      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2019-01-01        | 2020-03-31          | 1525      | 1000     |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 100000        | 2020-02-01  |
@@ -56,8 +56,8 @@ Feature: Interest Rate Changes
 
   Scenario: Interest rate changes from 3% to 3.25%
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2017-12-01  | 2017-12-01        | 2019-03-31          | 1525      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2017-12-01        | 2019-03-31          | 1525      | 1000     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
@@ -78,8 +78,8 @@ Feature: Interest Rate Changes
   #TBD: No test data currently available to implement this scenario
   Scenario: Interest rate changes from 3% to 3.25% after a payment is made
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2018-01-01  | 2018-01-01        | 2019-03-31          | 1525      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2018-01-01        | 2019-03-31          | 1525      | 1000     |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 100000        | 2018-03-15  |
@@ -100,8 +100,8 @@ Feature: Interest Rate Changes
 
   Scenario: Interest rate changes from 3% to 3.25% with 2 payments on same date
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2018-01-01  | 2018-01-01        | 2019-03-31          | 1525      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2018-01-01        | 2019-03-31          | 1525      | 1000     |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 100000        | 2018-09-01  |
@@ -121,8 +121,8 @@ Feature: Interest Rate Changes
 
   Scenario: 2 Debts - Interest rate changes from 3% to 3.25% and then multiple payments are made for both debts
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2018-01-01  | 2018-01-01        | 2019-03-31          | 1525      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2018-01-01        | 2019-03-31          | 1525      | 1000     |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 100000        | 2019-03-15  |
@@ -166,18 +166,10 @@ Feature: Interest Rate Changes
 
   Scenario: Interest rate changes from 2.75% to 2.6% - interestRequestedTo before interestStartDate
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2020-01-01  | 2020-04-10        | 2020-03-31          | 1525      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2020-04-10        | 2020-03-31          | 1525      | 1000     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service wilL return a total debts summary of
-      | combinedDailyAccrual | interestDueCallTotal | amountIntTotal |
-      | 0                    | 0                    | 500000         |
-    And the 1st debt summary will contain
-      | interestBearing | numberChargeableDays |
-      | true            | 0                    |
-    And the 1st debt summary will have calculation windows
-      | periodFrom | periodTo   | interestRate |
-      | 2020-04-10 | 2020-03-31 | 0.0          |
+    Then the ifs service will respond with Could not parse body due to requirement failed: interestRequestedTo should be after interestStartDate

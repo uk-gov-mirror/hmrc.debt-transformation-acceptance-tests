@@ -27,15 +27,15 @@ Feature: Interest Rate Changes - Edge cases
 
   Scenario: 2 Debts - Interest rate changes from 3.25% to 2.75% - leap year - payment is made for 1 debt - Interest rate changes from 2.75% to 2.6%
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2018-06-01  | 2018-06-01        | 2021-03-31          | 1525      | 1000     | true            |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2018-06-01        | 2021-03-31          | 1525      | 1000     | true            |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 100000        | 2019-03-15  |
       | 100000        | 2020-04-15  |
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2009-01-01  | 2009-01-01        | 2010-01-01          | 1545      | 1090     | true            |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2009-01-01        | 2010-01-01          | 1545      | 1090     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
@@ -75,8 +75,8 @@ Feature: Interest Rate Changes - Edge cases
 
   Scenario:  Interest rate changes from 2.75% to 2.6% - leap year - payment is made for 1 debt on the same day the interest rate changes
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2020-01-01  | 2020-01-01        | 2021-03-31          | 1525      | 1000     | true            |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2020-01-01        | 2021-03-31          | 1525      | 1000     | true            |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 100000        | 2020-04-07  |
@@ -102,8 +102,8 @@ Feature: Interest Rate Changes - Edge cases
     @wip
   Scenario:  Interest rate changes on same day as interest start date
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2020-01-01  | 2020-04-07        | 2020-12-31          | 1525      | 1000     | true            |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2020-04-07        | 2020-12-31          | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
@@ -121,8 +121,8 @@ Feature: Interest Rate Changes - Edge cases
   @wip
   Scenario:  Interest rate changes day prior to interest start date
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2020-01-01  | 2020-04-06        | 2020-12-31          | 1525      | 1000     | true            |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2020-04-06        | 2020-12-31          | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer

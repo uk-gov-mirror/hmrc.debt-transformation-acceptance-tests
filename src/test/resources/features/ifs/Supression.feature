@@ -11,8 +11,8 @@ Feature: Suppression
       | 1      | 1535      | 1              |
       | 1      | 1540      | 1              |
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2020-01-01  | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
@@ -37,8 +37,8 @@ Feature: Suppression
       | ruleId | postCode | suppressionIds |
       | 1      | TW3      | 1              |
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2020-01-01  | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 100000        | 2021-04-20  |
@@ -70,15 +70,15 @@ Feature: Suppression
       | ruleId | postCode | suppressionIds |
       | 1      | TW3      | 1              |
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 400000         | 2020-01-01  | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 400000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 100000        | 2021-02-20  |
       | 50000         | 2021-02-20  |
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 400000         | 2020-01-01  | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 400000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     And the customer has post codes
@@ -117,12 +117,12 @@ Feature: Suppression
       | ruleId | periodEnd  | suppressionIds |
       | 1      | 2020-12-20 | 1              |
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | periodEnd  |
-      | 500000         | 2020-01-01  | 2021-02-01        | 2021-07-06          | 1535      | 1000     | 2020-12-20 |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | periodEnd  |
+      | 500000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     | 2020-12-20 |
     And the debt item has no payment history
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | periodEnd  |
-      | 500000         | 2020-01-01  | 2021-02-01        | 2021-07-06          | 1535      | 1000     | 2021-12-21 |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | periodEnd  |
+      | 500000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     | 2021-12-21 |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
@@ -150,8 +150,8 @@ Feature: Suppression
       | ruleId | postCode | suppressionIds |
       | 1      | TW3      | 1              |
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2020-01-01  | 2020-04-01        | 2020-07-06          | 1535      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2020-04-01        | 2020-07-06          | 1535      | 1000     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     And the customer has post codes
@@ -177,8 +177,8 @@ Feature: Suppression
       | ruleId | postCode | suppressionIds |
       | 1      | TW3      | 1              |
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2020-01-01  | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 100000        | 2021-03-10  |
@@ -210,8 +210,8 @@ Feature: Suppression
       | ruleId | postCode | suppressionIds |
       | 1      | TW3      | 1              |
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2020-01-01  | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 100000        | 2021-04-20  |
@@ -257,8 +257,8 @@ Feature: Suppression
       | ruleId | postCode | suppressionIds |
       | 4      | S9       | 2              |
     And a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | periodEnd  |
-      | 500000         | 2020-01-01  | 2021-02-01        | 2021-07-05          | 1535      | 1000     | 2019-05-20 |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | periodEnd  |
+      | 500000         | 2021-02-01        | 2021-07-05          | 1535      | 1000     | 2019-05-20 |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     And the customer has post codes

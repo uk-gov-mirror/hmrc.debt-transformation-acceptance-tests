@@ -3,7 +3,7 @@
           "originalAmount": <REPLACE_originalAmount>,
           "subTrans": "<REPLACE_subTrans>",
           "mainTrans": "<REPLACE_mainTrans>",
-          "dateCreated": "<REPLACE_dateCreated>",
+          <REPLACE_dateCreated>
           "interestStartDate": "<REPLACE_interestStartDate>",
           "interestRequestedTo": "<REPLACE_interestRequestedTo>",
           <REPLACE_periodEnd>
