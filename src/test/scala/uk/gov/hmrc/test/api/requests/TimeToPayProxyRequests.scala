@@ -3,28 +3,20 @@ package uk.gov.hmrc.test.api.requests
 import io.cucumber.datatable.DataTable
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
-import uk.gov.hmrc.test.api.client.WsClient
-import uk.gov.hmrc.test.api.utils.{
-  BaseRequests,
-  BaseUris,
-  ScenarioContext,
-  TestData
-}
 import play.twirl.api.TwirlHelperImports.twirlJavaCollectionToScala
+import uk.gov.hmrc.test.api.client.WsClient
+import uk.gov.hmrc.test.api.utils.{BaseRequests, BaseUris, ScenarioContext, TestData}
 
 import scala.util.Try
 
 object TimeToPayProxyRequests extends BaseRequests with BaseUris {
-  val bearerToken = createBearerToken(
-    enrolments = Seq("read:time-to-pay-proxy")
-  )
+
+  val BearerToken = createBearerToken(enrolments = Seq("read:time-to-pay-proxy"),userType = getRandomAffinityGroup,utr="123456789012")
 
   def baseCall(endpoint: String, maybeBearerToken: Option[String]) = {
     val baseUri = s"$timeToPayProxyApiUrl$endpoint"
-    val headers =
-      maybeBearerToken.fold[Map[String, String]](Map())(
-        bearerToken => Map("Authorization" -> s"Bearer $bearerToken")
-      )
+    val headers = maybeBearerToken.fold[Map[String, String]](Map())(
+      bearerToken => Map("Authorization" -> s"Bearer $BearerToken"))
     WsClient.get(baseUri, headers = headers)
   }
 
@@ -429,7 +421,7 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
   }
 
   def getPlan(customerReference: String,
-                       planId: String): StandaloneWSResponse = {
+              planId: String): StandaloneWSResponse = {
     val bearerToken = createBearerToken(
       enrolments = Seq("read:time-to-pay-proxy")
     )
@@ -447,8 +439,8 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
   }
 
   def putPlan(json: String,
-                       customerReference: String,
-                       planId: String): StandaloneWSResponse = {
+              customerReference: String,
+              planId: String): StandaloneWSResponse = {
     val bearerToken = createBearerToken(
       enrolments = Seq("read:time-to-pay-proxy")
     )
@@ -494,12 +486,13 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
     WsClient.post(baseUri, headers = headers, Json.parse(json))
   }
 
-  def getTimeToPayProxy(endpoint: String): StandaloneWSResponse =
-    baseCall(endpoint, Some(bearerToken))
+//  def getTimeToPayProxy(endpoint: String): StandaloneWSResponse = {
+//    baseCall(endpoint, Option(BearerToken))
+//  }
 
-  def getTimeToPayProxyWithoutBearerToken(
-    endpoint: String
-  ): StandaloneWSResponse =
+  def getTimeToPayProxyWithoutBearerToken(endpoint: String): StandaloneWSResponse = {
     baseCall(endpoint, None)
+  }
 
 }
+

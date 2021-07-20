@@ -22,11 +22,10 @@ import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
-import uk.gov.hmrc.test.api.client.WsClient
 import uk.gov.hmrc.test.api.models.ttpp.{CreatePlanResponse, GenerateQuoteResponse, UpdatePlanResponse, ViewPlanResponse}
 import uk.gov.hmrc.test.api.requests.TimeToPayProxyRequests
 import uk.gov.hmrc.test.api.requests.TimeToPayProxyRequests._
-import uk.gov.hmrc.test.api.utils.{ScenarioContext, TestData}
+import uk.gov.hmrc.test.api.utils.ScenarioContext
 
 class TimeToPayProxySteps
     extends ScalaDsl
@@ -366,15 +365,15 @@ class TimeToPayProxySteps
 
   When("a request is made to get response from ttpp hello world endpoint") {
     () =>
-      val response =
-        TimeToPayProxyRequests.getTimeToPayProxy("/hello-world")
-      ScenarioContext.set("response", response)
+//      val response =
+//        TimeToPayProxyRequests.getTimeToPayProxy("/hello-world")
+//      ScenarioContext.set("response", response)
   }
 
   When("a request is made to an invalid ttpp endpoint") { () =>
-    val response =
-      TimeToPayProxyRequests.getTimeToPayProxy("/helloo-world")
-    ScenarioContext.set("response", response)
+//    val response =
+//      TimeToPayProxyRequests.getTimeToPayProxy("/helloo-world")
+//    ScenarioContext.set("response", response)
   }
 
   When(

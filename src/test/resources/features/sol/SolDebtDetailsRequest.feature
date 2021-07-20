@@ -112,7 +112,7 @@ Feature: statement of liability Debt details
       | dutyId | subTrans | dutyTypeDescription             | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
       | duty06 | 7012     | CO: Child Benefit Migrated Debt | 200000           | 0                    | false           | false                 |
 
-  @smoke
+  @pega
   Scenario: PEGA only -TPSS Account Tax Assessment debt statement of liability, 2 duties, no payment history
     Given debt details
       | solType | debtId  | customerUniqueRef | mainTrans | subTrans | interestRequestedTo | solRequestedDate |

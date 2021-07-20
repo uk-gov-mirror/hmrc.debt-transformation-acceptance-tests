@@ -29,7 +29,7 @@ import uk.gov.hmrc.test.api.utils.{BaseRequests, ScenarioContext, TestData}
 object InterestForecastingRequests extends ScalaDsl with EN with Eventually with Matchers with BaseRequests {
 
   def getDebtCalculation(json: String): StandaloneWSResponse = {
-    val bearerToken = createBearerToken(enrolments = Seq("read:interest-forecasting"))
+    val bearerToken = createBearerToken(enrolments = Seq("read:interest-forecasting"),userType = getRandomAffinityGroup,utr="123456789012")
     val baseUri     = s"$interestForecostingApiUrl/debt-calculation"
     val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
@@ -41,8 +41,10 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
   }
 
   def getPaymentPlan(json: String): StandaloneWSResponse = {
-    val bearerToken = createBearerToken(enrolments = Seq("read:interest-forecasting"))
+    val bearerToken = createBearerToken(enrolments = Seq("read:interest-forecasting"),userType = getRandomAffinityGroup,utr="123456789012")
     val baseUri     = s"$interestForecostingApiUrl/payment-plan"
+    print("shinny new  bearer token ************************" + bearerToken)
+
     val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
       "Content-Type"  -> "application/json",
@@ -70,7 +72,7 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
   }
 
   private def dataForIFSApis(uri: String) = {
-    val bearerToken = createBearerToken(enrolments = Seq("read:interest-forecasting"))
+    val bearerToken = createBearerToken(enrolments = Seq("read:interest-forecasting"),userType = getRandomAffinityGroup,utr="123456789012")
     val baseUri     = s"$interestForecostingApiUrl/$uri"
     val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
