@@ -99,7 +99,7 @@ Feature: Interest Rate Changes - Edge cases
       | 2020-04-07 | 2020-12-31 | 2.6          | 28                      | 7643              | 400000               |
       | 2021-01-01 | 2021-03-31 | 2.6          | 28                      | 2564              | 400000               |
 
-
+  @wip
   Scenario:  Interest rate changes on same day as interest start date
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
@@ -118,7 +118,7 @@ Feature: Interest Rate Changes - Edge cases
       | periodFrom | periodTo   | interestRate | numberOfDays | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow |
       | 2020-04-07 | 2020-12-31 | 2.6          | 268          | 35                      | 9519              | 500000               |
 
-@wip34
+@wip
   Scenario:  Interest rate changes day prior to interest start date
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
