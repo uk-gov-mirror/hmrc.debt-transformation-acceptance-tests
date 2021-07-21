@@ -29,7 +29,11 @@ import uk.gov.hmrc.test.api.utils.{BaseRequests, ScenarioContext, TestData}
 object InterestForecastingRequests extends ScalaDsl with EN with Eventually with Matchers with BaseRequests {
 
   def getDebtCalculation(json: String): StandaloneWSResponse = {
-    val bearerToken = createBearerToken(enrolments = Seq("read:interest-forecasting"),userType = getRandomAffinityGroup,utr="123456789012")
+    val bearerToken = createBearerToken(
+      enrolments = Seq("read:interest-forecasting"),
+      userType = getRandomAffinityGroup,
+      utr = "123456789012"
+    )
     val baseUri     = s"$interestForecostingApiUrl/debt-calculation"
     val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
@@ -41,11 +45,15 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
   }
 
   def getPaymentPlan(json: String): StandaloneWSResponse = {
-    val bearerToken = createBearerToken(enrolments = Seq("read:interest-forecasting"),userType = getRandomAffinityGroup,utr="123456789012")
+    val bearerToken = createBearerToken(
+      enrolments = Seq("read:interest-forecasting"),
+      userType = getRandomAffinityGroup,
+      utr = "123456789012"
+    )
     val baseUri     = s"$interestForecostingApiUrl/payment-plan"
     print("shinny new  bearer token ************************" + bearerToken)
 
-    val headers     = Map(
+    val headers = Map(
       "Authorization" -> s"Bearer $bearerToken",
       "Content-Type"  -> "application/json",
       "Accept"        -> "application/vnd.hmrc.1.0+json"
@@ -54,25 +62,28 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
     WsClient.post(baseUri, headers = headers, Json.parse(json))
   }
 
-
-  def postNewInterestRatesTable(json: String): StandaloneWSResponse = {
+  def postNewInterestRatesTable(json: String): StandaloneWSResponse =
     WsClient.post(dataForIFSApis("rates")._1, headers = dataForIFSApis("rates")._2, Json.parse(json))
-  }
 
-  def getAllRules = {
+  def getAllRules =
     WsClient.get(dataForIFSApis("rules")._1, headers = dataForIFSApis("rules")._2)
-  }
 
-  def postNewInterestRate(json: String, referenceId: String): StandaloneWSResponse = {
-    WsClient.put(dataForIFSApis(s"rates/${referenceId}/interestRate")._1, headers = dataForIFSApis(s"rates/${referenceId}/interestRate")._2, Json.parse(json))
-  }
+  def postNewInterestRate(json: String, referenceId: String): StandaloneWSResponse =
+    WsClient.put(
+      dataForIFSApis(s"rates/$referenceId/interestRate")._1,
+      headers = dataForIFSApis(s"rates/$referenceId/interestRate")._2,
+      Json.parse(json)
+    )
 
-  def postNewRulesTable(json: String): StandaloneWSResponse = {
+  def postNewRulesTable(json: String): StandaloneWSResponse =
     WsClient.post(dataForIFSApis("rules")._1, headers = dataForIFSApis("rules")._2, Json.parse(json))
-  }
 
   private def dataForIFSApis(uri: String) = {
-    val bearerToken = createBearerToken(enrolments = Seq("read:interest-forecasting"),userType = getRandomAffinityGroup,utr="123456789012")
+    val bearerToken = createBearerToken(
+      enrolments = Seq("read:interest-forecasting"),
+      userType = getRandomAffinityGroup,
+      utr = "123456789012"
+    )
     val baseUri     = s"$interestForecostingApiUrl/$uri"
     val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
@@ -81,8 +92,6 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
     )
     (baseUri, headers)
   }
-
-
 
   def getBodyAsString(variant: String): String =
     TestData.loadedFiles(variant)
@@ -221,8 +230,8 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
   }
 
   def createPaymentPlanRequestBody(dataTable: DataTable): Unit = {
-    val asmapTransposed   = dataTable.transpose().asMap(classOf[String], classOf[String])
-    var firstItem         = false
+    val asmapTransposed     = dataTable.transpose().asMap(classOf[String], classOf[String])
+    var firstItem           = false
     var paymentPlan: String = null
     try ScenarioContext.get("paymentPlan")
     catch { case e: Exception => firstItem = true }
@@ -241,7 +250,6 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
       .replaceAll("<REPLACE_subTrans>", asmapTransposed.get("subTrans"))
       .replaceAll("<REPLACE_outstandingInterest>", asmapTransposed.get("outstandingInterest"))
 
-
     if (firstItem == true) { paymentPlan = paymentPlan }
     else { paymentPlan = ScenarioContext.get("paymentPlan").toString.concat(",").concat(paymentPlan) }
 
@@ -251,6 +259,5 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
     )
     print("request json ::::::::::::::::::::::::::::::::::::" + paymentPlan)
   }
-
 
 }

@@ -11,10 +11,8 @@ import scala.collection.immutable
 
 sealed abstract class MainTransType(override val entryName: String) extends EnumEntry
 
-
 object MainTransType extends Enum[MainTransType] with PlayJsonEnum[MainTransType] {
   val values: immutable.IndexedSeq[MainTransType] = findValues
-
 
   case object ChBDebt extends MainTransType("5330")
   case object ChBMigratedDebt extends MainTransType("5350")

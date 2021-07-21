@@ -14,7 +14,6 @@ sealed abstract class SubTransType(override val entryName: String) extends EnumE
 object SubTransType extends Enum[SubTransType] with PlayJsonEnum[SubTransType] {
   val values: immutable.IndexedSeq[SubTransType] = findValues
 
-
   case object ChBDebt extends SubTransType("7006")
   case object GuardiansGBDebt extends SubTransType("7010")
   case object GuardiansNIDebt extends SubTransType("7011")
@@ -29,4 +28,3 @@ object SubTransType extends Enum[SubTransType] with PlayJsonEnum[SubTransType] {
   case object TGPEN extends SubTransType("1090")
 
 }
-

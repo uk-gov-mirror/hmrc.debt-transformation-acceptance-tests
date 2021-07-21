@@ -6,14 +6,11 @@ package uk.gov.hmrc.test.api.models
  */
 import play.api.libs.json.{Json, OFormat}
 case class PaymentPlanSummary(
-                               totalDebtAmount: BigDecimal,
-                               totalPlanInt: BigDecimal,
-                               interestAccrued: BigDecimal,
-                               paymentPlanCalculationResponse: List[PaymentPlanInstalment]
-                      )
-
-
-
+  totalDebtAmount: BigDecimal,
+  totalPlanInt: BigDecimal,
+  interestAccrued: BigDecimal,
+  paymentPlanCalculationResponse: List[PaymentPlanInstalment]
+)
 
 object PaymentPlanSummary {
   implicit val paymentPlanInstalmentFormat: OFormat[PaymentPlanSummary] = Json.format[PaymentPlanSummary]

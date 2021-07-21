@@ -8,10 +8,8 @@ case class RuleCollection(rules: List[String], id: String, enabled: Boolean, ver
 
 case class GetRulesResponse(rules: Seq[RuleCollection])
 
-
-
 object GetRulesResponse {
 
-  implicit val getRuleCollectionFormat: OFormat[RuleCollection] = Json.format
+  implicit val getRuleCollectionFormat: OFormat[RuleCollection]  = Json.format
   implicit val getRulesResponseFormat: OFormat[GetRulesResponse] = Json.format
 }
