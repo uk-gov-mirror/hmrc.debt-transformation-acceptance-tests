@@ -53,7 +53,6 @@ trait BaseRequests extends RandomValues with BaseUris {
         .head
 
       val authBearerToken = authHeader._2.head.replace("Bearer ", "")
-      print("New pega form bearer token :::::::::::::::::::::" + authBearerToken)
       authBearerToken
 
     }
