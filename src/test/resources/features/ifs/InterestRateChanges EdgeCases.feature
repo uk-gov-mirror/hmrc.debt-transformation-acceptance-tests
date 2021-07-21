@@ -73,6 +73,7 @@ Feature: Interest Rate Changes - Edge cases
       | 2009-03-24 | 2009-09-28 | 189          | 2.5          | 34                      | 6472              | 500000               |
       | 2009-09-29 | 2010-01-01 | 95           | 3.0          | 41                      | 3904              | 500000               |
 
+
   Scenario:  Interest rate changes from 2.75% to 2.6% - leap year - payment is made for 1 debt on the same day the interest rate changes
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
@@ -98,8 +99,7 @@ Feature: Interest Rate Changes - Edge cases
       | 2020-04-07 | 2020-12-31 | 2.6          | 28                      | 7643              | 400000               |
       | 2021-01-01 | 2021-03-31 | 2.6          | 28                      | 2564              | 400000               |
 
-
-    @wip
+  @wip
   Scenario:  Interest rate changes on same day as interest start date
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
@@ -118,7 +118,7 @@ Feature: Interest Rate Changes - Edge cases
       | periodFrom | periodTo   | interestRate | numberOfDays | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow |
       | 2020-04-07 | 2020-12-31 | 2.6          | 268          | 35                      | 9519              | 500000               |
 
-  @wip
+@wip
   Scenario:  Interest rate changes day prior to interest start date
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |

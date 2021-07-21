@@ -3,28 +3,24 @@ package uk.gov.hmrc.test.api.requests
 import io.cucumber.datatable.DataTable
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
-import uk.gov.hmrc.test.api.client.WsClient
-import uk.gov.hmrc.test.api.utils.{
-  BaseRequests,
-  BaseUris,
-  ScenarioContext,
-  TestData
-}
 import play.twirl.api.TwirlHelperImports.twirlJavaCollectionToScala
+import uk.gov.hmrc.test.api.client.WsClient
+import uk.gov.hmrc.test.api.utils.{BaseRequests, BaseUris, ScenarioContext, TestData}
 
 import scala.util.Try
 
 object TimeToPayProxyRequests extends BaseRequests with BaseUris {
-  val bearerToken = createBearerToken(
-    enrolments = Seq("read:time-to-pay-proxy")
+
+  val BearerToken = createBearerToken(
+    enrolments = Seq("read:time-to-pay-proxy"),
+    userType = getRandomAffinityGroup,
+    utr = "123456789012"
   )
 
   def baseCall(endpoint: String, maybeBearerToken: Option[String]) = {
     val baseUri = s"$timeToPayProxyApiUrl$endpoint"
     val headers =
-      maybeBearerToken.fold[Map[String, String]](Map())(
-        bearerToken => Map("Authorization" -> s"Bearer $bearerToken")
-      )
+      maybeBearerToken.fold[Map[String, String]](Map())(bearerToken => Map("Authorization" -> s"Bearer $BearerToken"))
     WsClient.get(baseUri, headers = headers)
   }
 
@@ -35,7 +31,7 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
     val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
 
     val customers =
-      asMapTransposed.zipWithIndex.foldLeft[String]("")((acc, current) => {
+      asMapTransposed.zipWithIndex.foldLeft[String]("") { (acc, current) =>
         val (customer, index) = current
 
         val replaced = getBodyAsString("customer")
@@ -67,7 +63,7 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
           s"$acc$replaced,"
         else
           s"$acc$replaced"
-      })
+      }
 
     Try(ScenarioContext.get[String]("customers")).fold(
       _ => ScenarioContext.set("customers", customers),
@@ -79,7 +75,7 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
     val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
 
     val adHocs =
-      asMapTransposed.zipWithIndex.foldLeft[String]("")((acc, current) => {
+      asMapTransposed.zipWithIndex.foldLeft[String]("") { (acc, current) =>
         val (adHoc, index) = current
 
         val replaced = getBodyAsString("adHoc")
@@ -90,7 +86,7 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
           s"$acc$replaced,"
         else
           s"$acc$replaced"
-      })
+      }
 
     Try(ScenarioContext.get[String]("adHocs")).fold(
       _ => ScenarioContext.set("adHocs", adHocs),
@@ -102,7 +98,7 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
     val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
 
     val instalments =
-      asMapTransposed.zipWithIndex.foldLeft[String]("")((acc, current) => {
+      asMapTransposed.zipWithIndex.foldLeft[String]("") { (acc, current) =>
         val (instalment, index) = current
 
         val replaced = getBodyAsString("instalment")
@@ -139,11 +135,12 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
           s"$acc$replaced,"
         else
           s"$acc$replaced"
-      })
+      }
 
     Try(ScenarioContext.get[String]("instalments")).fold(
       _ => ScenarioContext.set("instalments", instalments),
-      is => ScenarioContext.set("instalments", s"$is, $instalments"))
+      is => ScenarioContext.set("instalments", s"$is, $instalments")
+    )
 
   }
 
@@ -151,7 +148,7 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
     val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
 
     val breathingSpaces =
-      asMapTransposed.zipWithIndex.foldLeft[String]("")((acc, current) => {
+      asMapTransposed.zipWithIndex.foldLeft[String]("") { (acc, current) =>
         val (breathingSpace, index) = current
 
         val replaced = getBodyAsString("breathingSpace")
@@ -168,7 +165,7 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
           s"$acc$replaced,"
         else
           s"$acc$replaced"
-      })
+      }
 
     val currentDuty = ScenarioContext
       .get("currentDuty")
@@ -182,7 +179,7 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
     val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
 
     val payments =
-      asMapTransposed.zipWithIndex.foldLeft[String]("")((acc, current) => {
+      asMapTransposed.zipWithIndex.foldLeft[String]("") { (acc, current) =>
         val (payment, index) = current
 
         val replaced = getBodyAsString("payment")
@@ -199,7 +196,7 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
           s"$acc$replaced,"
         else
           s"$acc$replaced"
-      })
+      }
 
     val currentDuty = ScenarioContext
       .get("currentDuty")
@@ -213,10 +210,10 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
 
     val currentCreatePlanRequest =
       ScenarioContext.get[String]("createPlanRequest")
-    val currentInstalments =
+    val currentInstalments       =
       Try(ScenarioContext.get[String]("instalments"))
         .fold(_ => "", identity)
-    val createPlanRequest =
+    val createPlanRequest        =
       currentCreatePlanRequest.replace("<REPLACE_instalments>", currentInstalments)
     ScenarioContext.set("createPlanRequest", createPlanRequest)
   }
@@ -225,10 +222,10 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
 
     val currentGenerateQuoteRequest =
       ScenarioContext.get[String]("generateQuoteRequest")
-    val currentAdHocs =
+    val currentAdHocs               =
       Try(ScenarioContext.get[String]("adHocs"))
         .fold(_ => "", identity)
-    val generateQuoteRequest =
+    val generateQuoteRequest        =
       currentGenerateQuoteRequest.replace("<REPLACE_adHocs>", currentAdHocs)
     ScenarioContext.set("generateQuoteRequest", generateQuoteRequest)
   }
@@ -237,10 +234,10 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
 
     val currentGenerateQuoteRequest =
       ScenarioContext.get[String]("generateQuoteRequest")
-    val currentCustomers =
+    val currentCustomers            =
       Try(ScenarioContext.get[String]("customers"))
         .fold(_ => "", identity)
-    val generateQuoteRequest =
+    val generateQuoteRequest        =
       currentGenerateQuoteRequest.replace(
         "<REPLACE_customer>",
         currentCustomers
@@ -299,9 +296,9 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
 
     val currentGenerateQuoteRequest =
       ScenarioContext.get[String]("generateQuoteRequest")
-    val currentDebts =
+    val currentDebts                =
       Try(ScenarioContext.get[String]("currentDebts")).fold(_ => "", identity)
-    val generateQuoteRequest =
+    val generateQuoteRequest        =
       currentGenerateQuoteRequest.replace("<REPLACE_debts>", currentDebts)
     ScenarioContext.set("generateQuoteRequest", generateQuoteRequest)
   }
@@ -326,16 +323,13 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
     addLastToList(maybePreviousDebt, maybeCurrentDebts, "currentDebts")
   }
 
-  private def addLastToList(maybePrevious: Option[String],
-                            maybeCurrentBucket: Option[String],
-                            key: String) = {
+  private def addLastToList(maybePrevious: Option[String], maybeCurrentBucket: Option[String], key: String) =
     (maybePrevious, maybeCurrentBucket) match {
       case (None, None)        => ()
       case (Some(d), Some(ds)) => ScenarioContext.set(key, s"$ds,$d")
       case (None, Some(ds))    => ScenarioContext.set(key, ds)
       case (Some(d), None)     => ScenarioContext.set(key, d)
     }
-  }
 
   def createGenerateQuoteRequestBody(dataTable: DataTable): Unit = {
     val asMapTransposed =
@@ -389,10 +383,11 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
       .replaceAll(
         "<REPLACE_totalDebtAmount>",
         asMapTransposed.get("totalDebtAmount")
-      )      .replaceAll(
-      "<REPLACE_totalInterest>",
-      asMapTransposed.get("totalInterest")
-    )
+      )
+      .replaceAll(
+        "<REPLACE_totalInterest>",
+        asMapTransposed.get("totalInterest")
+      )
 
     ScenarioContext.set("createPlanRequest", updatePlanRequest)
   }
@@ -428,8 +423,7 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
     ScenarioContext.set("updatePlanRequest", updatePlanRequest)
   }
 
-  def getPlan(customerReference: String,
-                       planId: String): StandaloneWSResponse = {
+  def getPlan(customerReference: String, planId: String): StandaloneWSResponse = {
     val bearerToken = createBearerToken(
       enrolments = Seq("read:time-to-pay-proxy")
     )
@@ -439,16 +433,14 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
 
     val headers = Map(
       "Authorization" -> s"Bearer $bearerToken",
-      "Content-Type" -> "application/json",
-      "Accept" -> "application/vnd.hmrc.1.0+json"
+      "Content-Type"  -> "application/json",
+      "Accept"        -> "application/vnd.hmrc.1.0+json"
     )
 
     WsClient.get(baseUri, headers = headers)
   }
 
-  def putPlan(json: String,
-                       customerReference: String,
-                       planId: String): StandaloneWSResponse = {
+  def putPlan(json: String, customerReference: String, planId: String): StandaloneWSResponse = {
     val bearerToken = createBearerToken(
       enrolments = Seq("read:time-to-pay-proxy")
     )
@@ -457,8 +449,8 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
       s"$timeToPayProxyApiUrl/quote/$customerReference/$planId"
     val headers = Map(
       "Authorization" -> s"Bearer $bearerToken",
-      "Content-Type" -> "application/json",
-      "Accept" -> "application/vnd.hmrc.1.0+json"
+      "Content-Type"  -> "application/json",
+      "Accept"        -> "application/vnd.hmrc.1.0+json"
     )
 
     WsClient.put(baseUri, headers = headers, Json.parse(json))
@@ -472,8 +464,8 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
     val baseUri = s"$timeToPayProxyApiUrl/quote"
     val headers = Map(
       "Authorization" -> s"Bearer $bearerToken",
-      "Content-Type" -> "application/json",
-      "Accept" -> "application/vnd.hmrc.1.0+json"
+      "Content-Type"  -> "application/json",
+      "Accept"        -> "application/vnd.hmrc.1.0+json"
     )
 
     WsClient.post(baseUri, headers = headers, Json.parse(json))
@@ -487,19 +479,18 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
     val baseUri = s"$timeToPayProxyApiUrl/quote/arrangement"
     val headers = Map(
       "Authorization" -> s"Bearer $bearerToken",
-      "Content-Type" -> "application/json",
-      "Accept" -> "application/vnd.hmrc.1.0+json"
+      "Content-Type"  -> "application/json",
+      "Accept"        -> "application/vnd.hmrc.1.0+json"
     )
 
     WsClient.post(baseUri, headers = headers, Json.parse(json))
   }
 
-  def getTimeToPayProxy(endpoint: String): StandaloneWSResponse =
-    baseCall(endpoint, Some(bearerToken))
+//  def getTimeToPayProxy(endpoint: String): StandaloneWSResponse = {
+//    baseCall(endpoint, Option(BearerToken))
+//  }
 
-  def getTimeToPayProxyWithoutBearerToken(
-    endpoint: String
-  ): StandaloneWSResponse =
+  def getTimeToPayProxyWithoutBearerToken(endpoint: String): StandaloneWSResponse =
     baseCall(endpoint, None)
 
 }
