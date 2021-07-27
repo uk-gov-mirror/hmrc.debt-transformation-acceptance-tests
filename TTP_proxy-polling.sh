@@ -57,7 +57,7 @@ for (( ; ; )); do
 
   #make a call to the QA TTP-proxy for item retrieved in previous step
 #  qa_header_token="'Authorization: Bearer $qa_token'" /// PUT BACK IN TO USE QA TOKEN
-  qa_header_token="Authorization: Bearer BXQ3/Treo4kQCZvVcCqKPp0QF2lOh/h/bAwCsQFTIA/6MRD/KpGEQ6n/X+TG0hIYyBEmsxgnI7QX/LMWD+ntKkDqksbJlAfM2lC/gjBkRR5nCUawqN1XNubBMj07NlMbF7u6+7lLA5VOZI2I9qEH5laFGrOWIgW14BspF01EM139KwIkeIPK/mMlBESjue4V"
+  qa_header_token="Authorization: Bearer "
   echo "*** qa header token is ${qa_header_token}"
   jsonToPost="${content}"
 
