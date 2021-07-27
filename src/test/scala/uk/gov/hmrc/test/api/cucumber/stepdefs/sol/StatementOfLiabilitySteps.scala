@@ -214,6 +214,5 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.body should include(expectedMessage)
   }
-  //debtDetailsPega
 
 }
