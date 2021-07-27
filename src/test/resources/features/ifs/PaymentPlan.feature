@@ -68,7 +68,7 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
       | 8        | 2021-07-20     | 7            | 10000     | debtId       | 30000   | 14          | 80000           | 2.6     |
       | 9        | 2021-07-27     | 7            | 10000     | debtId       | 20000   | 9           | 90000           | 2.6     |
       | 10       | 2021-08-03     | 7            | 10000     | debtId       | 10000   | 4           | 100000          | 2.6     |
-      | 11       | 2021-08-10     | 31           | 1697      | debtId       | 0       | 0           | 101697          | 2.6     |
+      | 11       | 2021-08-10     | 7            | 1697      | debtId       | 0       | 0           | 101697          | 2.6     |
 
 
   Scenario: Payment plan calculation instalment - biweekly payment frequency
@@ -92,7 +92,7 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
       | 8        | 2021-09-07     | 14           | 10000     | debtId       | 30000   | 29          | 80000           | 2.6     |
       | 9        | 2021-09-21     | 14           | 10000     | debtId       | 20000   | 19          | 90000           | 2.6     |
       | 10       | 2021-10-05     | 14           | 10000     | debtId       | 10000   | 9           | 100000          | 2.6     |
-      | 11       | 2021-10-19     | 31           | 1971      | debtId       | 0       | 0           | 101971          | 2.6     |
+      | 11       | 2021-10-19     | 14           | 1971      | debtId       | 0       | 0           | 101971          | 2.6     |
 
 
   Scenario: Payment plan calculation instalment - end of payement interest due higher than amount due
@@ -142,7 +142,7 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
       | 8        | 2021-08-18     | 7            | 10000     | debtId       | 30000   | 14          | 80000           | 2.6     |
       | 9        | 2021-08-25     | 7            | 10000     | debtId       | 20000   | 9           | 90000           | 2.6     |
       | 10       | 2021-09-01     | 7            | 10000     | debtId       | 10000   | 4           | 100000          | 2.6     |
-      | 11       | 2021-09-08     | 30           | 1697      | debtId       | 0       | 0           | 101697          | 2.6     |
+      | 11       | 2021-09-08     | 7            | 1697      | debtId       | 0       | 0           | 101697          | 2.6     |
 
   Scenario: Payment plan calculation instalment - Monthly payment frequency instalment Date starts in non leap year to Leap year
 
@@ -166,7 +166,7 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
       | 9        | 2020-08-31     | 30           | 10000     | debtId       | 20000   | 53          | 90000           | 3.25    |
       | 10       | 2020-09-30     | 31           | 10000     | debtId       | 10000   | 27          | 100000          | 3.25    |
       | 11       | 2020-10-31     | 30           | 10000     | debtId       | 0       | 0           | 110000          | 2.6     |
-      | 12       | 2020-11-30     | 30           | 1027      | debtId       | 0       | 0           | 111027          | 2.6     |
+      | 12       | 2020-11-30     | 31           | 1027      | debtId       | 0       | 0           | 111027          | 2.6     |
 
 
   Scenario: Payment plan calculation instalment - weekly payment frequency with end of Leap year instalment Date
@@ -190,7 +190,7 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
       | 8        | 2020-03-21     | 7            | 10000     | debtId       | 30000   | 18          | 80000           | 3.25    |
       | 9        | 2020-03-28     | 7            | 10000     | debtId       | 20000   | 12          | 90000           | 3.25    |
       | 10       | 2020-04-04     | 7            | 10000     | debtId       | 10000   | 6           | 100000          | 3.25    |
-      | 11       | 2020-04-11     | 30           | 1764      | debtId       | 0       | 0           | 101764          | 2.6     |
+      | 11       | 2020-04-11     | 7            | 1764      | debtId       | 0       | 0           | 101764          | 2.6     |
 
 
 

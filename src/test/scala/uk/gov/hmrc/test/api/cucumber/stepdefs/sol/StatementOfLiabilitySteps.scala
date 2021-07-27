@@ -66,6 +66,7 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
     val debtDetailsTestfile = getBodyAsString("debtDetailsTestfile")
       .replaceAll("<REPLACE_solType>", asMapTransposed.get("solType"))
       .replaceAll("<REPLACE_debtId>", asMapTransposed.get("debtId"))
+      .replaceAll("<REPLACE_solRequestedDate>",asMapTransposed.get("solRequestedDate"))
       .replaceAll("<REPLACE_customerReference>", asMapTransposed.get("customerUniqueRef"))
       .replaceAll("REPLACE_interestRequestedTo", asMapTransposed.get("interestRequestedTo"))
       .replaceAll("<REPLACE_mainTrans>", asMapTransposed.get("mainTrans"))
@@ -213,5 +214,6 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.body should include(expectedMessage)
   }
+  //debtDetailsPega
 
 }
