@@ -66,6 +66,7 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
     val debtDetailsTestfile = getBodyAsString("debtDetailsTestfile")
       .replaceAll("<REPLACE_solType>", asMapTransposed.get("solType"))
       .replaceAll("<REPLACE_debtId>", asMapTransposed.get("debtId"))
+      .replaceAll("<REPLACE_solRequestedDate>", asMapTransposed.get("solRequestedDate"))
       .replaceAll("<REPLACE_customerReference>", asMapTransposed.get("customerUniqueRef"))
       .replaceAll("REPLACE_interestRequestedTo", asMapTransposed.get("interestRequestedTo"))
       .replaceAll("<REPLACE_mainTrans>", asMapTransposed.get("mainTrans"))
@@ -119,9 +120,7 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
     val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[String])
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status should be(200)
-
     val responseBody = Json.parse(response.body).as[SolCalculationSummaryResponse]
-
     responseBody.amountIntTotal.toString       shouldBe asMapTransposed.get("amountIntTotal").toString
     responseBody.combinedDailyAccrual.toString shouldBe asMapTransposed.get("combinedDailyAccrual").toString
 

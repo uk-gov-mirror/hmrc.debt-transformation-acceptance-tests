@@ -108,7 +108,6 @@ object WsClient extends LazyLogging {
     response
   }
 
-
   def delete(uri: String, headers: Map[String, String]): StandaloneWSResponse = {
     println("")
     logger.info(s"DELETE request URI: $uri")
