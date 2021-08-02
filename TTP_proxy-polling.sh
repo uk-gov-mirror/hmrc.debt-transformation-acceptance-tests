@@ -6,8 +6,9 @@
 # If an error is found in any of the requests, processing of the request will end.
 
 #todo Replace below with et-ttp proxy endpoint
-ETttpStubEndpoint="http://localhost:10003/test-only/requests"
+ETttpStubEndpointRequests="http://localhost:10003/test-only/requests"
 ETttpStubEndpointResponse="http://localhost:10003/test-only/response"
+ETttpStubEndpointDelete="http://localhost:10003/test-only/request"
 
 #todo Replace below with qa-ttp proxy endpoint
 QAttpProxyEndpoint="http://localhost:9600/"
@@ -30,14 +31,14 @@ echo "*** qa token is $qa_token"
 for (( ; ; )); do
   sleep 2
   # Call ET Proxy Endpoint
-  echo "********* calling external test ET proxy endpoint ${ETttpStubEndpoint} to check for requests *********"
+  echo "********* calling external test ET proxy endpoint ${ETttpStubEndpointRequests} to check for requests *********"
   echo "********* et token is $et_token ********"
   et_header_token="'Authorization: Bearer $et_token'"
-  curl -s -o -w %{http_code} $ETttpStubEndpoint --header "$et_header_token" | jq --raw-output "." | jq "." | sed -e 's/\\\"/\"/g' >et_response.txt
+  curl -s -o -w %{http_code} $ETttpStubEndpointRequests --header "$et_header_token" | jq --raw-output "." | jq "." | sed -e 's/\\\"/\"/g' >et_response.txt
   body=$(<et_response.txt)
 
   if [[ "$body" != *"requestId"* ]]; then
-    echo "Error received calling TTP proxy on ET $ETttpStubEndpoint Handling error and exiting !!!"
+    echo "Error received calling TTP proxy on ET $ETttpStubEndpointRequests Handling error and exiting !!!"
     # todo handle error - by writing a record to db?
 
     # end processing of request
@@ -57,7 +58,7 @@ for (( ; ; )); do
 
   #make a call to the QA TTP-proxy for item retrieved in previous step
   #  qa_header_token="'Authorization: Bearer $qa_token'" /// PUT BACK IN TO USE QA TOKEN
-  qa_header_token="Authorization: Bearer BXQ3/Treo4kQCZvVcCqKPoK4niRXfUHbxlMD2TduCU0zPGucGPBzEp3nrqqDpXkIKahgkCpNDD/UTLi1UY0ex2vPcfdf6jaqv8jyOh0YcXETTkIPupvzom0x5fksGULDvxAcpYYUR7dFAIjj+2Ryu9Js9jtArfM+A3ZsvFQRZ0b9KwIkeIPK/mMlBESjue4V"
+  qa_header_token="Authorization: Bearer BXQ3/Treo4kQCZvVcCqKPlfLBgWyJ2tBOaF4/P23es2TfZ+34wqGkfkH8xS+2Qras2OJDOVZGU2/FoJpbaswVtLON178mcYWhpDzBTAgBBB2yCiMVLw9iSKg/wEcPAMuldOaeCqfdchv1RE0yCbb0Nm4Z8avwmf+1vO3d1/BDz39KwIkeIPK/mMlBESjue4V"
   echo "*** qa header token is ${qa_header_token}"
   jsonToPost="${content}"
 
@@ -87,7 +88,7 @@ for (( ; ; )); do
   echo "******** calling ETttpStubEndpointResponse $ETttpStubEndpointResponse with body ${json_response_to_post_back_to_et} ********"
 
   et_status_code=$(curl -i -H "Content-Type: application/json" -o etPostResponse4.txt -w %{http_code} -X POST --data "${json_response_to_post_back_to_et}" ${ETttpStubEndpointResponse})
-
+  echo "et_status_code isssdddd...$et_status_code"
   if [ "$et_status_code" != 200 ]; then
     echo "$et_status_code Error received posting response back to ET endpoint $ETttpStubEndpointResponse Exiting !!!"
     # todo handle error. Log error in db?
@@ -97,12 +98,14 @@ for (( ; ; )); do
     echo "*** Success! Response has been sent back to External Test***"
   fi
 
-  Delete the request
+  #  Delete the request
+  delete_uri="$ETttpStubEndpointDelete/$requestId"
+  echo "delete_uri is.... $delete_uri"
+  et_delete_status_code=$(curl -i -H "Content-Type: application/json" -w %{http_code} -X DELETE ${delete_uri})
+  echo "et_delete_status_code is...$et_delete_status_code"
 
-  et_delete_status_code=$(curl -i -H "Content-Type: application/json" -w %{http_code} -X DELETE ${ETttpStubEndpointResponse})
-
-  if [ "$et_delete_status_code" != 200 ]; then
-    echo "$et_delete_status_code Error received deleting the request from the ET endpoint $ETttpStubEndpointResponse Exiting !!!"
+  if [[ "$et_delete_status_code" != *"200" ]]; then
+    echo "$et_delete_status_code Error received deleting the request from the ET endpoint ${delete_uri} Exiting !!!"
     continue
   else
     echo "*** Success! Request has been deleted ***"
