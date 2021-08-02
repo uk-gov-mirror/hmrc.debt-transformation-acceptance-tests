@@ -52,7 +52,7 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | 2021-03-01 | 2021-03-08 | 0            | 0.0          | 0                       | 0                 | 500000               | 500000             |
 
   @dtd-509 @wip
-  Scenario: interestBearing should be  where amount has been paid off. Payment date after interest start date (for bug DTD-509)
+  Scenario: interestBearing flag should be true where amount has been paid off. Payment date AFTER interest start date (for bug DTD-509)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1525      | 1000     | true            |
@@ -73,7 +73,7 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | 2021-03-01 | 2021-03-04 | 3            | 2.6          | 35                      | 106               | 500000               | 500106             |
 
   @dtd-509 @wip
-  Scenario: interestBearing flag should be true even when debt has been paid off. Payment date before interest start date (for bug DTD-509)
+  Scenario: interestBearing flag should be true even when debt has been paid off. Payment date BEFORE interest start date (for bug DTD-509)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1525      | 1000     | true            |
