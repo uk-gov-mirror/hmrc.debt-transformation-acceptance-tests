@@ -20,31 +20,31 @@
 #No BS
 #Type of payment plan = Time to pay - not relevant for IFS to do calculation
 
+
 Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial payment
 
-  @wip45
   Scenario: Payment plan calculation instalment - Single payment frequency
 
     Given debt payment plan details
       | debtId | debtAmount | instalmentAmount | paymentFrequency | instalmentDate | mainTrans | subTrans | interestAccrued |
-      | debtId | 100000     | 10000            | Single          | 2021-06-01     | 1525      | 1000     | 1423            |
+      | debtId | 100000     | 10000            | Single           | 2021-06-01     | 1530      | 1000     | 1423            |
     When the payment plan detail is sent to the ifs service
     Then ifs returns payment frequency summary
       | totalNumberOfInstalments | expectedPayment | totalPlanInt | interestAccrued |
-      | 11                       | 102617          | 1194         | 1423            |
+      | 11                       | 101462          | 39           | 1423            |
     Then ifs service return the following payment plan calculation instalment
       | serialNo | paymentDueDate | amountDue | uniqueDebtId | balance | interestDue | totalPaidAmount | intRate |
-      | 1        | 2021-06-01     | 10000     | debtId       | 100000  | 213         | 10000           | 2.6     |
-      | 2        | 2021-07-01     | 10000     | debtId       | 90000   | 198         | 20000           | 2.6     |
-      | 3        | 2021-08-01     | 10000     | debtId       | 80000   | 176         | 30000           | 2.6     |
-      | 4        | 2021-09-01     | 10000     | debtId       | 70000   | 149         | 40000           | 2.6     |
-      | 5        | 2021-10-01     | 10000     | debtId       | 60000   | 132         | 50000           | 2.6     |
-      | 6        | 2021-11-01     | 10000     | debtId       | 50000   | 106         | 60000           | 2.6     |
-      | 7        | 2021-12-01     | 10000     | debtId       | 40000   | 88          | 70000           | 2.6     |
-      | 8        | 2022-01-01     | 10000     | debtId       | 30000   | 66          | 80000           | 2.6     |
-      | 9        | 2022-02-01     | 10000     | debtId       | 20000   | 39          | 90000           | 2.6     |
-      | 10       | 2022-03-01     | 10000     | debtId       | 10000   | 22          | 100000          | 2.6     |
-      | 11       | 2022-04-01     | 2617      | debtId       | 0       | 0           | 102617          | 2.6     |
+      | 1        | 2021-06-01     | 10000     | debtId       | 100000  | 7           | 10000           | 2.6     |
+      | 2        | 2021-06-02     | 10000     | debtId       | 90000   | 6           | 20000           | 2.6     |
+      | 3        | 2021-06-03     | 10000     | debtId       | 80000   | 5           | 30000           | 2.6     |
+      | 4        | 2021-06-04     | 10000     | debtId       | 70000   | 4           | 40000           | 2.6     |
+      | 5        | 2021-06-05     | 10000     | debtId       | 60000   | 4           | 50000           | 2.6     |
+      | 6        | 2021-06-06     | 10000     | debtId       | 50000   | 3           | 60000           | 2.6     |
+      | 7        | 2021-06-07     | 10000     | debtId       | 40000   | 2           | 70000           | 2.6     |
+      | 8        | 2021-06-08     | 10000     | debtId       | 30000   | 2           | 80000           | 2.6     |
+      | 9        | 2021-06-09     | 10000     | debtId       | 20000   | 1           | 90000           | 2.6     |
+      | 10       | 2021-06-10     | 10000     | debtId       | 10000   | 0           | 100000          | 2.6     |
+      | 11       | 2021-06-11     | 1462      | debtId       | 0       | 0           | 101462          | 2.6     |
 
 
   Scenario: Payment plan calculation instalment - monthly payment frequency
@@ -95,11 +95,11 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
       | 11       | 2021-08-10     | 1697      | debtId       | 0       | 0           | 101697          | 2.6     |
 
 
-  Scenario: Payment plan calculation instalment - BiWeekly payment frequency
+  Scenario: Payment plan calculation instalment - 2-Weekly payment frequency
 
     Given debt payment plan details
       | debtId | debtAmount | instalmentAmount | paymentFrequency | instalmentDate | mainTrans | subTrans | interestAccrued |
-      | debtId | 100000     | 10000            | BiWeekly         | 2021-06-01     | 1530      | 1000     | 1423            |
+      | debtId | 100000     | 10000            | 2-Weekly         | 2021-06-01     | 1530      | 1000     | 1423            |
     When the payment plan detail is sent to the ifs service
     Then ifs returns payment frequency summary
       | totalNumberOfInstalments | expectedPayment | totalPlanInt | interestAccrued |
@@ -168,29 +168,29 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
       | 10       | 2021-09-01     | 10000     | debtId       | 10000   | 4           | 100000          | 2.6     |
       | 11       | 2021-09-08     | 1697      | debtId       | 0       | 0           | 101697          | 2.6     |
 
-  @wip45
+
   Scenario: Payment plan calculation instalment - 4-Weekly payment frequency with end of month instalment start Date
 
     Given debt payment plan details
       | debtId | debtAmount | instalmentAmount | paymentFrequency | instalmentDate | mainTrans | subTrans | interestAccrued |
-      | debtId | 100000     | 10000            | 4-Weekly           | 2021-06-30     | 1525      | 1000     | 1423            |
+      | debtId | 100000     | 10000            | 4-Weekly         | 2021-06-01    | 1530      | 1000     | 1423            |
     When the payment plan detail is sent to the ifs service
     Then ifs returns payment frequency summary
       | totalNumberOfInstalments | expectedPayment | totalPlanInt | interestAccrued |
-      | 11                       | 101697          | 274          | 1423            |
+      | 11                       | 102519          | 1096         | 1423            |
     Then ifs service return the following payment plan calculation instalment
       | serialNo | paymentDueDate | amountDue | uniqueDebtId | balance | interestDue | totalPaidAmount | intRate |
-      | 1        | 2021-06-30     | 10000     | debtId       | 100000  | 49          | 10000           | 2.6     |
-      | 2        | 2021-07-07     | 10000     | debtId       | 90000   | 44          | 20000           | 2.6     |
-      | 3        | 2021-07-14     | 10000     | debtId       | 80000   | 39          | 30000           | 2.6     |
-      | 4        | 2021-07-21     | 10000     | debtId       | 70000   | 34          | 40000           | 2.6     |
-      | 5        | 2021-07-28     | 10000     | debtId       | 60000   | 29          | 50000           | 2.6     |
-      | 6        | 2021-08-04     | 10000     | debtId       | 50000   | 24          | 60000           | 2.6     |
-      | 7        | 2021-08-11     | 10000     | debtId       | 40000   | 19          | 70000           | 2.6     |
-      | 8        | 2021-08-18     | 10000     | debtId       | 30000   | 14          | 80000           | 2.6     |
-      | 9        | 2021-08-25     | 10000     | debtId       | 20000   | 9           | 90000           | 2.6     |
-      | 10       | 2021-09-01     | 10000     | debtId       | 10000   | 4           | 100000          | 2.6     |
-      | 11       | 2021-09-08     | 1697      | debtId       | 0       | 0           | 101697          | 2.6     |
+      | 1        | 2021-06-01     | 10000     | debtId       | 100000  | 199         | 10000           | 2.6     |
+      | 2        | 2021-06-29     | 10000     | debtId       | 90000   | 179         | 20000           | 2.6     |
+      | 3        | 2021-07-27     | 10000     | debtId       | 80000   | 159         | 30000           | 2.6     |
+      | 4        | 2021-08-24     | 10000     | debtId       | 70000   | 139         | 40000           | 2.6     |
+      | 5        | 2021-09-21     | 10000     | debtId       | 60000   | 119         | 50000           | 2.6     |
+      | 6        | 2021-10-19     | 10000     | debtId       | 50000   | 99          | 60000           | 2.6     |
+      | 7        | 2021-11-16     | 10000     | debtId       | 40000   | 79          | 70000           | 2.6     |
+      | 8        | 2021-12-14     | 10000     | debtId       | 30000   | 59          | 80000           | 2.6     |
+      | 9        | 2022-01-11     | 10000     | debtId       | 20000   | 39          | 90000           | 2.6     |
+      | 10       | 2022-02-08     | 10000     | debtId       | 10000   | 19          | 100000          | 2.6     |
+      | 11       | 2022-03-08     | 2519      | debtId       | 0       | 0           | 102519          | 2.6     |
 
 
   Scenario: Payment plan calculation instalment - Monthly payment frequency instalment Date starts in non leap year to Leap year
@@ -258,9 +258,9 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
       | 2        | 2020-12-31     | 10000     | debtId       | 90000   | 2917        | 20000           | 3.25    |
       | 3        | 2021-12-31     | 10000     | debtId       | 80000   | 2600        | 30000           | 3.25    |
       | 4        | 2022-12-31     | 10000     | debtId       | 70000   | 2275        | 40000           | 3.25    |
-      | 5        | 2023-12-31     | 10000     | debtId       | 60000   | 1950         | 50000           | 3.25    |
-      | 6        | 2024-12-31     | 10000     | debtId       | 50000   | 1620         | 60000           | 3.25    |
-      | 7        | 2025-12-31     | 10000     | debtId       | 40000   | 1300         | 70000           | 3.25    |
+      | 5        | 2023-12-31     | 10000     | debtId       | 60000   | 1950        | 50000           | 3.25    |
+      | 6        | 2024-12-31     | 10000     | debtId       | 50000   | 1620        | 60000           | 3.25    |
+      | 7        | 2025-12-31     | 10000     | debtId       | 40000   | 1300        | 70000           | 3.25    |
       | 8        | 2026-12-31     | 10000     | debtId       | 30000   | 975         | 80000           | 3.25    |
       | 9        | 2027-12-31     | 10000     | debtId       | 20000   | 650         | 90000           | 3.25    |
       | 10       | 2028-12-31     | 10000     | debtId       | 10000   | 324         | 100000          | 3.25    |
@@ -280,7 +280,7 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
     Then ifs service return the following payment plan calculation instalment
       | serialNo | paymentDueDate | amountDue | uniqueDebtId | balance | interestDue | totalPaidAmount | intRate |
       | 1        | 2020-01-15     | 10000     | debtId       | 100000  | 808         | 10000           | 3.25    |
-      | 2        | 2020-04-15    | 10000     | debtId       | 90000   | 727         | 20000           | 3.25    |
+      | 2        | 2020-04-15     | 10000     | debtId       | 90000   | 727         | 20000           | 3.25    |
       | 3        | 2020-07-15     | 10000     | debtId       | 80000   | 653         | 30000           | 3.25    |
       | 4        | 2020-10-15     | 10000     | debtId       | 70000   | 571         | 40000           | 3.25    |
       | 5        | 2021-01-15     | 10000     | debtId       | 60000   | 480         | 50000           | 3.25    |
