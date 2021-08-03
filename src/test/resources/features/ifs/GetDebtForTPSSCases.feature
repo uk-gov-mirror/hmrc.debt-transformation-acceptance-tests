@@ -138,7 +138,7 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | statusCode | reason       | message                                                      |
       | 400        | Invalid Json | Field at path '/debtItems(0)/dateCreated' missing or invalid |
 
-  @dtd-496
+  @dtd-496 @wip
   Scenario: interestStartDate should be mandatory for interest bearing debts - Edge Case
     Given a debt item
       | originalAmount | dateCreated | interestRequestedTo | mainTrans | subTrans | interestBearing |
@@ -264,7 +264,7 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | false           | 0                       | 0                    | 2.6     | 0                | 0                  | 0                    | 0                  | false                 |
     And the 1st debt summary will not have any calculation windows
 
-  @dtd-496
+  @dtd-496 @wip
   Scenario: interestStartDate should be optional for non interest bearing debt. With payments (for bug DTD-496)
     Given a debt item
       | originalAmount | dateCreated | interestRequestedTo | mainTrans | subTrans |
@@ -283,7 +283,7 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | false           | 0                       | 0                    | 2.6     | 0                | 0                  | 0                    | 0                  | false                 |
     And the 1st debt summary will not have any calculation windows
 
-  @dtd-496
+  @dtd-496 @wip
   Scenario: interestStartDate should be optional for non interest bearing debt. Multiple debts (for bug DTD-496)
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
