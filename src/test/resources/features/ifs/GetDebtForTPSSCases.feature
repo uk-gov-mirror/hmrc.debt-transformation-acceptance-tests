@@ -33,6 +33,7 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2021-03-01 | 2021-03-08 | 7            | 2.6          | 35                      | 249               | 500000               | 500249             |
 
+   @DTD-496 @wip
   Scenario: Non Interest Bearing TPSS MainTrans 1520 debt
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
@@ -47,9 +48,7 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
     Then the 1st debt summary will contain
       | interestBearing | interestDueDailyAccrual | interestDueDutyTotal | intRate | unpaidAmountDuty | totalAmountIntDuty | numberChargeableDays | amountOnIntDueDuty | interestOnlyIndicator |
       | false           | 0                       | 0                    | 0       | 500000           | 500000             | 0                    | 500000             | false                 |
-    And the 1st debt summary will have calculation windows
-      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
-      | 2021-03-01 | 2021-03-08 | 0            | 0.0          | 0                       | 0                 | 500000               | 500000             |
+    And the 1st debt summary will not have any calculation windows
 
 #    TODO DTD-200
 #  Scenario: TPSS MainTrans (1525) debt Zero Amount Edge Case
@@ -249,8 +248,8 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
   @dtd-496 @wip
   Scenario: interestStartDate should be optional for non interest bearing debt. Without payments (for bug DTD-496)
     Given a debt item
-      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2021-03-01        | 2021-03-08          | 1520      | 1090     |
+      | originalAmount | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2021-03-08          | 1520      | 1090     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
@@ -270,7 +269,7 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | 500000         | 2021-03-01  | 2021-03-08          | 1520      | 1090     |
     And the debt item has payment history
       | paymentAmount | paymentDate |
-      | 100000             | 2021-03-04  |
+      | 100000        | 2021-03-04  |
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
@@ -281,25 +280,6 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | interestBearing | interestDueDailyAccrual | interestDueDutyTotal | intRate | unpaidAmountDuty | totalAmountIntDuty | numberChargeableDays | amountOnIntDueDuty | interestOnlyIndicator |
       | false           | 0                       | 0                    | 2.6     | 400000           | 400000             | 0                    | 400000             | false                 |
     And the 1st debt summary will not have any calculation windows
-
-
-  @dtd-496 @wip
-  Scenario: interestStartDate is ignored for non interest bearing debts (for bug DTD-496)
-    Given a debt item
-      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2021-03-07        | 2021-03-08          | 1520      | 1090     |
-    And the debt item has no payment history
-    And no breathing spaces have been applied to the customer
-    And no post codes have been provided for the customer
-    When the debt item is sent to the ifs service
-    Then the ifs service wilL return a total debts summary of
-      | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
-      | 0                    | 0                    | 500000            | 500000         | 500000              |
-    Then the 1st debt summary will contain
-      | interestBearing | interestDueDailyAccrual | interestDueDutyTotal | intRate | unpaidAmountDuty | totalAmountIntDuty | numberChargeableDays | amountOnIntDueDuty | interestOnlyIndicator |
-      | false           | 0                       | 0                    | 2.6     | 500000           | 500000             | 0                    | 500000             | false                 |
-    And the 1st debt summary will not have any calculation windows
-
 
   @dtd-496 @wip
   Scenario: interestStartDate should be optional for non interest bearing debt. Multiple debts (for bug DTD-496)
