@@ -362,4 +362,13 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
   Given("debt payment plan details") { (dataTable: DataTable) =>
     createPaymentPlanRequestBody(dataTable)
   }
+
+  Then("the ([0-9])(?:st|nd|rd|th) debt summary will not have any calculation windows") { (summaryIndex: Int) =>
+    getCountOfCalculationWindows(summaryIndex) shouldBe 0
+  }
+
+  def getCountOfCalculationWindows(summaryIndex: Int): Int ={
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+    Json.parse(response.body).as[DebtCalculation].debtCalculations(summaryIndex - 1).calculationWindows.size
+  }
 }
