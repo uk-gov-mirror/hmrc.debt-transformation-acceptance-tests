@@ -33,7 +33,7 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2021-03-01 | 2021-03-08 | 7            | 2.6          | 35                      | 249               | 500000               | 500249             |
 
-   @DTD-496 @wip
+  @DTD-496 @wip
   Scenario: Non Interest Bearing TPSS MainTrans 1520 debt
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
@@ -298,7 +298,7 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
-      | 28                   | 220                  | 400000            | 400220         | 400000              |
+      | 28                   | 220                  | 900000            | 900220         | 900000              |
     Then the 1st debt summary will contain
       | interestBearing | interestDueDailyAccrual | interestDueDutyTotal | intRate | unpaidAmountDuty | totalAmountIntDuty | numberChargeableDays | amountOnIntDueDuty | interestOnlyIndicator |
       | true            | 28                      | 220                  | 2.6     | 400000           | 400220             | 10                   | 400000             | false                 |
@@ -308,6 +308,6 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | 2021-03-01 | 2021-03-08 | 7            | 2.6          | 28                      | 199               | 400000               | 400199             |
     Then the 2nd debt summary will contain
       | interestBearing | interestDueDailyAccrual | interestDueDutyTotal | intRate | unpaidAmountDuty | totalAmountIntDuty | numberChargeableDays | amountOnIntDueDuty | interestOnlyIndicator |
-      | false           | 0                       | 0                    | 2.6     | 0                | 0                  | 0                    | 0                  | false                 |
+      | false           | 0                       | 0                    | 2.6     | 500000           | 500000             | 0                    | 500000             | false                 |
     And the 2nd debt summary will not have any calculation windows
     
