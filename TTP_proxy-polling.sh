@@ -7,7 +7,8 @@
 
 #todo Replace below with et-ttp proxy endpoint
 ETttpStubEndpointRequests="http://localhost:10003/test-only/requests"
-ETttpStubEndpointResponse="http://localhost:10003/test-only/response"
+#ETttpStubEndpointResponse="http://localhost:10003/test-only/response" use this to write back to endpoint on stub
+ETttpStubEndpointResponse="http://localhost:9600/test-only/response" # use this to write back to proxy directly
 ETttpStubEndpointDelete="http://localhost:10003/test-only/request"
 ETttpStubEndpointErrors="http://localhost:10003/test-only/errors"
 
@@ -31,7 +32,7 @@ echo "*** qa token is $qa_token"
 
 for (( ; ; )); do
   sleep 2
-  # Call ET Proxy Endpoint
+  # ******* Call ET Proxy Endpoint ********
   echo "********* calling external test ET proxy endpoint ${ETttpStubEndpointRequests} to check for requests *********"
   echo "********* et token is $et_token ********"
   et_header_token="'Authorization: Bearer $et_token'"
@@ -43,6 +44,8 @@ for (( ; ; )); do
     # end processing of request
     continue
   else
+
+#    No Error found. Continue to next step to call QA
     requestId="$(echo ${body} | sed 's/\[.*requestId\": \"\(.*\)\", \"content.*/\1/')"
     content="$(echo ${body} | sed 's/\[.*content\": \"\(.*\)\", \"uri.*/\1/')"
     uri="$(echo ${body} | sed 's/\[.*uri\": \"\(.*\)\", \"isResponse.*/\1/')"
@@ -55,9 +58,9 @@ for (( ; ; )); do
 
   fi
 
-  #make a call to the QA TTP-proxy for item retrieved in previous step
-  #  qa_header_token="'Authorization: Bearer $qa_token'" /// PUT BACK IN TO USE QA TOKEN
-  qa_header_token="Authorization: Bearer BXQ3/Treo4kQCZvVcCqKPqcQ9hQyCnA5YFyhwgLgVcrbzlFpO7zT9PiM4WlzXMunbA8Wa9gPKmU1a6OqMMwE2k/Go5AR3q/AI7SMzBSYC1xnLMD6W4Fny8dJBeUTjA/XY1Fnd5GOFr4GghTC67QPzJCOvDvpaIvrFjV2gfGl/139KwIkeIPK/mMlBESjue4V"
+  # ****** make a call to the QA TTP-proxy for item retrieved in previous step ******
+  # qa_header_token="'Authorization: Bearer $qa_token'" /// PUT BACK IN TO USE QA TOKEN
+  qa_header_token="Authorization: Bearer BXQ3/Treo4kQCZvVcCqKPh0C0D0Bb0deK2KhU6/jjTu9J1ToD6lVf6J7k1JFpre1/ThCtxyCPrkJ/X3QeS+K8EvgilATFCckCXYBegW68PabFXEmdGzhBr/Zzmd92R9gdYfwEumthE1IuvgGKVLKf9pcHAr9oh7GMQ1pVeYWrln9KwIkeIPK/mMlBESjue4V"
   echo "*** qa header token is ${qa_header_token}"
   jsonToPost="${content}"
 
@@ -79,17 +82,16 @@ for (( ; ; )); do
     # end processing of request
     continue
   else
+    #    No Error found. Continue to next step to call ET
     qa_response=$(<qaResponse.txt)
     sed 's/\"/\\\"/g' qaResponse.txt >qa_response_escaped.txt
-    #    qa_response_escaped=sed -i 's/"/\"/g' kdd.txt
     echo " *** Response returned from QA ttp endpoint is $qa_response"
     qa_response_escaped=$(<qa_response_escaped.txt)
     echo " *** Escaped response from QA ttp endpoint is ${qa_response_escaped}"
   fi
 
-  # post the response to the POST /response endpoint in the ET TTP-proxy endpoint
-
-  json_response_to_post_back_to_et="{\"requestId\": \"${requestId}\",\"content\": \"${qa_response_escaped}\",\"uri\": \"\",\"isResponse\": true,\"processed\": true}"
+  # ******** post the response to the POST /response endpoint in the ET TTP-proxy endpoint ******
+  json_response_to_post_back_to_et="{\"requestId\": \"${requestId}\",\"content\": \"${qa_response_escaped}\",\"uri\": \"\",\"isResponse\": true}"
   echo "******** QA response content for sending to ET is $qa_response ********"
   echo "******** calling ETttpStubEndpointResponse $ETttpStubEndpointResponse with body ${json_response_to_post_back_to_et} ********"
 
