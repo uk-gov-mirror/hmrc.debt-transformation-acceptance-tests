@@ -9,6 +9,7 @@
 ETttpStubEndpointRequests="http://localhost:10003/test-only/requests"
 ETttpStubEndpointResponse="http://localhost:10003/test-only/response"
 ETttpStubEndpointDelete="http://localhost:10003/test-only/request"
+ETttpStubEndpointErrors="http://localhost:10003/test-only/errors"
 
 #todo Replace below with qa-ttp proxy endpoint
 QAttpProxyEndpoint="http://localhost:9600/"
@@ -39,8 +40,6 @@ for (( ; ; )); do
 
   if [[ "$body" != *"requestId"* ]]; then
     echo "Error received calling TTP proxy on ET $ETttpStubEndpointRequests Handling error and exiting !!!"
-    # todo handle error - by writing a record to db?
-
     # end processing of request
     continue
   else
@@ -58,7 +57,7 @@ for (( ; ; )); do
 
   #make a call to the QA TTP-proxy for item retrieved in previous step
   #  qa_header_token="'Authorization: Bearer $qa_token'" /// PUT BACK IN TO USE QA TOKEN
-  qa_header_token="Authorization: Bearer BXQ3/Treo4kQCZvVcCqKPlfLBgWyJ2tBOaF4/P23es2TfZ+34wqGkfkH8xS+2Qras2OJDOVZGU2/FoJpbaswVtLON178mcYWhpDzBTAgBBB2yCiMVLw9iSKg/wEcPAMuldOaeCqfdchv1RE0yCbb0Nm4Z8avwmf+1vO3d1/BDz39KwIkeIPK/mMlBESjue4V"
+  qa_header_token="Authorization: Bearer BXQ3/Treo4kQCZvVcCqKPqcQ9hQyCnA5YFyhwgLgVcrbzlFpO7zT9PiM4WlzXMunbA8Wa9gPKmU1a6OqMMwE2k/Go5AR3q/AI7SMzBSYC1xnLMD6W4Fny8dJBeUTjA/XY1Fnd5GOFr4GghTC67QPzJCOvDvpaIvrFjV2gfGl/139KwIkeIPK/mMlBESjue4V"
   echo "*** qa header token is ${qa_header_token}"
   jsonToPost="${content}"
 
@@ -67,8 +66,15 @@ for (( ; ; )); do
 
   if [ "$qa_status_code" != 200 ]; then
     echo "$qa_status_code Error received calling qa endpoint $QAuri Handling error and exiting !!!"
-    # todo handle error - by writing a record to db?
-    sleep 5
+
+    #    Write error to stub error table
+    et_error_db_status_code=$(curl -s -w %{http_code} ${ETttpStubEndpointErrors} --request POST -H "Content-Type: application/json" --data ${jsonToPost})
+    if [ "${et_error_db_status_code}" != 200 ]; then
+      echo "${et_error_db_status_code} Error when adding error to stub error db $ETttpStubEndpointErrors Exiting !!!"
+      continue
+    else
+      echo "*** Written error to log 1***"
+    fi
 
     # end processing of request
     continue
@@ -91,7 +97,15 @@ for (( ; ; )); do
   echo "et_status_code isssdddd...$et_status_code"
   if [ "$et_status_code" != 200 ]; then
     echo "$et_status_code Error received posting response back to ET endpoint $ETttpStubEndpointResponse Exiting !!!"
-    # todo handle error. Log error in db?
+
+    # Write error to stub error table
+    et_error_db_status_code=$(curl -s -w %{http_code} ${ETttpStubEndpointErrors} --request POST -H "Content-Type: application/json" --data ${json_response_to_post_back_to_et})
+    if [ "${et_error_db_status_code}" != 200 ]; then
+      echo "${et_error_db_status_code} Error when adding error to stub error db ${ETttpStubEndpointErrors} Exiting !!!"
+      continue
+    else
+      echo "*** Written error to log 2 ***"
+    fi
 
     continue
   else
