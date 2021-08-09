@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 
-# script to poll the GET /requests endpoint in the ET TTP-proxy,
-# call the qa ttp endpoint and then return the response back to ET
-#Delete the request from the collection on ET
-# If an error is found in any of the requests, processing of the request will end.
+# Script to pass requests from TTP proxy on ET to the TTP proxy on QA, returning the responses back to ET.
+# 1) Polls the ET stub db using the GET /requests endpoint to find next request.
+# 2) Calls the QA TTP Proxy with the request from previous step.
+# 3) Returns the response back to the ET TTP Proxy.
+# 4) Deletes the request from the collection on ET so that it isn't processed again.
+#
+# If an error is found in any of the requests, the error will be written to the stub db errors table and processing of the request will end.
 
 #todo Replace below with et-ttp proxy endpoint
 ETttpStubEndpointRequests="http://localhost:10003/test-only/requests"
@@ -32,9 +35,11 @@ echo "*** qa token is $qa_token"
 
 for (( ; ; )); do
   sleep 2
-  # ******* Call ET Proxy Endpoint ********
+  # ******* 1) Poll the ET stub db using the GET /requests endpoint to find next request. *******
+  echo "******* START 1) Polling the ET stub db using the GET /requests endpoint to find next request. ******* "
   echo "********* calling external test ET proxy endpoint ${ETttpStubEndpointRequests} to check for requests *********"
   echo "********* et token is $et_token ********"
+
   et_header_token="'Authorization: Bearer $et_token'"
   curl -s -o -w %{http_code} $ETttpStubEndpointRequests --header "$et_header_token" | jq --raw-output "." | jq "." | sed -e 's/\\\"/\"/g' >et_response.txt
   body=$(<et_response.txt)
@@ -45,7 +50,7 @@ for (( ; ; )); do
     continue
   else
 
-#    No Error found. Continue to next step to call QA
+#    No Error found. Set params then continue to next step to call QA
     requestId="$(echo ${body} | sed 's/\[.*requestId\": \"\(.*\)\", \"content.*/\1/')"
     content="$(echo ${body} | sed 's/\[.*content\": \"\(.*\)\", \"uri.*/\1/')"
     uri="$(echo ${body} | sed 's/\[.*uri\": \"\(.*\)\", \"isResponse.*/\1/')"
@@ -58,13 +63,15 @@ for (( ; ; )); do
 
   fi
 
-  # ****** make a call to the QA TTP-proxy for item retrieved in previous step ******
+  # ********* 2) Call the QA TTP Proxy with the request from previous step. **********
+  echo "********* 2) Call the QA TTP Proxy with the request from previous step. **********"
+
   # qa_header_token="'Authorization: Bearer $qa_token'" /// PUT BACK IN TO USE QA TOKEN
   qa_header_token="Authorization: Bearer BXQ3/Treo4kQCZvVcCqKPh0C0D0Bb0deK2KhU6/jjTu9J1ToD6lVf6J7k1JFpre1/ThCtxyCPrkJ/X3QeS+K8EvgilATFCckCXYBegW68PabFXEmdGzhBr/Zzmd92R9gdYfwEumthE1IuvgGKVLKf9pcHAr9oh7GMQ1pVeYWrln9KwIkeIPK/mMlBESjue4V"
   echo "*** qa header token is ${qa_header_token}"
   jsonToPost="${content}"
-
   echo "******** calling QAttpProxyEndpoint ${QAuri} with body from content ${jsonToPost} ********"
+
   qa_status_code=$(curl -s -o qaResponse.txt -w %{http_code} ${QAuri} --request POST -H "${qa_header_token}" -H "Content-Type: application/json" --data ${jsonToPost})
 
   if [ "$qa_status_code" != 200 ]; then
@@ -82,7 +89,7 @@ for (( ; ; )); do
     # end processing of request
     continue
   else
-    #    No Error found. Continue to next step to call ET
+    #    No Error found. Continue to next step to return response back to ET
     qa_response=$(<qaResponse.txt)
     sed 's/\"/\\\"/g' qaResponse.txt >qa_response_escaped.txt
     echo " *** Response returned from QA ttp endpoint is $qa_response"
@@ -90,9 +97,11 @@ for (( ; ; )); do
     echo " *** Escaped response from QA ttp endpoint is ${qa_response_escaped}"
   fi
 
-  # ******** post the response to the POST /response endpoint in the ET TTP-proxy endpoint ******
+  # ******** 3) Return the response back to the ET TTP Proxy. ********
+  echo "******** 3) Returning the response back to the ET TTP Proxy. *******"
+
   json_response_to_post_back_to_et="{\"requestId\": \"${requestId}\",\"content\": \"${qa_response_escaped}\",\"uri\": \"\",\"isResponse\": true}"
-  echo "******** QA response content for sending to ET is $qa_response ********"
+  echo "******** QA response content for sending to ET TTP Proxy is $qa_response ********"
   echo "******** calling ETttpStubEndpointResponse $ETttpStubEndpointResponse with body ${json_response_to_post_back_to_et} ********"
 
   et_status_code=$(curl -i -H "Content-Type: application/json" -o etPostResponse4.txt -w %{http_code} -X POST --data "${json_response_to_post_back_to_et}" ${ETttpStubEndpointResponse})
@@ -111,10 +120,12 @@ for (( ; ; )); do
 
     continue
   else
-    echo "*** Success! Response has been sent back to External Test***"
+    echo "******* Success! Response has been sent back to External Test *******"
   fi
 
-  #  Delete the request
+  # ******** 4) Delete the request from the collection on ET so that it isn't processed again. ********
+  echo "******* 4) Deleting the request from the collection on ET so that it isn't processed again. ********"
+
   delete_uri="$ETttpStubEndpointDelete/$requestId"
   echo "delete_uri is.... $delete_uri"
   et_delete_status_code=$(curl -i -H "Content-Type: application/json" -w %{http_code} -X DELETE ${delete_uri})
@@ -124,7 +135,7 @@ for (( ; ; )); do
     echo "$et_delete_status_code Error received deleting the request from the ET endpoint ${delete_uri} Exiting !!!"
     continue
   else
-    echo "*** Success! Request has been deleted ***"
+    echo "*** Success! Request has been deleted. END ***"
   fi
 
 done
