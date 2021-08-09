@@ -103,7 +103,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
         .replaceAll("<REPLACE_subTrans>", "1000")
         .replaceAll("<REPLACE_mainTrans>", "1525")
         .replaceAll("<REPLACE_dateCreated>", "")
-        .replaceAll("<REPLACE_interestStartDate>", "2021-12-16")
+        .replaceAll("<REPLACE_interestStartDate>", "\"interestStartDate\": \"2021-12-16\",")
         .replaceAll("<REPLACE_interestRequestedTo>", "2022-04-14")
         .replaceAll("<REPLACE_periodEnd>", "")
 
@@ -129,7 +129,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
         .replaceAll("<REPLACE_subTrans>", "1000")
         .replaceAll("<REPLACE_mainTrans>", "1525")
         .replaceAll("<REPLACE_dateCreated>", "")
-        .replaceAll("<REPLACE_interestStartDate>", "2018-01-01")
+        .replaceAll("<REPLACE_interestStartDate>", "\"interestStartDate\": \"2018-01-01\",")
         .replaceAll("<REPLACE_interestRequestedTo>", "2018-10-30")
         .replaceAll("<REPLACE_periodEnd>", "")
 
