@@ -24,6 +24,7 @@ import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import play.twirl.api.TwirlHelperImports.twirlJavaCollectionToScala
 import uk.gov.hmrc.test.api.models._
+import uk.gov.hmrc.test.api.requests.InterestForecastingRequests
 import uk.gov.hmrc.test.api.requests.InterestForecastingRequests.{getBodyAsString, _}
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 
@@ -281,7 +282,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
   When("the payment plan detail(s) is sent to the ifs service") { () =>
     val request  = ScenarioContext.get("paymentPlan").toString
     println(s"IFS REQUST --> $request")
-    val response = getPaymentPlan(request)
+    val  response = InterestForecastingRequests.getPaymentPlan
     println(s"RESP --> ${response.body}")
     ScenarioContext.set("response", response)
 
@@ -301,6 +302,8 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     }
     if (asMapTransposed.containsKey("totalPlanInt")) {
       responseBody.totalPlanInt.toString shouldBe asMapTransposed.get("totalPlanInt").toString
+      responseBody.totalPlanInt.toString contains(asMapTransposed.get("totalPlanInt").toString)
+
     }
     if (asMapTransposed.containsKey("interestAccrued")) {
       responseBody.interestAccrued.toString() shouldBe asMapTransposed.get("interestAccrued").toString
@@ -313,7 +316,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
 
     asMapTransposed.zipWithIndex.foreach { case (window, index) =>
       val responseBody =
-        Json.parse(response.body).as[PaymentPlanSummary].paymentPlanCalculationResponse(index)
+        Json.parse(response.body).as[PaymentPlanSummary].paymentPlanCalculation(index)
 
       print("Body coming back here ************************************** " + responseBody)
       if (window.containsKey("serialNo")) {

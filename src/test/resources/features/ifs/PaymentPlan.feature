@@ -22,16 +22,16 @@
 
 
 Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial payment
-
+@wip24
   Scenario: Payment plan calculation instalment - Single payment frequency
 
     Given debt payment plan details
       | debtId | debtAmount | instalmentAmount | paymentFrequency | instalmentDate | mainTrans | subTrans | interestAccrued |
-      | debtId | 100000     | 10000            | Single           | 2021-06-01     | 1530      | 1000     | 1423            |
+      | debtId | 100000     | 10000            | Single           | 2021-12-01     | 1530      | 1000     | 1423            |
     When the payment plan detail is sent to the ifs service
     Then ifs returns payment frequency summary
-      | totalNumberOfInstalments | expectedPayment | totalPlanInt | interestAccrued |
-      | 11                       | 101462          | 39           | 1423            |
+      | totalNumberOfInstalments | expectedPayment | totalPlanInt | interestAccrued |totalInterest|
+      | 11                       | 104481          | 39           | 1423            |             |
     Then ifs service return the following payment plan calculation instalment
       | serialNo | paymentDueDate | amountDue | uniqueDebtId | balance | interestDue | totalPaidAmount | intRate |
       | 1        | 2021-06-01     | 10000     | debtId       | 100000  | 7           | 10000           | 2.6     |
