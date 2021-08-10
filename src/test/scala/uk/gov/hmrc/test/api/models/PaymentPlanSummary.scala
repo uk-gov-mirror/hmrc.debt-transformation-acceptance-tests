@@ -10,7 +10,8 @@ case class PaymentPlanSummary(
                                totalPlanInt: BigDecimal,
                                interestAccrued: BigDecimal,
                                totalInterest: BigDecimal,
-                               paymentPlanCalculation: Seq[PaymentPlanInstalment]
+                               paymentPlanCalculationResponse: Seq[PaymentPlanInstalmentResponse]
+
 )
 
 object PaymentPlanSummary {
