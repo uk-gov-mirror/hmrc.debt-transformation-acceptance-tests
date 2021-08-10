@@ -30,8 +30,8 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
       | debtId | 100000     | 10000            | Single           | 2021-12-01     | 1530      | 1000     | 1423            |
     When the payment plan detail is sent to the ifs service
     Then ifs returns payment frequency summary
-      | totalNumberOfInstalments | expectedPayment | totalPlanInt | interestAccrued |totalInterest|
-      | 11                       | 104481          | 39           | 1423            |             |
+      | totalNumberOfInstalments | totalPlanInt | interestAccrued |totalInterest|
+      | 11                       | 39           | 1423            |             |
     Then ifs service return the following payment plan calculation instalment
       | serialNo | paymentDueDate | amountDue | uniqueDebtId | balance | interestDue | totalPaidAmount | intRate |
       | 1        | 2021-06-01     | 10000     | debtId       | 100000  | 7           | 10000           | 2.6     |
@@ -54,8 +54,8 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
       | debtId | 100000     | 10000            | Monthly          | 2021-06-01     | 1525      | 1000     | 1423            |
     When the payment plan detail is sent to the ifs service
     Then ifs returns payment frequency summary
-      | totalNumberOfInstalments | expectedPayment | totalPlanInt | interestAccrued |
-      | 11                       | 102617          | 1194         | 1423            |
+      | totalNumberOfInstalments | totalPlanInt | interestAccrued |
+      | 11                       | 1194         | 1423            |
     Then ifs service return the following payment plan calculation instalment
       | serialNo | paymentDueDate | amountDue | uniqueDebtId | balance | interestDue | totalPaidAmount | intRate |
       | 1        | 2021-06-01     | 10000     | debtId       | 100000  | 213         | 10000           | 2.6     |
@@ -78,8 +78,8 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
       | debtId | 100000     | 10000            | Weekly           | 2021-06-01     | 1525      | 1000     | 1423            |
     When the payment plan detail is sent to the ifs service
     Then ifs returns payment frequency summary
-      | totalNumberOfInstalments | expectedPayment | totalPlanInt | interestAccrued |
-      | 11                       | 101697          | 274          | 1423            |
+      | totalNumberOfInstalments | totalPlanInt | interestAccrued |
+      | 11                       | 274          | 1423            |
     Then ifs service return the following payment plan calculation instalment
       | serialNo | paymentDueDate | amountDue | uniqueDebtId | balance | interestDue | totalPaidAmount | intRate |
       | 1        | 2021-06-01     | 10000     | debtId       | 100000  | 49          | 10000           | 2.6     |
@@ -102,8 +102,8 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
       | debtId | 100000     | 10000            | 2-Weekly         | 2021-06-01     | 1530      | 1000     | 1423            |
     When the payment plan detail is sent to the ifs service
     Then ifs returns payment frequency summary
-      | totalNumberOfInstalments | expectedPayment | totalPlanInt | interestAccrued |
-      | 11                       | 101971          | 548          | 1423            |
+      | totalNumberOfInstalments | totalPlanInt | interestAccrued |
+      | 11                       | 548          | 1423            |
     Then ifs service return the following payment plan calculation instalment
       | serialNo | paymentDueDate | amountDue | uniqueDebtId | balance | interestDue | totalPaidAmount | intRate |
       | 1        | 2021-06-01     | 10000     | debtId       | 100000  | 99          | 10000           | 2.6     |
@@ -127,8 +127,8 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
     When the payment plan detail is sent to the ifs service
 
     Then ifs returns payment frequency summary
-      | totalNumberOfInstalments | expectedPayment | totalPlanInt | interestAccrued |
-      | 12                       | 110736          | 1194         | 9542            |
+      | totalNumberOfInstalments | totalPlanInt | interestAccrued |
+      | 12                       | 1194         | 9542            |
 
     Then ifs service return the following payment plan calculation instalment
       | serialNo | paymentDueDate | amountDue | uniqueDebtId | balance | interestDue | totalPaidAmount | intRate |
@@ -152,8 +152,8 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
       | debtId | 100000     | 10000            | Weekly           | 2021-06-30     | 1525      | 1000     | 1423            |
     When the payment plan detail is sent to the ifs service
     Then ifs returns payment frequency summary
-      | totalNumberOfInstalments | expectedPayment | totalPlanInt | interestAccrued |
-      | 11                       | 101697          | 274          | 1423            |
+      | totalNumberOfInstalments | totalPlanInt | interestAccrued |
+      | 11                       | 274          | 1423            |
     Then ifs service return the following payment plan calculation instalment
       | serialNo | paymentDueDate | amountDue | uniqueDebtId | balance | interestDue | totalPaidAmount | intRate |
       | 1        | 2021-06-30     | 10000     | debtId       | 100000  | 49          | 10000           | 2.6     |
@@ -176,8 +176,8 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
       | debtId | 100000     | 10000            | 4-Weekly         | 2021-06-01    | 1530      | 1000     | 1423            |
     When the payment plan detail is sent to the ifs service
     Then ifs returns payment frequency summary
-      | totalNumberOfInstalments | expectedPayment | totalPlanInt | interestAccrued |
-      | 11                       | 102519          | 1096         | 1423            |
+      | totalNumberOfInstalments | totalPlanInt | interestAccrued |
+      | 11                       | 1096         | 1423            |
     Then ifs service return the following payment plan calculation instalment
       | serialNo | paymentDueDate | amountDue | uniqueDebtId | balance | interestDue | totalPaidAmount | intRate |
       | 1        | 2021-06-01     | 10000     | debtId       | 100000  | 199         | 10000           | 2.6     |
@@ -200,8 +200,8 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
       | debtId | 100000     | 10000            | Monthly          | 2019-12-31     | 1530      | 1000     | 9542            |
     When the payment plan detail is sent to the ifs service
     Then ifs returns payment frequency summary
-      | totalNumberOfInstalments | expectedPayment | totalPlanInt | interestAccrued |
-      | 12                       | 111027          | 1485         | 9542            |
+      | totalNumberOfInstalments | totalPlanInt | interestAccrued |
+      | 12                       | 1485         | 9542            |
     Then ifs service return the following payment plan calculation instalment
       | serialNo | paymentDueDate | amountDue | uniqueDebtId | balance | interestDue | totalPaidAmount | intRate |
       | 1        | 2019-12-31     | 10000     | debtId       | 100000  | 275         | 10000           | 3.25    |
@@ -225,8 +225,8 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
       | debtId | 100000     | 10000            | HalfYearly       | 2019-12-31     | 1525      | 1000     | 3538            |
     When the payment plan detail is sent to the ifs service
     Then ifs returns payment frequency summary
-      | totalNumberOfInstalments | expectedPayment | totalPlanInt | interestAccrued |
-      | 12                       | 112466          | 8928         | 3538            |
+      | totalNumberOfInstalments | totalPlanInt | interestAccrued |
+      | 12                       | 8928         | 3538            |
     Then ifs service return the following payment plan calculation instalment
       | serialNo | paymentDueDate | amountDue | uniqueDebtId | balance | interestDue | totalPaidAmount | intRate |
       | 1        | 2019-12-31     | 10000     | debtId       | 100000  | 1616        | 10000           | 3.25    |
@@ -250,8 +250,8 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
       | debtId | 100000     | 10000            | Annually         | 2019-12-31     | 1525      | 1000     | 1423            |
     When the payment plan detail is sent to the ifs service
     Then ifs returns payment frequency summary
-      | totalNumberOfInstalments | expectedPayment | totalPlanInt | interestAccrued |
-      | 12                       | 119284          | 17861        | 1423            |
+      | totalNumberOfInstalments | totalPlanInt | interestAccrued |
+      | 12                       | 17861        | 1423            |
     Then ifs service return the following payment plan calculation instalment
       | serialNo | paymentDueDate | amountDue | uniqueDebtId | balance | interestDue | totalPaidAmount | intRate |
       | 1        | 2019-12-31     | 10000     | debtId       | 100000  | 3250        | 10000           | 3.25    |
@@ -275,8 +275,8 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
       | debtId | 100000     | 10000            | Quarterly        | 2020-01-15     | 1525      | 1000     | 1423            |
     When the payment plan detail is sent to the ifs service
     Then ifs returns payment frequency summary
-      | totalNumberOfInstalments | expectedPayment | totalPlanInt | interestAccrued |
-      | 11                       | 107999          | 4461         | 1423            |
+      | totalNumberOfInstalments | totalPlanInt | interestAccrued |
+      | 11                       | 4461         | 1423            |
     Then ifs service return the following payment plan calculation instalment
       | serialNo | paymentDueDate | amountDue | uniqueDebtId | balance | interestDue | totalPaidAmount | intRate |
       | 1        | 2020-01-15     | 10000     | debtId       | 100000  | 808         | 10000           | 3.25    |

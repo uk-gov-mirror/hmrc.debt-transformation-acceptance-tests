@@ -282,7 +282,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
   When("the payment plan detail(s) is sent to the ifs service") { () =>
     val request  = ScenarioContext.get("paymentPlan").toString
     println(s"IFS REQUST --> $request")
-    val  response = InterestForecastingRequests.getPaymentPlan
+    val  response = getPaymentPlan(request)
     println(s"RESP --> ${response.body}")
     ScenarioContext.set("response", response)
 
@@ -296,9 +296,6 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     val responseBody = Json.parse(response.body).as[PaymentPlanSummary]
     if (asMapTransposed.containsKey("totalNumberOfInstalments")) {
       responseBody.totalNumberOfInstalments.toString shouldBe asMapTransposed.get("totalNumberOfInstalments").toString
-    }
-    if (asMapTransposed.containsKey("totalDebtAmount")) {
-      responseBody.expectedPayment.toString shouldBe asMapTransposed.get("expectedPayment").toString
     }
     if (asMapTransposed.containsKey("totalPlanInt")) {
       responseBody.totalPlanInt.toString shouldBe asMapTransposed.get("totalPlanInt").toString
