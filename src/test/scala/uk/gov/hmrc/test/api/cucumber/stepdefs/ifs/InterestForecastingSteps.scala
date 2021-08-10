@@ -24,7 +24,6 @@ import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import play.twirl.api.TwirlHelperImports.twirlJavaCollectionToScala
 import uk.gov.hmrc.test.api.models._
-import uk.gov.hmrc.test.api.requests.InterestForecastingRequests
 import uk.gov.hmrc.test.api.requests.InterestForecastingRequests.{getBodyAsString, _}
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 
@@ -292,38 +291,65 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[String])
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status should be(200)
-    val responseBody = Json.parse(response.body).as[PaymentPlanSummary]
-    responseBody.totalNumberOfInstalments.toString shouldBe(asMapTransposed.get("totalNumberOfInstalments").toString)
+    val paymentPlanSummary = Json.parse(response.body).as[PaymentPlanSummary]
+    paymentPlanSummary.totalNumberOfInstalments.toString shouldBe(asMapTransposed.get("totalNumberOfInstalments").toString)
 
     if (asMapTransposed.containsKey("totalPlanInt")) {
       //responseBody.totalPlanInt.toString shouldBe asMapTransposed.get("totalPlanInt").toString
-      responseBody.totalPlanInt.toString contains(asMapTransposed.get("totalPlanInt").toString)
+      paymentPlanSummary.totalPlanInt.toString contains(asMapTransposed.get("totalPlanInt").toString)
 
     }
     if (asMapTransposed.containsKey("interestAccrued")) {
-      responseBody.interestAccrued.toString contains(asMapTransposed.get("interestAccrued").toString)
+      paymentPlanSummary.interestAccrued.toString contains(asMapTransposed.get("interestAccrued").toString)
     }
   }
 
-  Then("ifs service return (.*) payment plan calculation instalment") {(dataTable: DataTable, frequencyType: String) =>
-    val asMapTransposed                = dataTable.asMaps(classOf[String], classOf[String])
+  Then("ifs service return (.*) payment plan calculation instalment") {( frequencyType: Int) =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
+     response.status shouldBe(200)
     val quoteDate = LocalDate.now
     val instalmentDate = quoteDate.plusDays(1)
-    print("instalment start date :::::::::::::::::"+ instalmentDate)
-    asMapTransposed.zipWithIndex.foreach { case (window, index) =>
-      val responseBody =
-       InterestForecastingRequests.getNextInstalmentDateByFrequency()
-        Json.parse(response.body).as[PaymentPlanSummary].paymentPlanCalculationResponse(index)
+    val debtId="debtId"
+    val responseBody= Json.parse(response.body).as[PaymentPlanSummary].paymentPlanCalculationResponse
 
-      print("Body coming back here ************************************** " + responseBody)
-      if (window.containsKey("serialNo")) {
-        responseBody.serialNo.toString shouldBe window.get(1).toString
-      }
+      val expectedPaymentPlanResponse = PaymentPlanSummaryResponse(11, 39, 1423, 1423 + 39,
+        Vector(
+          PaymentPlanInstalmentResponse(1, instalmentDate, 10000, debtId, 100000, 7, 10000, 2.6),
+          PaymentPlanInstalmentResponse(2, instalmentDate.plusDays(1 * frequencyType ), 10000, debtId, 90000, 6, 10000, 2.6),
+          PaymentPlanInstalmentResponse(3, instalmentDate.plusDays(2 * frequencyType), 10000, debtId, 80000, 5, 30000, 2.6),
+          PaymentPlanInstalmentResponse(4, instalmentDate.plusDays(3 * frequencyType), 10000, debtId, 70000, 4, 40000, 2.6),
+          PaymentPlanInstalmentResponse(5, instalmentDate.plusDays(4 * frequencyType), 10000, debtId, 60000, 4, 50000, 2.6),
+          PaymentPlanInstalmentResponse(6, instalmentDate.plusDays(5 * frequencyType), 10000, debtId, 50000, 3, 60000, 2.6),
+          PaymentPlanInstalmentResponse(7, instalmentDate.plusDays(6 * frequencyType), 10000, debtId, 40000, 2, 70000, 2.6),
+          PaymentPlanInstalmentResponse(8, instalmentDate.plusDays(7 * frequencyType), 10000, debtId, 30000, 2, 80000, 2.6),
+          PaymentPlanInstalmentResponse(9, instalmentDate.plusDays(8 * frequencyType), 10000, debtId, 20000, 1, 90000, 2.6),
+          PaymentPlanInstalmentResponse(10, instalmentDate.plusDays(9 * frequencyType), 10000, debtId, 10000, 0, 100000, 2.6),
+          PaymentPlanInstalmentResponse(11, instalmentDate.plusDays(10 * frequencyType), 1462, debtId, 0 , 0, 100000 + 1462, 2.6 )
+        ))
 
-        responseBody.paymentDueDate.toString shouldBe
-        responseBody.paymentDueDate.get(1).toString shouldBe instalmentDate.plusDays(2).toString
-      responseBody.paymentDueDate.toString shouldBe instalmentDate.plusDays(1*3).toString
+    responseBody shouldBe expectedPaymentPlanResponse
+    }
+
+
+
+
+
+
+//      val responseBody =
+//       InterestForecastingRequests.getNextInstalmentDateByFrequency()
+
+
+
+//        Json.parse(response.body).as[PaymentPlanSummary].paymentPlanCalculationResponse(index)
+//
+//      print("Body coming back here ************************************** " + responseBody)
+//      if (window.containsKey("serialNo")) {
+//        responseBody.serialNo.toString shouldBe window.get(1).toString
+//      }
+//
+//        responseBody.paymentDueDate.toString shouldBe
+//        responseBody.paymentDueDate.get(1).toString shouldBe instalmentDate.plusDays(2).toString
+//      responseBody.paymentDueDate.toString shouldBe instalmentDate.plusDays(1*3).toString
 
 
       //      if (window.containsKey("amountDue")) {
@@ -344,8 +370,8 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
 //      if (window.containsKey("intRate") && (window.get("intRate") != "")) {
 //        responseBody.intRate.toString shouldBe window.get("intRate").toString
 //      }
-    }
-  }
+
+
 
   Given("the customer has breathing spaces applied") { (dataTable: DataTable) =>
     addBreathingSpace(dataTable)
