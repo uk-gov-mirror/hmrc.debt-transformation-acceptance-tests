@@ -1,7 +1,6 @@
 #  Assumptions
 #  1 Debt item
 #  Initial originalAmount and date
-#  MainTrans == 1525 (TPSS)
 #  Where mainTrans is 1525 and subTrans is 1000, then interest bearing is assumed to be true
 #  Where subTrans is 1000 HiPG, then interest bearing is assumed to be false
 #  NO repayments
@@ -9,11 +8,9 @@
 #  NO breathing space
 #  Date Amount  == Interest start date
 #  No outstanding interests to pay
-#  When bearing the interest rate is 1%
+#  When bearing the interest rate is 2.6%
 
-#  DTD-170 Get Debt For MainTrans (1525) case
-
-Feature: Debt Calculation For TPSS MainTrans 1525 case
+Feature: Debt Calculation For Interest & Non Interest Bearing cases
 
   Scenario: Interest Bearing TPSS MainTrans 1525 debt
     Given a debt item
@@ -33,7 +30,6 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2021-03-01 | 2021-03-08 | 7            | 2.6          | 35                      | 249               | 500000               | 500249             |
 
-  @DTD-496 @wip
   Scenario: Non Interest Bearing TPSS MainTrans 1520 debt
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
@@ -136,7 +132,7 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | statusCode | reason       | message                                                      |
       | 400        | Invalid Json | Field at path '/debtItems(0)/dateCreated' missing or invalid |
 
-  @dtd-496 @wip
+  @runMe
   Scenario: interestStartDate should be mandatory for interest bearing debts - Edge Case
     Given a debt item
       | originalAmount | dateCreated | interestRequestedTo | mainTrans | subTrans | interestBearing |
@@ -146,8 +142,8 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with
-      | statusCode | reason       | message                                                            |
-      | 400        | Invalid Json | Field at path '/debtItems(0)/interestStartDate' missing or invalid |
+      | statusCode | reason       | message                                                                              |
+      | 400        | Invalid Json | Invalid Interest Start Date. IFS does not store or calculate historic interest rates |
 
   Scenario: TPSS MainTrans (1525) debt invalid entry in interestRequestedTo - Edge Case
     Given a debt item
@@ -245,7 +241,6 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | statusCode | reason       | message                                                                              |
       | 400        | Invalid Json | Invalid Interest Start Date. IFS does not store or calculate historic interest rates |
 
-  @dtd-496 @wip
   Scenario: interestStartDate should be optional for non interest bearing debt. Without payments (for bug DTD-496)
     Given a debt item
       | originalAmount | interestRequestedTo | mainTrans | subTrans |
@@ -262,7 +257,6 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | false           | 0                       | 0                    | 2.6     | 500000           | 500000             | 0                    | 500000             | false                 |
     And the 1st debt summary will not have any calculation windows
 
-  @dtd-496 @wip
   Scenario: interestStartDate should be optional for non interest bearing debt. With payments (for bug DTD-496)
     Given a debt item
       | originalAmount | dateCreated | interestRequestedTo | mainTrans | subTrans |
@@ -281,7 +275,6 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | false           | 0                       | 0                    | 2.6     | 400000           | 400000             | 0                    | 400000             | false                 |
     And the 1st debt summary will not have any calculation windows
 
-  @dtd-496 @wip
   Scenario: interestStartDate should be optional for non interest bearing debt. Multiple debts (for bug DTD-496)
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
@@ -310,4 +303,26 @@ Feature: Debt Calculation For TPSS MainTrans 1525 case
       | interestBearing | interestDueDailyAccrual | interestDueDutyTotal | intRate | unpaidAmountDuty | totalAmountIntDuty | numberChargeableDays | amountOnIntDueDuty | interestOnlyIndicator |
       | false           | 0                       | 0                    | 2.6     | 500000           | 500000             | 0                    | 500000             | false                 |
     And the 2nd debt summary will not have any calculation windows
+
+  Scenario: Interest only debt that is interest bearing
+    Given a rule has been updated
+      | mainTrans | subTrans | intRate |
+      | 5330      | 7006     | 4       |
+    And a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2021-03-01        | 2021-03-08          | 1525      | 1000     | true            |
+    And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service wilL return a total debts summary of
+      | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
+      | 35                   | 249                  | 500000            | 500249         | 500000              |
+    Then the 1st debt summary will contain
+      | interestBearing | interestDueDailyAccrual | interestDueDutyTotal | intRate | unpaidAmountDuty | totalAmountIntDuty | numberChargeableDays | amountOnIntDueDuty | interestOnlyIndicator |
+      | true            | 35                      | 249                  | 2.6     | 500000           | 500249             | 7                    | 500000             | true                  |
+    And the 1st debt summary will have calculation windows
+      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
+      | 2021-03-01 | 2021-03-08 | 7            | 2.6          | 35                      | 249               | 500000               | 500249             |
+
     
