@@ -29,10 +29,8 @@ Feature: Multiple Debt Items
     And the 1st debt summary will contain
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
       | false           | 0                    | 0                       | 0                    | 400000           | 400000             | 400000             |
-    And the 1st debt summary will have calculation windows
-      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
-      | 2018-12-16 | 2019-02-03 | 0            | 0.0          | 0                       | 0                 | 100000               | 100000             |
-      | 2018-12-16 | 2019-04-14 | 0            | 0.0          | 0                       | 0                 | 400000               | 400000             |
+    And the 1st debt summary will not have any calculation windows
+
 
   Scenario: 2. Interest Bearing. 1 Payment of 1 debt.
     Given a debt item

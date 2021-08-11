@@ -4,7 +4,7 @@
           "subTrans": "<REPLACE_subTrans>",
           "mainTrans": "<REPLACE_mainTrans>",
           <REPLACE_dateCreated>
-          "interestStartDate": "<REPLACE_interestStartDate>",
+          <REPLACE_interestStartDate>
           "interestRequestedTo": "<REPLACE_interestRequestedTo>",
           <REPLACE_periodEnd>
           "paymentHistory": [

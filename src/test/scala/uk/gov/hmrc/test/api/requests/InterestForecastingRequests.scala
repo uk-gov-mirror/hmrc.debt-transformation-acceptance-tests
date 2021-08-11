@@ -113,13 +113,18 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
       periodEnd = "\"dateCreated\": \"" + asmapTransposed.get("dateCreated") + "\","
     } else { dateCreated = "" }
 
+    var interestStartDate = ""
+    if (asmapTransposed.toString.contains("interestStartDate")) {
+      interestStartDate = "\"interestStartDate\": \"" + asmapTransposed.get("interestStartDate") + "\","
+    } else { dateCreated = "" }
+
     val debtItem = getBodyAsString("debtItem")
       .replaceAll("<REPLACE_debtID>", "123")
       .replaceAll("<REPLACE_originalAmount>", asmapTransposed.get("originalAmount"))
       .replaceAll("<REPLACE_subTrans>", asmapTransposed.get("subTrans"))
       .replaceAll("<REPLACE_mainTrans>", asmapTransposed.get("mainTrans"))
       .replaceAll("<REPLACE_dateCreated>", dateCreated)
-      .replaceAll("<REPLACE_interestStartDate>", asmapTransposed.get("interestStartDate"))
+      .replaceAll("<REPLACE_interestStartDate>", interestStartDate)
       .replaceAll("<REPLACE_interestRequestedTo>", asmapTransposed.get("interestRequestedTo"))
       .replaceAll("<REPLACE_periodEnd>", periodEnd)
 

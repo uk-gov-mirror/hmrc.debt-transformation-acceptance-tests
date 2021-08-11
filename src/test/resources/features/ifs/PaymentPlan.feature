@@ -290,3 +290,6 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
       | 9        | 2022-01-15     | 10000     | debtId       | 20000   | 160         | 90000           | 3.25    |
       | 10       | 2022-04-15     | 10000     | debtId       | 10000   | 81          | 100000          | 3.25    |
       | 11       | 2022-07-15     | 5884      | debtId       | 0       | 0           | 105884          | 2.6     |
+
+
+
