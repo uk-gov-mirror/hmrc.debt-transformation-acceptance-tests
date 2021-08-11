@@ -72,17 +72,17 @@ Feature: Debt Calculation Validation
       | statusCode | reason       | message                                                      |
       | 400        | Invalid Json | Field at path '/debtItems(0)/dateCreated' missing or invalid |
 
-  Scenario: TPSS MainTrans (1525) debt invalid entry in interestRequestedTo - Edge Case
+  Scenario: interestStartDate should be mandatory for interest bearing debts - Edge Case
     Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2021-03-08  | 2021-03-08        | d                   | 1525      | 1000     | true            |
+      | originalAmount | dateCreated | interestRequestedTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2021-04-03  | 2021-03-08          | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with
-      | statusCode | reason       | message                                                              |
-      | 400        | Invalid Json | Field at path '/debtItems(0)/interestRequestedTo' missing or invalid |
+      | statusCode | reason       | message                                                                              |
+      | 400        | Invalid Json | Invalid Interest Start Date. IFS does not store or calculate historic interest rates |
 
   Scenario: TPSS MainTrans (1525) debt empty interestRequestedTo - Edge Case
     Given a debt item
