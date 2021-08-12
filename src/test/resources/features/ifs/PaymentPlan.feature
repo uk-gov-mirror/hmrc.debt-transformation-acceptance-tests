@@ -20,6 +20,7 @@
 #No BS
 #Type of payment plan = Time to pay - not relevant for IFS to do calculation
 
+
 Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial payment
 
   Scenario: Payment plan calculation instalment - Single payment frequency
@@ -89,19 +90,30 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
   Scenario: Payment plan calculation request -quoteDate in the past or in future
 
     Given debt payment plan frequency details
-      | debtId | debtAmount | instalmentAmount | paymentFrequency | quoteDate  | mainTrans | subTrans | interestAccrued |
-      | debtId | 100000     | 10000            | single           | 2021-07-01 | 1530      | 1000     | 1423            |
+      | debtId | debtAmount | instalmentAmount | paymentFrequency | instalmentDate | quoteDate  | mainTrans | subTrans | interestAccrued |
+      | debtId | 100000     | 10000            | single           |   2024-07-01   |2021-07-01 | 1530      | 1000     | 1423            |
     When the payment plan detail is sent to the ifs service
     Then Ifs service returns response code 400
-    And Ifs service returns error message{"statusCode":400,"reason":"Invalid Json","message":"Could not parse body due to requirement failed: Quote Date must be today's Date."}
+    And Ifs service returns error message {"statusCode":400,"reason":"Invalid Json","message":"Could not parse body due to requirement failed: Quote Date must be today's Date."}
 
-  Scenario: Payment plan calculation request error  -instalmentDate same as quoteDate date or missing
+  Scenario: Payment plan calculation request error  - instalmentDate missing
 
     Given debt payment plan frequency details
       | debtId | debtAmount | instalmentAmount | paymentFrequency | instalmentDate | quoteDate  | mainTrans | subTrans | interestAccrued |
-      | debtId | 100000     | 10000            | monthly          | 2021-07-01     | 2021-07-01 | 1530      | 1000     | 1423            |
+      | debtId | 100000     | 10000            | monthly          |                | 2021-07-01 | 1530      | 1000     | 1423            |
     When the payment plan detail is sent to the ifs service
     Then Ifs service returns response code 400
-    And Ifs service returns error message {"statusCode": 400,"reason": "Invalid Json","message": "Field at path '/instalmentDate' missing or invalid\nField at path '/quoteDate' missing or invalid"}
+    And Ifs service returns error message {"statusCode":400,"reason":"Invalid Json","message":"Field at path '/instalmentDate' missing or invalid"}
+
+
+  Scenario: Payment plan calculation request error  -quoteDate missing
+
+    Given debt payment plan frequency details
+      | debtId | debtAmount | instalmentAmount | paymentFrequency | instalmentDate | quoteDate  | mainTrans | subTrans | interestAccrued |
+      | debtId | 100000     | 10000            | monthly          |  2021-07-01    |            | 1530      | 1000     | 1423            |
+    When the payment plan detail is sent to the ifs service
+    Then Ifs service returns response code 400
+    And Ifs service returns error message {"statusCode":400,"reason":"Invalid Json","message":"Field at path '/quoteDate' missing or invalid"}
+
 
 
