@@ -644,7 +644,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     noCustomerPostCodes()
   }
 
-  Given("debt payment plan frequency details"){ (dataTable: DataTable) =>
+  Given("debt payment plan frequency details") { (dataTable: DataTable) =>
     createPaymentPlanFrequency(dataTable)
   }
 
@@ -656,7 +656,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     getCountOfCalculationWindows(summaryIndex) shouldBe 0
   }
 
-  def getCountOfCalculationWindows(summaryIndex: Int): Int ={
+  def getCountOfCalculationWindows(summaryIndex: Int): Int = {
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     Json.parse(response.body).as[DebtCalculation].debtCalculations(summaryIndex - 1).calculationWindows.size
   }
