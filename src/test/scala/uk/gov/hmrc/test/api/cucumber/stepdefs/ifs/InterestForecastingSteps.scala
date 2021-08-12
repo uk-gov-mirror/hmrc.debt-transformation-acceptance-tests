@@ -316,14 +316,16 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     response.status should be(expectedCode)
   }
 
-  And("Ifs service returns error message(.*) ") { (expectedMessage: String) =>
+  And("Ifs service returns error message (.*)") { (expectedMessage: String) =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
-    response.body should include(expectedMessage)
+    val responseBody = response.body.stripMargin
+    print("response message*****************************" +responseBody)
+    responseBody should be(expectedMessage)
   }
 
   Then("ifs returns payment frequency summary") { (dataTable: DataTable) =>
     val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[String])
-    val response: StandaloneWSResponse = ScenarioContext.get("response")
+    val response: StandaloneWSResponse = ScenarioContext.get("paymentPlan")
     response.status should be(200)
     val paymentPlanSummary = Json.parse(response.body).as[PaymentPlanSummary]
     paymentPlanSummary.totalNumberOfInstalments.toString shouldBe (asMapTransposed

@@ -212,7 +212,7 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
 
   Then("""the sol service will respond with (.*)""") { (expectedMessage: String) =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
-    response.body should include(expectedMessage)
+    response.body shouldBe expectedMessage
   }
 
 }

@@ -290,7 +290,7 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
       .replaceAll("<REPLACE_debtAmount>", asmapTransposed.get("debtAmount"))
       .replaceAll("<REPLACE_instalmentAmount>", asmapTransposed.get("instalmentAmount"))
       .replaceAll("<REPLACE_paymentFrequency>", asmapTransposed.get("paymentFrequency"))
-      .replaceAll("<REPLACE_instalmentDate>", instalmentDate)
+      .replaceAll("<REPLACE_instalmentDate>",asmapTransposed.get("instalmentDate"))
       .replaceAll("<REPLACE_quoteDate>", asmapTransposed.get("quoteDate"))
       .replaceAll("<REPLACE_mainTrans>", asmapTransposed.get("mainTrans"))
       .replaceAll("<REPLACE_subTrans>", asmapTransposed.get("subTrans"))
