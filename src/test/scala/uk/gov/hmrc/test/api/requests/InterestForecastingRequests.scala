@@ -57,7 +57,6 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
     )
     val baseUri     = s"$interestForecostingApiUrl/payment-plan"
 
-
     val headers = Map(
       "Authorization" -> s"Bearer $bearerToken",
       "Content-Type"  -> "application/json",
@@ -240,15 +239,10 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
     var paymentPlan: String = null
     try ScenarioContext.get("paymentPlan")
     catch { case e: Exception => firstItem = true }
-//    var todaysDate = LocalDate.now
-//    var instalmentDate = todaysDate.plusDays(1)
-//   instalmentDate = instalmentDate
-////    quoteDate = quoteDate
-//
-    val dateTime      = new DateTime(new Date()).withZone(DateTimeZone.UTC)
-    val quoteDate = dateTime.toString("yyyy-MM-dd")
-    val instalmentDate= dateTime.plusDays(1).toString("yyyy-MM-dd")
-    var periodEnd = ""
+    val dateTime       = new DateTime(new Date()).withZone(DateTimeZone.UTC)
+    val quoteDate      = dateTime.toString("yyyy-MM-dd")
+    val instalmentDate = dateTime.plusDays(1).toString("yyyy-MM-dd")
+    var periodEnd      = ""
     if (asmapTransposed.toString.contains("periodEnd")) {
       periodEnd = "\"periodEnd\": \"" + asmapTransposed.get("periodEnd") + "\","
     } else { periodEnd = "" }
@@ -273,18 +267,17 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
     print("request json ::::::::::::::::::::::::::::::::::::" + paymentPlan)
   }
 
-
-   def getNextInstalmentDateByFrequency(paymentPlan: PaymentPlan, iterateVal: Int): LocalDate = {
+  def getNextInstalmentDateByFrequency(paymentPlan: PaymentPlan, iterateVal: Int): LocalDate = {
     val frequency = paymentPlan.paymentFrequency.entryName
     frequency match {
-      case FrequencyType.Single.entryName  => paymentPlan.instalmentDate.plusDays(iterateVal)
-      case FrequencyType.Weekly.entryName   => paymentPlan.instalmentDate.plusWeeks(iterateVal)
-      case FrequencyType.BiWeekly.entryName => paymentPlan.instalmentDate.plusWeeks(iterateVal * 2)
+      case FrequencyType.Single.entryName     => paymentPlan.instalmentDate.plusDays(iterateVal)
+      case FrequencyType.Weekly.entryName     => paymentPlan.instalmentDate.plusWeeks(iterateVal)
+      case FrequencyType.BiWeekly.entryName   => paymentPlan.instalmentDate.plusWeeks(iterateVal * 2)
       case FrequencyType.FourWeekly.entryName => paymentPlan.instalmentDate.plusWeeks(iterateVal * 4)
-      case FrequencyType.Monthly.entryName  => paymentPlan.instalmentDate.plusMonths(iterateVal)
+      case FrequencyType.Monthly.entryName    => paymentPlan.instalmentDate.plusMonths(iterateVal)
       case FrequencyType.Quarterly.entryName  => paymentPlan.instalmentDate.plusMonths(iterateVal * 3)
-      case FrequencyType.HalfYearly.entryName  => paymentPlan.instalmentDate.plusMonths(iterateVal * 6)
-      case FrequencyType.Annually.entryName  => paymentPlan.instalmentDate.plusYears(iterateVal)
+      case FrequencyType.HalfYearly.entryName => paymentPlan.instalmentDate.plusMonths(iterateVal * 6)
+      case FrequencyType.Annually.entryName   => paymentPlan.instalmentDate.plusYears(iterateVal)
     }
   }
 
