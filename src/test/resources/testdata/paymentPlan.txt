@@ -4,6 +4,7 @@
 	"instalmentAmount": <REPLACE_instalmentAmount>,
 	"paymentFrequency":"<REPLACE_paymentFrequency>",
 	"instalmentDate": "<REPLACE_instalmentDate>",
+	"quoteDate": "<REPLACE_quoteDate>",
 	"mainTrans": "<REPLACE_mainTrans>",
 	"subTrans": "<REPLACE_subTrans>",
 	"interestAccrued": <REPLACE_interestAccrued>

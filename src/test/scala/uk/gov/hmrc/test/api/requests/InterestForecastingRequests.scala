@@ -18,13 +18,18 @@ package uk.gov.hmrc.test.api.requests
 
 import cucumber.api.scala.{EN, ScalaDsl}
 import io.cucumber.datatable.DataTable
+import org.joda.time.{DateTime, DateTimeZone}
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import play.twirl.api.TwirlHelperImports.twirlJavaCollectionToScala
 import uk.gov.hmrc.test.api.client.WsClient
+import uk.gov.hmrc.test.api.models.{FrequencyType, PaymentPlan}
 import uk.gov.hmrc.test.api.utils.{BaseRequests, ScenarioContext, TestData}
+
+import java.time.LocalDate
+import java.util.Date
 
 object InterestForecastingRequests extends ScalaDsl with EN with Eventually with Matchers with BaseRequests {
 
@@ -51,7 +56,6 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
       utr = "123456789012"
     )
     val baseUri     = s"$interestForecostingApiUrl/payment-plan"
-    print("shinny new  bearer token ************************" + bearerToken)
 
     val headers = Map(
       "Authorization" -> s"Bearer $bearerToken",
@@ -240,8 +244,10 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
     var paymentPlan: String = null
     try ScenarioContext.get("paymentPlan")
     catch { case e: Exception => firstItem = true }
-
-    var periodEnd = ""
+    val dateTime       = new DateTime(new Date()).withZone(DateTimeZone.UTC)
+    val quoteDate      = dateTime.toString("yyyy-MM-dd")
+    val instalmentDate = dateTime.plusDays(1).toString("yyyy-MM-dd")
+    var periodEnd      = ""
     if (asmapTransposed.toString.contains("periodEnd")) {
       periodEnd = "\"periodEnd\": \"" + asmapTransposed.get("periodEnd") + "\","
     } else { periodEnd = "" }
@@ -250,7 +256,8 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
       .replaceAll("<REPLACE_debtAmount>", asmapTransposed.get("debtAmount"))
       .replaceAll("<REPLACE_instalmentAmount>", asmapTransposed.get("instalmentAmount"))
       .replaceAll("<REPLACE_paymentFrequency>", asmapTransposed.get("paymentFrequency"))
-      .replaceAll("<REPLACE_instalmentDate>", asmapTransposed.get("instalmentDate"))
+      .replaceAll("<REPLACE_instalmentDate>", instalmentDate)
+      .replaceAll("<REPLACE_quoteDate>", quoteDate)
       .replaceAll("<REPLACE_mainTrans>", asmapTransposed.get("mainTrans"))
       .replaceAll("<REPLACE_subTrans>", asmapTransposed.get("subTrans"))
       .replaceAll("<REPLACE_interestAccrued>", asmapTransposed.get("interestAccrued"))
@@ -263,6 +270,54 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
       paymentPlan
     )
     print("request json ::::::::::::::::::::::::::::::::::::" + paymentPlan)
+  }
+
+  def createPaymentPlanFrequency(dataTable: DataTable): Unit = {
+    val asmapTransposed     = dataTable.transpose().asMap(classOf[String], classOf[String])
+    var firstItem           = false
+    var paymentPlan: String = null
+    try ScenarioContext.get("paymentPlan")
+    catch { case e: Exception => firstItem = true }
+    val dateTime       = new DateTime(new Date()).withZone(DateTimeZone.UTC)
+    val quoteDate      = dateTime.toString("yyyy-MM-dd")
+    val instalmentDate = dateTime.plusDays(1).toString("yyyy-MM-dd")
+    var periodEnd      = ""
+    if (asmapTransposed.toString.contains("periodEnd")) {
+      periodEnd = "\"periodEnd\": \"" + asmapTransposed.get("periodEnd") + "\","
+    } else { periodEnd = "" }
+    paymentPlan = getBodyAsString("paymentPlan")
+      .replaceAll("<REPLACE_debtId>", "debtId")
+      .replaceAll("<REPLACE_debtAmount>", asmapTransposed.get("debtAmount"))
+      .replaceAll("<REPLACE_instalmentAmount>", asmapTransposed.get("instalmentAmount"))
+      .replaceAll("<REPLACE_paymentFrequency>", asmapTransposed.get("paymentFrequency"))
+      .replaceAll("<REPLACE_instalmentDate>", instalmentDate)
+      .replaceAll("<REPLACE_quoteDate>", asmapTransposed.get("quoteDate"))
+      .replaceAll("<REPLACE_mainTrans>", asmapTransposed.get("mainTrans"))
+      .replaceAll("<REPLACE_subTrans>", asmapTransposed.get("subTrans"))
+      .replaceAll("<REPLACE_interestAccrued>", asmapTransposed.get("interestAccrued"))
+
+    if (firstItem == true) { paymentPlan = paymentPlan }
+    else { paymentPlan = ScenarioContext.get("paymentPlan").toString.concat(",").concat(paymentPlan) }
+
+    ScenarioContext.set(
+      "paymentPlan",
+      paymentPlan
+    )
+    print("request json ::::::::::::::::::::::::::::::::::::" + paymentPlan)
+  }
+
+  def getNextInstalmentDateByFrequency(paymentPlan: PaymentPlan, iterateVal: Int): LocalDate = {
+    val frequency = paymentPlan.paymentFrequency.entryName
+    frequency match {
+      case FrequencyType.Single.entryName     => paymentPlan.instalmentDate.plusDays(iterateVal)
+      case FrequencyType.Weekly.entryName     => paymentPlan.instalmentDate.plusWeeks(iterateVal)
+      case FrequencyType.BiWeekly.entryName   => paymentPlan.instalmentDate.plusWeeks(iterateVal * 2)
+      case FrequencyType.FourWeekly.entryName => paymentPlan.instalmentDate.plusWeeks(iterateVal * 4)
+      case FrequencyType.Monthly.entryName    => paymentPlan.instalmentDate.plusMonths(iterateVal)
+      case FrequencyType.Quarterly.entryName  => paymentPlan.instalmentDate.plusMonths(iterateVal * 3)
+      case FrequencyType.HalfYearly.entryName => paymentPlan.instalmentDate.plusMonths(iterateVal * 6)
+      case FrequencyType.Annually.entryName   => paymentPlan.instalmentDate.plusYears(iterateVal)
+    }
   }
 
 }
