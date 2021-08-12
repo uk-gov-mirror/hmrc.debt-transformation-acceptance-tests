@@ -510,7 +510,6 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
         PaymentPlanInstalmentResponse(11, instalmentDate.plusWeeks(10 * 4), 2327, debtId, 0, 0, 100000 + 2327, 2.6)
       )
     )
-
     actualTotalNumberOfInstalments     shouldBe expectedPaymentPlanResponse.totalNumberOfInstalments
     responseBody.map(_.paymentDueDate) shouldBe expectedPaymentPlanResponse.paymentPlanCalculationResponse.map(
       _.paymentDueDate
@@ -552,10 +551,9 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
       _.paymentDueDate
     )
     responseBody.map(_.balance)        shouldBe expectedPaymentPlanResponse.paymentPlanCalculationResponse.map(_.balance)
-
   }
 
-  Then("ifs service returns HalfYearly payment freqeuncy instalment calculation plan") { () =>
+  Then("ifs service returns 6Monthly payment freqeuncy instalment calculation plan") { () =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status shouldBe 200
     val quoteDate                      = LocalDate.now
@@ -583,7 +581,6 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
         PaymentPlanInstalmentResponse(11, instalmentDate.plusMonths(10 * 6), 9398, debtId, 0, 0, 100000 + 9398, 2.6)
       )
     )
-
     actualTotalNumberOfInstalments     shouldBe expectedPaymentPlanResponse.totalNumberOfInstalments
     responseBody.map(_.paymentDueDate) shouldBe expectedPaymentPlanResponse.paymentPlanCalculationResponse.map(
       _.paymentDueDate
@@ -620,7 +617,6 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
         PaymentPlanInstalmentResponse(11, instalmentDate.plusYears(11), 3124, debtId, 0, 0, 100000 + 3124, 2.6)
       )
     )
-
     actualTotalNumberOfInstalments     shouldBe expectedPaymentPlanResponse.totalNumberOfInstalments
     responseBody.map(_.paymentDueDate) shouldBe expectedPaymentPlanResponse.paymentPlanCalculationResponse.map(
       _.paymentDueDate
