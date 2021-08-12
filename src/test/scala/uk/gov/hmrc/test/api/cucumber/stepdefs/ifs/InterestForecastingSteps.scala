@@ -128,7 +128,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
         .replaceAll("<REPLACE_subTrans>", "1000")
         .replaceAll("<REPLACE_mainTrans>", "1525")
         .replaceAll("<REPLACE_dateCreated>", "")
-        .replaceAll("<REPLACE_interestStartDate>", "2021-12-16")
+        .replaceAll("<REPLACE_interestStartDate>", "\"interestStartDate\": \"2021-12-16\",")
         .replaceAll("<REPLACE_interestRequestedTo>", "2022-04-14")
         .replaceAll("<REPLACE_periodEnd>", "")
 
@@ -154,7 +154,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
         .replaceAll("<REPLACE_subTrans>", "1000")
         .replaceAll("<REPLACE_mainTrans>", "1525")
         .replaceAll("<REPLACE_dateCreated>", "")
-        .replaceAll("<REPLACE_interestStartDate>", "2018-01-01")
+        .replaceAll("<REPLACE_interestStartDate>", "\"interestStartDate\": \"2018-01-01\",")
         .replaceAll("<REPLACE_interestRequestedTo>", "2018-10-30")
         .replaceAll("<REPLACE_periodEnd>", "")
 
@@ -650,5 +650,14 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
 
   Given("debt payment plan details") { (dataTable: DataTable) =>
     createPaymentPlanRequestBody(dataTable)
+  }
+
+  Then("the ([0-9])(?:st|nd|rd|th) debt summary will not have any calculation windows") { (summaryIndex: Int) =>
+    getCountOfCalculationWindows(summaryIndex) shouldBe 0
+  }
+
+  def getCountOfCalculationWindows(summaryIndex: Int): Int ={
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+    Json.parse(response.body).as[DebtCalculation].debtCalculations(summaryIndex - 1).calculationWindows.size
   }
 }
