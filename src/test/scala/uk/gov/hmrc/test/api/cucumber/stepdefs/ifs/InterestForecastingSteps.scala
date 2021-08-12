@@ -309,10 +309,9 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     val response = getPaymentPlan(request)
     println(s"RESP --> ${response.body}")
     ScenarioContext.set("response", response)
-
   }
 
-  Then("Ifs service returns response code(.*)") { (expectedCode: String) =>
+  Then("Ifs service returns response code (.*)") { (expectedCode: Int) =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status should be(expectedCode)
   }
@@ -643,6 +642,10 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
 
   Given("no post codes have been provided for the customer") { () =>
     noCustomerPostCodes()
+  }
+
+  Given("debt payment plan frequency details"){ (dataTable: DataTable) =>
+    createPaymentPlanFrequency(dataTable)
   }
 
   Given("debt payment plan details") { (dataTable: DataTable) =>

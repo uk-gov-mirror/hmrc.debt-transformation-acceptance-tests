@@ -20,7 +20,7 @@
 #No BS
 #Type of payment plan = Time to pay - not relevant for IFS to do calculation
 
-
+@wip24
 Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial payment
 
   Scenario: Payment plan calculation instalment - Single payment frequency
@@ -30,7 +30,7 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
       | debtId | 100000     | 10000            | Single           | 2021-12-01     | 1530      | 1000     | 1423            |
     When the payment plan detail is sent to the ifs service
     Then ifs service returns single payment freqeuncy instalment calculation plan
-  @wip24
+
   Scenario: Payment plan calculation instalment - weekly payment frequency
 
     Given debt payment plan details
@@ -41,6 +41,7 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
 
 
   Scenario: Payment plan calculation instalment - 2-Weekly payment frequency
+
     Given debt payment plan details
       | debtId | debtAmount | instalmentAmount | paymentFrequency | instalmentDate | mainTrans | subTrans | interestAccrued |
       | debtId | 100000     | 10000            | 2-Weekly         | 2021-06-01     | 1530      | 1000     | 1423            |
@@ -81,24 +82,27 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
     And ifs service returns HalfYearly payment freqeuncy instalment calculation plan
 
   Scenario: Payment plan calculation instalment - Annually payment frequency
+
     Given debt payment plan details
       | debtId | debtAmount | instalmentAmount | paymentFrequency | mainTrans | subTrans | interestAccrued |
       | debtId | 100000     | 10000            | Annually         | 1525      | 1000     | 1423            |
     When the payment plan detail is sent to the ifs service
     Then ifs service returns Annually payment freqeuncy instalment calculation plan
 
-  Scenario: Payment plan calculation request -quoteDate
-    Given debt payment plan details
-      | debtId | debtAmount | instalmentAmount | paymentFrequency | instalmentDate | mainTrans | subTrans | interestAccrued |
-      | debtId | 100000     | 10000            | Single           | 2021-12-01     | 1530      | 1000     | 1423            |
+  Scenario: Payment plan calculation request -quoteDate in the past
+
+    Given debt payment plan frequency details
+      | debtId | debtAmount | instalmentAmount | paymentFrequency | quoteDate | mainTrans | subTrans | interestAccrued |
+      | debtId | 100000     | 10000            | Single           | 2021-07-01| 1530      | 1000     | 1423            |
     When the payment plan detail is sent to the ifs service
     Then Ifs service returns response code 400
-    And Ifs service returns error message{"statusCode": 400,"reason": "Invalid Json","message": "Field at path '/quoteDate' missing or invalid"}
+    And Ifs service returns error message{"statusCode":400,"reason":"Invalid Json","message":"Could not parse body due to requirement failed: Quote Date must be today's Date."}
 
   Scenario: Payment plan calculation request error  -instalmentDate same as quoteDate date or missing
-    Given debt payment plan details
-      | debtId | debtAmount | instalmentAmount | paymentFrequency | instalmentDate | mainTrans | subTrans | interestAccrued |
-      | debtId | 100000     | 10000            | Single           | 2021-12-01     | 1530      | 1000     | 1423            |
+
+    Given debt payment plan frequency details
+      | debtId | debtAmount | instalmentAmount | paymentFrequency | instalmentDate | quoteDate | mainTrans | subTrans | interestAccrued |
+      | debtId | 100000     | 10000            | Monthly          | 2021-07-01     | 2021-07-01      |1530      | 1000     | 1423            |
     When the payment plan detail is sent to the ifs service
     Then Ifs service returns response code 400
     And Ifs service returns error message {"statusCode": 400,"reason": "Invalid Json","message": "Field at path '/instalmentDate' missing or invalid\nField at path '/quoteDate' missing or invalid"}

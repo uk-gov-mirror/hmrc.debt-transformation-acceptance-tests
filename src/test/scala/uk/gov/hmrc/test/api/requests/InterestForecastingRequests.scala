@@ -267,6 +267,40 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
     print("request json ::::::::::::::::::::::::::::::::::::" + paymentPlan)
   }
 
+  def createPaymentPlanFrequency(dataTable: DataTable): Unit = {
+    val asmapTransposed     = dataTable.transpose().asMap(classOf[String], classOf[String])
+    var firstItem           = false
+    var paymentPlan: String = null
+    try ScenarioContext.get("paymentPlan")
+    catch { case e: Exception => firstItem = true }
+    val dateTime       = new DateTime(new Date()).withZone(DateTimeZone.UTC)
+    val quoteDate      = dateTime.toString("yyyy-MM-dd")
+    val instalmentDate = dateTime.plusDays(1).toString("yyyy-MM-dd")
+    var periodEnd      = ""
+    if (asmapTransposed.toString.contains("periodEnd")) {
+      periodEnd = "\"periodEnd\": \"" + asmapTransposed.get("periodEnd") + "\","
+    } else { periodEnd = "" }
+    paymentPlan = getBodyAsString("paymentPlan")
+      .replaceAll("<REPLACE_debtId>", "debtId")
+      .replaceAll("<REPLACE_debtAmount>", asmapTransposed.get("debtAmount"))
+      .replaceAll("<REPLACE_instalmentAmount>", asmapTransposed.get("instalmentAmount"))
+      .replaceAll("<REPLACE_paymentFrequency>", asmapTransposed.get("paymentFrequency"))
+      .replaceAll("<REPLACE_instalmentDate>", instalmentDate)
+      .replaceAll("<REPLACE_quoteDate>", asmapTransposed.get("quoteDate"))
+      .replaceAll("<REPLACE_mainTrans>", asmapTransposed.get("mainTrans"))
+      .replaceAll("<REPLACE_subTrans>", asmapTransposed.get("subTrans"))
+      .replaceAll("<REPLACE_interestAccrued>", asmapTransposed.get("interestAccrued"))
+
+    if (firstItem == true) { paymentPlan = paymentPlan }
+    else { paymentPlan = ScenarioContext.get("paymentPlan").toString.concat(",").concat(paymentPlan) }
+
+    ScenarioContext.set(
+      "paymentPlan",
+      paymentPlan
+    )
+    print("request json ::::::::::::::::::::::::::::::::::::" + paymentPlan)
+  }
+
   def getNextInstalmentDateByFrequency(paymentPlan: PaymentPlan, iterateVal: Int): LocalDate = {
     val frequency = paymentPlan.paymentFrequency.entryName
     frequency match {
