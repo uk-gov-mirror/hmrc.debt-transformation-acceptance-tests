@@ -46,200 +46,64 @@ Feature: Debt Calculation For Interest & Non Interest Bearing cases
       | false           | 0                       | 0                    | 0       | 500000           | 500000             | 0                    | 500000             | false                 |
     And the 1st debt summary will not have any calculation windows
 
-#    TODO DTD-200
-#  Scenario: TPSS MainTrans (1525) debt Zero Amount Edge Case
-#    Given a debt item
-#      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-#      | 0              | 2021-03-01  | 2021-03-01        | 2021-03-08        | 1525      | 1000     | true            |
-#    And the debt item has no payment history
-#    And no breathing spaces have been applied to the customer
-#    And no post codes have been provided for the customer
-#    When the debt item is sent to the ifs service
-#    Then the 1st debt summary will contain
-#      | interestBearing | interestDueDailyAccrual | interestDueDutyTotal | intRate | unpaidAmountDuty | totalAmountIntDuty | numberOfDays | amountOnIntDueDuty | interestOnlyIndicator |
-#      | false           | 0                       | 0                    | 1       | 0                | 0                  | 8            | 0                  | false                 |
-
-
-  Scenario: TPSS MainTrans 1525 debt Amount is negative - Edge Case
+  @dtd-509 @wip
+  Scenario: interestBearing flag should be true where amount has been paid off. Payment date AFTER interest start date (for bug DTD-509)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | -1             | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1525      | 1000     | true            |
-    And the debt item has no payment history
+      | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1525      | 1000     | true            |
+    And the debt item has payment history
+      | paymentAmount | paymentDate |
+      | 500000        | 2021-03-04  |
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service will respond with
-      | statusCode | reason       | message                                                                                                                  |
-      | 400        | Invalid Json | Could not parse body due to requirement failed: Original Amount can be zero or greater, negative values are not accepted |
+    Then the ifs service wilL return a total debts summary of
+      | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
+      | 0                    | 106                  | 0                 | 106            | 0                   |
+    Then the 1st debt summary will contain
+      | interestBearing | interestDueDailyAccrual | interestDueDutyTotal | intRate | unpaidAmountDuty | totalAmountIntDuty | numberChargeableDays | amountOnIntDueDuty | interestOnlyIndicator |
+      | true            | 0                       | 106                  | 2.6     | 0                | 106                | 3                    | 0                  | false                 |
+    And the 1st debt summary will have calculation windows
+      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
+      | 2021-03-01 | 2021-03-04 | 3            | 2.6          | 35                      | 106               | 500000               | 500106             |
 
-  Scenario: TPSS MainTrans (1525) debt Amount non integer - Edge Case
+  @dtd-509 @wip
+  Scenario: interestBearing flag should be true even when debt has been paid off. Payment date BEFORE interest start date (for bug DTD-509)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | \"\"           | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1525      | 1000     | true            |
-    And the debt item has no payment history
+      | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1525      | 1000     | true            |
+    And the debt item has payment history
+      | paymentAmount | paymentDate |
+      | 500000        | 2021-02-04  |
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service will respond with
-      | statusCode | reason       | message                                                         |
-      | 400        | Invalid Json | Field at path '/debtItems(0)/originalAmount' missing or invalid |
+    Then the ifs service wilL return a total debts summary of
+      | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
+      | 0                    | 0                    | 0                 | 0              | 0                   |
+    Then the 1st debt summary will contain
+      | interestBearing | interestDueDailyAccrual | interestDueDutyTotal | intRate | unpaidAmountDuty | totalAmountIntDuty | numberChargeableDays | amountOnIntDueDuty | interestOnlyIndicator |
+      | true            | 0                       | 0                    | 2.6     | 0                | 0                  | 0                    | 0                  | false                 |
 
-  Scenario: TPSS MainTrans (1525) debt Amount non integer - Edge Case
+    @runMe
+  Scenario: Non Interest Bearing where amount has been paid off
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 1.2            | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1525      | 1000     | true            |
-    And the debt item has no payment history
+      | 500000         | 2021-03-01  | 2021-03-01        | 2021-06-08          | 1520      | 1090     | false           |
+    And the debt item has payment history
+      | paymentAmount | paymentDate |
+      | 300000        | 2021-03-23  |
+      | 200000        | 2021-04-05  |
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service will respond with
-      | statusCode | reason       | message                                                         |
-      | 400        | Invalid Json | Field at path '/debtItems(0)/originalAmount' missing or invalid |
-
-  Scenario: TPSS MainTrans (1525) debt invalid entry in Date Created - Edge Case
-    Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | d           | 2021-03-01        | 2021-03-08          | 1525      | 1000     | true            |
-    And the debt item has no payment history
-    And no breathing spaces have been applied to the customer
-    And no post codes have been provided for the customer
-    When the debt item is sent to the ifs service
-    Then the ifs service will respond with
-      | statusCode | reason       | message                                                      |
-      | 400        | Invalid Json | Field at path '/debtItems(0)/dateCreated' missing or invalid |
-
-  Scenario: TPSS MainTrans (1525) debt empty entry in Date Created - Edge Case
-    Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         |             | 2021-03-01        | 2021-03-08          | 1525      | 1000     | true            |
-    And the debt item has no payment history
-    And no breathing spaces have been applied to the customer
-    And no post codes have been provided for the customer
-    When the debt item is sent to the ifs service
-    Then the ifs service will respond with
-      | statusCode | reason       | message                                                      |
-      | 400        | Invalid Json | Field at path '/debtItems(0)/dateCreated' missing or invalid |
-
-  Scenario: TPSS MainTrans (1525) debt invalid Date Created - Edge Case
-    Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2021-02-30  | 2021-03-01        | 2021-03-08          | 1525      | 1000     | true            |
-    And the debt item has no payment history
-    And no breathing spaces have been applied to the customer
-    And no post codes have been provided for the customer
-    When the debt item is sent to the ifs service
-    Then the ifs service will respond with
-      | statusCode | reason       | message                                                      |
-      | 400        | Invalid Json | Field at path '/debtItems(0)/dateCreated' missing or invalid |
-
-  @runMe
-  Scenario: interestStartDate should be mandatory for interest bearing debts - Edge Case
-    Given a debt item
-      | originalAmount | dateCreated | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2021-04-03  | 2021-03-08          | 1525      | 1000     | true            |
-    And the debt item has no payment history
-    And no breathing spaces have been applied to the customer
-    And no post codes have been provided for the customer
-    When the debt item is sent to the ifs service
-    Then the ifs service will respond with
-      | statusCode | reason       | message                                                                              |
-      | 400        | Invalid Json | Invalid Interest Start Date. IFS does not store or calculate historic interest rates |
-
-  Scenario: TPSS MainTrans (1525) debt invalid entry in interestRequestedTo - Edge Case
-    Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2021-03-08  | 2021-03-08        | d                   | 1525      | 1000     | true            |
-    And the debt item has no payment history
-    And no breathing spaces have been applied to the customer
-    And no post codes have been provided for the customer
-    When the debt item is sent to the ifs service
-    Then the ifs service will respond with
-      | statusCode | reason       | message                                                              |
-      | 400        | Invalid Json | Field at path '/debtItems(0)/interestRequestedTo' missing or invalid |
-
-  Scenario: TPSS MainTrans (1525) debt empty interestRequestedTo - Edge Case
-    Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2021-03-08  | 2021-03-08        |                     | 1525      | 1000     | true            |
-    And the debt item has no payment history
-    And no breathing spaces have been applied to the customer
-    And no post codes have been provided for the customer
-    When the debt item is sent to the ifs service
-    Then the ifs service will respond with
-      | statusCode | reason       | message                                                              |
-      | 400        | Invalid Json | Field at path '/debtItems(0)/interestRequestedTo' missing or invalid |
-
-  Scenario: TPSS MainTrans (1525) debt invalid interestRequestedTo - Edge Case
-    Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2021-02-01  | 2021-02-01        | 2021-02-30          | 1525      | 1000     | true            |
-    And the debt item has no payment history
-    And no breathing spaces have been applied to the customer
-    And no post codes have been provided for the customer
-    When the debt item is sent to the ifs service
-    Then the ifs service will respond with
-      | statusCode | reason       | message                                                              |
-      | 400        | Invalid Json | Field at path '/debtItems(0)/interestRequestedTo' missing or invalid |
-
-  Scenario: Debt invalid mainTrans - Edge Case
-    Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 99999     | 1000     | true            |
-    And the debt item has no payment history
-    And no breathing spaces have been applied to the customer
-    And no post codes have been provided for the customer
-    When the debt item is sent to the ifs service
-    Then the ifs service will respond with
-      | statusCode | reason       | message                                                    |
-      | 400        | Invalid Json | Field at path '/debtItems(0)/mainTrans' missing or invalid |
-
-  Scenario: TPSS debt empty mainTrans - Edge Case
-    Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08          |           | 1000     | true            |
-    And the debt item has no payment history
-    And no breathing spaces have been applied to the customer
-    And no post codes have been provided for the customer
-    When the debt item is sent to the ifs service
-    Then the ifs service will respond with
-      | statusCode | reason       | message                                                    |
-      | 400        | Invalid Json | Field at path '/debtItems(0)/mainTrans' missing or invalid |
-
-  Scenario: TPSS MainTrans (1525) debt invalid subTrans - Edge Case
-    Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1525      | invalid  | true            |
-    And the debt item has no payment history
-    And no breathing spaces have been applied to the customer
-    And no post codes have been provided for the customer
-    When the debt item is sent to the ifs service
-    Then the ifs service will respond with
-      | statusCode | reason       | message                                                   |
-      | 400        | Invalid Json | Field at path '/debtItems(0)/subTrans' missing or invalid |
-
-  Scenario: TPSS MainTrans (1525) debt empty subTrans - Edge Case
-    Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1525      |          | true            |
-    And the debt item has no payment history
-    And no breathing spaces have been applied to the customer
-    And no post codes have been provided for the customer
-    When the debt item is sent to the ifs service
-    Then the ifs service will respond with
-      | statusCode | reason       | message                                                   |
-      | 400        | Invalid Json | Field at path '/debtItems(0)/subTrans' missing or invalid |
-
-  Scenario: TPSS interestStartDate debt before 2001 jan 01 - Edge Case
-    Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2000-03-01  | 2000-12-01        | 2001-03-08          | 1525      | 1000     | true            |
-    And the debt item has no payment history
-    And no breathing spaces have been applied to the customer
-    And no post codes have been provided for the customer
-    When the debt item is sent to the ifs service
-    Then the ifs service will respond with
-      | statusCode | reason       | message                                                                              |
-      | 400        | Invalid Json | Invalid Interest Start Date. IFS does not store or calculate historic interest rates |
+    Then the ifs service wilL return a total debts summary of
+      | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
+      | 0                    | 0                    | 0                 | 0              | 0                   |
+    Then the 1st debt summary will contain
+      | interestBearing | interestDueDailyAccrual | interestDueDutyTotal | intRate | unpaidAmountDuty | totalAmountIntDuty | numberChargeableDays | amountOnIntDueDuty | interestOnlyIndicator |
+      | false           | 0                       | 0                    | 0       | 0                | 0                  | 0                    | 0                  | false                 |
+    And the 1st debt summary will not have any calculation windows
 
   Scenario: interestStartDate should be optional for non interest bearing debt. Without payments (for bug DTD-496)
     Given a debt item
@@ -325,4 +189,3 @@ Feature: Debt Calculation For Interest & Non Interest Bearing cases
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2021-03-01 | 2021-03-08 | 7            | 2.6          | 35                      | 249               | 500000               | 500249             |
 
-    
