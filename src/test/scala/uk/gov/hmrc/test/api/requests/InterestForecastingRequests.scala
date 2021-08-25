@@ -82,7 +82,7 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
     )
 
   def postNewRulesTable(json: String): StandaloneWSResponse =
-    WsClient.post(dataForIFSApis("test-only/rules")._1, headers = dataForIFSApis("test-only/rules")._2, Json.parse(json))
+    WsClient.post(dataForIFSApis("test-only/rules")._1, headers = dataForIFSApis("rules")._2, Json.parse(json))
 
   private def dataForIFSApis(uri: String) = {
     val bearerToken = createBearerToken(
