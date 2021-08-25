@@ -45,8 +45,8 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
       "Content-Type"  -> "application/json",
       "Accept"        -> "application/vnd.hmrc.1.0+json"
     )
-    print("url ************************" + baseUri)
-    print("url ************************" + Json.parse(json))
+    print("IFS debt-calculation baseUri ************************" + baseUri)
+    print("IFS debt-calculation request json********************" + Json.parse(json))
 
     WsClient.post(baseUri, headers = headers, Json.parse(json))
   }
@@ -64,7 +64,7 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
       "Content-Type"  -> "application/json",
       "Accept"        -> "application/vnd.hmrc.1.0+json"
     )
-    print("url ************************" + baseUri)
+    print("payment-plan baseUri ********************" + baseUri)
     WsClient.post(baseUri, headers = headers, Json.parse(json))
   }
 
@@ -141,7 +141,7 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
       "debtItems",
       debtItems
     )
-    print("request json ::::::::::::::::::::::::::::::::::::" + debtItems)
+    print("IFS debt-calculation request::::::::::::::::::" + debtItems)
   }
 
   def createInterestForcastingRequestWithNoDebtItems(): Unit =
@@ -277,7 +277,7 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
       "paymentPlan",
       paymentPlan
     )
-    print("request json ::::::::::::::::::::::::::::::::::::" + paymentPlan)
+    print("payment-plan request json ::::::::::::::::::::::::::::::" + paymentPlan)
   }
 
   def createPaymentPlanFrequency(dataTable: DataTable): Unit = {
@@ -311,7 +311,7 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
       "paymentPlan",
       paymentPlan
     )
-    print("request json ::::::::::::::::::::::::::::::::::::" + paymentPlan)
+    print("payment-plan request json :::::::::::::::::::::::::::::::::" + paymentPlan)
   }
 
   def getNextInstalmentDateByFrequency(paymentPlan: PaymentPlan, iterateVal: Int): LocalDate = {
