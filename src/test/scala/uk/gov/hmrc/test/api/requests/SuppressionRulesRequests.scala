@@ -34,7 +34,7 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
       userType = getRandomAffinityGroup,
       utr = "123456789012"
     )
-    val baseUri     = s"$interestForecostingApiUrl/suppressions/$id"
+    val baseUri     = s"$interestForecostingApiUrl/test-only/suppressions/$id"
     val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
       "Content-Type"  -> "application/json",
@@ -50,7 +50,7 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
       userType = getRandomAffinityGroup,
       utr = "123456789012"
     )
-    val baseUri     = s"$interestForecostingApiUrl/suppressions"
+    val baseUri     = s"$interestForecostingApiUrl/test-only/suppressions"
     val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
       "Content-Type"  -> "application/json",
@@ -66,7 +66,7 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
       userType = getRandomAffinityGroup,
       utr = "123456789012"
     )
-    val baseUri     = s"$interestForecostingApiUrl/suppression-rules"
+    val baseUri     = s"$interestForecostingApiUrl/test-only/suppression-rules"
     val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
       "Content-Type"  -> "application/json",
@@ -82,7 +82,7 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
       userType = getRandomAffinityGroup,
       utr = "123456789012"
     )
-    val baseUri     = s"$interestForecostingApiUrl/suppression-rules"
+    val baseUri     = s"$interestForecostingApiUrl/test-only/suppression-rules"
     val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
       "Content-Type"  -> "application/json",
