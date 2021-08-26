@@ -22,9 +22,10 @@ import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
+import uk.gov.hmrc.test.api.models.Errors
 import uk.gov.hmrc.test.api.models.ttpp.{CreatePlanResponse, GenerateQuoteResponse, UpdatePlanResponse, ViewPlanResponse}
 import uk.gov.hmrc.test.api.requests.TimeToPayProxyRequests
-import uk.gov.hmrc.test.api.requests.TimeToPayProxyRequests._
+import uk.gov.hmrc.test.api.requests.TimeToPayProxyRequests.{addDebtItem, addPlan, addPostCodeDetails, _}
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 
 class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers {
@@ -64,14 +65,10 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
   }
 
   When("the generate quote request is sent to the ttpp service") { () =>
-    addAdHocsToGenerateQuoteRequest()
-    addCustomersToGenerateQuoteRequest()
-    addDebtsToGenerateQuoteRequest()
-
-    val request = ScenarioContext.get("generateQuoteRequest").toString
-
+    val request  = ScenarioContext.get("jsonWithDebtPaymentHistoryDetails").toString
+    println(s"TTP REQUEST ---------> $request")
     val response = TimeToPayProxyRequests.postQuote(request)
-
+    println(s"TTP STUB RESPONSE ---------> ${response.body}")
     ScenarioContext.set("response", response)
   }
 
@@ -85,9 +82,14 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
     ScenarioContext.set("response", response)
   }
 
-  And("customer values are") { dataTable: DataTable => addCustomer(dataTable) }
+  And("payment plan details") { dataTable: DataTable =>
+    addPlan(dataTable)
+  }
 
-  And("adHocs are") { dataTable: DataTable => addAdHocs(dataTable) }
+  And("post codes details") { dataTable: DataTable =>
+    addPostCodeDetails(dataTable)
+  }
+  And("customer debtItem details") { dataTable: DataTable => addDebtItem(dataTable) }
 
   And("instalments are") { dataTable: DataTable => addInstalments(dataTable) }
 
@@ -104,38 +106,47 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
   }
 
   And("the ([0-9]\\d*)(?:st|nd|rd|th) instalment will contain") { (index: Int, dataTable: DataTable) =>
-    val asMapTransposed                =
-      dataTable.transpose().asMap(classOf[String], classOf[String])
+    val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[String])
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status should be(200)
-
-    val generateQuoteResponse =
-      ScenarioContext.get[GenerateQuoteResponse]("generateQuoteResponse")
-    val nthInstalment         = generateQuoteResponse.instalments(index - 1)
-    if (asMapTransposed.containsKey("dutyId")) {
-      nthInstalment.dutyId shouldBe asMapTransposed.get("dutyId").toString
+    val generateQuoteResponse = ScenarioContext.get[GenerateQuoteResponse]("generateQuoteResponse")
+    val nthInstalment         = generateQuoteResponse.instalments.head
+    if (asMapTransposed.containsKey("debtItemChargeId")) {
+      nthInstalment.debtItemChargeId shouldBe asMapTransposed.get("debtItemChargeId").toString
     }
 
-    if (asMapTransposed.containsKey("debtId")) {
-      nthInstalment.debtId shouldBe asMapTransposed.get("debtId").toString
+    if (asMapTransposed.containsKey("debtItemId")) {
+      nthInstalment.debtItemId shouldBe asMapTransposed.get("debtItemId").toString
     }
 
     if (asMapTransposed.containsKey("dueDate")) {
-      nthInstalment.dueDate.toString shouldBe asMapTransposed
-        .get("dueDate")
-        .toString
+      nthInstalment.dueDate.toString shouldBe asMapTransposed.get("dueDate").toString
+    }
+
+    if (asMapTransposed.containsKey("amountDue")) {
+      nthInstalment.amountDue.toString shouldBe asMapTransposed.get("amountDue").toString
+    }
+
+    if (asMapTransposed.containsKey("expectedPayment")) {
+      nthInstalment.expectedPayment.toString shouldBe asMapTransposed.get("expectedPayment").toString
     }
 
     if (asMapTransposed.containsKey("interestRate")) {
-      nthInstalment.interestRate.toString shouldBe asMapTransposed
-        .get("interestRate")
-        .toString
+      nthInstalment.interestRate.toString shouldBe asMapTransposed.get("interestRate").toString
     }
 
     if (asMapTransposed.containsKey("instalmentNumber")) {
-      nthInstalment.instalmentNumber.toString shouldBe asMapTransposed
-        .get("instalmentNumber")
+      nthInstalment.instalmentNumber.toString shouldBe asMapTransposed.get("instalmentNumber").toString
+    }
+
+    if (asMapTransposed.containsKey("instalmentInterestAccrued")) {
+      nthInstalment.instalmentInterestAccrued.toString shouldBe asMapTransposed
+        .get("instalmentInterestAccrued")
         .toString
+    }
+
+    if (asMapTransposed.containsKey("instalmentBalance")) {
+      nthInstalment.instalmentBalance.toString shouldBe asMapTransposed.get("instalmentBalance").toString
     }
   }
 
@@ -196,96 +207,42 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
     }
   }
 
-  And("the ([0-9]\\d*)(?:st|nd|rd|th) view response instalment will contain") { (index: Int, dataTable: DataTable) =>
+  Then("the ttp service is going to return a generate quote response with") { dataTable: DataTable =>
     val asMapTransposed                =
       dataTable.transpose().asMap(classOf[String], classOf[String])
     val response: StandaloneWSResponse = ScenarioContext.get("response")
-    response.status should be(200)
-
-    val generateQuoteResponse =
-      ScenarioContext.get[ViewPlanResponse]("viewPlanResponse")
-
-    val nthInstalment = generateQuoteResponse.instalments(index - 1)
-    if (asMapTransposed.containsKey("dutyId")) {
-      nthInstalment.dutyId shouldBe asMapTransposed.get("dutyId").toString
-    }
-
-    if (asMapTransposed.containsKey("debtId")) {
-      nthInstalment.debtId shouldBe asMapTransposed.get("debtId").toString
-    }
-
-    if (asMapTransposed.containsKey("dueDate")) {
-      nthInstalment.dueDate.toString shouldBe asMapTransposed
-        .get("dueDate")
-        .toString
-    }
-
-    if (asMapTransposed.containsKey("amountDue")) {
-      nthInstalment.amountDue.toString shouldBe asMapTransposed
-        .get("amountDue")
-        .toString
-    }
-
-    if (asMapTransposed.containsKey("expectedPayment")) {
-      nthInstalment.expectedPayment.toString shouldBe asMapTransposed
-        .get("expectedPayment")
-        .toString
-    }
-
-    if (asMapTransposed.containsKey("interestRate")) {
-      nthInstalment.interestRate.toString shouldBe asMapTransposed
-        .get("interestRate")
-        .toString
-    }
-
-    if (asMapTransposed.containsKey("instalmentNumber")) {
-      nthInstalment.instalmentNumber.toString shouldBe asMapTransposed
-        .get("instalmentNumber")
-        .toString
-    }
-  }
-
-  Then("the ttp service is going to return a generate quote response with") { dataTable: DataTable =>
-    val asMapTransposed =
-      dataTable.transpose().asMap(classOf[String], classOf[String])
-
-    val response: StandaloneWSResponse = ScenarioContext.get("response")
-
+    response.status shouldBe 200
     val responseBody = Json.parse(response.body).as[GenerateQuoteResponse]
-
     ScenarioContext.set("generateQuoteResponse", responseBody)
-
     if (asMapTransposed.containsKey("customerReference")) {
-      responseBody.customerReference shouldBe asMapTransposed
-        .get("customerReference")
-        .toString
+      responseBody.customerReference shouldBe asMapTransposed.get("customerReference").toString
     }
 
     if (asMapTransposed.containsKey("quoteReference")) {
-      responseBody.quoteReference shouldBe asMapTransposed
-        .get("quoteReference")
-        .toString
+      responseBody.quoteReference shouldBe asMapTransposed.get("quoteReference").toString
     }
 
     if (asMapTransposed.containsKey("quoteType")) {
-      responseBody.quoteType shouldBe asMapTransposed
-        .get("quoteType")
-        .toString
+      responseBody.quoteType shouldBe asMapTransposed.get("quoteType").toString
     }
+
+    if (asMapTransposed.containsKey("quoteDate")) {
+      responseBody.quoteDate shouldBe asMapTransposed.get("quoteDate").toString
+    }
+
     if (asMapTransposed.containsKey("numberOfInstalments")) {
-      responseBody.numberOfInstalments.toString shouldBe asMapTransposed
-        .get("numberOfInstalments")
-        .toString
+      responseBody.numberOfInstalments.toString shouldBe asMapTransposed.get("numberOfInstalments").toString
     }
-    if (asMapTransposed.containsKey("totalDebtAmount")) {
-      responseBody.totalDebtAmount.toString shouldBe asMapTransposed
-        .get("totalDebtAmount")
-        .toString
+    if (asMapTransposed.containsKey("totalDebtincInt")) {
+      responseBody.totalDebtincInt.toString() shouldBe asMapTransposed.get("totalDebtincInt").toString
     }
-    if (asMapTransposed.containsKey("totalInterest")) {
-      responseBody.totalInterest.toString shouldBe asMapTransposed
-        .get("totalInterest")
-        .toString
+
+    if (asMapTransposed.containsKey("interestAccrued")) {
+      responseBody.interestAccrued.toString() shouldBe asMapTransposed.get("interestAccrued").toString
+    }
+
+    if (asMapTransposed.containsKey("planInterest")) {
+      responseBody.planInterest.toString() shouldBe asMapTransposed.get("planInterest").toString
     }
   }
 
@@ -344,23 +301,8 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
     }
   }
 
-  When("a request is made to get response from ttpp hello world endpoint") { () =>
-//      val response =
-//        TimeToPayProxyRequests.getTimeToPayProxy("/hello-world")
-//      ScenarioContext.set("response", response)
-  }
-
-  When("a request is made to an invalid ttpp endpoint") { () =>
-//    val response =
-//      TimeToPayProxyRequests.getTimeToPayProxy("/helloo-world")
-//    ScenarioContext.set("response", response)
-  }
-
-  When(
-    "a request is made to get response from ttpp hello world endpoint without bearer token"
-  ) { () =>
-    val response =
-      TimeToPayProxyRequests.getTimeToPayProxyWithoutBearerToken("/hello-world")
+  When("a request is made to get response from ttpp hello world endpoint without bearer token") { () =>
+    val response = TimeToPayProxyRequests.getTimeToPayProxyWithoutBearerToken("/hello-world")
     ScenarioContext.set("response", response)
   }
 
@@ -373,6 +315,29 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
   Then("the ttpp response code should be {int}") { expectedCode: Int =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status should be(expectedCode)
+  }
+
+  And("ttp service returns error message (.*)") { (expectedMessage: String) =>
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+    val responseBody                   = response.body
+    print("response message*****************************" + responseBody)
+    responseBody should be(expectedMessage)
+  }
+
+  Then("the ttp service will respond with") { (dataTable: DataTable) =>
+    val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[String])
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+    val errorResponse                  = Json.parse(response.body).as[Errors]
+
+    if (asMapTransposed.containsKey("statusCode")) {
+      errorResponse.statusCode.toString shouldBe asMapTransposed.get("statusCode").toString
+    }
+    if (asMapTransposed.containsKey("reason")) {
+      errorResponse.reason shouldBe asMapTransposed.get("reason").toString
+    }
+    if (asMapTransposed.containsKey("message")) {
+      errorResponse.message shouldBe asMapTransposed.get("message").toString
+    }
   }
 
 }

@@ -1,3 +1,4 @@
+@ignore
 Feature: Create Plan
 
   Scenario: Retrieve create plan response from Time to Pay Proxy

@@ -27,48 +27,62 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
   private def getBodyAsString(variant: String): String =
     TestData.loadedTtppFiles(variant)
 
-  def addCustomer(dataTable: DataTable): Unit = {
+  def addPlan(dataTable: DataTable): Unit = {
     val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
+    val planData        = asMapTransposed.zipWithIndex.head
+    val (plan, _)       = planData
+    val replacedPlan    = getBodyAsString("plan")
+      .replaceAll("<REPLACE_quoteType>", plan.get("quoteType"))
+      .replaceAll("<REPLACE_quoteDate>", plan.get("quoteDate"))
+      .replaceAll("<REPLACE_instalmentStartDate>", plan.get("instalmentStartDate"))
+      .replaceAll("<REPLACE_instalmentAmount>", plan.get("instalmentAmount"))
+      .replaceAll("<REPLACE_frequency>", plan.get("frequency"))
+      .replaceAll("<REPLACE_duration>", plan.get("duration"))
+      .replaceAll("<REPLACE_initialPaymentAmount>", plan.get("initialPaymentAmount"))
+      .replaceAll("<REPLACE_initialPaymentDate>", plan.get("initialPaymentDate"))
+      .replaceAll("<REPLACE_paymentPlanType>", plan.get("paymentPlanType"))
 
-    val customers =
-      asMapTransposed.zipWithIndex.foldLeft[String]("") { (acc, current) =>
-        val (customer, index) = current
-
-        val replaced = getBodyAsString("customer")
-          .replaceAll("<REPLACE_quoteType>", customer.get("quoteType"))
-          .replaceAll(
-            "<REPLACE_instalmentStartDate>",
-            customer.get("instalmentStartDate")
-          )
-          .replaceAll(
-            "<REPLACE_instalmentAmount>",
-            customer.get("instalmentAmount")
-          )
-          .replaceAll("<REPLACE_frequency>", customer.get("frequency"))
-          .replaceAll("<REPLACE_duration>", customer.get("duration"))
-          .replaceAll(
-            "<REPLACE_initialPaymentAmount>",
-            customer.get("initialPaymentAmount")
-          )
-          .replaceAll(
-            "<REPLACE_initialPaymentDate>",
-            customer.get("initialPaymentDate")
-          )
-          .replaceAll(
-            "<REPLACE_paymentPlanType>",
-            customer.get("paymentPlanType")
-          )
-
-        if (index + 1 < asMapTransposed.size)
-          s"$acc$replaced,"
-        else
-          s"$acc$replaced"
-      }
-
-    Try(ScenarioContext.get[String]("customers")).fold(
-      _ => ScenarioContext.set("customers", customers),
-      cs => ScenarioContext.set("customers", s"$cs, $customers")
+    Try(ScenarioContext.get[String]("plan")).fold(
+      _ => ScenarioContext.set("plan", replacedPlan),
+      _ => ()
     )
+    val jsonWithCustomerPlan =
+      ScenarioContext.get("generateQuoteRequest").toString.replaceAll("<REPLACE_plan>", replacedPlan)
+    ScenarioContext.set("jsonWithCustomerPlan", jsonWithCustomerPlan)
+
+  }
+
+  def addPostCodeDetails(dataTable: DataTable): Unit = {
+    val asMapTransposed   = dataTable.asMaps(classOf[String], classOf[String])
+    var customerPostCodes = ""
+
+    asMapTransposed.zipWithIndex.foreach { case (postCode, index) =>
+      customerPostCodes = customerPostCodes.concat(
+        getBodyAsString("postCodes")
+          .replaceAll("<REPLACE_addressPostcode>", postCode.get("addressPostcode"))
+          .replaceAll("<REPLACE_postcodeDate>", postCode.get("postcodeDate"))
+      )
+      if (index + 1 < asMapTransposed.size) customerPostCodes = customerPostCodes.concat(",")
+    }
+    val jsonWithCustomerPlanPostCodes =
+      ScenarioContext.get("jsonWithCustomerPlan").toString.replaceAll("<REPLACE_customerPostCodes>", customerPostCodes)
+    ScenarioContext.set("jsonWithCustomerPlanPostCodes", jsonWithCustomerPlanPostCodes)
+  }
+
+  def addDebtItem(dataTable: DataTable): Unit = {
+    val asMapTransposed     =
+      dataTable.transpose().asMap(classOf[String], classOf[String])
+    val debtItem            = getBodyAsString("debtItems")
+      .replaceAll("<REPLACE_debtItemId>", asMapTransposed.get("debtItemId"))
+      .replaceAll("<REPLACE_debtItemChargeId>", asMapTransposed.get("debtItemChargeId"))
+      .replaceAll("<REPLACE_mainTrans>", asMapTransposed.get("mainTrans"))
+      .replaceAll("<REPLACE_subTrans>", asMapTransposed.get("subTrans"))
+      .replaceAll("<REPLACE_originalDebtAmount>", asMapTransposed.get("originalDebtAmount"))
+      .replaceAll("<REPLACE_interestStartDate>", asMapTransposed.get("interestStartDate"))
+    ScenarioContext.set("currentDebtItem", debtItem)
+    val jsonWithDebtDetails =
+      ScenarioContext.get("jsonWithCustomerPlanPostCodes").toString.replaceAll("<REPLACE_debtItems>", debtItem)
+    ScenarioContext.set("jsonWithDebtDetails", jsonWithDebtDetails)
   }
 
   def addAdHocs(dataTable: DataTable): Unit = {
@@ -150,17 +164,9 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
     val breathingSpaces =
       asMapTransposed.zipWithIndex.foldLeft[String]("") { (acc, current) =>
         val (breathingSpace, index) = current
-
-        val replaced = getBodyAsString("breathingSpace")
-          .replaceAll(
-            "<REPLACE_debtRespiteFrom>",
-            breathingSpace.get("debtRespiteFrom")
-          )
-          .replaceAll(
-            "<REPLACE_debtRespiteTo>",
-            breathingSpace.get("debtRespiteTo")
-          )
-
+        val replaced                = getBodyAsString("breathingSpace")
+          .replaceAll("<REPLACE_debtRespiteFrom>", breathingSpace.get("debtRespiteFrom"))
+          .replaceAll("<REPLACE_debtRespiteTo>", breathingSpace.get("debtRespiteTo"))
         if (index + 1 < asMapTransposed.size)
           s"$acc$replaced,"
         else
@@ -178,31 +184,22 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
   def addPayments(dataTable: DataTable): Unit = {
     val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
 
-    val payments =
-      asMapTransposed.zipWithIndex.foldLeft[String]("") { (acc, current) =>
-        val (payment, index) = current
+    val payments                          = asMapTransposed.zipWithIndex.foldLeft[String]("") { (acc, current) =>
+      val (payment, index) = current
 
-        val replaced = getBodyAsString("payment")
-          .replaceAll(
-            "<REPLACE_paymentDate>",
-            payment.get("paymentDate")
-          )
-          .replaceAll(
-            "<REPLACE_paymentAmount>",
-            payment.get("paymentAmount")
-          )
+      val paymentReplaced = getBodyAsString("payment")
+        .replaceAll("<REPLACE_paymentDate>", payment.get("paymentDate"))
+        .replaceAll("<REPLACE_paymentAmount>", payment.get("paymentAmount"))
 
-        if (index + 1 < asMapTransposed.size)
-          s"$acc$replaced,"
-        else
-          s"$acc$replaced"
-      }
-
-    val currentDuty = ScenarioContext
-      .get("currentDuty")
-      .toString
-      .replaceAll("<REPLACE_payments>", payments)
-    ScenarioContext.set("currentDuty", currentDuty)
+      if (index + 1 < asMapTransposed.size)
+        s"$acc$paymentReplaced,"
+      else
+        s"$acc$paymentReplaced"
+    }
+    val jsonWithDebtPaymentHistoryDetails =
+      ScenarioContext.get("jsonWithDebtDetails").toString.replaceAll("<REPLACE_payments>", payments)
+    ScenarioContext.set("jsonWithDebtPaymentHistoryDetails", jsonWithDebtPaymentHistoryDetails)
+    print("customer debt Plan json ::::::::::::::::::::::::::::::::::::" + jsonWithDebtPaymentHistoryDetails)
 
   }
 
@@ -336,15 +333,9 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
       dataTable.transpose().asMap(classOf[String], classOf[String])
 
     val generateQuoteRequest = getBodyAsString("generateQuoteRequest")
-      .replaceAll(
-        "<REPLACE_customerReference>",
-        asMapTransposed.get("customerReference")
-      )
-      .replaceAll("<REPLACE_debtAmount>", asMapTransposed.get("debtAmount"))
-      .replaceAll("<REPLACE_adHoc>", "")
-
+      .replaceAll("<REPLACE_customerReference>", asMapTransposed.get("customerReference"))
+      .replaceAll("<REPLACE_channelIdentifier>", asMapTransposed.get("channelIdentifier"))
     ScenarioContext.set("generateQuoteRequest", generateQuoteRequest)
-
   }
 
   def createRequestParameters(dataTable: DataTable): Unit = {
@@ -458,22 +449,26 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
 
   def postQuote(json: String): StandaloneWSResponse = {
     val bearerToken = createBearerToken(
-      enrolments = Seq("read:time-to-pay-proxy")
+      enrolments = Seq("read:time-to-pay-proxy"),
+      userType = getRandomAffinityGroup,
+      utr = "123456789012"
     )
-
-    val baseUri = s"$timeToPayProxyApiUrl/quote"
-    val headers = Map(
+    val baseUri     = s"$timeToPayProxyApiUrl/quote"
+    val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
       "Content-Type"  -> "application/json",
       "Accept"        -> "application/vnd.hmrc.1.0+json"
     )
-
+    print("new Bearer Token ************************" + bearerToken)
+    print("url ************************" + baseUri)
     WsClient.post(baseUri, headers = headers, Json.parse(json))
   }
 
   def postPlan(json: String): StandaloneWSResponse = {
     val bearerToken = createBearerToken(
-      enrolments = Seq("read:time-to-pay-proxy")
+      enrolments = Seq("read:time-to-pay-proxy"),
+      userType = getRandomAffinityGroup,
+      utr = "123456789012"
     )
 
     val baseUri = s"$timeToPayProxyApiUrl/quote/arrangement"
@@ -485,10 +480,6 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
 
     WsClient.post(baseUri, headers = headers, Json.parse(json))
   }
-
-//  def getTimeToPayProxy(endpoint: String): StandaloneWSResponse = {
-//    baseCall(endpoint, Option(BearerToken))
-//  }
 
   def getTimeToPayProxyWithoutBearerToken(endpoint: String): StandaloneWSResponse =
     baseCall(endpoint, None)

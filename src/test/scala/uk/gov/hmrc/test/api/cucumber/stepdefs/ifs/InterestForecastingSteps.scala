@@ -322,8 +322,8 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
 
   And("Ifs service returns error message (.*)") { (expectedMessage: String) =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
-    val responseBody = response.body.stripMargin
-    print("response message*****************************" +responseBody)
+    val responseBody                   = response.body.stripMargin
+    print("response message*****************************" + responseBody)
     responseBody should be(expectedMessage)
   }
 

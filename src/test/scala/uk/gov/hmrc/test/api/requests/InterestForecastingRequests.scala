@@ -69,7 +69,11 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
   }
 
   def postNewInterestRatesTable(json: String): StandaloneWSResponse =
-    WsClient.post(dataForIFSApis("test-only/rates")._1, headers = dataForIFSApis("test-only/rates")._2, Json.parse(json))
+    WsClient.post(
+      dataForIFSApis("test-only/rates")._1,
+      headers = dataForIFSApis("test-only/rates")._2,
+      Json.parse(json)
+    )
 
   def getAllRules =
     WsClient.get(dataForIFSApis("rules")._1, headers = dataForIFSApis("rules")._2)
