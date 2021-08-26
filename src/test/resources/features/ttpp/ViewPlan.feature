@@ -1,3 +1,4 @@
+@ignore
 Feature: View Plan
 
   Scenario: Retrieve view plan response from Time to Pay Proxy

@@ -1,4 +1,0 @@
-{
-    "adHocDate": "<REPLACE_adHocDate>",
-    "adHocAmount": <REPLACE_adHocAmount>
-}

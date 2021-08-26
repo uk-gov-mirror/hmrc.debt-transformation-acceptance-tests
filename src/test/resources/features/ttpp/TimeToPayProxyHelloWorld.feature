@@ -1,4 +1,4 @@
-
+@ignore
 Feature: Time To Pay Proxy Hello World test
 
   Scenario: Retrieve hello world response from Time to Pay Proxy

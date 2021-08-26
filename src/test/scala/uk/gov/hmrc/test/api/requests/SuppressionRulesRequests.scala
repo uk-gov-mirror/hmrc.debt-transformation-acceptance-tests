@@ -56,7 +56,8 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
       "Content-Type"  -> "application/json",
       "Accept"        -> "application/vnd.hmrc.1.0+json"
     )
-    print("url ************************" + baseUri)
+    print(s"Suppression bearer token ************************  $bearerToken")
+    print(s"url ************************  $baseUri")
     WsClient.delete(baseUri, headers = headers)
   }
 
