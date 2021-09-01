@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-# Script to pass requests from TTP proxy on ET to the TTP proxy on QA, returning the responses back to ET.
+# Script to pass requests from TTP proxy on ET to the TTP service on QA, returning the responses back to ET.
 # 1) Polls the ET stub db using the GET /requests endpoint to find next request.
-# 2) Calls the QA TTP Proxy with the request from previous step.
+# 2) Calls the QA TTP service with the request from previous step.
 # 3) Returns the response back to the ET TTP Proxy.
 # 4) Deletes the request from the collection on ET so that it isn't processed again.
 #
