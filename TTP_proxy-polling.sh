@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-# Script to pass requests from TTP proxy on ET to the TTP service on QA, returning the responses back to ET.
+# DTD-446, DTD-448
+# Script / Hack to pass requests from TTP proxy on ET to the TTP service on QA, returning the responses back to ET.
 # 1) Polls the ET stub db using the GET /requests endpoint to find next request.
 # 2) Calls the QA TTP service with the request from previous step.
 # 3) Returns the response back to the ET TTP Proxy.
@@ -8,27 +9,39 @@
 #
 # If an error is found in any of the requests, the error will be written to the stub db errors table and processing of the request will end.
 
-#todo Replace below with et-ttp proxy endpoint
-ETttpStubEndpointRequests="http://localhost:10003/test-only/requests"
-#ETttpStubEndpointResponse="http://localhost:10003/test-only/response" use this to write back to endpoint on stub
-ETttpStubEndpointResponse="http://localhost:9600/test-only/response" # use this to write back to proxy directly
-ETttpStubEndpointDelete="http://localhost:10003/test-only/request"
+QAttpProxyEndpoint="https://api.qa.tax.service.gov.uk/individuals/"
+ETttpProxyEndpoint="https://test-api.service.hmrc.gov.uk/individuals/"
+delete_uri="$ETttpStubEndpointDelete/$requestId"
+
+#todo Replace QAttpProxyEndpoint below with ETttpProxyEndpoint
+ETttpStubEndpointRequests=$QAttpProxyEndpoint"time-to-pay-proxy/test-only/requests"
+ETttpStubEndpointResponse=$QAttpProxyEndpoint"time-to-pay-proxy/test-only/response" # use this to write back to proxy directly
+ETttpStubEndpointDelete=$QAttpProxyEndpoint"time-to-pay-proxy/test-only/request"
 ETttpStubEndpointErrors="http://localhost:10003/test-only/errors"
 
-#todo Replace below with qa-ttp proxy endpoint
-QAttpProxyEndpoint="http://localhost:9600/"
+#todo Replace below to get token from ET not QA
+ETTokenEndpoint="https://api.qa.tax.service.gov.uk/oauth/token"
+#ETTokenEndpoint="https://test-api.service.hmrc.gov.uk/oauth/token"
 
-ETTokenEndpoint="https://test-api.service.hmrc.gov.uk/oauth/token"
-QATokenEndpoint="http://localhost:8585/government-gateway/session/login"
+QATokenEndpoint="https://api.qa.tax.service.gov.uk/oauth/token"
 
 # Get token for external test
-token_body="client_secret=8ac71009-56c6-4898-b29b-4e5ca95776b8&client_id=zW01C9PlZBhuClygEWTcjTymEibX&grant_type=client_credentials&expires_in=500000 &scope=read:time-to-pay-proxy" # todo update when ttp service has been deployed
-et_token_json=$(curl -s -o token_response.txt -w %{http_code} --request POST --header "content-type: application/x-www-form-urlencoded" --data $token_body $ETTokenEndpoint)
+#todo uncomment below line to use ET secret id etc
+#et_token_body="client_secret=8ac71009-56c6-4898-b29b-4e5ca95776b8&client_id=zW01C9PlZBhuClygEWTcjTymEibX&grant_type=client_credentials&scope=read:time-to-pay-proxy"
+et_token_body="client_secret=6c2fc716-b9c6-4bb8-a57e-4908d32b9b27&client_id=reRg5ZSks9hGLpzxS5RRnYHjHYtW&grant_type=client_credentials&scope=read:time-to-pay-proxy"
+
+curl -s -o et_token_response.txt -w %{http_code} --request POST --header "content-type: application/x-www-form-urlencoded" --data $et_token_body $ETTokenEndpoint
+
+et_token_json=$(<et_token_response.txt)
 et_token=$(echo $et_token_json | cut -d'"' -f 4)
+echo "*** et token json is $et_token_json"
+echo "*** et token is $et_token"
 
 # Get token for qa
-token_body="client_secret=6c2fc716-b9c6-4bb8-a57e-4908d32b9b27&client_id=reRg5ZSks9hGLpzxS5RRnYHjHYtW&grant_type=client_credentials&expires_in=500000 &scope=read:time-to-pay-proxy" # todo update when ttp service has been deployed to qa
-qa_token_json=$(curl -s -o qa_token_response.txt -w %{http_code} --request POST --header "content-type: application/json" --data $token_body $QATokenEndpoint)
+qa_token_body="client_secret=6c2fc716-b9c6-4bb8-a57e-4908d32b9b27&client_id=reRg5ZSks9hGLpzxS5RRnYHjHYtW&grant_type=client_credentials&expires_in=500000&scope=read:time-to-pay-proxy"
+curl -s -o qa_token_response.txt -w %{http_code} --request POST --header "content-type: application/x-www-form-urlencoded" --data $qa_token_body $QATokenEndpoint
+
+qa_token_json=$(<qa_token_response.txt)
 qa_token=$(echo $qa_token_json | cut -d'"' -f 4)
 echo "*** qa token json is $qa_token_json"
 echo "*** qa token is $qa_token"
@@ -40,8 +53,9 @@ for (( ; ; )); do
   echo "********* calling external test ET proxy endpoint ${ETttpStubEndpointRequests} to check for requests *********"
   echo "********* et token is $et_token ********"
 
-  et_header_token="'Authorization: Bearer $et_token'"
+  et_header_token="Authorization: Bearer $et_token"
   curl -s -o -w %{http_code} $ETttpStubEndpointRequests --header "$et_header_token" | jq --raw-output "." | jq "." | sed -e 's/\\\"/\"/g' >et_response.txt
+
   body=$(<et_response.txt)
 
   if [[ "$body" != *"requestId"* ]]; then
@@ -50,7 +64,7 @@ for (( ; ; )); do
     continue
   else
 
-#    No Error found. Set params then continue to next step to call QA
+    #    No Error found. Set params then continue to next step to call QA
     requestId="$(echo ${body} | sed 's/\[.*requestId\": \"\(.*\)\", \"content.*/\1/')"
     content="$(echo ${body} | sed 's/\[.*content\": \"\(.*\)\", \"uri.*/\1/')"
     uri="$(echo ${body} | sed 's/\[.*uri\": \"\(.*\)\", \"isResponse.*/\1/')"
@@ -63,12 +77,12 @@ for (( ; ; )); do
 
   fi
 
-  # ********* 2) Call the QA TTP Proxy with the request from previous step. **********
-  echo "********* 2) Call the QA TTP Proxy with the request from previous step. **********"
+  # ********* 2) Call the QA TTP Service with the request from previous step. **********
+  echo "********* 2) Call the QA TTP Service with the request from previous step. **********"
 
-  # qa_header_token="'Authorization: Bearer $qa_token'" /// PUT BACK IN TO USE QA TOKEN
-  qa_header_token="Authorization: Bearer BXQ3/Treo4kQCZvVcCqKPh0C0D0Bb0deK2KhU6/jjTu9J1ToD6lVf6J7k1JFpre1/ThCtxyCPrkJ/X3QeS+K8EvgilATFCckCXYBegW68PabFXEmdGzhBr/Zzmd92R9gdYfwEumthE1IuvgGKVLKf9pcHAr9oh7GMQ1pVeYWrln9KwIkeIPK/mMlBESjue4V"
+  qa_header_token="Authorization: Bearer $qa_token"
   echo "*** qa header token is ${qa_header_token}"
+
   jsonToPost="${content}"
   echo "******** calling QAttpProxyEndpoint ${QAuri} with body from content ${jsonToPost} ********"
 
