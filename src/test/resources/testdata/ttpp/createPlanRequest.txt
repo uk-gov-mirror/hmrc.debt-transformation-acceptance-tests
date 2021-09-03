@@ -1,11 +1,16 @@
 {
-  "customerReference": "<REPLACE_customerReference>",
-  "planId": "<REPLACE_planId>",
-  "paymentMethod": "<REPLACE_paymentMethod>",
-  "paymentReference": "<REPLACE_paymentReference>",
-  "thirdPartyBank": <REPLACE_thirdPartyBank>,
-  "instalments": [<REPLACE_instalments>],
-  "numberOfInstalments": "<REPLACE_numberOfInstalments>",
-  "totalDebtAmount": <REPLACE_totalDebtAmount>,
-  "totalInterest": <REPLACE_totalInterest>
+    "customerReference":"<REPLACE_customerReference>",
+    "quoteReference":"<REPLACE_quoteReference>",
+    "channelIdentifier":"<REPLACE_channelIdentifier>",
+
+    "plan": <REPLACE_replacedPlanDetails>,
+
+    "payments": [<REPLACE_paymentDetails>],
+
+    "debtItems":[<REPLACE_debtItems>],
+
+    "customerPostCodes": [<REPLACE_customerPostCodes>],
+
+    "instalments":[<REPLACE_instalments>]
 }
+

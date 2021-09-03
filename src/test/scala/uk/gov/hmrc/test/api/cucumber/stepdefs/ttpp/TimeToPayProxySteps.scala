@@ -37,6 +37,9 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
   Given("a create plan request") { (dataTable: DataTable) =>
     TimeToPayProxyRequests.createCreatePlanRequestBody(dataTable)
   }
+  Given("a create plan"){ (dataTable: DataTable) =>
+    TimeToPayProxyRequests.createPlanRequestBody(dataTable)
+  }
 
   Given("an update plan request") { (dataTable: DataTable) =>
     TimeToPayProxyRequests.createRequestParameters(dataTable)
@@ -82,10 +85,16 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
     ScenarioContext.set("response", response)
   }
 
+  And("create payment plan details") { dataTable: DataTable =>
+    planDetails(dataTable)
+  }
+
   And("payment plan details") { dataTable: DataTable =>
     addPlan(dataTable)
   }
-
+  And("customer address details") { dataTable: DataTable =>
+    addAddressDetails(dataTable)
+  }
   And("post codes details") { dataTable: DataTable =>
     addPostCodeDetails(dataTable)
   }

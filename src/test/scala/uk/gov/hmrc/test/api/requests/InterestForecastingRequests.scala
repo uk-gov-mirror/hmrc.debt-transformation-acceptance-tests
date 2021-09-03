@@ -273,6 +273,8 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
       .replaceAll("<REPLACE_mainTrans>", asmapTransposed.get("mainTrans"))
       .replaceAll("<REPLACE_subTrans>", asmapTransposed.get("subTrans"))
       .replaceAll("<REPLACE_interestAccrued>", asmapTransposed.get("interestAccrued"))
+      .replaceAll("<REPLACE_initialPaymentDate>", asmapTransposed.get("initialPaymentDate"))
+      .replaceAll("<REPLACE_initialPaymentAmount>", asmapTransposed.get("initialPaymentAmount"))
 
     if (firstItem == true) { paymentPlan = paymentPlan }
     else { paymentPlan = ScenarioContext.get("paymentPlan").toString.concat(",").concat(paymentPlan) }
@@ -307,6 +309,8 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
       .replaceAll("<REPLACE_mainTrans>", asmapTransposed.get("mainTrans"))
       .replaceAll("<REPLACE_subTrans>", asmapTransposed.get("subTrans"))
       .replaceAll("<REPLACE_interestAccrued>", asmapTransposed.get("interestAccrued"))
+      .replaceAll("<REPLACE_initialPaymentDate>", asmapTransposed.get("initialPaymentDate"))
+      .replaceAll("<REPLACE_initialPaymentAmount>", asmapTransposed.get("initialPaymentAmount"))
 
     if (firstItem == true) { paymentPlan = paymentPlan }
     else { paymentPlan = ScenarioContext.get("paymentPlan").toString.concat(",").concat(paymentPlan) }

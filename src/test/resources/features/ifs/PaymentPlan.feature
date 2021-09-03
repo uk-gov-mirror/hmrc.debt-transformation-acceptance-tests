@@ -87,6 +87,15 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
     When the payment plan detail is sent to the ifs service
     Then ifs service returns Annually payment freqeuncy instalment calculation plan
 
+@wip90
+  Scenario: Payment plan calculation instalment - Debt with initial payment
+
+    Given debt payment plan details
+      | debtId | debtAmount | instalmentAmount | paymentFrequency | mainTrans | subTrans | interestAccrued |initialPaymentAmount| initialPaymentDate |
+      | debtId | 100000     | 10000            | annually         | 1525      | 1000     | 1423            |      1000              |   2021-08-27                 |
+    When the payment plan detail is sent to the ifs service
+    Then ifs service returns Annually payment freqeuncy instalment calculation plan
+
   Scenario: Payment plan calculation request -quoteDate in the past or in future
 
     Given debt payment plan frequency details
