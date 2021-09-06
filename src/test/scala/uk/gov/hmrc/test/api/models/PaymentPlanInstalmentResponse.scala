@@ -14,7 +14,7 @@ final case class PaymentPlanInstalmentResponse(
   amountDue: Int,
   uniqueDebtId: String,
   balance: Int,
-  interestDue: Int,
+  instalmentInterestAccrued: Int,
   totalPaidAmount: Int,
   intRate: Double
 )
