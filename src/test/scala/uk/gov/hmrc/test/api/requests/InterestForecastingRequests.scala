@@ -159,16 +159,16 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
     var payments        = ""
 
     asMapTransposed.zipWithIndex.foreach { case (payment, index) =>
-      payments = payments.concat(
-        getBodyAsString("payment")
+      payments = payments.concat(getBodyAsString("payment")
           .replaceAll("<REPLACE_paymentAmount>", payment.get("paymentAmount"))
-          .replaceAll("<REPLACE_paymentDate>", payment.get("paymentDate"))
-      )
+          .replaceAll("<REPLACE_paymentDate>", payment.get("paymentDate")))
 
       if (index + 1 < asMapTransposed.size) payments = payments.concat(",")
     }
     val jsonWithPayments = ScenarioContext.get("debtItems").toString.replaceAll("<REPLACE_payments>", payments)
     ScenarioContext.set("debtItems", jsonWithPayments)
+    print("debt with payment history ::::::::::::::::::::::::::::::" + jsonWithPayments)
+
   }
 
   def customerWithNoPaymentHistory(): Unit =
@@ -211,15 +211,9 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
 
   def noBreathingSpace() {
     // Set scenario Context to be all debt items with payments.
-    ScenarioContext.set(
-      "debtItems",
-      getBodyAsString("debtCalcRequest")
-        .replaceAllLiterally("<REPLACE_debtItems>", ScenarioContext.get("debtItems"))
-    )
+    ScenarioContext.set("debtItems", getBodyAsString("debtCalcRequest").replaceAllLiterally("<REPLACE_debtItems>", ScenarioContext.get("debtItems")))
 
-    ScenarioContext.set(
-      "debtItems",
-      ScenarioContext.get("debtItems").toString.replaceAll("<REPLACE_breathingSpaces>", "")
+    ScenarioContext.set("debtItems", ScenarioContext.get("debtItems").toString.replaceAll("<REPLACE_breathingSpaces>", "")
     )
   }
 

@@ -76,13 +76,12 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
   }
 
   When("the create plan request is sent to the ttpp service") { () =>
-    addInstalmentToCreatePlanRequest()
-
-    val request = ScenarioContext.get("createPlanRequest").toString
-
-    val response = TimeToPayProxyRequests.postPlan(request)
-
+    val request = ScenarioContext.get("debtItems").toString
+    println(s"TTP REQUEST ---------> $request")
+    val response = TimeToPayProxyRequests.createPlan(request)
+    println(s"TTP STUB RESPONSE ---------> ${response.body}")
     ScenarioContext.set("response", response)
+
   }
 
   And("create payment plan details") { dataTable: DataTable =>
@@ -98,9 +97,12 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
   And("post codes details") { dataTable: DataTable =>
     addPostCodeDetails(dataTable)
   }
+  And("debt payment method details") { dataTable: DataTable =>
+    addPaymentMethod(dataTable)
+  }
   And("customer debtItem details") { dataTable: DataTable => addDebtItem(dataTable) }
 
-  And("instalments are") { dataTable: DataTable => addInstalments(dataTable) }
+  And("debt instalments repayment details") { dataTable: DataTable => addInstalments(dataTable) }
 
   And("Debt is") { dataTable: DataTable => addDebt(dataTable) }
 
@@ -166,21 +168,19 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
     val responseBody                   = Json.parse(response.body).as[CreatePlanResponse]
 
     if (asMapTransposed.containsKey("customerReference")) {
-      responseBody.customerReference shouldBe asMapTransposed
-        .get("customerReference")
-        .toString
+      responseBody.customerReference shouldBe asMapTransposed.get("customerReference").toString
     }
 
     if (asMapTransposed.containsKey("planId")) {
-      responseBody.planId shouldBe asMapTransposed
-        .get("planId")
-        .toString
+      responseBody.planId shouldBe asMapTransposed.get("planId").toString
+    }
+
+    if (asMapTransposed.containsKey("caseId")) {
+      responseBody.planId shouldBe asMapTransposed.get("caseId").toString
     }
 
     if (asMapTransposed.containsKey("planStatus")) {
-      responseBody.planStatus shouldBe asMapTransposed
-        .get("planStatus")
-        .toString
+      responseBody.planStatus shouldBe asMapTransposed.get("planStatus").toString
     }
   }
 
@@ -192,27 +192,19 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
     val responseBody = Json.parse(response.body).as[UpdatePlanResponse]
 
     if (asMapTransposed.containsKey("customerReference")) {
-      responseBody.customerReference shouldBe asMapTransposed
-        .get("customerReference")
-        .toString
+      responseBody.customerReference shouldBe asMapTransposed.get("customerReference").toString
     }
 
     if (asMapTransposed.containsKey("planId")) {
-      responseBody.planId shouldBe asMapTransposed
-        .get("planId")
-        .toString
+      responseBody.planId shouldBe asMapTransposed.get("planId").toString
     }
 
     if (asMapTransposed.containsKey("quoteStatus")) {
-      responseBody.quoteStatus shouldBe asMapTransposed
-        .get("quoteStatus")
-        .toString
+      responseBody.quoteStatus shouldBe asMapTransposed.get("quoteStatus").toString
     }
 
     if (asMapTransposed.containsKey("quoteUpdatedDate")) {
-      responseBody.quoteUpdatedDate.toString shouldBe asMapTransposed
-        .get("quoteUpdatedDate")
-        .toString
+      responseBody.quoteUpdatedDate.toString shouldBe asMapTransposed.get("quoteUpdatedDate").toString
     }
   }
 
@@ -264,15 +256,11 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
     ScenarioContext.set("viewPlanResponse", responseBody)
 
     if (asMapTransposed.containsKey("customerReference")) {
-      responseBody.customerReference shouldBe asMapTransposed
-        .get("customerReference")
-        .toString
+      responseBody.customerReference shouldBe asMapTransposed.get("customerReference").toString
     }
 
     if (asMapTransposed.containsKey("planId")) {
-      responseBody.planId shouldBe asMapTransposed
-        .get("planId")
-        .toString
+      responseBody.planId shouldBe asMapTransposed.get("planId").toString
     }
 
     if (asMapTransposed.containsKey("quoteType")) {
@@ -282,31 +270,21 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
     }
 
     if (asMapTransposed.containsKey("paymentMethod")) {
-      responseBody.paymentMethod shouldBe asMapTransposed
-        .get("paymentMethod")
-        .toString
+      responseBody.paymentMethod shouldBe asMapTransposed.get("paymentMethod").toString
     }
 
     if (asMapTransposed.containsKey("paymentReference")) {
-      responseBody.paymentReference shouldBe asMapTransposed
-        .get("paymentReference")
-        .toString
+      responseBody.paymentReference shouldBe asMapTransposed.get("paymentReference").toString
     }
 
     if (asMapTransposed.containsKey("numberOfInstalments")) {
-      responseBody.numberOfInstalments.toString shouldBe asMapTransposed
-        .get("numberOfInstalments")
-        .toString
+      responseBody.numberOfInstalments.toString shouldBe asMapTransposed.get("numberOfInstalments").toString
     }
     if (asMapTransposed.containsKey("totalDebtAmount")) {
-      responseBody.totalDebtAmount.toString shouldBe asMapTransposed
-        .get("totalDebtAmount")
-        .toString
+      responseBody.totalDebtAmount.toString shouldBe asMapTransposed.get("totalDebtAmount").toString
     }
     if (asMapTransposed.containsKey("totalInterest")) {
-      responseBody.totalInterest.toString shouldBe asMapTransposed
-        .get("totalInterest")
-        .toString
+      responseBody.totalInterest.toString shouldBe asMapTransposed.get("totalInterest").toString
     }
   }
 

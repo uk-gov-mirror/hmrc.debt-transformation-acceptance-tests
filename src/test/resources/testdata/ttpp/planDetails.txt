@@ -1,19 +1,17 @@
 {
-"quoteId": "<REPLACE_quoteId>",
+"quoteId": <REPLACE_quoteId>,
 "quoteType": "<REPLACE_quoteType>",
 "quoteDate": "<REPLACE_quoteDate>",
+"instalmentStartDate": "<REPLACE_instalmentStartDate>",
+"paymentPlanType": "<REPLACE_paymentPlanType>",
 "thirdPartyBank": "<REPLACE_thirdPartyBank>",
 "numberOfInstalments":"<REPLACE_numberOfInstalments>",
-"instalmentStartDate": "<REPLACE_instalmentStartDate>",
-"instalmentAmount": <REPLACE_instalmentAmount>,
 "frequency": "<REPLACE_frequency>",
 "duration": <REPLACE_duration>,
+"initialPaymentAmount": <REPLACE_initialPaymentAmount>,
 "totalDebtincInt": <REPLACE_totalDebtincInt>,
 "totalInterest": <REPLACE_totalInterest>,
 "interestAccrued": <REPLACE_interestAccrued>,
-"planInterest": <REPLACE_planInterest>,
-"initialPaymentAmount": <REPLACE_initialPaymentAmount>,
-"initialPaymentDate": "<REPLACE_initialPaymentDate>",
-"paymentPlanType": "<REPLACE_paymentPlanType>"
+"planInterest": <REPLACE_planInterest>
 }
 
