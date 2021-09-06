@@ -1,6 +1,6 @@
 package uk.gov.hmrc.test.api.models
 
-/*
+/*nt plannt insta
  * Copyright 2021 HM Revenue & Customs
  *
  */
@@ -14,7 +14,7 @@ case class PaymentPlanInstalment(
   amountDue: BigDecimal,
   uniqueDebtId: String,
   balance: BigDecimal,
-  interestDue: BigDecimal,
+  instalmentInterestAccrued: BigDecimal,
   totalPaidAmount: BigDecimal,
   intRate: Double
 )
