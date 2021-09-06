@@ -14,7 +14,7 @@ case class PaymentPlanInstalment(
   amountDue: BigDecimal,
   uniqueDebtId: String,
   balance: BigDecimal,
-  interestDue: BigDecimal,
+  instalmentInterestAccrued: BigDecimal,
   totalPaidAmount: BigDecimal,
   intRate: Double
 )
