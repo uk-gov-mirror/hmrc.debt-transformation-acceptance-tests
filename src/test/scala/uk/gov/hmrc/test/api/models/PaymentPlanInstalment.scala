@@ -11,11 +11,10 @@ import java.time.LocalDate
 case class PaymentPlanInstalment(
   serialNo: Int,
   paymentDueDate: LocalDate,
-  numberOfDays: Long,
   amountDue: BigDecimal,
   uniqueDebtId: String,
   balance: BigDecimal,
-  interestDue: BigDecimal,
+  instalmentInterestAccrued: BigDecimal,
   totalPaidAmount: BigDecimal,
   intRate: Double
 )

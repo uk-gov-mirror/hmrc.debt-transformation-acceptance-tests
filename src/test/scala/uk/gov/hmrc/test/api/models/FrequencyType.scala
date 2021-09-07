@@ -14,8 +14,13 @@ sealed abstract class FrequencyType(override val entryName: String) extends Enum
 object FrequencyType extends Enum[FrequencyType] with PlayJsonEnum[FrequencyType] {
   val values: immutable.IndexedSeq[FrequencyType] = findValues
 
-  case object Monthly extends FrequencyType("monthly")
-  case object Weekly extends FrequencyType("weekly")
-  case object BiWeekly extends FrequencyType("bi-weekly")
+  case object Single extends FrequencyType("Single")
+  case object Weekly extends FrequencyType("Weekly")
+  case object BiWeekly extends FrequencyType("2-Weekly")
+  case object FourWeekly extends FrequencyType("4-Weekly")
+  case object Monthly extends FrequencyType("Monthly")
+  case object Quarterly extends FrequencyType("Quarterly")
+  case object HalfYearly extends FrequencyType("HalfYearly")
+  case object Annually extends FrequencyType("Annually")
 
 }

@@ -1,16 +1,16 @@
 package uk.gov.hmrc.test.api.models.ttpp
-import java.time.LocalDate
-
 import play.api.libs.json.Json
 
 case class GenerateQuoteResponse(
   quoteReference: String,
   customerReference: String,
   quoteType: String,
-  instalments: List[Instalment],
-  numberOfInstalments: String,
-  totalDebtAmount: BigDecimal,
-  totalInterest: Double
+  quoteDate: String,
+  numberOfInstalments: Int,
+  totalDebtincInt: BigDecimal,
+  interestAccrued: BigDecimal,
+  planInterest: BigDecimal,
+  instalments: List[Instalment]
 )
 
 object GenerateQuoteResponse {

@@ -50,6 +50,16 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
     response.status should be(expectedCode)
   }
 
+  Given("a request to sol with no debt items provided") {
+    ScenarioContext.set(
+      "debtDetails",
+      "{" + "\"solType\":\"UI\"," +
+        "\"solRequestedDate\":\"2021-05-13\"," +
+        "\"customerUniqueRef\":\"XZ0000100351724\"," +
+        "\"debts\":[ ]}"
+    )
+  }
+
   Given("""debt details""") { (dataTable: DataTable) =>
     val asMapTransposed             = dataTable.transpose().asMap(classOf[String], classOf[String])
     var firstItem                   = false
@@ -212,7 +222,7 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
 
   Then("""the sol service will respond with (.*)""") { (expectedMessage: String) =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
-    response.body should include(expectedMessage)
+    response.body shouldBe expectedMessage
   }
 
 }

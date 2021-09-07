@@ -257,6 +257,4 @@ Feature: Suppression - Edge cases
     And the 1st debt summary will contain
       | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
       | 0                    | 0                       | 500000             |
-    And the 1st debt summary will have calculation windows
-      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual |
-      | 2021-02-01 | 2021-07-06 | 0            | 0.0          | 0                       |
+    And the 1st debt summary will not have any calculation windows

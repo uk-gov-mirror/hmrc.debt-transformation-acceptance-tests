@@ -6,10 +6,11 @@ package uk.gov.hmrc.test.api.models
  */
 import play.api.libs.json.{Json, OFormat}
 case class PaymentPlanSummary(
-  totalDebtAmount: BigDecimal,
+  totalNumberOfInstalments: Long,
   totalPlanInt: BigDecimal,
   interestAccrued: BigDecimal,
-  paymentPlanCalculationResponse: List[PaymentPlanInstalment]
+  totalInterest: BigDecimal,
+  paymentPlanCalculationResponse: Seq[PaymentPlanInstalmentResponse]
 )
 
 object PaymentPlanSummary {

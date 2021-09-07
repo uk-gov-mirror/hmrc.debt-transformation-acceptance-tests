@@ -14,19 +14,7 @@ trait BaseRequests extends RandomValues with BaseUris {
     utr: String = "123456789012"
   ) = {
 
-    TestConfiguration.env match {
-      case "local" =>
-        createLocalBearerToken(enrolments, userType, utr)
-      case _       =>
-        createQaBearerToken(enrolments.head)
-
-    }
-
-    def createLocalBearerToken(
-      enrolments: Seq[String] = Seq(),
-      userType: String = getRandomAffinityGroup,
-      utr: String = "123456789012"
-    ): String = {
+    def createLocalBearerToken(enrolments: Seq[String], userType: String, utr: String) = {
       val json =
         Json.obj(
           "affinityGroup"      -> userType,
@@ -48,13 +36,10 @@ trait BaseRequests extends RandomValues with BaseUris {
         )
 
       val response                          = WsClient.post(s"$authLoginApiUri/session/login", Map("Content-Type" -> "application/json"), json)
-      val authHeader: (String, Seq[String]) = response.headers
-        .filter(header => header._1.equalsIgnoreCase("Authorization"))
-        .head
-
-      val authBearerToken = authHeader._2.head.replace("Bearer ", "")
+      val authHeader: (String, Seq[String]) =
+        response.headers.filter(header => header._1.equalsIgnoreCase("Authorization")).head
+      val authBearerToken                   = authHeader._2.head.replace("Bearer ", "")
       authBearerToken
-
     }
 
     def createQaBearerToken(scope: String): String = {
@@ -79,5 +64,13 @@ trait BaseRequests extends RandomValues with BaseUris {
       (Json.parse(accessToken.body) \ "access_token").as[String]
     }
 
+    val bearerToken: String = TestConfiguration.env match {
+      case "local" =>
+        createLocalBearerToken(enrolments, userType, utr)
+      case _       =>
+        createQaBearerToken(enrolments.head)
+    }
+    bearerToken
   }
+
 }

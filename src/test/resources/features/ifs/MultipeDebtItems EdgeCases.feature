@@ -41,9 +41,7 @@ Feature: Multiple Debt Items - Edge Cases
     And the 2nd debt summary will contain
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty | interestOnlyIndicator |
       | false           | 0                    | 0                       | 0                    | 500000           | 500000             | 500000             | false                 |
-    And the 2nd debt summary will have calculation windows
-      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
-      | 2018-12-16 | 2019-04-14 | 0            | 0.0          | 0                       | 0                 | 500000               | 500000             |
+    And the 2nd debt summary will not have any calculation windows
 
 
   Scenario: 2. 2 debts, 1 payment each of different amounts
@@ -75,10 +73,7 @@ Feature: Multiple Debt Items - Edge Cases
     And the 2nd debt summary will contain
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
       | false           | 0                    | 0                       | 400000             |
-    And the 2nd debt summary will have calculation windows
-      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | amountOnIntDueWindow |
-      | 2018-12-16 | 2019-02-03 | 0            | 0.0          | 0                       | 100000               |
-      | 2018-12-16 | 2019-04-14 | 0            | 0.0          | 0                       | 400000               |
+    And the 2nd debt summary will not have any calculation windows
 
 
   Scenario: 3. 3 debts, 1 payments

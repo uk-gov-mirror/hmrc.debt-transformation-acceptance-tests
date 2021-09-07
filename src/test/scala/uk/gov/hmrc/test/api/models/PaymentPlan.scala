@@ -14,9 +14,10 @@ case class PaymentPlan(
   instalmentAmount: BigDecimal,
   paymentFrequency: FrequencyType,
   instalmentDate: LocalDate,
+  quoteDate: LocalDate,
   mainTrans: MainTransType,
   subTrans: SubTransType,
-  outstandingInterest: Int
+  interestAccrued: Int
 )
 
 object PaymentPlan {
