@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
 # DTD-446, DTD-448
-# Script / Hack to pass requests from TTP proxy on ET to the TTP service on QA, returning the responses back to ET.
-# 1) Polls the ET stub db using the GET /requests endpoint to find next request.
+# Script / Hack to pass requests from TTP proxy on External Test to the TTP service on QA, returning the responses back to ET.
+# 1) Polls the GET /requests endpoint on ET TTP Proxy to find next request.
 # 2) Calls the QA TTP service with the request from previous step.
 # 3) Returns the response back to the ET TTP Proxy.
 # 4) Deletes the request from the collection on ET so that it isn't processed again.
 #
-# If an error is found in any of the requests, the error will be written to the stub db errors table and processing of the request will end.
+# If an error is found in any of the requests, the error will be written to the db errors table and processing of the request will end.
 
 QAttpProxyEndpoint="https://api.qa.tax.service.gov.uk/individuals/time-to-pay-proxy/"
 ETttpProxyEndpoint="https://test-api.service.hmrc.gov.uk/individuals/time-to-pay-proxy/"
@@ -15,7 +15,7 @@ delete_uri="$ETttpStubEndpointDelete/$requestId"
 
 #todo Replace QAttpProxyEndpoint below with ETttpProxyEndpoint
 ETttpStubEndpointRequests=$QAttpProxyEndpoint"test-only/requests"
-ETttpStubEndpointResponse=$QAttpProxyEndpoint"test-only/response" # use this to write back to proxy directly
+ETttpStubEndpointResponse=$QAttpProxyEndpoint"test-only/response"
 ETttpStubEndpointDelete=$QAttpProxyEndpoint"test-only/request"
 ETttpStubEndpointErrors=$QAttpProxyEndpoint"test-only/errors"
 
@@ -48,7 +48,7 @@ echo "*** qa token is $qa_token"
 
 for (( ; ; )); do
   sleep 2
-  # ******* 1) Poll the ET stub db using the GET /requests endpoint to find next request. *******
+  # ******* 1) Poll the GET /requests endpoint on ET TTP Proxy to find next request. *******
   echo "******* START 1) Polling the ET stub db using the GET /requests endpoint to find next request. ******* "
   echo "********* calling external test ET proxy endpoint ${ETttpStubEndpointRequests} to check for requests *********"
   echo "********* et token is $et_token ********"
@@ -77,7 +77,7 @@ for (( ; ; )); do
 
   fi
 
-  # ********* 2) Call the QA TTP Service with the request from previous step. **********
+  # ********* 2) Call the QA TTP service with the request from previous step. **********
   echo "********* 2) Call the QA TTP Service with the request from previous step. **********"
 
   qa_header_token="Authorization: Bearer $qa_token"
