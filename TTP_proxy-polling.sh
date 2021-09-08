@@ -9,17 +9,17 @@
 #
 # If an error is found in any of the requests, the error will be written to the stub db errors table and processing of the request will end.
 
-QAttpProxyEndpoint="https://api.qa.tax.service.gov.uk/individuals/"
-ETttpProxyEndpoint="https://test-api.service.hmrc.gov.uk/individuals/"
+QAttpProxyEndpoint="https://api.qa.tax.service.gov.uk/individuals/time-to-pay-proxy/"
+ETttpProxyEndpoint="https://test-api.service.hmrc.gov.uk/individuals/time-to-pay-proxy/"
 delete_uri="$ETttpStubEndpointDelete/$requestId"
 
 #todo Replace QAttpProxyEndpoint below with ETttpProxyEndpoint
-ETttpStubEndpointRequests=$QAttpProxyEndpoint"time-to-pay-proxy/test-only/requests"
-ETttpStubEndpointResponse=$QAttpProxyEndpoint"time-to-pay-proxy/test-only/response" # use this to write back to proxy directly
-ETttpStubEndpointDelete=$QAttpProxyEndpoint"time-to-pay-proxy/test-only/request"
-ETttpStubEndpointErrors="http://localhost:10003/test-only/errors"
+ETttpStubEndpointRequests=$QAttpProxyEndpoint"test-only/requests"
+ETttpStubEndpointResponse=$QAttpProxyEndpoint"test-only/response" # use this to write back to proxy directly
+ETttpStubEndpointDelete=$QAttpProxyEndpoint"test-only/request"
+ETttpStubEndpointErrors=$QAttpProxyEndpoint"test-only/errors"
 
-#todo Replace below to get token from ET not QA
+#todo Replace below to get token from ET not QA\
 ETTokenEndpoint="https://api.qa.tax.service.gov.uk/oauth/token"
 #ETTokenEndpoint="https://test-api.service.hmrc.gov.uk/oauth/token"
 
@@ -59,7 +59,7 @@ for (( ; ; )); do
   body=$(<et_response.txt)
 
   if [[ "$body" != *"requestId"* ]]; then
-    echo "Error received calling TTP proxy on ET $ETttpStubEndpointRequests Handling error and exiting !!!"
+    echo "No requests found on TTP proxy on ET $ETttpStubEndpointRequests Exiting !!!"
     # end processing of request
     continue
   else
@@ -83,18 +83,23 @@ for (( ; ; )); do
   qa_header_token="Authorization: Bearer $qa_token"
   echo "*** qa header token is ${qa_header_token}"
 
-  jsonToPost="${content}"
-  echo "******** calling QAttpProxyEndpoint ${QAuri} with body from content ${jsonToPost} ********"
+#  jsonToPost="${content}"
+  echo "******** calling QAttpProxyEndpoint ${QAuri} with body from content "${content}" ********"
 
-  qa_status_code=$(curl -s -o qaResponse.txt -w %{http_code} ${QAuri} --request POST -H "${qa_header_token}" -H "Content-Type: application/json" --data ${jsonToPost})
+  qa_status_code=$(curl -s -o qaResponse.txt -w %{http_code} --request POST -H "${qa_header_token}" -H "Content-Type: application/json" -d "${content}" ${QAuri})
 
   if [ "$qa_status_code" != 200 ]; then
-    echo "$qa_status_code Error received calling qa endpoint $QAuri Handling error and exiting !!!"
+    echo "${qa_status_code} Error received calling qa endpoint $QAuri Handling error and exiting !!!"
+    echo ${content} > content.txt
+    sed 's/\"/\\\"/g' content.txt > content_escaped.txt
+    content_escaped=$(<content_escaped.txt)
+    errors_body_json="{\"requestId\": \"${requestId}\", \"content\": \"${content_escaped}\", \"uri\": \"${uri}\",\"isResponse\": false}"
 
     #    Write error to stub error table
-    et_error_db_status_code=$(curl -s -w %{http_code} ${ETttpStubEndpointErrors} --request POST -H "Content-Type: application/json" --data ${jsonToPost})
+    et_error_db_status_code=$(curl -s -w %{http_code} ${ETttpStubEndpointErrors} --request POST -H "${et_header_token}" -H "Content-Type: application/json" --data "${errors_body_json}")
     if [ "${et_error_db_status_code}" != 200 ]; then
-      echo "${et_error_db_status_code} Error when adding error to stub error db $ETttpStubEndpointErrors Exiting !!!"
+      echo "${et_error_db_status_code} Error when adding error to db 1 $ETttpStubEndpointErrors Exiting !!!"
+      echo "errors_body_json is... ${errors_body_json}"
       continue
     else
       echo "*** Written error to log 1***"
@@ -105,8 +110,8 @@ for (( ; ; )); do
   else
     #    No Error found. Continue to next step to return response back to ET
     qa_response=$(<qaResponse.txt)
-    sed 's/\"/\\\"/g' qaResponse.txt >qa_response_escaped.txt
     echo " *** Response returned from QA ttp endpoint is $qa_response"
+    sed 's/\"/\\\"/g' qaResponse.txt >qa_response_escaped.txt
     qa_response_escaped=$(<qa_response_escaped.txt)
     echo " *** Escaped response from QA ttp endpoint is ${qa_response_escaped}"
   fi
@@ -118,15 +123,19 @@ for (( ; ; )); do
   echo "******** QA response content for sending to ET TTP Proxy is $qa_response ********"
   echo "******** calling ETttpStubEndpointResponse $ETttpStubEndpointResponse with body ${json_response_to_post_back_to_et} ********"
 
-  et_status_code=$(curl -i -H "Content-Type: application/json" -o etPostResponse4.txt -w %{http_code} -X POST --data "${json_response_to_post_back_to_et}" ${ETttpStubEndpointResponse})
-  echo "et_status_code isssdddd...$et_status_code"
+  et_status_code=$(curl -i -H "Content-Type: application/json" -H "$et_header_token" -o etPostResponse4.txt -w %{http_code} -X POST --data "${json_response_to_post_back_to_et}" ${ETttpStubEndpointResponse})
+  echo "et_status_code is...$et_status_code"
   if [ "$et_status_code" != 200 ]; then
     echo "$et_status_code Error received posting response back to ET endpoint $ETttpStubEndpointResponse Exiting !!!"
+    echo ${content} > content.txt
+    sed 's/\"/\\\"/g' content.txt > content_escaped.txt
+    content_escaped=$(<content_escaped.txt)
+    errors_body_json2="{\"requestId\": \"${requestId}\", \"content\": \"${json_response_to_post_back_to_et}\", \"uri\": \"${uri}\",\"isResponse\": true}"
 
     # Write error to stub error table
-    et_error_db_status_code=$(curl -s -w %{http_code} ${ETttpStubEndpointErrors} --request POST -H "Content-Type: application/json" --data ${json_response_to_post_back_to_et})
+    et_error_db_status_code=$(curl -s -w %{http_code} ${ETttpStubEndpointErrors} --request POST -H "${et_header_token}" -H "Content-Type: application/json" --data ${errors_body_json2})
     if [ "${et_error_db_status_code}" != 200 ]; then
-      echo "${et_error_db_status_code} Error when adding error to stub error db ${ETttpStubEndpointErrors} Exiting !!!"
+      echo "${et_error_db_status_code} Error when adding error to db ${ETttpStubEndpointErrors} Exiting !!!"
       continue
     else
       echo "*** Written error to log 2 ***"
@@ -142,7 +151,7 @@ for (( ; ; )); do
 
   delete_uri="$ETttpStubEndpointDelete/$requestId"
   echo "delete_uri is.... $delete_uri"
-  et_delete_status_code=$(curl -i -H "Content-Type: application/json" -w %{http_code} -X DELETE ${delete_uri})
+  et_delete_status_code=$(curl -i -H "Content-Type: application/json" -H "$et_header_token" -w %{http_code} -X DELETE ${delete_uri})
   echo "et_delete_status_code is...$et_delete_status_code"
 
   if [[ "$et_delete_status_code" != *"200" ]]; then
