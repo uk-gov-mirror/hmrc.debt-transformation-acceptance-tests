@@ -1,6 +1,6 @@
 Feature: TTP Create Plan Request
 
-  Scenario: TTP Promote an Arrangement request to create a plan for storage -thirdPartyBank true
+  Scenario: TTP Promote an Arrangement request to create a plan for storage
     Given a create plan
       | customerReference | quoteReference | channelIdentifier |
       | customerRef1234 | quoteReference | advisor           |
