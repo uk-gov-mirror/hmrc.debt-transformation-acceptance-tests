@@ -12,7 +12,7 @@ case class PaymentPlan(
   debtId: String,
   debtAmount: BigDecimal,
   instalmentAmount: BigDecimal,
-  paymentFrequency: FrequencyType,
+  paymentFrequency: Frequency,
   instalmentDate: LocalDate,
   quoteDate: LocalDate,
   mainTrans: MainTransType,

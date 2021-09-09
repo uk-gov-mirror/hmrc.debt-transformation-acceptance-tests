@@ -2,8 +2,10 @@
   "customerReference": "<REPLACE_customerReference>",
   "planId": "<REPLACE_planId>",
   "updateType": "<REPLACE_updateType>",
+  "planStatus":"<REPLACE_planStatus>",
+  "completeReason":"<REPLACE_completeReason>",
   "cancellationReason": "<REPLACE_cancellationReason>",
+  "thirdPartyBank": <REPLACE_thirdPartyBank>,
   "paymentMethod": "<REPLACE_paymentMethod>",
-  "paymentReference": "<REPLACE_paymentReference>",
-  "thirdPartyBank": <REPLACE_thirdPartyBank>
+  "paymentReference": "<REPLACE_paymentReference>"
 }

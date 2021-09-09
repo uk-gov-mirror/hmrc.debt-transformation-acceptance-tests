@@ -9,18 +9,17 @@ import enumeratum.{Enum, EnumEntry, PlayJsonEnum}
 
 import scala.collection.immutable
 
-sealed abstract class FrequencyType(override val entryName: String) extends EnumEntry
+sealed abstract class Frequency(override val entryName: String) extends EnumEntry
 
-object FrequencyType extends Enum[FrequencyType] with PlayJsonEnum[FrequencyType] {
-  val values: immutable.IndexedSeq[FrequencyType] = findValues
+object Frequency extends Enum[Frequency] with PlayJsonEnum[Frequency] {
+  val values: immutable.IndexedSeq[Frequency] = findValues
 
-  case object Single extends FrequencyType("Single")
-  case object Weekly extends FrequencyType("Weekly")
-  case object BiWeekly extends FrequencyType("2-Weekly")
-  case object FourWeekly extends FrequencyType("4-Weekly")
-  case object Monthly extends FrequencyType("Monthly")
-  case object Quarterly extends FrequencyType("Quarterly")
-  case object HalfYearly extends FrequencyType("HalfYearly")
-  case object Annually extends FrequencyType("Annually")
-
+  case object Single extends Frequency("single")
+  case object Weekly extends Frequency("weekly")
+  case object BiWeekly extends Frequency("BiWeekly")
+  case object FourWeekly extends Frequency("4Weekly")
+  case object Monthly extends Frequency("monthly")
+  case object Quarterly extends Frequency("quarterly")
+  case object HalfYearly extends Frequency("HalfYearly")
+  case object Annually extends Frequency("annually")
 }

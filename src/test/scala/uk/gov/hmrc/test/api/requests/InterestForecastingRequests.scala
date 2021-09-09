@@ -25,7 +25,7 @@ import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import play.twirl.api.TwirlHelperImports.twirlJavaCollectionToScala
 import uk.gov.hmrc.test.api.client.WsClient
-import uk.gov.hmrc.test.api.models.{FrequencyType, PaymentPlan}
+import uk.gov.hmrc.test.api.models._
 import uk.gov.hmrc.test.api.utils.{BaseRequests, ScenarioContext, TestData}
 
 import java.time.LocalDate
@@ -169,6 +169,8 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
     }
     val jsonWithPayments = ScenarioContext.get("debtItems").toString.replaceAll("<REPLACE_payments>", payments)
     ScenarioContext.set("debtItems", jsonWithPayments)
+    print("debt with payment history ::::::::::::::::::::::::::::::" + jsonWithPayments)
+
   }
 
   def customerWithNoPaymentHistory(): Unit =
@@ -213,10 +215,8 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
     // Set scenario Context to be all debt items with payments.
     ScenarioContext.set(
       "debtItems",
-      getBodyAsString("debtCalcRequest")
-        .replaceAllLiterally("<REPLACE_debtItems>", ScenarioContext.get("debtItems"))
+      getBodyAsString("debtCalcRequest").replaceAllLiterally("<REPLACE_debtItems>", ScenarioContext.get("debtItems"))
     )
-
     ScenarioContext.set(
       "debtItems",
       ScenarioContext.get("debtItems").toString.replaceAll("<REPLACE_breathingSpaces>", "")
@@ -307,6 +307,8 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
       .replaceAll("<REPLACE_mainTrans>", asmapTransposed.get("mainTrans"))
       .replaceAll("<REPLACE_subTrans>", asmapTransposed.get("subTrans"))
       .replaceAll("<REPLACE_interestAccrued>", asmapTransposed.get("interestAccrued"))
+      .replaceAll("<REPLACE_initialPaymentDate>", asmapTransposed.get("initialPaymentDate"))
+      .replaceAll("<REPLACE_initialPaymentAmount>", asmapTransposed.get("initialPaymentAmount"))
 
     if (firstItem == true) { paymentPlan = paymentPlan }
     else { paymentPlan = ScenarioContext.get("paymentPlan").toString.concat(",").concat(paymentPlan) }
@@ -321,14 +323,14 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
   def getNextInstalmentDateByFrequency(paymentPlan: PaymentPlan, iterateVal: Int): LocalDate = {
     val frequency = paymentPlan.paymentFrequency.entryName
     frequency match {
-      case FrequencyType.Single.entryName     => paymentPlan.instalmentDate.plusDays(iterateVal)
-      case FrequencyType.Weekly.entryName     => paymentPlan.instalmentDate.plusWeeks(iterateVal)
-      case FrequencyType.BiWeekly.entryName   => paymentPlan.instalmentDate.plusWeeks(iterateVal * 2)
-      case FrequencyType.FourWeekly.entryName => paymentPlan.instalmentDate.plusWeeks(iterateVal * 4)
-      case FrequencyType.Monthly.entryName    => paymentPlan.instalmentDate.plusMonths(iterateVal)
-      case FrequencyType.Quarterly.entryName  => paymentPlan.instalmentDate.plusMonths(iterateVal * 3)
-      case FrequencyType.HalfYearly.entryName => paymentPlan.instalmentDate.plusMonths(iterateVal * 6)
-      case FrequencyType.Annually.entryName   => paymentPlan.instalmentDate.plusYears(iterateVal)
+      case Frequency.Single.entryName     => paymentPlan.instalmentDate.plusDays(iterateVal)
+      case Frequency.Weekly.entryName     => paymentPlan.instalmentDate.plusWeeks(iterateVal)
+      case Frequency.BiWeekly.entryName   => paymentPlan.instalmentDate.plusWeeks(iterateVal * 2)
+      case Frequency.FourWeekly.entryName => paymentPlan.instalmentDate.plusWeeks(iterateVal * 4)
+      case Frequency.Monthly.entryName    => paymentPlan.instalmentDate.plusMonths(iterateVal)
+      case Frequency.Quarterly.entryName  => paymentPlan.instalmentDate.plusMonths(iterateVal * 3)
+      case Frequency.HalfYearly.entryName => paymentPlan.instalmentDate.plusMonths(iterateVal * 6)
+      case Frequency.Annually.entryName   => paymentPlan.instalmentDate.plusYears(iterateVal)
     }
   }
 

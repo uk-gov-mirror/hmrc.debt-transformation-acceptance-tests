@@ -1,0 +1,3 @@
+{
+       		  "paymentDate" :"<REPLACE_paymentDate>",
+              "paymentAmount": <REPLACE_paymentAmount> }
