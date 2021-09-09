@@ -5,19 +5,16 @@
 # 1) Polls the GET /requests endpoint on ET TTP Proxy to find next request.
 # 2) Calls the QA TTP service with the request from previous step.
 # 3) Returns the response back to the ET TTP Proxy.
-# 4) Deletes the request from the collection on ET so that it isn't processed again.
 #
-# If an error is found in any of the requests, the error will be written to the db errors table and processing of the request will end.
+# If an error is found calling the QA TTP service, the error will be written to the ET response endpoint and processing of the request will end.
 
 QAttpProxyEndpoint="https://api.qa.tax.service.gov.uk/individuals/time-to-pay-proxy/"
 ETttpProxyEndpoint="https://test-api.service.hmrc.gov.uk/individuals/time-to-pay-proxy/"
-delete_uri="$ETttpStubEndpointDelete/$requestId"
+
 
 #todo Replace QAttpProxyEndpoint below with ETttpProxyEndpoint
 ETttpStubEndpointRequests=$QAttpProxyEndpoint"test-only/requests"
 ETttpStubEndpointResponse=$QAttpProxyEndpoint"test-only/response"
-ETttpStubEndpointDelete=$QAttpProxyEndpoint"test-only/request"
-ETttpStubEndpointErrors=$QAttpProxyEndpoint"test-only/errors"
 
 #todo Replace below to get token from ET not QA\
 ETTokenEndpoint="https://api.qa.tax.service.gov.uk/oauth/token"
@@ -49,7 +46,7 @@ echo "*** qa token is $qa_token"
 for (( ; ; )); do
   sleep 2
   # ******* 1) Poll the GET /requests endpoint on ET TTP Proxy to find next request. *******
-  echo "******* START 1) Polling the ET stub db using the GET /requests endpoint to find next request. ******* "
+  echo "******* START 1) Polling the GET /requests endpoint on ET TTP Proxy to find next request.******* "
   echo "********* calling external test ET proxy endpoint ${ETttpStubEndpointRequests} to check for requests *********"
   echo "********* et token is $et_token ********"
 
@@ -63,7 +60,6 @@ for (( ; ; )); do
     # end processing of request
     continue
   else
-
     #    No Error found. Set params then continue to next step to call QA
     requestId="$(echo ${body} | sed 's/\[.*requestId\": \"\(.*\)\", \"content.*/\1/')"
     content="$(echo ${body} | sed 's/\[.*content\": \"\(.*\)\", \"uri.*/\1/')"
@@ -74,7 +70,6 @@ for (( ; ; )); do
     echo "content variable is ^^^^^^^^" ${content}
     echo "uri variable is ^^^^^^^^" ${uri}
     echo "QA uri variable is ^^^^^^^^" ${QAuri}
-
   fi
 
   # ********* 2) Call the QA TTP service with the request from previous step. **********
@@ -82,8 +77,6 @@ for (( ; ; )); do
 
   qa_header_token="Authorization: Bearer $qa_token"
   echo "*** qa header token is ${qa_header_token}"
-
-#  jsonToPost="${content}"
   echo "******** calling QAttpProxyEndpoint ${QAuri} with body from content "${content}" ********"
 
   qa_status_code=$(curl -s -o qaResponse.txt -w %{http_code} --request POST -H "${qa_header_token}" -H "Content-Type: application/json" -d "${content}" ${QAuri})
@@ -93,20 +86,20 @@ for (( ; ; )); do
     echo ${content} > content.txt
     sed 's/\"/\\\"/g' content.txt > content_escaped.txt
     content_escaped=$(<content_escaped.txt)
-    errors_body_json="{\"requestId\": \"${requestId}\", \"content\": \"${content_escaped}\", \"uri\": \"${uri}\",\"isResponse\": false}"
+    errors_body_json="{\"requestId\": \"${requestId}\", \"content\": \"${content_escaped}\", \"uri\": \"${uri}\",\"isResponse\": false, \"status\": ${qa_status_code}}"
 
-    #    Write error to stub error table
-    et_error_db_status_code=$(curl -s -w %{http_code} ${ETttpStubEndpointErrors} --request POST -H "${et_header_token}" -H "Content-Type: application/json" --data "${errors_body_json}")
+    #    Write error to response endpoint with error status code
+    et_error_db_status_code=$(curl -s -w %{http_code} ${ETttpStubEndpointResponse} --request POST -H "${et_header_token}" -H "Content-Type: application/json" --data "${errors_body_json}")
+
     if [ "${et_error_db_status_code}" != 200 ]; then
-      echo "${et_error_db_status_code} Error when adding error to db 1 $ETttpStubEndpointErrors Exiting !!!"
+      echo "${et_error_db_status_code} Error when adding error to db 1 ETttpStubEndpointResponse Exiting !!!"
       echo "errors_body_json is... ${errors_body_json}"
       continue
     else
-      echo "*** Written error to log 1***"
+      echo "*** Written error to ET response endpoint ***"
     fi
-
-    # end processing of request
     continue
+
   else
     #    No Error found. Continue to next step to return response back to ET
     qa_response=$(<qaResponse.txt)
@@ -124,41 +117,12 @@ for (( ; ; )); do
   echo "******** calling ETttpStubEndpointResponse $ETttpStubEndpointResponse with body ${json_response_to_post_back_to_et} ********"
 
   et_status_code=$(curl -i -H "Content-Type: application/json" -H "$et_header_token" -o etPostResponse4.txt -w %{http_code} -X POST --data "${json_response_to_post_back_to_et}" ${ETttpStubEndpointResponse})
-  echo "et_status_code is...$et_status_code"
+
   if [ "$et_status_code" != 200 ]; then
     echo "$et_status_code Error received posting response back to ET endpoint $ETttpStubEndpointResponse Exiting !!!"
-    echo ${content} > content.txt
-    sed 's/\"/\\\"/g' content.txt > content_escaped.txt
-    content_escaped=$(<content_escaped.txt)
-    errors_body_json2="{\"requestId\": \"${requestId}\", \"content\": \"${json_response_to_post_back_to_et}\", \"uri\": \"${uri}\",\"isResponse\": true}"
-
-    # Write error to stub error table
-    et_error_db_status_code=$(curl -s -w %{http_code} ${ETttpStubEndpointErrors} --request POST -H "${et_header_token}" -H "Content-Type: application/json" --data ${errors_body_json2})
-    if [ "${et_error_db_status_code}" != 200 ]; then
-      echo "${et_error_db_status_code} Error when adding error to db ${ETttpStubEndpointErrors} Exiting !!!"
-      continue
-    else
-      echo "*** Written error to log 2 ***"
-    fi
-
     continue
   else
     echo "******* Success! Response has been sent back to External Test *******"
-  fi
-
-  # ******** 4) Delete the request from the collection on ET so that it isn't processed again. ********
-  echo "******* 4) Deleting the request from the collection on ET so that it isn't processed again. ********"
-
-  delete_uri="$ETttpStubEndpointDelete/$requestId"
-  echo "delete_uri is.... $delete_uri"
-  et_delete_status_code=$(curl -i -H "Content-Type: application/json" -H "$et_header_token" -w %{http_code} -X DELETE ${delete_uri})
-  echo "et_delete_status_code is...$et_delete_status_code"
-
-  if [[ "$et_delete_status_code" != *"200" ]]; then
-    echo "$et_delete_status_code Error received deleting the request from the ET endpoint ${delete_uri} Exiting !!!"
-    continue
-  else
-    echo "*** Success! Request has been deleted. END ***"
   fi
 
 done
