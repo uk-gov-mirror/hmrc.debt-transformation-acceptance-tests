@@ -19,8 +19,7 @@
 #No suppressions
 #No BS
 #Type of payment plan = Time to pay - not relevant for IFS to do calculation
-
-
+  @wip2
 Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial payment
 
   Scenario: Payment plan calculation instalment - Single payment frequency
