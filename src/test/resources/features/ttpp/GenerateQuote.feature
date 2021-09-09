@@ -1,4 +1,3 @@
-@wip2
 Feature: Retrieve generate quote response from Time to Pay Proxy
 
   Scenario: Single instalment payment frequency with for 1 debt -No initial payment

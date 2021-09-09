@@ -129,7 +129,6 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
     val jsonWithCustomerPlanPostCodes =
       ScenarioContext.get("debtItems").toString.replaceAll("<REPLACE_payments>", paymentMethod)
     ScenarioContext.set("debtItems", jsonWithCustomerPlanPostCodes)
-
   }
 
   def addAddressDetails(dataTable: DataTable): Unit = {
@@ -146,7 +145,7 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
     }
     val jsonWithCustomerPlanAddress =
       ScenarioContext.get("jsonWithCustomerPlan").toString.replaceAll("<REPLACE_customerPostCodes>", customerPostCodes)
-    ScenarioContext.set("jsonWithCustomerPlanAddress", jsonWithCustomerPlanAddress)
+    ScenarioContext.set("debtItems", jsonWithCustomerPlanAddress)
   }
 
   def addDebtItem(dataTable: DataTable): Unit = {
