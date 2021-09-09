@@ -274,7 +274,6 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
       .replaceAll("<REPLACE_subTrans>", asmapTransposed.get("subTrans"))
       .replaceAll("<REPLACE_interestAccrued>", asmapTransposed.get("interestAccrued"))
 
-
     if (firstItem == true) { paymentPlan = paymentPlan }
     else { paymentPlan = ScenarioContext.get("paymentPlan").toString.concat(",").concat(paymentPlan) }
 
