@@ -24,6 +24,6 @@ import org.junit.runner.RunWith
   features = Array("src/test/resources/features/ttpp"),
   glue = Array("uk.gov.hmrc.test.api.cucumber.stepdefs.ttpp", "uk.gov.hmrc.test.api.cucumber.hooks"),
   plugin = Array("pretty", "html:target/cucumber", "json:target/cucumber.json"),
-  tags = Array("")
+  tags = Array("@wip2")
 )
 class TimeToPayProxyApiTestRunner {}

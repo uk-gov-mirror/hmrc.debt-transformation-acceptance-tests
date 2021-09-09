@@ -68,7 +68,7 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
   }
 
   When("the generate quote request is sent to the ttpp service") { () =>
-    val request  = ScenarioContext.get("jsonWithDebtPaymentHistoryDetails").toString
+    val request  = ScenarioContext.get("debtItems").toString
     println(s"TTP REQUEST ---------> $request")
     val response = TimeToPayProxyRequests.postQuote(request)
     println(s"TTP STUB RESPONSE ---------> ${response.body}")

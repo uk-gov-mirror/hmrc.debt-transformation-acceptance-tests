@@ -161,7 +161,7 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
       .replaceAll("<REPLACE_interestStartDate>", asMapTransposed.get("interestStartDate"))
     ScenarioContext.set("currentDebtItem", replaceDebtItem)
     val jsonWithCustomerDebtPaymentHistoryDetails =
-      ScenarioContext.get("jsonWithCustomerPlanAddress").toString.replaceAll("<REPLACE_debtItems>", replaceDebtItem)
+      ScenarioContext.get("debtItems").toString.replaceAll("<REPLACE_debtItems>", replaceDebtItem)
     ScenarioContext.set("debtItems", jsonWithCustomerDebtPaymentHistoryDetails)
     print(
       s"json with customer debt and payment history details  *********************************   $jsonWithCustomerDebtPaymentHistoryDetails"
@@ -219,7 +219,7 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
     val payments                          = asMapTransposed.zipWithIndex.foldLeft[String]("") { (acc, current) =>
       val (payment, index) = current
 
-      val paymentReplaced = getBodyAsString("payment")
+      val paymentReplaced = getBodyAsString("paymentHistory")
         .replaceAll("<REPLACE_paymentDate>", payment.get("paymentDate"))
         .replaceAll("<REPLACE_paymentAmount>", payment.get("paymentAmount"))
 
@@ -229,8 +229,8 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
         s"$acc$paymentReplaced"
     }
     val jsonWithDebtPaymentHistoryDetails =
-      ScenarioContext.get("jsonWithDebtDetails").toString.replaceAll("<REPLACE_payments>", payments)
-    ScenarioContext.set("jsonWithDebtPaymentHistoryDetails", jsonWithDebtPaymentHistoryDetails)
+      ScenarioContext.get("debtItems").toString.replaceAll("<REPLACE_paymentHistory>", payments)
+    ScenarioContext.set("debtItems", jsonWithDebtPaymentHistoryDetails)
     print("customer debt Plan json ::::::::::::::::::::::::::::::::::::" + jsonWithDebtPaymentHistoryDetails)
 
   }
