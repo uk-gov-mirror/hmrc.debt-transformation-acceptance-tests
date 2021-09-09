@@ -21,10 +21,6 @@ import uk.gov.hmrc.test.api.models.ttpp.{DebtItemId, ValueTypeFormatter}
 
 import java.time.LocalDate
 
-
-
-
-
 final case class DebtItemChargeId(value: String) extends AnyVal
 
 object DebtItemChargeId extends ValueTypeFormatter {
@@ -33,13 +29,14 @@ object DebtItemChargeId extends ValueTypeFormatter {
 }
 
 final case class DebtItem(
-                           debtItemId: DebtItemId,
-                           debtItemChargeId: DebtItemChargeId,
-                           mainTrans: MainTransType,
-                           subTrans: SubTransType,
-                           originalDebtAmount: BigDecimal,
-                           interestStartDate: LocalDate,
-                           paymentHistory: Seq[Payment])
+  debtItemId: DebtItemId,
+  debtItemChargeId: DebtItemChargeId,
+  mainTrans: MainTransType,
+  subTrans: SubTransType,
+  originalDebtAmount: BigDecimal,
+  interestStartDate: LocalDate,
+  paymentHistory: Seq[Payment]
+)
 
 object DebtItem {
   implicit val format = Json.format[DebtItem]

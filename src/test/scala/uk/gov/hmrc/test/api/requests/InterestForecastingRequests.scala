@@ -159,9 +159,11 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
     var payments        = ""
 
     asMapTransposed.zipWithIndex.foreach { case (payment, index) =>
-      payments = payments.concat(getBodyAsString("payment")
+      payments = payments.concat(
+        getBodyAsString("payment")
           .replaceAll("<REPLACE_paymentAmount>", payment.get("paymentAmount"))
-          .replaceAll("<REPLACE_paymentDate>", payment.get("paymentDate")))
+          .replaceAll("<REPLACE_paymentDate>", payment.get("paymentDate"))
+      )
 
       if (index + 1 < asMapTransposed.size) payments = payments.concat(",")
     }
@@ -211,8 +213,13 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
 
   def noBreathingSpace() {
     // Set scenario Context to be all debt items with payments.
-    ScenarioContext.set("debtItems", getBodyAsString("debtCalcRequest").replaceAllLiterally("<REPLACE_debtItems>", ScenarioContext.get("debtItems")))
-    ScenarioContext.set("debtItems", ScenarioContext.get("debtItems").toString.replaceAll("<REPLACE_breathingSpaces>", "")
+    ScenarioContext.set(
+      "debtItems",
+      getBodyAsString("debtCalcRequest").replaceAllLiterally("<REPLACE_debtItems>", ScenarioContext.get("debtItems"))
+    )
+    ScenarioContext.set(
+      "debtItems",
+      ScenarioContext.get("debtItems").toString.replaceAll("<REPLACE_breathingSpaces>", "")
     )
   }
 

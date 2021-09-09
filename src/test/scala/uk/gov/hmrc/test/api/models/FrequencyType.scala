@@ -23,4 +23,3 @@ object Frequency extends Enum[Frequency] with PlayJsonEnum[Frequency] {
   case object HalfYearly extends Frequency("HalfYearly")
   case object Annually extends Frequency("annually")
 }
-

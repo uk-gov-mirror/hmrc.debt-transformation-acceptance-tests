@@ -35,17 +35,16 @@ object UpdateType extends ValueTypeFormatter {
     valueTypeFormatter(UpdateType.apply, UpdateType.unapply)
 }
 
-final case class UpdatePlanRequest(customerReference: CustomerReference,
-                                   planId: PlanId,
-                                   updateType: UpdateType,
-                                   cancellationReason: CancellationReason,
-                                   paymentMethod: PaymentMethod,
-                                   paymentReference: PaymentReference,
-                                   thirdPartyBank: Boolean,
-                                  )
+final case class UpdatePlanRequest(
+  customerReference: CustomerReference,
+  planId: PlanId,
+  updateType: UpdateType,
+  cancellationReason: CancellationReason,
+  paymentMethod: PaymentMethod,
+  paymentReference: PaymentReference,
+  thirdPartyBank: Boolean
+)
 
 object UpdatePlanRequest {
   implicit val format = Json.format[UpdatePlanRequest]
 }
-
-

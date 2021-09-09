@@ -162,10 +162,6 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
     val jsonWithCustomerDebtPaymentHistoryDetails =
       ScenarioContext.get("debtItems").toString.replaceAll("<REPLACE_debtItems>", replaceDebtItem)
     ScenarioContext.set("debtItems", jsonWithCustomerDebtPaymentHistoryDetails)
-    print(
-      s"json with customer debt and payment history details  *********************************   $jsonWithCustomerDebtPaymentHistoryDetails"
-    )
-
   }
 
   def addInstalments(dataTable: DataTable): Unit = {

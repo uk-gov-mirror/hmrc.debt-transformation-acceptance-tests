@@ -6,4 +6,3 @@ object CustomerReference extends ValueTypeFormatter {
   implicit val format =
     valueTypeFormatter(CustomerReference.apply, CustomerReference.unapply)
 }
-

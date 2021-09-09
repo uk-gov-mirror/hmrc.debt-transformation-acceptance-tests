@@ -6,7 +6,3 @@ object PlanId extends ValueTypeFormatter {
   implicit val format =
     valueTypeFormatter(PlanId.apply, PlanId.unapply)
 }
-
-
-
-

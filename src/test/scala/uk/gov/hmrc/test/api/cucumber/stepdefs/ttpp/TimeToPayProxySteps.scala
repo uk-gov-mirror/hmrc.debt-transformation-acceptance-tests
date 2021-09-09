@@ -37,7 +37,7 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
   Given("a create plan request") { (dataTable: DataTable) =>
     TimeToPayProxyRequests.createCreatePlanRequestBody(dataTable)
   }
-  Given("a create plan"){ (dataTable: DataTable) =>
+  Given("a create plan") { (dataTable: DataTable) =>
     TimeToPayProxyRequests.createPlanRequestBody(dataTable)
   }
 
@@ -76,7 +76,7 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
   }
 
   When("the create plan request is sent to the ttpp service") { () =>
-    val request = ScenarioContext.get("debtItems").toString
+    val request  = ScenarioContext.get("debtItems").toString
     println(s"TTP REQUEST ---------> $request")
     val response = TimeToPayProxyRequests.createPlan(request)
     println(s"TTP STUB RESPONSE ---------> ${response.body}")
@@ -171,7 +171,6 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status shouldBe 200
     val responseBody = Json.parse(response.body).as[CreatePlanResponse]
-
 
     if (asMapTransposed.containsKey("customerReference")) {
       responseBody.customerReference shouldBe asMapTransposed.get("customerReference").toString
@@ -296,7 +295,7 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
   }
 
   And("the ([0-9]\\d*)(?:st|nd|rd|th) view response instalment will contain") { (index: Int, dataTable: DataTable) =>
-    val asMapTransposed = dataTable.transpose().asMap(classOf[String], classOf[String])
+    val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[String])
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status should be(200)
 

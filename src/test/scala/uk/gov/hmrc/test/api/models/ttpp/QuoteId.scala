@@ -6,4 +6,3 @@ object QuoteId extends ValueTypeFormatter {
   implicit val format =
     valueTypeFormatter(QuoteId.apply, QuoteId.unapply)
 }
-

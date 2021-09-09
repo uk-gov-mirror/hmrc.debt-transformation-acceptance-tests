@@ -16,30 +16,28 @@ object ChannelIdentifier extends Enum[ChannelIdentifier] with PlayJsonEnum[Chann
 }
 
 final case class PlanToGenerateQuote(
-                                      quoteType: QuoteType,
-                                      quoteDate: LocalDate,
-                                      instalmentStartDate: LocalDate,
-                                      instalmentAmount: BigDecimal,
-                                      frequency: Frequency,
-                                      duration: Duration,
-                                      initialPaymentAmount: BigDecimal,
-                                      initialPaymentDate: LocalDate,
-                                      paymentPlanType: PaymentPlanType
-                                    )
+  quoteType: QuoteType,
+  quoteDate: LocalDate,
+  instalmentStartDate: LocalDate,
+  instalmentAmount: BigDecimal,
+  frequency: Frequency,
+  duration: Duration,
+  initialPaymentAmount: BigDecimal,
+  initialPaymentDate: LocalDate,
+  paymentPlanType: PaymentPlanType
+)
 
 object PlanToGenerateQuote {
   implicit val format = Json.format[PlanToGenerateQuote]
 }
 
-
 final case class GenerateQuoteRequest(
-                                       customerReference: CustomerReference,
-                                       channelIdentifier: ChannelIdentifier,
-                                       plan: PlanToGenerateQuote,
-                                       customerPostCodes: List[CustomerPostCode],
-                                       debtItems: List[DebtItem])
-
-
+  customerReference: CustomerReference,
+  channelIdentifier: ChannelIdentifier,
+  plan: PlanToGenerateQuote,
+  customerPostCodes: List[CustomerPostCode],
+  debtItems: List[DebtItem]
+)
 
 object GenerateQuoteRequest {
   implicit val format = Json.format[GenerateQuoteRequest]
