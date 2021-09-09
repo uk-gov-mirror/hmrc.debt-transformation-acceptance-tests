@@ -1,5 +1,5 @@
 Feature: Retrieve generate quote response from Time to Pay Proxy
-@wip233
+
   Scenario: Single instalment payment frequency with for 1 debt -No initial payment
     Given a generate quote request
       | customerReference | channelIdentifier |

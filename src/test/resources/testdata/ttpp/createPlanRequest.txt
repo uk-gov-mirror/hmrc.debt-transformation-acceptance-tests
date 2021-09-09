@@ -2,15 +2,13 @@
     "customerReference":"<REPLACE_customerReference>",
     "quoteReference":"<REPLACE_quoteReference>",
     "channelIdentifier":"<REPLACE_channelIdentifier>",
+     "plan":<REPLACE_plan>,
 
-    "plan": <REPLACE_planDetails>,
+     "debtItems":[<REPLACE_debtItems>],
 
-    "payments": [<REPLACE_paymentDetails>],
+     "payments" :[<REPLACE_payments>],
 
-    "debtItems":[<REPLACE_debtItems>],
+     "customerPostCodes":[<REPLACE_customerPostCodes>],
 
-    "customerPostCodes": [<REPLACE_customerPostCodes>],
-
-    "instalments":[<REPLACE_instalments>]
+     "instalments":[<REPLACE_instalments>]
 }
-

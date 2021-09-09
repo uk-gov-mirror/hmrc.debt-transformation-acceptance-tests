@@ -1,17 +1,18 @@
 {
-"quoteId": <REPLACE_quoteId>,
-"quoteType": "<REPLACE_quoteType>",
-"quoteDate": "<REPLACE_quoteDate>",
-"instalmentStartDate": "<REPLACE_instalmentStartDate>",
-"paymentPlanType": "<REPLACE_paymentPlanType>",
-"thirdPartyBank": "<REPLACE_thirdPartyBank>",
-"numberOfInstalments":"<REPLACE_numberOfInstalments>",
-"frequency": "<REPLACE_frequency>",
-"duration": <REPLACE_duration>,
-"initialPaymentAmount": <REPLACE_initialPaymentAmount>,
-"totalDebtincInt": <REPLACE_totalDebtincInt>,
-"totalInterest": <REPLACE_totalInterest>,
-"interestAccrued": <REPLACE_interestAccrued>,
-"planInterest": <REPLACE_planInterest>
-}
-
+		"quoteId": "<REPLACE_quoteId>",
+		"quoteType": "<REPLACE_quoteType>",
+		"quoteDate": "<REPLACE_quoteDate>",
+		"instalmentStartDate": "<REPLACE_instalmentStartDate>",
+		"instalmentAmount": <REPLACE_instalmentAmount>,
+		"paymentPlanType": "<REPLACE_paymentPlanType>",
+		"thirdPartyBank": <REPLACE_thirdPartyBank>,
+		"numberOfInstalments": <REPLACE_numberOfInstalments>,
+		"frequency": "<REPLACE_frequency>",
+		"duration": <REPLACE_duration>,
+		"initialPaymentDate": "<REPLACE_initialPaymentDate>",
+		"initialPaymentAmount": <REPLACE_initialPaymentAmount>,
+		"totalDebtincInt": <REPLACE_totalDebtincInt>,
+		"totalInterest": <REPLACE_totalInterest>,
+		"interestAccrued": <REPLACE_interestAccrued>,
+		"planInterest": <REPLACE_planInterest>
+		}

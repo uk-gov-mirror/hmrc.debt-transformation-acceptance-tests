@@ -1,11 +1,11 @@
-[{
-		"debtItemChargeId": "<REPLACE_debtItemChargeId1",
-		"debtItemId": "<REPLACE_debtItemId",
+{
+        "debtItemChargeId": "<REPLACE_debtItemChargeId>",
+		"debtItemId": "<REPLACE_debtItemId>",
 		"dueDate": "<REPLACE_dueDate>",
 		"amountDue": <REPLACE_amountDue>,
 		"expectedPayment": <REPLACE_expectedPayment>,
 		"interestRate": <REPLACE_interestRate>,
-		"instalmentNumber": <REPLACE_instalmentNumber,
+		"instalmentNumber": <REPLACE_instalmentNumber>,
 		"instalmentInterestAccrued": <REPLACE_instalmentInterestAccrued>,
 		"instalmentBalance": <REPLACE_instalmentBalance>
-	}]
+	}
