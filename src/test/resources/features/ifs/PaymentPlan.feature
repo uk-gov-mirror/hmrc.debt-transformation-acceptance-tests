@@ -20,7 +20,6 @@
 #No BS
 #Type of payment plan = Time to pay - not relevant for IFS to do calculation
 
-
 Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial payment
 
   Scenario: Payment plan calculation instalment - Single payment frequency
@@ -84,6 +83,15 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
     Given debt payment plan details
       | debtId | debtAmount | instalmentAmount | paymentFrequency | mainTrans | subTrans | interestAccrued |
       | debtId | 100000     | 10000            | annually         | 1525      | 1000     | 1423            |
+    When the payment plan detail is sent to the ifs service
+    Then ifs service returns Annually payment freqeuncy instalment calculation plan
+
+
+  Scenario: Payment plan calculation instalment - Debt with initial payment
+
+    Given debt payment plan details
+      | debtId | debtAmount | instalmentAmount | paymentFrequency | mainTrans | subTrans | interestAccrued |initialPaymentAmount| initialPaymentDate |
+      | debtId | 100000     | 10000            | annually         | 1525      | 1000     | 1423            |      1000              |   2021-08-27                 |
     When the payment plan detail is sent to the ifs service
     Then ifs service returns Annually payment freqeuncy instalment calculation plan
 
