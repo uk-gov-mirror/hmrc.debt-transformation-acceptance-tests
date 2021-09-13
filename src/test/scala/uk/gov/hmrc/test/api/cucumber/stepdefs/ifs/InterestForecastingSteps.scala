@@ -673,28 +673,28 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     val actualTotalNumberOfInstalments = Json.parse(response.body).as[PaymentPlanSummary].totalNumberOfInstalments
 
 
-    val expectedPaymentPlanResponse = PaymentPlanSummaryResponse(20, 1330, 2051, 1330 + 2051,
+    val expectedPaymentPlanResponse = PaymentPlanSummaryResponse(20, 1345, 2051, 1345 + 2051,
       Vector(
-        PaymentPlanInstalmentResponse(1, initialPaymentDate, 10000, debtId, 100000, 904, 10000, 2.6),
-        PaymentPlanInstalmentResponse(2, instalmentDate, 5000, debtId, 90000, 44, 15000, 2.6),
-        PaymentPlanInstalmentResponse(3, instalmentDate.plusMonths(1),5000, debtId, 85000, 42, 20000, 2.6),
-        PaymentPlanInstalmentResponse(4, instalmentDate.plusMonths(2), 5000, debtId, 80000, 39, 25000, 2.6),
-        PaymentPlanInstalmentResponse(5, instalmentDate.plusMonths(3),5000, debtId, 75000, 37, 30000, 2.6),
-        PaymentPlanInstalmentResponse(6, instalmentDate.plusMonths(4), 5000, debtId, 70000, 34, 35000, 2.6),
-        PaymentPlanInstalmentResponse(7, instalmentDate.plusMonths(5), 5000, debtId, 65000, 32, 40000, 2.6),
-        PaymentPlanInstalmentResponse(8, instalmentDate.plusMonths(6), 5000, debtId, 60000, 29, 45000, 2.6),
-        PaymentPlanInstalmentResponse(9, instalmentDate.plusMonths(7), 5000, debtId, 55000, 27, 50000, 2.6),
-        PaymentPlanInstalmentResponse(10, instalmentDate.plusMonths(9), 5000, debtId, 50000, 24, 55000, 2.6),
-        PaymentPlanInstalmentResponse(11, instalmentDate.plusMonths(10), 5000, debtId, 45000, 22, 60000, 2.6),
-        PaymentPlanInstalmentResponse(12, instalmentDate.plusMonths(11), 5000, debtId, 40000, 19, 65000, 2.6),
-        PaymentPlanInstalmentResponse(13, instalmentDate.plusMonths(12), 5000, debtId, 35000, 17, 70000, 2.6),
-        PaymentPlanInstalmentResponse(14, instalmentDate.plusMonths(13), 5000, debtId, 30000, 14, 75000, 2.6),
-        PaymentPlanInstalmentResponse(15, instalmentDate.plusMonths(14), 5000, debtId, 25000, 12, 80000, 2.6),
-        PaymentPlanInstalmentResponse(16, instalmentDate.plusMonths(15), 5000, debtId, 20000, 9, 85000, 2.6),
-        PaymentPlanInstalmentResponse(17, instalmentDate.plusMonths(16), 5000, debtId, 15000, 7, 90000, 2.6),
-        PaymentPlanInstalmentResponse(18, instalmentDate.plusMonths(17), 5000, debtId, 10000, 4, 95000, 2.6),
-        PaymentPlanInstalmentResponse(19, instalmentDate.plusMonths(18), 5000, debtId, 5000, 2, 100000, 2.6),
-        PaymentPlanInstalmentResponse(20, instalmentDate.plusMonths(19), 3381  , debtId, 0, 0, 103381, 2.6)
+        PaymentPlanInstalmentResponse(1, instalmentDate, 10000, debtId, 100000, 918, 10000, 2.6),
+        PaymentPlanInstalmentResponse(2, instalmentDate.plusWeeks(1), 5000, debtId, 90000, 44, 15000, 2.6),
+        PaymentPlanInstalmentResponse(3, instalmentDate.plusWeeks(2),5000, debtId, 85000, 42, 20000, 2.6),
+        PaymentPlanInstalmentResponse(4, instalmentDate.plusWeeks(3), 5000, debtId, 80000, 39, 25000, 2.6),
+        PaymentPlanInstalmentResponse(5, instalmentDate.plusWeeks(4),5000, debtId, 75000, 37, 30000, 2.6),
+        PaymentPlanInstalmentResponse(6, instalmentDate.plusWeeks(5), 5000, debtId, 70000, 34, 35000, 2.6),
+        PaymentPlanInstalmentResponse(7, instalmentDate.plusWeeks(6), 5000, debtId, 65000, 32, 40000, 2.6),
+        PaymentPlanInstalmentResponse(8, instalmentDate.plusWeeks(7), 5000, debtId, 60000, 29, 45000, 2.6),
+        PaymentPlanInstalmentResponse(9, instalmentDate.plusWeeks(8), 5000, debtId, 55000, 27, 50000, 2.6),
+        PaymentPlanInstalmentResponse(10, instalmentDate.plusWeeks(9), 5000, debtId, 50000, 24, 55000, 2.6),
+        PaymentPlanInstalmentResponse(11, instalmentDate.plusWeeks(10), 5000, debtId, 45000, 22, 60000, 2.6),
+        PaymentPlanInstalmentResponse(12, instalmentDate.plusWeeks(11), 5000, debtId, 40000, 19, 65000, 2.6),
+        PaymentPlanInstalmentResponse(13, instalmentDate.plusWeeks(12), 5000, debtId, 35000, 17, 70000, 2.6),
+        PaymentPlanInstalmentResponse(14, instalmentDate.plusWeeks(13), 5000, debtId, 30000, 14, 75000, 2.6),
+        PaymentPlanInstalmentResponse(15, instalmentDate.plusWeeks(14), 5000, debtId, 25000, 12, 80000, 2.6),
+        PaymentPlanInstalmentResponse(16, instalmentDate.plusWeeks(15), 5000, debtId, 20000, 9, 85000, 2.6),
+        PaymentPlanInstalmentResponse(17, instalmentDate.plusWeeks(16), 5000, debtId, 15000, 7, 90000, 2.6),
+        PaymentPlanInstalmentResponse(18, instalmentDate.plusWeeks(17), 5000, debtId, 10000, 4, 95000, 2.6),
+        PaymentPlanInstalmentResponse(19, instalmentDate.plusWeeks(18), 5000, debtId, 5000, 2, 100000, 2.6),
+        PaymentPlanInstalmentResponse(20, instalmentDate.plusWeeks(19), 3396  , debtId, 0, 0, 103396, 2.6)
       ))
 
     actualTotalNumberOfInstalments     shouldBe expectedPaymentPlanResponse.totalNumberOfInstalments
