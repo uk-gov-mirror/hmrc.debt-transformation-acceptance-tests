@@ -4,8 +4,8 @@ Feature: Debt Calculation Validation
     Given no debt item
     When the debt item is sent to the ifs service
     Then the ifs service will respond with
-      | statusCode | reason                      | message                                                                                     |
-      | 400        | Invalid JSON error from IFS | Could not parse body due to requirement failed: Debt items which are mandatory, are missing |
+      | statusCode | reason                      | message                                                                                            |
+      | 400        | Invalid JSON error from IFS | Could not parse body due to requirement failed: Debt item charges which are mandatory, are missing |
 
   Scenario: TPSS MainTrans 1525 debt Amount is negative - Edge Case
     Given a debt item
