@@ -9,7 +9,7 @@ import play.api.libs.json.{Json, OFormat}
 import java.time.LocalDate
 
 case class PaymentPlan(
-  debtId: String,
+  ddebtId: String,
   debtAmount: BigDecimal,
   instalmentAmount: BigDecimal,
   paymentFrequency: Frequency,
@@ -17,7 +17,10 @@ case class PaymentPlan(
   quoteDate: LocalDate,
   mainTrans: MainTransType,
   subTrans: SubTransType,
-  interestAccrued: Int
+  interestAccrued: Int,
+  initialPaymentDate: Option[LocalDate] = None,
+  initialPaymentAmount: Option[BigDecimal] = None
+
 )
 
 object PaymentPlan {
