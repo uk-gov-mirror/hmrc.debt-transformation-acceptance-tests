@@ -167,7 +167,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[String])
     val response: StandaloneWSResponse = ScenarioContext.get("response")
 
-    val responseBody = Json.parse(response.body).as[DebtCalculation]
+    val responseBody = Json.parse(response.body).as[DebtCalculationsSummary]
 
     if (asMapTransposed.containsKey("combinedDailyAccrual")) {
       responseBody.combinedDailyAccrual.toString shouldBe asMapTransposed.get("combinedDailyAccrual").toString
@@ -192,7 +192,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status should be(200)
 
-    val responseBody: DebtItemCalculation = Json.parse(response.body).as[DebtCalculation].debtCalculations(index - 1)
+    val responseBody: DebtCalculation = Json.parse(response.body).as[DebtCalculationsSummary].debtCalculations(index - 1)
 
     if (asMapTransposed.containsKey("interestBearing")) {
       responseBody.interestBearing.toString shouldBe asMapTransposed.get("interestBearing").toString
@@ -247,7 +247,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
 
       asMapTransposed.zipWithIndex.foreach { case (window, index) =>
         val responseBody =
-          Json.parse(response.body).as[DebtCalculation].debtCalculations(summaryIndex - 1).calculationWindows(index)
+          Json.parse(response.body).as[DebtCalculationsSummary].debtCalculations(summaryIndex - 1).calculationWindows(index)
 
         if (window.containsKey("periodFrom")) {
           responseBody.periodFrom.toString shouldBe window.get("periodFrom").toString
@@ -749,6 +749,6 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
 
   def getCountOfCalculationWindows(summaryIndex: Int): Int = {
     val response: StandaloneWSResponse = ScenarioContext.get("response")
-    Json.parse(response.body).as[DebtCalculation].debtCalculations(summaryIndex - 1).calculationWindows.size
+    Json.parse(response.body).as[DebtCalculationsSummary].debtCalculations(summaryIndex - 1).calculationWindows.size
   }
 }
