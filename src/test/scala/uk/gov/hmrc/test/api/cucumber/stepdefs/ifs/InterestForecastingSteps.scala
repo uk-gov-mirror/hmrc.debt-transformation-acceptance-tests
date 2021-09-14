@@ -30,35 +30,9 @@ import uk.gov.hmrc.test.api.utils.ScenarioContext
 import java.time.LocalDate
 
 class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Matchers {
-  lazy val frequencyType = Map(
-    "Single"     -> "1",
-    "Weekly"     -> "7",
-    "2-Weekly"   -> "14",
-    "4-Weekly"   -> "14",
-    "Monthly"    -> "14",
-    "Quarterly"  -> "14",
-    "HalfYearly" -> "14",
-    "Annually"   -> "14"
-  )
-
-  lazy val portId = Map(
-    "Calais"                  -> "1401",
-    "Gothenburg - Gˆteborg"   -> "6742",
-    "Immingham"               -> "1748",
-    "Killingholme"            -> "7013",
-    "Reeweg simplified proc." -> "6085",
-    "Belfast"                 -> "1771",
-    "Heysham"                 -> "1849",
-    "Cairnryan"               -> "7052",
-    "Larne"                   -> "7060",
-    "Dover"                   -> "7054",
-    "Holyhead"                -> "1765",
-    "Dublin"                  -> "2183"
-  )
 
   Given("a debt item") { (dataTable: DataTable) =>
     createInterestFocastingRequestBody(dataTable)
-
   }
 
   Given("no debt item") { () =>

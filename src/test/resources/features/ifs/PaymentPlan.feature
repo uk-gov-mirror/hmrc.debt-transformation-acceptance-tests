@@ -1,25 +1,4 @@
-#Assumptions
-#
-#Customer reference = see format from ARC
-#Debt amount = 1,200
-#Debt ID = see format from ARC
-#Duty ID = see format from ARC
-#Main Trans = 1545 (interest bearing)
-#Sub Trans = 1000
-#Original debt amount = 1,200
-#Payment amount = 200
-#Payment date = 25/08/2020
-#Interest start date = 05/04/2020
-#Quote type = Duration
-#Instalment date = 01/06/2021
-#Instalment amount = 100
-#Frequency = monthly
-#Duration = Not known as IFS will calculate
-#No initial payment
-#No suppressions
-#No BS
-#Type of payment plan = Time to pay - not relevant for IFS to do calculation
-Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial payment
+Feature: Payment plan frequency calculation for 1 debt 1 duty with initial payment
 
   Scenario: Payment plan calculation instalment - Single payment frequency
 
@@ -85,7 +64,7 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
     When the payment plan detail is sent to the ifs service
     Then ifs service returns Annually payment freqeuncy instalment calculation plan
 
-@wip32
+
   Scenario: Single debt payment instalment calculation plan - Monthly payments with initial payment
 
     Given debt instalment payment plan request details
@@ -94,20 +73,11 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
     When the payment plan detail is sent to the ifs service
     Then ifs service returns monthly instalment calculation plan with initial payment
 
-#  Scenario: Single debt payment instalment calculation plan - Weekly payments with initial payment
-#
-#    Given debt plan details with initial payment
-#      | debtId | debtAmount | instalmentAmount | paymentFrequency | mainTrans | subTrans | interestAccrued | initialPaymentAmount |
-#      | debtId | 100000     | 50000            | weekly           | 1525      | 1000     | 1423            | 50000                |
-#    When the payment plan detail is sent to the ifs service
-#    Then ifs service returns monthly payment freqeuncy instalment with initial payment calculation plan
-#
   Scenario: Single debt payment instalment calculation plan - Weekly payments with initial payment 129
 
     Given debt plan details with initial payment
       | debtId | debtAmount | instalmentAmount | paymentFrequency | mainTrans | subTrans | interestAccrued | initialPaymentAmount |
       | debtId | 100000     | 5000             | weekly           | 1525      | 1000     | 2051            | 5000                 |
-#    And no initial payment date for the plan
     When the payment plan detail is sent to the ifs service
     Then ifs service returns weekly freqeuncy instalment calculation plan with initial payment
 
