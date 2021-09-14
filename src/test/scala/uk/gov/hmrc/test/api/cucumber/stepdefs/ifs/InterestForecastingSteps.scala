@@ -585,7 +585,8 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
         PaymentPlanInstalmentResponse(9, instalmentDate.plusMonths(8 * 6), 10000, debtId, 20000, 257, 90000, 2.6),
         PaymentPlanInstalmentResponse(10, instalmentDate.plusMonths(9 * 6), 10000, debtId, 10000, 131, 100000, 2.6),
         PaymentPlanInstalmentResponse(11, instalmentDate.plusMonths(10 * 6), 9398, debtId, 0, 0, 100000 + 9398, 2.6)
-      ))
+      )
+    )
     actualTotalNumberOfInstalments     shouldBe expectedPaymentPlanResponse.totalNumberOfInstalments
     responseBody.map(_.paymentDueDate) shouldBe expectedPaymentPlanResponse.paymentPlanCalculationResponse.map(
       _.paymentDueDate
@@ -629,57 +630,63 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     responseBody.map(_.balance)        shouldBe expectedPaymentPlanResponse.paymentPlanCalculationResponse.map(_.balance)
   }
 
-  Then("ifs service returns monthly payment freqeuncy instalment with initial payment calculation plan") { () =>
+  Then("ifs service returns monthly instalment calculation plan with initial payment") { () =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status shouldBe 200
     val quoteDate                      = LocalDate.now
     val instalmentDate                 = quoteDate.plusDays(1)
-    val initialPaymentDate                 = quoteDate.plusDays(1)
+    val initialPaymentDate             = quoteDate.plusDays(1)
     val debtId                         = "debtId"
     val responseBody                   = Json.parse(response.body).as[PaymentPlanSummary].paymentPlanCalculationResponse
     val actualTotalNumberOfInstalments = Json.parse(response.body).as[PaymentPlanSummary].totalNumberOfInstalments
 
-
-    val expectedPaymentPlanResponse = PaymentPlanSummaryResponse(11, 979, 1423, 979 + 1423,
+    val expectedPaymentPlanResponse = PaymentPlanSummaryResponse(
+      10,
+      955,
+      1423,
+      955 + 1423,
       Vector(
-        PaymentPlanInstalmentResponse(1, initialPaymentDate, 10000, debtId, 100000, 7, 10000, 2.6),
-        PaymentPlanInstalmentResponse(2, instalmentDate, 10000, debtId, 90000, 192, 20000, 2.6),
-        PaymentPlanInstalmentResponse(3, instalmentDate.plusMonths(1),10000, debtId, 80000, 176, 30000, 2.6),
-        PaymentPlanInstalmentResponse(4, instalmentDate.plusMonths(2), 10000, debtId, 70000, 149, 40000, 2.6),
-        PaymentPlanInstalmentResponse(5, instalmentDate.plusMonths(3),10000, debtId, 60000, 132, 50000, 2.6),
-        PaymentPlanInstalmentResponse(6, instalmentDate.plusMonths(4), 10000, debtId, 50000, 110, 60000, 2.6),
-        PaymentPlanInstalmentResponse(7, instalmentDate.plusMonths(5), 10000, debtId, 40000, 79, 70000, 2.6),
-        PaymentPlanInstalmentResponse(8, instalmentDate.plusMonths(6), 10000, debtId, 30000, 66, 80000, 2.6),
-        PaymentPlanInstalmentResponse(9, instalmentDate.plusMonths(7), 10000, debtId, 20000, 42, 90000, 2.6),
-        PaymentPlanInstalmentResponse(10, instalmentDate.plusMonths(8), 10000, debtId, 10000, 22, 10000, 2.6),
-        PaymentPlanInstalmentResponse(11, instalmentDate.plusMonths(9), 2402  , debtId, 0, 0, 102402, 2.6)
-      ))
+        PaymentPlanInstalmentResponse(1, instalmentDate, 10100, debtId, 100000, 7, 10100, 2.6),
+        PaymentPlanInstalmentResponse(2, instalmentDate.plusMonths(1), 10000, debtId, 89900, 192, 20100, 2.6),
+        PaymentPlanInstalmentResponse(3, instalmentDate.plusMonths(2), 10000, debtId, 79900, 176, 30100, 2.6),
+        PaymentPlanInstalmentResponse(4, instalmentDate.plusMonths(3), 10000, debtId, 69900, 149, 40100, 2.6),
+        PaymentPlanInstalmentResponse(5, instalmentDate.plusMonths(4), 10000, debtId, 59900, 132, 50100, 2.6),
+        PaymentPlanInstalmentResponse(6, instalmentDate.plusMonths(5), 10000, debtId, 49900, 110, 60100, 2.6),
+        PaymentPlanInstalmentResponse(7, instalmentDate.plusMonths(6), 10000, debtId, 39900, 79, 70100, 2.6),
+        PaymentPlanInstalmentResponse(8, instalmentDate.plusMonths(7), 10000, debtId, 29900, 66, 80100, 2.6),
+        PaymentPlanInstalmentResponse(9, instalmentDate.plusMonths(8), 5000, debtId, 19900, 42, 90100, 2.6),
+        PaymentPlanInstalmentResponse(10, instalmentDate.plusMonths(9), 2478, debtId, 100, 0, 92578, 2.6)
+      )
+    )
 
     actualTotalNumberOfInstalments     shouldBe expectedPaymentPlanResponse.totalNumberOfInstalments
     responseBody.map(_.paymentDueDate) shouldBe expectedPaymentPlanResponse.paymentPlanCalculationResponse.map(
-      _.paymentDueDate)
+      _.paymentDueDate
+    )
     responseBody.map(_.balance)        shouldBe expectedPaymentPlanResponse.paymentPlanCalculationResponse.map(_.balance)
 
   }
 
-  Then("ifs service returns weekly payment freqeuncy instalment with initial payment calculation plan"){ () =>
+  Then("ifs service returns weekly freqeuncy instalment calculation plan with initial payment") { () =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status shouldBe 200
     val quoteDate                      = LocalDate.now
     val instalmentDate                 = quoteDate.plusDays(129)
-    val initialPaymentDate                 = quoteDate.plusDays(129)
     val debtId                         = "debtId"
     val responseBody                   = Json.parse(response.body).as[PaymentPlanSummary].paymentPlanCalculationResponse
     val actualTotalNumberOfInstalments = Json.parse(response.body).as[PaymentPlanSummary].totalNumberOfInstalments
 
-
-    val expectedPaymentPlanResponse = PaymentPlanSummaryResponse(20, 1345, 2051, 1345 + 2051,
+    val expectedPaymentPlanResponse = PaymentPlanSummaryResponse(
+      20,
+      1345,
+      2051,
+      1345 + 2051,
       Vector(
         PaymentPlanInstalmentResponse(1, instalmentDate, 10000, debtId, 100000, 918, 10000, 2.6),
         PaymentPlanInstalmentResponse(2, instalmentDate.plusWeeks(1), 5000, debtId, 90000, 44, 15000, 2.6),
-        PaymentPlanInstalmentResponse(3, instalmentDate.plusWeeks(2),5000, debtId, 85000, 42, 20000, 2.6),
+        PaymentPlanInstalmentResponse(3, instalmentDate.plusWeeks(2), 5000, debtId, 85000, 42, 20000, 2.6),
         PaymentPlanInstalmentResponse(4, instalmentDate.plusWeeks(3), 5000, debtId, 80000, 39, 25000, 2.6),
-        PaymentPlanInstalmentResponse(5, instalmentDate.plusWeeks(4),5000, debtId, 75000, 37, 30000, 2.6),
+        PaymentPlanInstalmentResponse(5, instalmentDate.plusWeeks(4), 5000, debtId, 75000, 37, 30000, 2.6),
         PaymentPlanInstalmentResponse(6, instalmentDate.plusWeeks(5), 5000, debtId, 70000, 34, 35000, 2.6),
         PaymentPlanInstalmentResponse(7, instalmentDate.plusWeeks(6), 5000, debtId, 65000, 32, 40000, 2.6),
         PaymentPlanInstalmentResponse(8, instalmentDate.plusWeeks(7), 5000, debtId, 60000, 29, 45000, 2.6),
@@ -694,12 +701,14 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
         PaymentPlanInstalmentResponse(17, instalmentDate.plusWeeks(16), 5000, debtId, 15000, 7, 90000, 2.6),
         PaymentPlanInstalmentResponse(18, instalmentDate.plusWeeks(17), 5000, debtId, 10000, 4, 95000, 2.6),
         PaymentPlanInstalmentResponse(19, instalmentDate.plusWeeks(18), 5000, debtId, 5000, 2, 100000, 2.6),
-        PaymentPlanInstalmentResponse(20, instalmentDate.plusWeeks(19), 3396  , debtId, 0, 0, 103396, 2.6)
-      ))
+        PaymentPlanInstalmentResponse(20, instalmentDate.plusWeeks(19), 3396, debtId, 0, 0, 103396, 2.6)
+      )
+    )
 
     actualTotalNumberOfInstalments     shouldBe expectedPaymentPlanResponse.totalNumberOfInstalments
     responseBody.map(_.paymentDueDate) shouldBe expectedPaymentPlanResponse.paymentPlanCalculationResponse.map(
-      _.paymentDueDate)
+      _.paymentDueDate
+    )
     responseBody.map(_.balance)        shouldBe expectedPaymentPlanResponse.paymentPlanCalculationResponse.map(_.balance)
 
   }
@@ -710,6 +719,10 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
 
   Given("no breathing spaces have been applied to the customer") { () =>
     noBreathingSpace()
+  }
+
+  Given("no initial payment date for the plan") { () =>
+    noInstalmentDate()
   }
 
   Given("the customer has post codes") { (dataTable: DataTable) =>
@@ -723,13 +736,37 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
   Given("debt payment plan frequency details") { (dataTable: DataTable) =>
     createPaymentPlanFrequency(dataTable)
   }
+  Given("plan details with initialPaymentDate is after instalmentDate") { (dataTable: DataTable) =>
+    initialPaymentDateAfterInstalmentDate(dataTable)
+  }
+  Given("plan details with no initial payment date") { (dataTable: DataTable) =>
+    noInitialPaymentDate(dataTable)
+  }
+
+  Given("plan details with no initial payment amount") { (dataTable: DataTable) =>
+    noInitialPaymentAmount(dataTable)
+  }
+
+  Given("plan details with quote date in past") { (dataTable: DataTable) =>
+    frequencyPlanWithQuoteDateInPast(dataTable)
+  }
+  Given("plan details with no instalment date") { (dataTable: DataTable) =>
+    noInstalmentDate(dataTable)
+  }
+  Given("plan details with no quote date") { (dataTable: DataTable) =>
+    noQuoteDate(dataTable)
+  }
 
   Given("debt payment plan details") { (dataTable: DataTable) =>
     createPaymentPlanRequestBody(dataTable)
   }
 
-  Given("debt plan details with initial payment"){ (dataTable: DataTable) =>
+  Given("debt plan details with initial payment") { (dataTable: DataTable) =>
     debtPlanDetailsWithInitailPaymentRequest(dataTable)
+  }
+
+  Given("debt instalment payment plan request details") { (dataTable: DataTable) =>
+    debtInstalmentPaymentPlanRequest(dataTable)
   }
 
   Then("the ([0-9])(?:st|nd|rd|th) debt summary will not have any calculation windows") { (summaryIndex: Int) =>

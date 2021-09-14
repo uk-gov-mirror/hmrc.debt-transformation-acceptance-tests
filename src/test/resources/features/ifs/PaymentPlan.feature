@@ -19,7 +19,6 @@
 #No suppressions
 #No BS
 #Type of payment plan = Time to pay - not relevant for IFS to do calculation
-
 Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial payment
 
   Scenario: Payment plan calculation instalment - Single payment frequency
@@ -86,95 +85,84 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with no initial pa
     When the payment plan detail is sent to the ifs service
     Then ifs service returns Annually payment freqeuncy instalment calculation plan
 
-
+@wip32
   Scenario: Single debt payment instalment calculation plan - Monthly payments with initial payment
 
-    Given debt plan details with initial payment
-      | debtId | debtAmount | instalmentAmount | paymentFrequency | mainTrans | subTrans | interestAccrued |initialPaymentAmount|
-      | debtId | 100000     | 10000            | monthly         | 1525      | 1000     | 1423            |      100           |
+    Given debt instalment payment plan request details
+      | debtId | debtAmount | instalmentAmount | paymentFrequency | mainTrans | subTrans | interestAccrued | initialPaymentAmount |
+      | debtId | 100000     | 10000            | monthly          | 1525      | 1000     | 1423            | 100                |
     When the payment plan detail is sent to the ifs service
-   Then ifs service returns monthly payment freqeuncy instalment with initial payment calculation plan
+    Then ifs service returns monthly instalment calculation plan with initial payment
 
-  Scenario: Single debt payment instalment calculation plan - Weekly payments with initial payment
-
-    Given debt plan details with initial payment
-      | debtId | debtAmount | instalmentAmount | paymentFrequency | mainTrans | subTrans | interestAccrued |initialPaymentAmount|
-      | debtId | 100000     | 50000            | weekly         | 1525      | 1000     | 1423             |      50000           |
-    When the payment plan detail is sent to the ifs service
-    Then ifs service returns monthly payment freqeuncy instalment with initial payment calculation plan
-  @wip32
+#  Scenario: Single debt payment instalment calculation plan - Weekly payments with initial payment
+#
+#    Given debt plan details with initial payment
+#      | debtId | debtAmount | instalmentAmount | paymentFrequency | mainTrans | subTrans | interestAccrued | initialPaymentAmount |
+#      | debtId | 100000     | 50000            | weekly           | 1525      | 1000     | 1423            | 50000                |
+#    When the payment plan detail is sent to the ifs service
+#    Then ifs service returns monthly payment freqeuncy instalment with initial payment calculation plan
+#
   Scenario: Single debt payment instalment calculation plan - Weekly payments with initial payment 129
 
     Given debt plan details with initial payment
-      | debtId | debtAmount | instalmentAmount | paymentFrequency | mainTrans | subTrans | interestAccrued |initialPaymentAmount|
-      | debtId | 100000     | 5000             | weekly           | 1525      | 1000     | 2051            |      5000          |
+      | debtId | debtAmount | instalmentAmount | paymentFrequency | mainTrans | subTrans | interestAccrued | initialPaymentAmount |
+      | debtId | 100000     | 5000             | weekly           | 1525      | 1000     | 2051            | 5000                 |
+#    And no initial payment date for the plan
     When the payment plan detail is sent to the ifs service
-    Then ifs service returns weekly payment freqeuncy instalment with initial payment calculation plan
-
-
-
-  Scenario: Payment plan calculation request -quoteDate in the past or in future
-
-    Given debt payment plan frequency details
-      | debtId | debtAmount | instalmentAmount | paymentFrequency | instalmentDate | quoteDate  | mainTrans | subTrans | interestAccrued |
-      | debtId | 100000     | 10000            | single           |   2024-07-01   |2021-07-01 | 1530      | 1000     | 1423            |
-    When the payment plan detail is sent to the ifs service
-    Then Ifs service returns response code 400
-    And Ifs service returns error message {"statusCode": 400,"reason": "Invalid JSON error from IFS","message": "Both Initial Payment Date and Initial Payment Amount should be given"}
+    Then ifs service returns weekly freqeuncy instalment calculation plan with initial payment
 
 
   Scenario: Payment plan calculation request -initialPaymentAmount missing
 
-    Given debt payment plan frequency details
+    Given plan details with no initial payment amount
       | debtId | debtAmount | instalmentAmount | paymentFrequency | instalmentDate | quoteDate  | mainTrans | subTrans | interestAccrued |
-      | debtId | 100000     | 10000            | single           |   2024-07-01   |2021-07-01 | 1530      | 1000     | 1423            |
+      | debtId | 100000     | 10000            | single           | 2024-07-01     | 2021-07-01 | 1530      | 1000     | 1423            |
     When the payment plan detail is sent to the ifs service
     Then Ifs service returns response code 400
-    And Ifs service returns error message {"statusCode": 400,"reason": "Invalid JSON error from IFS","message": "Both Initial Payment Date and Initial Payment Amount should be given"}
+    And Ifs service returns error message {"statusCode":400,"reason":"Invalid JSON error from IFS","message":"Both Initial Payment Date and Initial Payment Amount should be given"}
 
   Scenario: Payment plan calculation request -initialPaymentDate missing
 
-    Given debt payment plan frequency details
-      | debtId | debtAmount | instalmentAmount | paymentFrequency | instalmentDate | quoteDate  | mainTrans | subTrans | interestAccrued |
-      | debtId | 100000     | 10000            | single           |   2024-07-01   |2021-07-01 | 1530      | 1000     | 1423            |
+    Given plan details with no initial payment date
+      | debtId | debtAmount | instalmentAmount | paymentFrequency | instalmentDate | quoteDate  | mainTrans | subTrans | interestAccrued |initialPaymentAmount |
+      | debtId | 100000     | 10000            | single           | 2024-07-01     | 2021-07-01 | 1530      | 1000     | 1423            |1000                 |
     When the payment plan detail is sent to the ifs service
     Then Ifs service returns response code 400
-    And Ifs service returns error message {"statusCode": 400,"reason": "Invalid JSON error from IFS","message": "Both Initial Payment Date and Initial Payment Amount should be given"}
+    And Ifs service returns error message {"statusCode":400,"reason":"Invalid JSON error from IFS","message":"Both Initial Payment Date and Initial Payment Amount should be given"}
 
   Scenario: Payment plan calculation request -initialPaymentDate is after instalmentDate
 
-    Given debt payment plan frequency details
-      | debtId | debtAmount | instalmentAmount | paymentFrequency | instalmentDate | quoteDate  | mainTrans | subTrans | interestAccrued |
-      | debtId | 100000     | 10000            | single           |   2024-07-01   |2021-07-01 | 1530      | 1000     | 1423            |
+    Given plan details with initialPaymentDate is after instalmentDate
+      | debtId | debtAmount | instalmentAmount | paymentFrequency | mainTrans | subTrans | interestAccrued |initialPaymentAmount |
+      | debtId | 100000     | 10000            | single           | 1530      | 1000     | 1423            |      1000           |
     When the payment plan detail is sent to the ifs service
     Then Ifs service returns response code 400
-    And Ifs service returns error message {"statusCode": 400,"reason": "Invalid JSON error from IFS","message": "The Initial Payment Date should be on or before instalmentDate"}
+    And Ifs service returns error message {"statusCode":400,"reason":"Invalid JSON error from IFS","message":"The Initial Payment Date should be on or before instalmentDate"}
 
 
   Scenario: Payment plan calculation request error  - instalmentDate missing
 
-    Given debt payment plan frequency details
-      | debtId | debtAmount | instalmentAmount | paymentFrequency | instalmentDate | quoteDate  | mainTrans | subTrans | interestAccrued |
-      | debtId | 100000     | 10000            | monthly          |                | 2021-07-01 | 1530      | 1000     | 1423            |
+    Given plan details with no instalment date
+      | debtId | debtAmount | instalmentAmount | paymentFrequency | mainTrans | subTrans | interestAccrued |
+      | debtId | 100000     | 10000            | monthly          | 1530      | 1000     | 1423            |
     When the payment plan detail is sent to the ifs service
     Then Ifs service returns response code 400
     And Ifs service returns error message {"statusCode":400,"reason":"Invalid JSON error from IFS","message":"Field at path '/instalmentDate' missing or invalid"}
 
+  Scenario: Payment plan calculation request error  - quote date in past
 
-  Scenario: Payment plan calculation request error  -quoteDate missing
-
-    Given debt payment plan frequency details
-      | debtId | debtAmount | instalmentAmount | paymentFrequency | instalmentDate | quoteDate  | mainTrans | subTrans | interestAccrued |
-      | debtId | 100000     | 10000            | monthly          |  2021-07-01    |            | 1530      | 1000     | 1423            |
+    Given plan details with quote date in past
+      | debtId | debtAmount | instalmentAmount | paymentFrequency | mainTrans | subTrans | interestAccrued |
+      | debtId | 100000     | 10000            | monthly          | 1530      | 1000     | 1423            |
     When the payment plan detail is sent to the ifs service
     Then Ifs service returns response code 400
-    And Ifs service returns error message {"statusCode":400,"reason":"Invalid JSON error from IFS","message":"Field at path '/quoteDate' missing or invalid"}
+    And Ifs service returns error message {"statusCode":400,"reason":"Invalid JSON error from IFS","message":"Could not parse body due to requirement failed: Quote Date must be today's Date."}
 
   Scenario: Payment plan calculation request error  -quoteDate missing
 
-    Given debt payment plan frequency details
-      | debtId | debtAmount | instalmentAmount | paymentFrequency | instalmentDate | quoteDate  | mainTrans | subTrans | interestAccrued |
-      | debtId | 100000     | 10000            | monthly          |  2021-07-01    |            | 1530      | 1000     | 1423            |
+    Given plan details with no quote date
+      | debtId | debtAmount | instalmentAmount | paymentFrequency | instalmentDate | quoteDate | mainTrans | subTrans | interestAccrued |
+      | debtId | 100000     | 10000            | monthly          | 2021-07-01     |           | 1530      | 1000     | 1423            |
     When the payment plan detail is sent to the ifs service
     Then Ifs service returns response code 400
     And Ifs service returns error message {"statusCode":400,"reason":"Invalid JSON error from IFS","message":"Field at path '/quoteDate' missing or invalid"}

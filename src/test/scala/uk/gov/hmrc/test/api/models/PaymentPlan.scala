@@ -20,7 +20,6 @@ case class PaymentPlan(
   interestAccrued: Int,
   initialPaymentDate: Option[LocalDate] = None,
   initialPaymentAmount: Option[BigDecimal] = None
-
 )
 
 object PaymentPlan {
