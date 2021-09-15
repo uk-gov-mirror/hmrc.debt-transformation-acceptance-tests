@@ -26,7 +26,7 @@ object DebtCalculationWindow {
 }
 
 final case class DebtCalculationItem(
-  debtID: String,
+  debtItemChargeId: String,
   interestBearing: Boolean,
   numberOfChargeableDays: Long,
   interestDueDailyAccrual: Int,

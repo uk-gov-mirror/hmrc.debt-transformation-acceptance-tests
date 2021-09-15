@@ -1,15 +1,11 @@
 package uk.gov.hmrc.test.api.models
 
-/*
- * Copyright 2021 HM Revenue & Customs
- *
- */
 import play.api.libs.json.{Json, OFormat}
 
 import java.time.LocalDate
 
-case class PaymentPlan(
-  ddebtId: String,
+final case class PaymentPlanRequest(
+  debtId: String,
   debtAmount: BigDecimal,
   instalmentAmount: BigDecimal,
   paymentFrequency: Frequency,
@@ -22,6 +18,6 @@ case class PaymentPlan(
   initialPaymentAmount: Option[BigDecimal] = None
 )
 
-object PaymentPlan {
-  implicit val paymentPlanFormat: OFormat[PaymentPlan] = Json.format[PaymentPlan]
+object PaymentPlanRequest {
+  implicit val PaymentPlanRequestFormat: OFormat[PaymentPlanRequest] = Json.format[PaymentPlanRequest]
 }
