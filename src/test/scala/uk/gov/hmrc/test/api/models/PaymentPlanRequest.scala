@@ -7,9 +7,9 @@ import java.time.LocalDate
 final case class PaymentPlanRequest(
   debtId: String,
   debtAmount: BigDecimal,
-  instalmentAmount: BigDecimal,
+  instalmentPaymentAmount: BigDecimal,
   paymentFrequency: Frequency,
-  instalmentDate: LocalDate,
+  instalmentPaymentDate: LocalDate,
   quoteDate: LocalDate,
   mainTrans: MainTransType,
   subTrans: SubTransType,

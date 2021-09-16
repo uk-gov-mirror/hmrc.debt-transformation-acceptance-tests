@@ -11,9 +11,9 @@ import java.time.LocalDate
 case class PaymentPlan(
   ddebtId: String,
   debtAmount: BigDecimal,
-  instalmentAmount: BigDecimal,
+  instalmentPaymentAmount: BigDecimal,
   paymentFrequency: Frequency,
-  instalmentDate: LocalDate,
+  instalmentPaymentDate: LocalDate,
   quoteDate: LocalDate,
   mainTrans: MainTransType,
   subTrans: SubTransType,

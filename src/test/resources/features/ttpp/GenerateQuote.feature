@@ -5,8 +5,8 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
       | customerReference | channelIdentifier |
       | uniqRef1234       | selfService       |
     And payment plan details
-      | quoteType        | quoteDate  | instalmentStartDate | instalmentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
-      | instalmentAmount | 2021-05-13 | 2021-05-13          | 100              | single    | 12       | 100                  | 2021-05-13         | timeToPay       |
+      | quoteType        | quoteDate  | instalmentStartDate | instalmentPaymentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
+      | instalmentPaymentAmount | 2021-05-13 | 2021-05-13          | 100              | single    | 12       | 100                  | 2021-05-13         | timeToPay       |
     And post codes details
       | addressPostcode | postcodeDate |
       | NW9 5XW         | 2021-05-13   |
@@ -19,7 +19,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
     When the generate quote request is sent to the ttpp service
     Then the ttp service is going to return a generate quote response with
       | quoteReference | customerReference | quoteType        | quoteDate  | numberOfInstalments | totalDebtincInt | interestAccrued | planInterest |
-      | quoteRef1234   | custRef1234       | instalmentAmount | 2021-05-13 | 1                   | 10              | 10              | 0.25         |
+      | quoteRef1234   | custRef1234       | instalmentPaymentAmount | 2021-05-13 | 1                   | 10              | 10              | 0.25         |
     And the 2nd instalment will contain
       | debtItemChargeId  | debtItemId  | dueDate    | amountDue | expectedPayment | interestRate | instalmentNumber | instalmentInterestAccrued | instalmentBalance |
       | debtItemChargeId1 | debtItemId1 | 2021-05-13 | 100       | 100             | 0.24         | 1                | 10                        | 10                |
@@ -29,8 +29,8 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
       | customerReference | channelIdentifier |
       | uniqRef1234       | selfService       |
     And payment plan details
-      | quoteType        | quoteDate  | instalmentStartDate | instalmentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
-      | instalmentAmount | 2021-05-13 | 2021-05-13          | 100              | weekly    | 12       | 100                  | 2021-05-13         | timeToPay       |
+      | quoteType        | quoteDate  | instalmentStartDate | instalmentPaymentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
+      | instalmentPaymentAmount | 2021-05-13 | 2021-05-13          | 100              | weekly    | 12       | 100                  | 2021-05-13         | timeToPay       |
     And post codes details
       | addressPostcode | postcodeDate |
       | NW9 5XW         | 2021-05-13   |
@@ -43,7 +43,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
     When the generate quote request is sent to the ttpp service
     Then the ttp service is going to return a generate quote response with
       | quoteReference | customerReference | quoteType        | quoteDate  | numberOfInstalments | totalDebtincInt | interestAccrued | planInterest |
-      | quoteRef1234   | custRef1234       | instalmentAmount | 2021-05-13 | 1                   | 10              | 10              | 0.25         |
+      | quoteRef1234   | custRef1234       | instalmentPaymentAmount | 2021-05-13 | 1                   | 10              | 10              | 0.25         |
     And the 2nd instalment will contain
       | debtItemChargeId  | debtItemId  | dueDate    | amountDue | expectedPayment | interestRate | instalmentNumber | instalmentInterestAccrued | instalmentBalance |
       | debtItemChargeId1 | debtItemId1 | 2021-05-13 | 100       | 100             | 0.24         | 1                | 10                        | 10                |
@@ -53,8 +53,8 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
       | customerReference | channelIdentifier |
       | uniqRef1234       | selfService       |
     And payment plan details
-      | quoteType        | quoteDate  | instalmentStartDate | instalmentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
-      | instalmentAmount | 2021-05-13 | 2021-05-13          | 100              | 2Weekly   | 12       | 100                  | 2021-05-13         | timeToPay       |
+      | quoteType        | quoteDate  | instalmentStartDate | instalmentPaymentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
+      | instalmentPaymentAmount | 2021-05-13 | 2021-05-13          | 100              | 2Weekly   | 12       | 100                  | 2021-05-13         | timeToPay       |
     And post codes details
       | addressPostcode | postcodeDate |
       | NW9 5XW         | 2021-05-13   |
@@ -67,7 +67,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
     When the generate quote request is sent to the ttpp service
     Then the ttp service is going to return a generate quote response with
       | quoteReference | customerReference | quoteType        | quoteDate  | numberOfInstalments | totalDebtincInt | interestAccrued | planInterest |
-      | quoteRef1234   | custRef1234       | instalmentAmount | 2021-05-13 | 1                   | 10              | 10              | 0.25         |
+      | quoteRef1234   | custRef1234       | instalmentPaymentAmount | 2021-05-13 | 1                   | 10              | 10              | 0.25         |
     And the 2nd instalment will contain
       | debtItemChargeId  | debtItemId  | dueDate    | amountDue | expectedPayment | interestRate | instalmentNumber | instalmentInterestAccrued | instalmentBalance |
       | debtItemChargeId1 | debtItemId1 | 2021-05-13 | 100       | 100             | 0.24         | 1                | 10                        | 10                |
@@ -77,8 +77,8 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
       | customerReference | channelIdentifier |
       | uniqRef1234       | selfService       |
     And payment plan details
-      | quoteType        | quoteDate  | instalmentStartDate | instalmentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
-      | instalmentAmount | 2021-05-13 | 2021-05-13          | 100              | 4Weekly   | 12       | 100                  | 2021-05-13         | timeToPay       |
+      | quoteType        | quoteDate  | instalmentStartDate | instalmentPaymentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
+      | instalmentPaymentAmount | 2021-05-13 | 2021-05-13          | 100              | 4Weekly   | 12       | 100                  | 2021-05-13         | timeToPay       |
     And post codes details
       | addressPostcode | postcodeDate |
       | NW9 5XW         | 2021-05-13   |
@@ -91,7 +91,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
     When the generate quote request is sent to the ttpp service
     Then the ttp service is going to return a generate quote response with
       | quoteReference | customerReference | quoteType        | quoteDate  | numberOfInstalments | totalDebtincInt | interestAccrued | planInterest |
-      | quoteRef1234   | custRef1234       | instalmentAmount | 2021-05-13 | 1                   | 10              | 10              | 0.25         |
+      | quoteRef1234   | custRef1234       | instalmentPaymentAmount | 2021-05-13 | 1                   | 10              | 10              | 0.25         |
     And the 2nd instalment will contain
       | debtItemChargeId  | debtItemId  | dueDate    | amountDue | expectedPayment | interestRate | instalmentNumber | instalmentInterestAccrued | instalmentBalance |
       | debtItemChargeId1 | debtItemId1 | 2021-05-13 | 100       | 100             | 0.24         | 1                | 10                        | 10                |
@@ -101,8 +101,8 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
       | customerReference | channelIdentifier |
       | uniqRef1234       | selfService       |
     And payment plan details
-      | quoteType        | quoteDate  | instalmentStartDate | instalmentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
-      | instalmentAmount | 2021-05-13 | 2021-05-13          | 100              | monthly   | 12       | 100                  | 2021-05-13         | timeToPay       |
+      | quoteType        | quoteDate  | instalmentStartDate | instalmentPaymentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
+      | instalmentPaymentAmount | 2021-05-13 | 2021-05-13          | 100              | monthly   | 12       | 100                  | 2021-05-13         | timeToPay       |
     And post codes details
       | addressPostcode | postcodeDate |
       | NW9 5XW         | 2021-05-13   |
@@ -115,7 +115,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
     When the generate quote request is sent to the ttpp service
     Then the ttp service is going to return a generate quote response with
       | quoteReference | customerReference | quoteType        | quoteDate  | numberOfInstalments | totalDebtincInt | interestAccrued | planInterest |
-      | quoteRef1234   | custRef1234       | instalmentAmount | 2021-05-13 | 1                   | 10              | 10              | 0.25         |
+      | quoteRef1234   | custRef1234       | instalmentPaymentAmount | 2021-05-13 | 1                   | 10              | 10              | 0.25         |
     And the 2nd instalment will contain
       | debtItemChargeId  | debtItemId  | dueDate    | amountDue | expectedPayment | interestRate | instalmentNumber | instalmentInterestAccrued | instalmentBalance |
       | debtItemChargeId1 | debtItemId1 | 2021-05-13 | 100       | 100             | 0.24         | 1                | 10                        | 10                |
@@ -125,8 +125,8 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
       | customerReference | channelIdentifier |
       | uniqRef1234       | selfService       |
     And payment plan details
-      | quoteType        | quoteDate  | instalmentStartDate | instalmentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
-      | instalmentAmount | 2021-05-13 | 2021-05-13          | 100              | quarterly | 12       | 100                  | 2021-05-13         | timeToPay       |
+      | quoteType        | quoteDate  | instalmentStartDate | instalmentPaymentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
+      | instalmentPaymentAmount | 2021-05-13 | 2021-05-13          | 100              | quarterly | 12       | 100                  | 2021-05-13         | timeToPay       |
     And post codes details
       | addressPostcode | postcodeDate |
       | NW9 5XW         | 2021-05-13   |
@@ -139,7 +139,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
     When the generate quote request is sent to the ttpp service
     Then the ttp service is going to return a generate quote response with
       | quoteReference | customerReference | quoteType        | quoteDate  | numberOfInstalments | totalDebtincInt | interestAccrued | planInterest |
-      | quoteRef1234   | custRef1234       | instalmentAmount | 2021-05-13 | 1                   | 10              | 10              | 0.25         |
+      | quoteRef1234   | custRef1234       | instalmentPaymentAmount | 2021-05-13 | 1                   | 10              | 10              | 0.25         |
     And the 2nd instalment will contain
       | debtItemChargeId  | debtItemId  | dueDate    | amountDue | expectedPayment | interestRate | instalmentNumber | instalmentInterestAccrued | instalmentBalance |
       | debtItemChargeId1 | debtItemId1 | 2021-05-13 | 100       | 100             | 0.24         | 1                | 10                        | 10                |
@@ -149,8 +149,8 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
       | customerReference | channelIdentifier |
       | uniqRef1234       | selfService       |
     And payment plan details
-      | quoteType        | quoteDate  | instalmentStartDate | instalmentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
-      | instalmentAmount | 2021-05-13 | 2021-05-13          | 100              | 6Monthly  | 12       | 100                  | 2021-05-13         | timeToPay       |
+      | quoteType        | quoteDate  | instalmentStartDate | instalmentPaymentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
+      | instalmentPaymentAmount | 2021-05-13 | 2021-05-13          | 100              | 6Monthly  | 12       | 100                  | 2021-05-13         | timeToPay       |
     And post codes details
       | addressPostcode | postcodeDate |
       | NW9 5XW         | 2021-05-13   |
@@ -163,7 +163,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
     When the generate quote request is sent to the ttpp service
     Then the ttp service is going to return a generate quote response with
       | quoteReference | customerReference | quoteType        | quoteDate  | numberOfInstalments | totalDebtincInt | interestAccrued | planInterest |
-      | quoteRef1234   | custRef1234       | instalmentAmount | 2021-05-13 | 1                   | 10              | 10              | 0.25         |
+      | quoteRef1234   | custRef1234       | instalmentPaymentAmount | 2021-05-13 | 1                   | 10              | 10              | 0.25         |
     And the 2nd instalment will contain
       | debtItemChargeId  | debtItemId  | dueDate    | amountDue | expectedPayment | interestRate | instalmentNumber | instalmentInterestAccrued | instalmentBalance |
       | debtItemChargeId1 | debtItemId1 | 2021-05-13 | 100       | 100             | 0.24         | 1                | 10                        | 10                |
@@ -173,8 +173,8 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
       | customerReference | channelIdentifier |
       | uniqRef1234       | selfService       |
     And payment plan details
-      | quoteType        | quoteDate  | instalmentStartDate | instalmentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
-      | instalmentAmount | 2021-05-13 | 2021-05-13          | 100              | annually  | 12       | 100                  | 2021-05-13         | timeToPay       |
+      | quoteType        | quoteDate  | instalmentStartDate | instalmentPaymentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
+      | instalmentPaymentAmount | 2021-05-13 | 2021-05-13          | 100              | annually  | 12       | 100                  | 2021-05-13         | timeToPay       |
     And post codes details
       | addressPostcode | postcodeDate |
       | NW9 5XW         | 2021-05-13   |
@@ -187,7 +187,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
     When the generate quote request is sent to the ttpp service
     Then the ttp service is going to return a generate quote response with
       | quoteReference | customerReference | quoteType        | quoteDate  | numberOfInstalments | totalDebtincInt | interestAccrued | planInterest |
-      | quoteRef1234   | custRef1234       | instalmentAmount | 2021-05-13 | 1                   | 10              | 10              | 0.25         |
+      | quoteRef1234   | custRef1234       | instalmentPaymentAmount | 2021-05-13 | 1                   | 10              | 10              | 0.25         |
     And the 2nd instalment will contain
       | debtItemChargeId  | debtItemId  | dueDate    | amountDue | expectedPayment | interestRate | instalmentNumber | instalmentInterestAccrued | instalmentBalance |
       | debtItemChargeId1 | debtItemId1 | 2021-05-13 | 100       | 100             | 0.24         | 1                | 10                        | 10                |
@@ -198,8 +198,8 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
       | customerReference | channelIdentifier |
       | uniqRef1234       | selfService       |
     And payment plan details
-      | quoteType        | quoteDate  | instalmentStartDate | instalmentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
-      | instalmentAmount | 2021-05-13 | 2021-05-13          | 100              | annually  | 12       | 100                  | 2021-05-13         | timeToPay       |
+      | quoteType        | quoteDate  | instalmentStartDate | instalmentPaymentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
+      | instalmentPaymentAmount | 2021-05-13 | 2021-05-13          | 100              | annually  | 12       | 100                  | 2021-05-13         | timeToPay       |
     And post codes details
       | addressPostcode | postcodeDate |
       | NW9 5XW         | 2021-05-13   |
@@ -220,8 +220,8 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
       | customerReference | channelIdentifier |
       | uniqRef1234       | selfService       |
     And payment plan details
-      | quoteType        | quoteDate  | instalmentStartDate | instalmentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
-      | instalmentAmount | 2021-05-13 | 2021-05-13          | 100              | annually  | 12       | 100                  | 2021-05-13         | timeToPay       |
+      | quoteType        | quoteDate  | instalmentStartDate | instalmentPaymentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
+      | instalmentPaymentAmount | 2021-05-13 | 2021-05-13          | 100              | annually  | 12       | 100                  | 2021-05-13         | timeToPay       |
     And post codes details
       | addressPostcode | postcodeDate |
       | NW9 5XW         | 2021-05-13   |
@@ -242,8 +242,8 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
       | customerReference | channelIdentifier |
       | uniqRef1234       | selfService       |
     And payment plan details
-      | quoteType        | quoteDate  | instalmentStartDate | instalmentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
-      | instalmentAmount | 2021-05-13 | 2021-05-13          | 100              | annually  | 12       | 100                  | 2021-05-13         | timeToPay       |
+      | quoteType        | quoteDate  | instalmentStartDate | instalmentPaymentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
+      | instalmentPaymentAmount | 2021-05-13 | 2021-05-13          | 100              | annually  | 12       | 100                  | 2021-05-13         | timeToPay       |
     And post codes details
       | addressPostcode | postcodeDate |
       | NW9 5XW         | 2021-05-13   |
@@ -264,8 +264,8 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
       | customerReference | channelIdentifier |
       | 100TTP            | selfService       |
     And payment plan details
-      | quoteType        | quoteDate  | instalmentStartDate | instalmentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
-      | instalmentAmount | 2021-05-13 | 2021-05-13          | 100              | annually  | 12       | 100                  | 2021-05-13         | timeToPay       |
+      | quoteType        | quoteDate  | instalmentStartDate | instalmentPaymentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
+      | instalmentPaymentAmount | 2021-05-13 | 2021-05-13          | 100              | annually  | 12       | 100                  | 2021-05-13         | timeToPay       |
     And post codes details
       | addressPostcode | postcodeDate |
       | NW9 5XW         | 2021-05-13   |

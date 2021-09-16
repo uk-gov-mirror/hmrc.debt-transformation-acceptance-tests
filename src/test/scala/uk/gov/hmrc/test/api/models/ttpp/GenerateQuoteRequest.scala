@@ -19,7 +19,7 @@ final case class PlanToGenerateQuote(
   quoteType: QuoteType,
   quoteDate: LocalDate,
   instalmentStartDate: LocalDate,
-  instalmentAmount: BigDecimal,
+  instalmentPaymentAmount: BigDecimal,
   frequency: Frequency,
   duration: Duration,
   initialPaymentAmount: BigDecimal,

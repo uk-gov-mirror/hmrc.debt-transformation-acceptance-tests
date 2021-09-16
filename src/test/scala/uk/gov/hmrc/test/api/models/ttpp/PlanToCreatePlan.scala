@@ -10,7 +10,7 @@ final case class PlanToCreatePlan(
   quoteType: QuoteType,
   quoteDate: LocalDate,
   instalmentStartDate: LocalDate,
-  instalmentAmount: BigDecimal,
+  instalmentPaymentAmount: BigDecimal,
   paymentPlanType: PaymentPlanType,
   thirdPartyBank: Boolean,
   numberOfInstalments: Int,
