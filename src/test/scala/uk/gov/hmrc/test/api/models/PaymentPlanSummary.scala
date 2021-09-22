@@ -5,12 +5,17 @@ package uk.gov.hmrc.test.api.models
  *
  */
 import play.api.libs.json.{Json, OFormat}
+
+import java.time.LocalDate
 case class PaymentPlanSummary(
-  totalNumberOfInstalments: Long,
-  totalPlanInt: BigDecimal,
+
+  dateOfCalculation: LocalDate,
+  numberOfInstalments: Long,
   interestAccrued: BigDecimal,
+  planInterest: BigDecimal,
   totalInterest: BigDecimal,
-  paymentPlanCalculationResponse: Seq[PaymentPlanInstalmentResponse]
+  duration: Long,
+  instalments: Seq[PaymentPlanInstalmentResponse]
 )
 
 object PaymentPlanSummary {

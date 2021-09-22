@@ -13,7 +13,7 @@ final case class PaymentPlanRequest(
   quoteDate: LocalDate,
   mainTrans: MainTransType,
   subTrans: SubTransType,
-  interestAccrued: Int,
+  interestCallDueTotal: Int,
   initialPaymentDate: Option[LocalDate] = None,
   initialPaymentAmount: Option[BigDecimal] = None
 )

@@ -9,13 +9,13 @@ import play.api.libs.json.{Json, OFormat}
 import java.time.LocalDate
 
 final case class PaymentPlanInstalmentResponse(
-  serialNo: Int,
-  paymentDueDate: LocalDate,
+  debtId: String,
+  instalmentNumber: Int,
+  dueDate: LocalDate,
   amountDue: Int,
-  uniqueDebtId: String,
-  balance: Int,
+  instalmentBalance: Int,
   instalmentInterestAccrued: Int,
-  totalPaidAmount: Int,
+  expectedPayment: Int,
   intRate: Double
 )
 object PaymentPlanInstalmentResponse {
