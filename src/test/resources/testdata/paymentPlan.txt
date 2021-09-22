@@ -7,7 +7,5 @@
 	"quoteDate": "<REPLACE_quoteDate>",
 	"mainTrans": "<REPLACE_mainTrans>",
 	"subTrans": "<REPLACE_subTrans>",
-	"interestCallDueTotal": <REPLACE_interestCallDueTotal>,
-	"initialPaymentDate": <REPLACE_initialPaymentDate>,
-	"initialPaymentAmount": <REPLACE_initialPaymentAmount>
+	"interestCallDueTotal": <REPLACE_interestCallDueTotal>
 }
