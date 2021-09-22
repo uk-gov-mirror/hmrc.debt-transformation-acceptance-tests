@@ -1,12 +1,12 @@
 {
 	"debtId": "<REPLACE_debtId>",
 	"debtAmount": <REPLACE_debtAmount>,
-	"instalmentAmount": <REPLACE_instalmentAmount>,
+	"instalmentPaymentAmount": <REPLACE_instalmentAmount>,
 	"paymentFrequency":"<REPLACE_paymentFrequency>",
-	"instalmentDate": "<REPLACE_instalmentDate>",
+	"instalmentPaymentDate": "<REPLACE_instalmentDate>",
 	"quoteDate": "<REPLACE_quoteDate>",
 	"mainTrans": "<REPLACE_mainTrans>",
 	"subTrans": "<REPLACE_subTrans>",
-	"interestAccrued": <REPLACE_interestAccrued>,
+	"interestCallDueTotal": <REPLACE_interestCallDueTotal>,
 	"initialPaymentDate":"<REPLACE_initialPaymentDate>"
 }
