@@ -85,7 +85,6 @@ Feature: Debt Calculation For Interest & Non Interest Bearing cases
       | interestBearing | interestDueDailyAccrual | interestDueDutyTotal | intRate | unpaidAmountDuty | totalAmountIntDuty | numberChargeableDays | amountOnIntDueDuty | interestOnlyIndicator |
       | true            | 0                       | 0                    | 2.6     | 0                | 0                  | 0                    | 0                  | false                 |
 
-    @runMe
   Scenario: Non Interest Bearing where amount has been paid off
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
