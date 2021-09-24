@@ -174,7 +174,7 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
   }
 
   //  todo add capability for multiple debt item charges
-  def debtInstalmentInstalmentCalculationRequest(dataTable: DataTable): Unit = {
+  def debtInstalmentCalculationRequest(dataTable: DataTable): Unit = {
     val asmapTransposed = dataTable.transpose().asMap(classOf[String], classOf[String])
     var firstItem = false
     var paymentPlan: String = null

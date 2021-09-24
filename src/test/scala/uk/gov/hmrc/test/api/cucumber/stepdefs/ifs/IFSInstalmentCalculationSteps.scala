@@ -2,14 +2,15 @@ package uk.gov.hmrc.test.api.cucumber.stepdefs.ifs
 
 import cucumber.api.scala.{EN, ScalaDsl}
 import io.cucumber.datatable.DataTable
-import java.time.LocalDate
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
-import uk.gov.hmrc.test.api.models.{InstalmentResponse, InstalmentCalculationsSummaryResponse, InstalmentCalculationSummaryResponse}
-import uk.gov.hmrc.test.api.requests.IFSInstalmentCalculationRequests.{_}
+import uk.gov.hmrc.test.api.models.{InstalmentCalculationSummaryResponse, InstalmentResponse}
+import uk.gov.hmrc.test.api.requests.IFSInstalmentCalculationRequests._
 import uk.gov.hmrc.test.api.utils.ScenarioContext
+
+import java.time.LocalDate
 
 class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually with Matchers {
 
@@ -26,7 +27,7 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
   }
 
   Given("debt instalment instalment calculation request details") { (dataTable: DataTable) =>
-    debtInstalmentInstalmentCalculationRequest(dataTable)
+    debtInstalmentCalculationRequest(dataTable)
   }
 
   Given("debt instalment calculation frequency details") { (dataTable: DataTable) =>
@@ -72,8 +73,8 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
     val quoteDate                 = LocalDate.now
     val instalmentPaymentDate     = quoteDate.plusDays(1)
     val debtId                    = "debtId"
-    val responseBody              = Json.parse(response.body).as[InstalmentCalculationsSummaryResponse].instalments
-    val actualnumberOfInstalments = Json.parse(response.body).as[InstalmentCalculationsSummaryResponse].numberOfInstalments
+    val responseBody              = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
+    val actualnumberOfInstalments = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].numberOfInstalments
 
     val expectedInstalmentCalculationResponse = InstalmentCalculationSummaryResponse(
       quoteDate,
