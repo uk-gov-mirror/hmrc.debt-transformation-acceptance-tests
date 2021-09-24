@@ -4,7 +4,7 @@ Feature: TTP Create Plan Request
     Given a create plan
       | customerReference | quoteReference | channelIdentifier |
       | customerRef1234 | quoteReference | advisor           |
-    And create payment plan details
+    And create instalment calculation details
       | quoteId  | quoteType        | quoteDate  | instalmentStartDate |instalmentPaymentAmount |paymentPlanType | thirdPartyBank | numberOfInstalments | frequency | duration | initialPaymentDate | initialPaymentAmount | totalDebtincInt | totalInterest | interestAccrued | planInterest |
       | quoteId1234 | instalmentPaymentAmount | 2021-09-08 | 2021-05-13          |100               |timeToPay       | true           | 1                   | annually  | 12       | 2021-05-13         | 100                  | 100             | 10             | 10             |10            |
     And customer address details
