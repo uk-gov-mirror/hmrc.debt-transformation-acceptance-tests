@@ -8,24 +8,18 @@
 #
 # If an error is found calling the QA TTP service, the error will be written to the ET response endpoint and processing of the request will end.
 
-QAttpProxyEndpoint="https://api.qa.tax.service.gov.uk/individuals/time-to-pay-proxy/"
+QAttpProxyEndpoint="https://api.qa.tax.service.gov.uk"
 ETttpProxyEndpoint="https://test-api.service.hmrc.gov.uk/individuals/time-to-pay-proxy/"
 
 
-#todo Replace QAttpProxyEndpoint below with ETttpProxyEndpoint
-ETttpStubEndpointRequests=$QAttpProxyEndpoint"test-only/requests"
-ETttpStubEndpointResponse=$QAttpProxyEndpoint"test-only/response"
+ETttpStubEndpointRequests=$ETttpProxyEndpoint"test-only/requests"
+ETttpStubEndpointResponse=$ETttpProxyEndpoint"test-only/response"
 
-#todo Replace below to get token from ET not QA\
-ETTokenEndpoint="https://api.qa.tax.service.gov.uk/oauth/token"
-#ETTokenEndpoint="https://test-api.service.hmrc.gov.uk/oauth/token"
+ETTokenEndpoint="https://test-api.service.hmrc.gov.uk/oauth/token"
 
 QATokenEndpoint="https://api.qa.tax.service.gov.uk/oauth/token"
 
-# Get token for external test
-#todo uncomment below line to use ET secret id etc
-#et_token_body="client_secret=8ac71009-56c6-4898-b29b-4e5ca95776b8&client_id=zW01C9PlZBhuClygEWTcjTymEibX&grant_type=client_credentials&scope=read:time-to-pay-proxy"
-et_token_body="client_secret=6c2fc716-b9c6-4bb8-a57e-4908d32b9b27&client_id=reRg5ZSks9hGLpzxS5RRnYHjHYtW&grant_type=client_credentials&scope=read:time-to-pay-proxy"
+et_token_body="client_secret=a3438df2-c78a-4926-92b5-bc50382e6d0c&client_id=IRSzWvRL34nBwQqhKVV8ACzchThp&grant_type=client_credentials&scope=read:time-to-pay-proxy"
 
 curl -s -o et_token_response.txt -w %{http_code} --request POST --header "content-type: application/x-www-form-urlencoded" --data $et_token_body $ETTokenEndpoint
 
