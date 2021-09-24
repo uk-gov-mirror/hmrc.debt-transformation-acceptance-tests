@@ -5,4 +5,4 @@
       "instalmentPaymentAmount": <REPLACE_instalmentAmount>,
       "paymentFrequency":"<REPLACE_paymentFrequency>",
 	  "interestCallDueTotal": <REPLACE_interestCallDueTotal>
-    }
+      <REPLACE_initialPayment>}

@@ -1,12 +1,15 @@
 Feature: Payment plan frequency calculation for 1 debt 1 duty with initial payment
 
+  @thads
   Scenario: Payment plan calculation instalment - Single payment frequency
     Given debt instalment calculation with details
-      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDate | interestCallDueTotal |
-      | 10000                   | single           | 2021-12-01            | 1423                 |
+      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDate | interestCallDueTotal | numberOfDay |
+      | 10000                   | single           | 2022-12-01            | 1423                 |     1       |
+    And no initial payment for the debtItem
     And the instalment calculation has debt item charges
       | debtId | debtAmount | mainTrans | subTrans |
       | debtId | 100000     | 1530      | 1000     |
+    And no initial payment for the debtItem
     When the instalment calculation detail is sent to the ifs service
     Then ifs service returns single payment frequency instalment calculation plan
 
@@ -92,6 +95,9 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with initial payme
     Given debt plan details with initial payment
       | debtId | debtAmount | instalmentPaymentAmount | paymentFrequency | mainTrans | subTrans | interestCallDueTotal | initialPaymentAmount |
       | debtId | 100000     | 5000                    | weekly           | 1525      | 1000     | 2051                 | 5000                 |
+    And add initial payment for the debtItem
+      | initialPaymentAmount | initialPaymentDays |
+      | 5000                 | 129                |
     When the instalment calculation detail is sent to the ifs service
     Then ifs service returns weekly frequency instalment calculation plan with initial payment
     

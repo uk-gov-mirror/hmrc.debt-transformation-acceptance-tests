@@ -59,21 +59,29 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
     noInstalmentDate()
   }
 
+  Given("no initial payment for the debtItem") { () =>
+    noInitialPayment()
+  }
+
   When("the instalment calculation detail(s) is sent to the ifs service") { () =>
-    val request  = ScenarioContext.get("paymentPlan").toString
+    val request = ScenarioContext.get("paymentPlan").toString
     println(s"IFS REQUST --> $request")
     val response = getInstalmentCalculation(request)
     println(s"RESP --> ${response.body}")
     ScenarioContext.set("response", response)
   }
 
+  And("add initial payment for the debtItem") { (dataTable: DataTable) =>
+    addInitialPayment(dataTable)
+  }
+
   Then("ifs service returns weekly payment frequency instalment calculation plan") { () =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status shouldBe 200
-    val quoteDate                 = LocalDate.now
-    val instalmentPaymentDate     = quoteDate.plusDays(1)
-    val debtId                    = "debtId"
-    val responseBody              = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
+    val quoteDate = LocalDate.now
+    val instalmentPaymentDate = quoteDate.plusDays(1)
+    val debtId = "debtId"
+    val responseBody = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
     val actualnumberOfInstalments = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].numberOfInstalments
 
     val expectedInstalmentCalculationResponse = InstalmentCalculationSummaryResponse(
@@ -98,8 +106,8 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
       )
     )
 
-    actualnumberOfInstalments             shouldBe expectedInstalmentCalculationResponse.numberOfInstalments
-    responseBody.map(_.dueDate)           shouldBe expectedInstalmentCalculationResponse.instalments.map(
+    actualnumberOfInstalments shouldBe expectedInstalmentCalculationResponse.numberOfInstalments
+    responseBody.map(_.dueDate) shouldBe expectedInstalmentCalculationResponse.instalments.map(
       _.dueDate
     )
     responseBody.map(_.instalmentBalance) shouldBe expectedInstalmentCalculationResponse.instalments.map(_.instalmentBalance)

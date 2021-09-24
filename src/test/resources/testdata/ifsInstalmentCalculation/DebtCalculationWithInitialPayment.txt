@@ -7,4 +7,5 @@
 	    "interestCallDueTotal": <REPLACE_interestCallDueTotal>,
 	    "initialPaymentDate": <REPLACE_initialPaymentDate>,
 	    "initialPaymentAmount": <REPLACE_initialPaymentAmount>
+	    <REPLACE_initialPayment>
     }
