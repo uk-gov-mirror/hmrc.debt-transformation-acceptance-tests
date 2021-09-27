@@ -24,7 +24,7 @@ final case class PlanToGenerateQuote(
   duration: Duration,
   initialPaymentAmount: BigDecimal,
   initialPaymentDate: LocalDate,
-  paymentPlanType: PaymentPlanType
+  paymentPlanType: InstalmentCalculationType
 )
 
 object PlanToGenerateQuote {

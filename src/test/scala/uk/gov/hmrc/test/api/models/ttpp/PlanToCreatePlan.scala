@@ -11,7 +11,7 @@ final case class PlanToCreatePlan(
   quoteDate: LocalDate,
   instalmentStartDate: LocalDate,
   instalmentPaymentAmount: BigDecimal,
-  paymentPlanType: PaymentPlanType,
+  paymentPlanType: InstalmentCalculationType,
   thirdPartyBank: Boolean,
   numberOfInstalments: Int,
   frequency: Frequency,

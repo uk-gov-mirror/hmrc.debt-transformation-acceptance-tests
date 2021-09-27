@@ -4,7 +4,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
     Given a generate quote request
       | customerReference | channelIdentifier |
       | uniqRef1234       | selfService       |
-    And payment plan details
+    And instalment calculation details
       | quoteType        | quoteDate  | instalmentStartDate | instalmentPaymentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
       | instalmentPaymentAmount | 2021-05-13 | 2021-05-13          | 100              | single    | 12       | 100                  | 2021-05-13         | timeToPay       |
     And post codes details
@@ -28,7 +28,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
     Given a generate quote request
       | customerReference | channelIdentifier |
       | uniqRef1234       | selfService       |
-    And payment plan details
+    And instalment calculation details
       | quoteType        | quoteDate  | instalmentStartDate | instalmentPaymentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
       | instalmentPaymentAmount | 2021-05-13 | 2021-05-13          | 100              | weekly    | 12       | 100                  | 2021-05-13         | timeToPay       |
     And post codes details
@@ -52,7 +52,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
     Given a generate quote request
       | customerReference | channelIdentifier |
       | uniqRef1234       | selfService       |
-    And payment plan details
+    And instalment calculation details
       | quoteType        | quoteDate  | instalmentStartDate | instalmentPaymentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
       | instalmentPaymentAmount | 2021-05-13 | 2021-05-13          | 100              | 2Weekly   | 12       | 100                  | 2021-05-13         | timeToPay       |
     And post codes details
@@ -76,7 +76,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
     Given a generate quote request
       | customerReference | channelIdentifier |
       | uniqRef1234       | selfService       |
-    And payment plan details
+    And instalment calculation details
       | quoteType        | quoteDate  | instalmentStartDate | instalmentPaymentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
       | instalmentPaymentAmount | 2021-05-13 | 2021-05-13          | 100              | 4Weekly   | 12       | 100                  | 2021-05-13         | timeToPay       |
     And post codes details
@@ -100,7 +100,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
     Given a generate quote request
       | customerReference | channelIdentifier |
       | uniqRef1234       | selfService       |
-    And payment plan details
+    And instalment calculation details
       | quoteType        | quoteDate  | instalmentStartDate | instalmentPaymentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
       | instalmentPaymentAmount | 2021-05-13 | 2021-05-13          | 100              | monthly   | 12       | 100                  | 2021-05-13         | timeToPay       |
     And post codes details
@@ -124,7 +124,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
     Given a generate quote request
       | customerReference | channelIdentifier |
       | uniqRef1234       | selfService       |
-    And payment plan details
+    And instalment calculation details
       | quoteType        | quoteDate  | instalmentStartDate | instalmentPaymentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
       | instalmentPaymentAmount | 2021-05-13 | 2021-05-13          | 100              | quarterly | 12       | 100                  | 2021-05-13         | timeToPay       |
     And post codes details
@@ -148,7 +148,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
     Given a generate quote request
       | customerReference | channelIdentifier |
       | uniqRef1234       | selfService       |
-    And payment plan details
+    And instalment calculation details
       | quoteType        | quoteDate  | instalmentStartDate | instalmentPaymentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
       | instalmentPaymentAmount | 2021-05-13 | 2021-05-13          | 100              | 6Monthly  | 12       | 100                  | 2021-05-13         | timeToPay       |
     And post codes details
@@ -172,7 +172,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
     Given a generate quote request
       | customerReference | channelIdentifier |
       | uniqRef1234       | selfService       |
-    And payment plan details
+    And instalment calculation details
       | quoteType        | quoteDate  | instalmentStartDate | instalmentPaymentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
       | instalmentPaymentAmount | 2021-05-13 | 2021-05-13          | 100              | annually  | 12       | 100                  | 2021-05-13         | timeToPay       |
     And post codes details
@@ -197,7 +197,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
     Given a generate quote request
       | customerReference | channelIdentifier |
       | uniqRef1234       | selfService       |
-    And payment plan details
+    And instalment calculation details
       | quoteType        | quoteDate  | instalmentStartDate | instalmentPaymentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
       | instalmentPaymentAmount | 2021-05-13 | 2021-05-13          | 100              | annually  | 12       | 100                  | 2021-05-13         | timeToPay       |
     And post codes details
@@ -219,7 +219,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
     Given a generate quote request
       | customerReference | channelIdentifier |
       | uniqRef1234       | selfService       |
-    And payment plan details
+    And instalment calculation details
       | quoteType        | quoteDate  | instalmentStartDate | instalmentPaymentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
       | instalmentPaymentAmount | 2021-05-13 | 2021-05-13          | 100              | annually  | 12       | 100                  | 2021-05-13         | timeToPay       |
     And post codes details
@@ -241,7 +241,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
     Given a generate quote request
       | customerReference | channelIdentifier |
       | uniqRef1234       | selfService       |
-    And payment plan details
+    And instalment calculation details
       | quoteType        | quoteDate  | instalmentStartDate | instalmentPaymentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
       | instalmentPaymentAmount | 2021-05-13 | 2021-05-13          | 100              | annually  | 12       | 100                  | 2021-05-13         | timeToPay       |
     And post codes details
@@ -263,7 +263,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
     Given a generate quote request
       | customerReference | channelIdentifier |
       | 100TTP            | selfService       |
-    And payment plan details
+    And instalment calculation details
       | quoteType        | quoteDate  | instalmentStartDate | instalmentPaymentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
       | instalmentPaymentAmount | 2021-05-13 | 2021-05-13          | 100              | annually  | 12       | 100                  | 2021-05-13         | timeToPay       |
     And post codes details
