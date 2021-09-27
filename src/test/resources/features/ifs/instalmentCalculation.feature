@@ -164,8 +164,6 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with initial payme
     Then Ifs service returns response code 400
     And Ifs service returns error message {"statusCode":400,"reason":"Invalid JSON error from IFS","message":"The Initial Payment Date should be on or before Instalment Payment Date"}
 
-        
-@runMe
   Scenario: Payment plan calculation request error  - instalmentPaymentDate missing
     Given debt instalment calculation with details
       | instalmentPaymentAmount | paymentFrequency | interestCallDueTotal |
