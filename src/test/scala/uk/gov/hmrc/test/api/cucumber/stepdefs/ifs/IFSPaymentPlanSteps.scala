@@ -17,16 +17,12 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
     createInstalmentCalculationRequestBody(dataTable)
   }
 
+  Given("debt instalment calculation with 129 details") { (dataTable: DataTable) =>
+    debtPlanDetailsWithInitialPaymentDatePlus129Request(dataTable)
+  }
+
   Given("the instalment calculation has debt item charges") { (dataTable: DataTable) =>
     addDebtItemChargesToInstalmentCalculation(dataTable)
-  }
-
-  Given("debt plan details with initial payment") { (dataTable: DataTable) =>
-    debtPlanDetailsWithInitailPaymentRequest(dataTable)
-  }
-
-  Given("debt instalment instalment calculation request details") { (dataTable: DataTable) =>
-    debtInstalmentInstalmentCalculationRequest(dataTable)
   }
 
   Given("debt instalment calculation frequency details") { (dataTable: DataTable) =>
@@ -40,9 +36,6 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
     noInitialPaymentAmount(dataTable)
   }
 
-  Given("plan details with quote date in past") { (dataTable: DataTable) =>
-    frequencyPlanWithQuoteDateInPast(dataTable)
-  }
   Given("plan details with no instalment date") { (dataTable: DataTable) =>
     noInstalmentDate(dataTable)
   }

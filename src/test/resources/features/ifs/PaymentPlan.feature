@@ -82,16 +82,23 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with initial payme
     Then ifs service returns Annually payment frequency instalment calculation plan
 
   Scenario: Single debt payment instalment calculation plan - Monthly payments with initial payment
-    Given debt instalment instalment calculation request details
-      | debtId | debtAmount | instalmentPaymentAmount | paymentFrequency | mainTrans | subTrans | interestCallDueTotal | initialPaymentAmount |
-      | debtId | 100000     | 10000                   | monthly          | 1525      | 1000     | 1423                 | 100                  |
+    Given debt instalment calculation with details
+      | instalmentPaymentAmount | instalmentPaymentDate | paymentFrequency | interestCallDueTotal | initialPaymentAmount |
+      | 10000                   | 2021-12-01            | monthly           | 1423                 | 100                  |
+    And the instalment calculation has debt item charges
+      | debtId | debtAmount | mainTrans | subTrans |
+      | debtId | 100000     | 1525      | 1000     |
+
     When the instalment calculation detail is sent to the ifs service
     Then ifs service returns monthly instalment calculation plan with initial payment
 
   Scenario: Single debt payment instalment calculation plan - Weekly payments with initial payment 129
-    Given debt plan details with initial payment
-      | debtId | debtAmount | instalmentPaymentAmount | paymentFrequency | mainTrans | subTrans | interestCallDueTotal | initialPaymentAmount |
-      | debtId | 100000     | 5000                    | weekly           | 1525      | 1000     | 2051                 | 5000                 |
+    Given debt instalment calculation with 129 details
+      | instalmentPaymentAmount | instalmentPaymentDate | paymentFrequency | interestCallDueTotal | initialPaymentAmount |
+      | 5000                   | 2021-12-01            | monthly           | 2051                 | 5000                  |
+    And the instalment calculation has debt item charges
+      | debtId | debtAmount | mainTrans | subTrans |
+      | debtId | 100000     | 1525      | 1000     |
     When the instalment calculation detail is sent to the ifs service
     Then ifs service returns weekly frequency instalment calculation plan with initial payment
     
@@ -135,23 +142,26 @@ Feature: Payment plan frequency calculation for 1 debt 1 duty with initial payme
     When the instalment calculation detail is sent to the ifs service
     Then Ifs service returns response code 400
     And Ifs service returns error message {"statusCode":400,"reason":"Invalid JSON error from IFS","message":"Field at path '/instalmentPaymentDate' missing or invalid"}
-    
-#   need to fix step def and request to add capability for multiple debt item charges. See todo's
-  @wip
+
+
   Scenario: Payment plan calculation request error  - quote date in past
-    Given plan details with quote date in past
-      | debtId | debtAmount | instalmentPaymentAmount | paymentFrequency | mainTrans | subTrans | interestCallDueTotal |
-      | debtId | 100000     | 10000                   | monthly          | 1530      | 1000     | 1423                 |
+    Given debt instalment calculation with details
+      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDate | interestCallDueTotal | quoteDate  |
+      | 10000                   | monthly          | 2021-12-01            | 1423                 | 2021-09-21 |
+    And the instalment calculation has debt item charges
+      | debtId | debtAmount | mainTrans | subTrans |
+      | debtId | 100000     | 1530      | 1000     |
     When the instalment calculation detail is sent to the ifs service
     Then Ifs service returns response code 400
     And Ifs service returns error message {"statusCode":400,"reason":"Invalid JSON error from IFS","message":"Could not parse body due to requirement failed: Quote Date must be today's Date."}
-    
-#   need to fix step def and request to add capability for multiple debt item charges. See todo's
-  @wip
+
   Scenario: Payment plan calculation request error  -quoteDate missing
-    Given plan details with no quote date
-      | debtId | debtAmount | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDate | quoteDate | mainTrans | subTrans | interestCallDueTotal |
-      | debtId | 100000     | 10000                   | monthly          | 2021-07-01            |           | 1530      | 1000     | 1423                 |
+    Given debt instalment calculation with details
+      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDate | interestCallDueTotal | quoteDate |
+      | 10000                   | monthly          | 2021-12-01            | 1423                 |           |
+    And the instalment calculation has debt item charges
+      | debtId | debtAmount | mainTrans | subTrans |
+      | debtId | 100000     | 1530      | 1000     |
     When the instalment calculation detail is sent to the ifs service
     Then Ifs service returns response code 400
     And Ifs service returns error message {"statusCode":400,"reason":"Invalid JSON error from IFS","message":"Field at path '/quoteDate' missing or invalid"}
