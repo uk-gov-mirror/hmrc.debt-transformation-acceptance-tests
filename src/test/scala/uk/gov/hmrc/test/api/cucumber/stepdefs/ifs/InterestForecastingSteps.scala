@@ -302,7 +302,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[String])
     val response: StandaloneWSResponse = ScenarioContext.get("paymentPlan")
     response.status should be(200)
-    val paymentPlanSummary = Json.parse(response.body).as[InstalmentCalculationsSummaryResponse]
+    val paymentPlanSummary = Json.parse(response.body).as[InstalmentCalculationSummaryResponse]
     paymentPlanSummary.numberOfInstalments.toString shouldBe (asMapTransposed
       .get("numberOfInstalments")
       .toString)
@@ -320,8 +320,8 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     val quoteDate                 = LocalDate.now
     val instalmentPaymentDate     = quoteDate.plusDays(1)
     val debtId                    = "debtId"
-    val responseBody              = Json.parse(response.body).as[InstalmentCalculationsSummaryResponse].instalments
-    val actualnumberOfInstalments = Json.parse(response.body).as[InstalmentCalculationsSummaryResponse].numberOfInstalments
+    val responseBody              = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
+    val actualnumberOfInstalments = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].numberOfInstalments
 
     val expectedInstalmentCalculationResponse = InstalmentCalculationSummaryResponse(
       quoteDate,
@@ -360,8 +360,8 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     val quoteDate                 = LocalDate.now
     val instalmentPaymentDate     = quoteDate.plusDays(1)
     val debtId                    = "debtId"
-    val responseBody              = Json.parse(response.body).as[InstalmentCalculationsSummaryResponse].instalments
-    val actualnumberOfInstalments = Json.parse(response.body).as[InstalmentCalculationsSummaryResponse].numberOfInstalments
+    val responseBody              = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
+    val actualnumberOfInstalments = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].numberOfInstalments
 
     val expectedInstalmentCalculationResponse = InstalmentCalculationSummaryResponse(
       quoteDate,
@@ -407,8 +407,8 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     val quoteDate                 = LocalDate.now
     val instalmentPaymentDate     = quoteDate.plusDays(1)
     val debtId                    = "debtId"
-    val responseBody              = Json.parse(response.body).as[InstalmentCalculationsSummaryResponse].instalments
-    val actualnumberOfInstalments = Json.parse(response.body).as[InstalmentCalculationsSummaryResponse].numberOfInstalments
+    val responseBody              = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
+    val actualnumberOfInstalments = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].numberOfInstalments
 
     val expectedInstalmentCalculationResponse = InstalmentCalculationSummaryResponse(
       quoteDate,
@@ -446,8 +446,8 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     val quoteDate                 = LocalDate.now
     val instalmentPaymentDate     = quoteDate.plusDays(1)
     val debtId                    = "debtId"
-    val responseBody              = Json.parse(response.body).as[InstalmentCalculationsSummaryResponse].instalments
-    val actualnumberOfInstalments = Json.parse(response.body).as[InstalmentCalculationsSummaryResponse].numberOfInstalments
+    val responseBody              = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
+    val actualnumberOfInstalments = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].numberOfInstalments
 
     val expectedInstalmentCalculationResponse = InstalmentCalculationSummaryResponse(
       quoteDate,
@@ -501,8 +501,8 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     val quoteDate                 = LocalDate.now
     val instalmentPaymentDate     = quoteDate.plusDays(1)
     val debtId                    = "debtId"
-    val responseBody              = Json.parse(response.body).as[InstalmentCalculationsSummaryResponse].instalments
-    val actualnumberOfInstalments = Json.parse(response.body).as[InstalmentCalculationsSummaryResponse].numberOfInstalments
+    val responseBody              = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
+    val actualnumberOfInstalments = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].numberOfInstalments
 
     val expectedInstalmentCalculationResponse = InstalmentCalculationSummaryResponse(
       quoteDate,
@@ -629,8 +629,8 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     val quoteDate                 = LocalDate.now
     val instalmentPaymentDate     = quoteDate.plusDays(1)
     val debtId                    = "debtId"
-    val responseBody              = Json.parse(response.body).as[InstalmentCalculationsSummaryResponse].instalments
-    val actualnumberOfInstalments = Json.parse(response.body).as[InstalmentCalculationsSummaryResponse].numberOfInstalments
+    val responseBody              = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
+    val actualnumberOfInstalments = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].numberOfInstalments
 
     val expectedInstalmentCalculationResponse = InstalmentCalculationSummaryResponse(
       quoteDate,
@@ -756,8 +756,8 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     val quoteDate                 = LocalDate.now
     val instalmentPaymentDate     = quoteDate.plusDays(1)
     val debtId                    = "debtId"
-    val responseBody              = Json.parse(response.body).as[InstalmentCalculationsSummaryResponse].instalments
-    val actualnumberOfInstalments = Json.parse(response.body).as[InstalmentCalculationsSummaryResponse].numberOfInstalments
+    val responseBody              = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
+    val actualnumberOfInstalments = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].numberOfInstalments
 
     val expectedInstalmentCalculationResponse = InstalmentCalculationSummaryResponse(
       quoteDate,
@@ -795,8 +795,8 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     val instalmentPaymentDate     = quoteDate.plusDays(1)
     val initialPaymentDate        = quoteDate.plusDays(1)
     val debtId                    = "debtId"
-    val responseBody              = Json.parse(response.body).as[InstalmentCalculationsSummaryResponse].instalments
-    val actualnumberOfInstalments = Json.parse(response.body).as[InstalmentCalculationsSummaryResponse].numberOfInstalments
+    val responseBody              = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
+    val actualnumberOfInstalments = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].numberOfInstalments
 
     val expectedInstalmentCalculationResponse = InstalmentCalculationSummaryResponse(
       quoteDate,
@@ -833,8 +833,8 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     val quoteDate                 = LocalDate.now
     val instalmentPaymentDate     = quoteDate.plusDays(129)
     val debtId                    = "debtId"
-    val responseBody              = Json.parse(response.body).as[InstalmentCalculationsSummaryResponse].instalments
-    val actualnumberOfInstalments = Json.parse(response.body).as[InstalmentCalculationsSummaryResponse].numberOfInstalments
+    val responseBody              = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
+    val actualnumberOfInstalments = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].numberOfInstalments
 
     val expectedInstalmentCalculationResponse = InstalmentCalculationSummaryResponse(
       quoteDate,

@@ -7,8 +7,8 @@ import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
-import uk.gov.hmrc.test.api.models.{InstalmentResponse, InstalmentCalculationsSummaryResponse, InstalmentCalculationSummaryResponse}
-import uk.gov.hmrc.test.api.requests.IFSInstalmentCalculationRequests.{_}
+import uk.gov.hmrc.test.api.models.{InstalmentCalculationSummaryResponse, InstalmentResponse}
+import uk.gov.hmrc.test.api.requests.IFSInstalmentCalculationRequests._
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 
 class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually with Matchers {
@@ -18,37 +18,19 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
   }
 
   Given("debt instalment calculation with 129 details") { (dataTable: DataTable) =>
-    debtPlanDetailsWithInitialPaymentDatePlus129Request(dataTable)
+    createInstalmentCalculationRequestBody(dataTable)
   }
 
   Given("the instalment calculation has debt item charges") { (dataTable: DataTable) =>
     addDebtItemChargesToInstalmentCalculation(dataTable)
   }
 
-  Given("debt instalment calculation frequency details") { (dataTable: DataTable) =>
-    createInstalmentCalculationFrequency(dataTable)
-  }
-  Given("plan details with initialPaymentDate is after instalmentPaymentDate") { (dataTable: DataTable) =>
-    initialPaymentDateAfterInstalmentDate(dataTable)
+  Given("debt plan details with initial payment") { (dataTable: DataTable) =>
+    addInitialPayment(dataTable)
   }
 
-  Given("plan details with no initial payment amount") { (dataTable: DataTable) =>
-    noInitialPaymentAmount(dataTable)
-  }
-
-  Given("plan details with no instalment date") { (dataTable: DataTable) =>
-    noInstalmentDate(dataTable)
-  }
-  Given("plan details with no quote date") { (dataTable: DataTable) =>
-    noQuoteDate(dataTable)
-  }
-
-  Given("plan details with no initial payment date") { (dataTable: DataTable) =>
-    noInitialPaymentDate(dataTable)
-  }
-
-  Given("no initial payment date for the plan") { () =>
-    noInstalmentDate()
+  Given("no initial payment for the debt item charge") { () =>
+    noInitialPayment()
   }
 
   When("the instalment calculation detail(s) is sent to the ifs service") { () =>
@@ -59,14 +41,19 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
     ScenarioContext.set("response", response)
   }
 
+  And("add initial payment for the debt item charge") { (dataTable: DataTable) =>
+    addInitialPayment(dataTable)
+  }
+
   Then("ifs service returns weekly payment frequency instalment calculation plan") { () =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status shouldBe 200
     val quoteDate                 = LocalDate.now
     val instalmentPaymentDate     = quoteDate.plusDays(1)
     val debtId                    = "debtId"
-    val responseBody              = Json.parse(response.body).as[InstalmentCalculationsSummaryResponse].instalments
-    val actualnumberOfInstalments = Json.parse(response.body).as[InstalmentCalculationsSummaryResponse].numberOfInstalments
+    val responseBody              = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
+    val actualnumberOfInstalments =
+      Json.parse(response.body).as[InstalmentCalculationSummaryResponse].numberOfInstalments
 
     val expectedInstalmentCalculationResponse = InstalmentCalculationSummaryResponse(
       quoteDate,
@@ -94,7 +81,9 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
     responseBody.map(_.dueDate)           shouldBe expectedInstalmentCalculationResponse.instalments.map(
       _.dueDate
     )
-    responseBody.map(_.instalmentBalance) shouldBe expectedInstalmentCalculationResponse.instalments.map(_.instalmentBalance)
+    responseBody.map(_.instalmentBalance) shouldBe expectedInstalmentCalculationResponse.instalments.map(
+      _.instalmentBalance
+    )
   }
 
 }
