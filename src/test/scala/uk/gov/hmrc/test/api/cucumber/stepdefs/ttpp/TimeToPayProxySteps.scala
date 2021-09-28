@@ -31,7 +31,6 @@ import uk.gov.hmrc.test.api.utils.ScenarioContext
 class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers {
   Given("a generate quote request") { (dataTable: DataTable) =>
     TimeToPayProxyRequests.createGenerateQuoteRequestBody(dataTable)
-
   }
 
   Given("a create plan request") { (dataTable: DataTable) =>
@@ -39,6 +38,14 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
   }
   Given("a create plan") { (dataTable: DataTable) =>
     TimeToPayProxyRequests.createPlanRequestBody(dataTable)
+  }
+
+  And("create payment plan details") { dataTable: DataTable =>
+    planDetails(dataTable)
+  }
+
+  And("payment plan details") { dataTable: DataTable =>
+    addPlan(dataTable)
   }
 
   Given("an update plan request") { (dataTable: DataTable) =>
@@ -102,7 +109,7 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
   }
   And("customer debtItem details") { dataTable: DataTable => addDebtItem(dataTable) }
 
-  And("the debtItem payment history") { (dataTable: DataTable) =>
+  And("payment history for the debt Item") { (dataTable: DataTable) =>
     addDebtPaymentHistory(dataTable)
   }
 
@@ -379,5 +386,7 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
       errorResponse.message shouldBe asMapTransposed.get("message").toString
     }
   }
+
+
 
 }
