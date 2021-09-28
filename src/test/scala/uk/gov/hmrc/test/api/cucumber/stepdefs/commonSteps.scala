@@ -20,7 +20,9 @@ import cucumber.api.scala.{EN, ScalaDsl}
 import io.cucumber.datatable.DataTable
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually
+import play.api.libs.ws.StandaloneWSResponse
 import uk.gov.hmrc.test.api.requests.SuppressionRulesRequests.{addSuppressionRules, addSuppressions}
+import uk.gov.hmrc.test.api.utils.ScenarioContext
 
 class commonSteps extends ScalaDsl with EN with Eventually with Matchers {
 
@@ -30,6 +32,18 @@ class commonSteps extends ScalaDsl with EN with Eventually with Matchers {
 
   Given("suppression rules have been created") { (dataTable: DataTable) =>
     addSuppressionRules(dataTable)
+  }
+
+  Then("service returns response code (.*)") { (expectedCode: Int) =>
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+    response.status should be(expectedCode)
+  }
+
+  And("service returns error message (.*)") { (expectedMessage: String) =>
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+    val responseBody                   = response.body.stripMargin
+    print("response message*****************************" + responseBody)
+    responseBody should be(expectedMessage)
   }
 
 }
