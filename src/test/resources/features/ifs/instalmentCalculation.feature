@@ -89,15 +89,13 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
     When the instalment calculation detail is sent to the ifs service
     Then ifs service returns Annually payment frequency instalment calculation plan
 
-    #Need to fix Then step failure
-  @wip
   Scenario: Single debt payment instalment calculation plan - Monthly payments with initial payment
     Given debt instalment calculation with details
       | instalmentPaymentAmount | instalmentPaymentDay | paymentFrequency | interestCallDueTotal |
-      | 10000                   | 129                  | monthly          | 1423                 |
+      | 10000                   | 1                    | monthly          | 1423                 |
     And debt plan details with initial payment
       | initialPaymentAmount | initialPaymentDays |
-      | 5000                 | 129                |
+      | 100                 | 1                  |
     And the instalment calculation has debt item charges
       | debtId | debtAmount | mainTrans | subTrans |
       | debtId | 100000     | 1525      | 1000     |
@@ -146,7 +144,6 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
     When the instalment calculation detail is sent to the ifs service
     Then Ifs service returns response code 400
     And Ifs service returns error message {"statusCode":400,"reason":"Invalid JSON error from IFS","message":"Field at path '/initialPaymentDate' missing or invalid"}
-
 
   Scenario: Payment plan calculation request -initialPaymentDate is after instalmentPaymentDate
     Given debt instalment calculation with details
