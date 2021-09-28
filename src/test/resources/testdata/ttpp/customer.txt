@@ -1,7 +1,7 @@
 {
       "quoteType": "<REPLACE_quoteType>",
       "instalmentStartDate": "<REPLACE_instalmentStartDate>",
-      "instalmentPaymentAmount": <REPLACE_instalmentAmount>,
+      "instalmentAmount": <REPLACE_instalmentAmount>,
       "frequency": "<REPLACE_frequency>",
       "duration": "<REPLACE_duration>",
       "initialPaymentAmount": <REPLACE_initialPaymentAmount>,
