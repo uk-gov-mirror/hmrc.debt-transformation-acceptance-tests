@@ -608,11 +608,11 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
 
     val expectedInstalmentCalculationResponse = InstalmentCalculationSummaryResponse(
       quoteDate,
-      10,
+      11,
       955,
       1423,
       955 + 1423,
-      10,
+      11,
       Vector(
         InstalmentResponse(debtId, 1, instalmentPaymentDate, 10100, 100000, 7, 10100, 2.6),
         InstalmentResponse(debtId, 2, instalmentPaymentDate.plusMonths(1), 10000, 89900, 192, 20100, 2.6),
