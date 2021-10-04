@@ -5,5 +5,5 @@
 
     "customerPostCodes": [<REPLACE_customerPostCodes>],
 
-    "debtItems":[<REPLACE_debtItems>]
+    "debtItemCharges":[<REPLACE_debtItems>]
 }

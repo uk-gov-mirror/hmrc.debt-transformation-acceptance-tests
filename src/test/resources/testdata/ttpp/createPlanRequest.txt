@@ -4,7 +4,7 @@
     "channelIdentifier":"<REPLACE_channelIdentifier>",
      "plan":<REPLACE_plan>,
 
-     "debtItems":[<REPLACE_debtItems>],
+     "debtItemCharges":[<REPLACE_debtItems>],
 
      "payments" :[<REPLACE_payments>],
 

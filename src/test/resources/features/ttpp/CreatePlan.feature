@@ -1,3 +1,4 @@
+@createPlan
 Feature: TTP Create Plan Request
 
   Scenario: TTP Promote an Arrangement request to create a plan for storage
@@ -11,8 +12,8 @@ Feature: TTP Create Plan Request
       | addressPostcode | postcodeDate |
       | NW9 5XW         | 2021-05-13   |
     And customer debtItem details
-      | debtItemId  | debtItemChargeId  | mainTrans | subTrans | originalDebtAmount | interestStartDate |
-      | debtItemId1 | debtItemChargeId1 | 1525      | 1000     | 100                | 2021-05-13        |
+      | debtItemChargeId  | mainTrans | subTrans | originalDebtAmount | interestStartDate |
+      | debtItemChargeId1 | 1525      | 1000     | 100                | 2021-05-13        |
     And payment history for the debt Item
       | paymentDate | paymentAmount |
       | 2021-05-13  | 100           |
@@ -40,8 +41,8 @@ Feature: TTP Create Plan Request
       | addressPostcode | postcodeDate |
       | NW9 5XW         | 2021-05-13   |
     And customer debtItem details
-      | debtItemId  | debtItemChargeId  | mainTrans | subTrans | originalDebtAmount | interestStartDate |
-      | debtItemId1 | debtItemChargeId1 | 1525      | 1000     | 100                | 2021-05-13        |
+      | debtItemChargeId  | mainTrans | subTrans | originalDebtAmount | interestStartDate |
+      | debtItemChargeId1 | 1525      | 1000     | 100                | 2021-05-13        |
     And payment history for the debt Item
       | paymentDate | paymentAmount |
       | 2021-05-13  | 100           |
@@ -68,8 +69,8 @@ Feature: TTP Create Plan Request
       | addressPostcode | postcodeDate |
       | NW9 5XW         | 2021-05-13   |
     And customer debtItem details
-      | debtItemId  | debtItemChargeId  | mainTrans | subTrans | originalDebtAmount | interestStartDate |
-      | debtItemId1 | debtItemChargeId1 | 1525      | 1000     | 100                | 2021-05-13        |
+      | debtItemChargeId  | mainTrans | subTrans | originalDebtAmount | interestStartDate |
+      | debtItemChargeId1 | 1525      | 1000     | 100                | 2021-05-13        |
     And payment history for the debt Item
       | paymentDate | paymentAmount |
       | 2021-05-13  | 100           |
@@ -96,8 +97,8 @@ Feature: TTP Create Plan Request
       | addressPostcode | postcodeDate |
       | NW9 5XW         | 2021-05-13   |
     And customer debtItem details
-      | debtItemId  | debtItemChargeId  | mainTrans | subTrans | originalDebtAmount | interestStartDate |
-      | debtItemId1 | debtItemChargeId1 | 1525      | 1000     | 100                | 2021-05-13        |
+      | debtItemChargeId  | mainTrans | subTrans | originalDebtAmount | interestStartDate |
+      | debtItemChargeId1 | 1525      | 1000     | 100                | 2021-05-13        |
     And payment history for the debt Item
       | paymentDate | paymentAmount |
       | 2021-05-13  | 100           |
@@ -124,8 +125,8 @@ Feature: TTP Create Plan Request
       | addressPostcode | postcodeDate |
       | NW9 5XW         | 2021-05-13   |
     And customer debtItem details
-      | debtItemId  | debtItemChargeId  | mainTrans | subTrans | originalDebtAmount | interestStartDate |
-      | debtItemId1 | debtItemChargeId1 | 1525      | 1000     | 100                | 2021-05-13        |
+      | debtItemChargeId  | mainTrans | subTrans | originalDebtAmount | interestStartDate |
+      | debtItemChargeId1 | 1525      | 1000     | 100                | 2021-05-13        |
     And payment history for the debt Item
       | paymentDate | paymentAmount |
       | 2021-05-13  | 100           |
@@ -152,8 +153,8 @@ Feature: TTP Create Plan Request
       | addressPostcode | postcodeDate |
       | NW9 5XW         | 2021-05-13   |
     And customer debtItem details
-      | debtItemId  | debtItemChargeId  | mainTrans | subTrans | originalDebtAmount | interestStartDate |
-      | debtItemId1 | debtItemChargeId1 | 1525      | 1000     | 100                | 2021-05-13        |
+      | debtItemChargeId  | mainTrans | subTrans | originalDebtAmount | interestStartDate |
+      | debtItemChargeId1 | 1525      | 1000     | 100                | 2021-05-13        |
     And payment history for the debt Item
       | paymentDate | paymentAmount |
       | 2021-05-13  | 100           |
@@ -180,8 +181,8 @@ Feature: TTP Create Plan Request
       | addressPostcode | postcodeDate |
       | NW9 5XW         | 2021-05-13   |
     And customer debtItem details
-      | debtItemId  | debtItemChargeId  | mainTrans | subTrans | originalDebtAmount | interestStartDate |
-      | debtItemId1 | debtItemChargeId1 | 1525      | 1000     | 100                | 2021-05-13        |
+      | debtItemChargeId  | mainTrans | subTrans | originalDebtAmount | interestStartDate |
+      | debtItemChargeId1 | 1525      | 1000     | 100                | 2021-05-13        |
     And payment history for the debt Item
       | paymentDate | paymentAmount |
       | 2021-05-13  | 100           |
@@ -208,8 +209,8 @@ Feature: TTP Create Plan Request
       | addressPostcode | postcodeDate |
       | NW9 5XW         | 2021-05-13   |
     And customer debtItem details
-      | debtItemId  | debtItemChargeId  | mainTrans | subTrans | originalDebtAmount | interestStartDate |
-      | debtItemId1 | debtItemChargeId1 | 1525      | 1000     | 100                | 2021-05-13        |
+      | debtItemChargeId  | mainTrans | subTrans | originalDebtAmount | interestStartDate |
+      | debtItemChargeId1 | 1525      | 1000     | 100                | 2021-05-13        |
     And payment history for the debt Item
       | paymentDate | paymentAmount |
       | 2021-05-13  | 100           |
@@ -223,5 +224,4 @@ Feature: TTP Create Plan Request
     When the create plan request is sent to the ttpp service
     Then service returns response code 400
     And service returns error message {"statusCode":400,"errorMessage":"Could not parse body due to requirement failed: instalmentAmount should be a positive amount."}
-
 
