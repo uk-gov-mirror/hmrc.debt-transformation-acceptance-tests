@@ -1,6 +1,5 @@
 {
         "debtItemChargeId": "<REPLACE_debtItemChargeId>",
-		"debtItemId": "<REPLACE_debtItemId>",
 		"dueDate": "<REPLACE_dueDate>",
 		"amountDue": <REPLACE_amountDue>,
 		"expectedPayment": <REPLACE_expectedPayment>,

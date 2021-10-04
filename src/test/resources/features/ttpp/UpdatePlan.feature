@@ -1,9 +1,10 @@
+@updatePlan
 Feature: TTP Update Plan Request
 
   Scenario: Update Existing TTP Plan
     Given an update plan request
       | customerReference | planId     | updateType | planStatus | completeReason | cancellationReason | thirdPartyBank | paymentMethod | paymentReference |
-      | customerRef1234   | planId1234 | updateType | updated    | earlyRepayment | some reason        | true           | BACS          | paymentRef123    |
+      | customerRef1234   | planId1234 | updateType | success    | earlyRepayment | some reason        | true           | BACS          | paymentRef123    |
 
     When the update plan request is sent to the ttpp service
 

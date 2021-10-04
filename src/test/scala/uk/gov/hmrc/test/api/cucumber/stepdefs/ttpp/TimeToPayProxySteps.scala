@@ -206,7 +206,7 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
       Plan(
         "Quote123",
         "instalmentAmount",
-        "",
+        LocalDate.now().toString,
         LocalDate.now().plusDays(5),
         -100,
         "instalmentOrder",
@@ -386,10 +386,6 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
     val nthInstalment         = generateQuoteResponse.instalments.head
     if (asMapTransposed.containsKey("debtItemChargeId")) {
       nthInstalment.debtItemChargeId shouldBe asMapTransposed.get("debtItemChargeId").toString
-    }
-
-    if (asMapTransposed.containsKey("debtItemId")) {
-      nthInstalment.debtItemId shouldBe asMapTransposed.get("debtItemId").toString
     }
 
     if (asMapTransposed.containsKey("dueDate")) {

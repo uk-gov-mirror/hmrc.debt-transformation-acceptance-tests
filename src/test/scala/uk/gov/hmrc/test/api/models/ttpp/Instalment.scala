@@ -2,7 +2,6 @@ package uk.gov.hmrc.test.api.models.ttpp
 import play.api.libs.json.Json
 
 case class Instalment(
-  debtItemId: String,
   debtItemChargeId: String,
   dueDate: String,
   amountDue: BigDecimal,
