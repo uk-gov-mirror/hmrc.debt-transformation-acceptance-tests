@@ -26,7 +26,10 @@ import uk.gov.hmrc.test.api.models.Errors
 import uk.gov.hmrc.test.api.models.ttpp.{CreatePlanResponse, GenerateQuoteResponse, UpdatePlanResponse, ViewPlanResponse}
 import uk.gov.hmrc.test.api.requests.TimeToPayProxyRequests
 import uk.gov.hmrc.test.api.requests.TimeToPayProxyRequests.{addDebtItem, addPlan, addPostCodeDetails, _}
+import uk.gov.hmrc.test.api.requests.model.{ChargePayment, CreatePlanRequest, DebtItemCharge, Instalment, Payment, Plan, PostCode}
 import uk.gov.hmrc.test.api.utils.ScenarioContext
+
+import java.time.LocalDate
 
 class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers {
   Given("a generate quote request") { (dataTable: DataTable) =>
@@ -38,6 +41,223 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
   }
   Given("a create plan") { (dataTable: DataTable) =>
     TimeToPayProxyRequests.createPlanRequestBody(dataTable)
+  }
+
+  Given("a create plan request with an empty customer reference") { () =>
+    val request = CreatePlanRequest(
+      "",
+      "QuoteRef123",
+      "advisor",
+      Plan(
+        "QuoteId1",
+        "instalmentAmount",
+        LocalDate.now().toString,
+        LocalDate.now().plusDays(5),
+        100,
+        "instalmentOrder",
+        false,
+        10,
+        "monthly",
+        10,
+        LocalDate.now().plusDays(5),
+        100,
+        10000,
+        500,
+        100,
+        50
+      ),
+      Seq(DebtItemCharge("Debt1", "1525", "1000", 500, LocalDate.of(2019, 10, 5), Some(Seq(ChargePayment(LocalDate.now().minusWeeks(5), 100))))),
+      Seq(Payment("BACS", "PRef1")),
+      Seq(PostCode("NW9 5XW", LocalDate.now().minusMonths(6))),
+      Seq(Instalment("Debt1", LocalDate.now().plusMonths(1), 500, 500, 0.26, 1, 50, 10000 - 500))
+    )
+    ScenarioContext.set("createPlanRequest", Json.toJson(request).toString())
+  }
+
+  Given("a create plan request with an empty quote reference") { () =>
+    val request = CreatePlanRequest(
+      "CustomerRef123",
+      "",
+      "advisor",
+      Plan(
+        "QuoteId1",
+        "instalmentAmount",
+        LocalDate.now().toString,
+        LocalDate.now().plusDays(5),
+        100,
+        "instalmentOrder",
+        false,
+        10,
+        "monthly",
+        10,
+        LocalDate.now().plusDays(5),
+        100,
+        10000,
+        500,
+        100,
+        50
+      ),
+      Seq(DebtItemCharge("Debt1", "1525", "1000", 500, LocalDate.of(2019, 10, 5), Some(Seq(ChargePayment(LocalDate.now().minusWeeks(5), 100))))),
+      Seq(Payment("BACS", "PRef1")),
+      Seq(PostCode("NW9 5XW", LocalDate.now().minusMonths(6))),
+      Seq(Instalment("Debt1", LocalDate.now().plusMonths(1), 500, 500, 0.26, 1, 50, 10000 - 500))
+    )
+    ScenarioContext.set("createPlanRequest", Json.toJson(request).toString())
+  }
+
+  Given("a create plan request with an empty channel identifier") { () =>
+    val request = CreatePlanRequest(
+      "CustomerRef123",
+      "QuoteRef123",
+      "",
+      Plan(
+        "QuoteId1",
+        "instalmentAmount",
+        LocalDate.now().toString,
+        LocalDate.now().plusDays(5),
+        100,
+        "instalmentOrder",
+        false,
+        10,
+        "monthly",
+        10,
+        LocalDate.now().plusDays(5),
+        100,
+        10000,
+        500,
+        100,
+        50
+      ),
+      Seq(DebtItemCharge("Debt1", "1525", "1000", 500, LocalDate.of(2019, 10, 5), Some(Seq(ChargePayment(LocalDate.now().minusWeeks(5), 100))))),
+      Seq(Payment("BACS", "PRef1")),
+      Seq(PostCode("NW9 5XW", LocalDate.now().minusMonths(6))),
+      Seq(Instalment("Debt1", LocalDate.now().plusMonths(1), 500, 500, 0.26, 1, 50, 10000 - 500))
+    )
+    ScenarioContext.set("createPlanRequest", Json.toJson(request).toString())
+  }
+
+  Given("a create plan request with an empty quote id") { () =>
+    val request = CreatePlanRequest(
+      "CustomerRef123",
+      "QuoteRef123",
+      "advisor",
+      Plan(
+        "",
+        "instalmentAmount",
+        LocalDate.now().toString,
+        LocalDate.now().plusDays(5),
+        100,
+        "instalmentOrder",
+        false,
+        10,
+        "monthly",
+        10,
+        LocalDate.now().plusDays(5),
+        100,
+        10000,
+        500,
+        100,
+        50
+      ),
+      Seq(DebtItemCharge("Debt1", "1525", "1000", 500, LocalDate.of(2019, 10, 5), Some(Seq(ChargePayment(LocalDate.now().minusWeeks(5), 100))))),
+      Seq(Payment("BACS", "PRef1")),
+      Seq(PostCode("NW9 5XW", LocalDate.now().minusMonths(6))),
+      Seq(Instalment("Debt1", LocalDate.now().plusMonths(1), 500, 500, 0.26, 1, 50, 10000 - 500))
+    )
+    ScenarioContext.set("createPlanRequest", Json.toJson(request).toString())
+  }
+
+  Given("a create plan request with an empty quote date") { () =>
+    val request = CreatePlanRequest(
+      "CustomerRef123",
+      "QuoteRef123",
+      "advisor",
+      Plan(
+        "Quote123",
+        "instalmentAmount",
+        "",
+        LocalDate.now().plusDays(5),
+        100,
+        "instalmentOrder",
+        false,
+        10,
+        "monthly",
+        10,
+        LocalDate.now().plusDays(5),
+        100,
+        10000,
+        500,
+        100,
+        50
+      ),
+      Seq(DebtItemCharge("Debt1", "1525", "1000", 500, LocalDate.of(2019, 10, 5), Some(Seq(ChargePayment(LocalDate.now().minusWeeks(5), 100))))),
+      Seq(Payment("BACS", "PRef1")),
+      Seq(PostCode("NW9 5XW", LocalDate.now().minusMonths(6))),
+      Seq(Instalment("Debt1", LocalDate.now().plusMonths(1), 500, 500, 0.26, 1, 50, 10000 - 500))
+    )
+    ScenarioContext.set("createPlanRequest", Json.toJson(request).toString())
+  }
+
+  Given("a create plan request with an empty quote type") { () =>
+    val request = CreatePlanRequest(
+      "CustomerRef123",
+      "QuoteRef123",
+      "advisor",
+      Plan(
+        "QuoteId1",
+        "",
+        LocalDate.now().toString,
+        LocalDate.now().plusDays(5),
+        100,
+        "instalmentOrder",
+        false,
+        10,
+        "monthly",
+        10,
+        LocalDate.now().plusDays(5),
+        100,
+        10000,
+        500,
+        100,
+        50
+      ),
+      Seq(DebtItemCharge("Debt1", "1525", "1000", 500, LocalDate.of(2019, 10, 5), Some(Seq(ChargePayment(LocalDate.now().minusWeeks(5), 100))))),
+      Seq(Payment("BACS", "PRef1")),
+      Seq(PostCode("NW9 5XW", LocalDate.now().minusMonths(6))),
+      Seq(Instalment("Debt1", LocalDate.now().plusMonths(1), 500, 500, 0.26, 1, 50, 10000 - 500))
+    )
+    ScenarioContext.set("createPlanRequest", Json.toJson(request).toString())
+  }
+
+  Given("a valid create plan request") { () =>
+    val request = CreatePlanRequest(
+      "CustomerRef123",
+      "QuoteRef123",
+      "advisor",
+      Plan(
+        "quoteId1234",
+        "instalmentAmount",
+        LocalDate.now().toString,
+        LocalDate.now().plusDays(5),
+        100,
+        "instalmentOrder",
+        false,
+        10,
+        "monthly",
+        10,
+        LocalDate.now().plusDays(5),
+        100,
+        10000,
+        500,
+        100,
+        50
+      ),
+      Seq(DebtItemCharge("Debt1", "1525", "1000", 500, LocalDate.of(2019, 10, 5), Some(Seq(ChargePayment(LocalDate.now().minusWeeks(5), 100))))),
+      Seq(Payment("BACS", "PRef1")),
+      Seq(PostCode("NW9 5XW", LocalDate.now().minusMonths(6))),
+      Seq(Instalment("Debt1", LocalDate.now().plusMonths(1), 500, 500, 0.26, 1, 50, 10000 - 500))
+    )
+    ScenarioContext.set("createPlanRequest", Json.toJson(request).toString())
   }
 
   And("create payment plan details") { dataTable: DataTable =>
@@ -83,7 +303,7 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
   }
 
   When("the create plan request is sent to the ttpp service") { () =>
-    val request  = ScenarioContext.get("debtItems").toString
+    val request  = ScenarioContext.get("createPlanRequest").toString
     println(s"TTP REQUEST ---------> $request")
     val response = TimeToPayProxyRequests.createPlan(request)
     println(s"TTP STUB RESPONSE ---------> ${response.body}")
@@ -386,7 +606,5 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
       errorResponse.message shouldBe asMapTransposed.get("message").toString
     }
   }
-
-
 
 }
