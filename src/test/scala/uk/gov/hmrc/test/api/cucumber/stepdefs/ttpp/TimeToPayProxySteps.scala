@@ -137,10 +137,6 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
       nthInstalment.debtItemChargeId shouldBe asMapTransposed.get("debtItemChargeId").toString
     }
 
-    if (asMapTransposed.containsKey("debtItemId")) {
-      nthInstalment.debtItemId shouldBe asMapTransposed.get("debtItemId").toString
-    }
-
     if (asMapTransposed.containsKey("dueDate")) {
       nthInstalment.dueDate.toString shouldBe asMapTransposed.get("dueDate").toString
     }
@@ -407,7 +403,5 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
       errorResponse.message shouldBe asMapTransposed.get("message").toString
     }
   }
-
-
 
 }

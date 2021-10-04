@@ -1,3 +1,4 @@
+@createPlan
 Feature: TTP Create Plan Request
 
   Scenario: TTP Promote an Arrangement request to create a plan for storage
@@ -223,5 +224,4 @@ Feature: TTP Create Plan Request
     When the create plan request is sent to the ttpp service
     Then service returns response code 400
     And service returns error message {"statusCode":400,"errorMessage":"Could not parse body due to requirement failed: instalmentAmount should be a positive amount."}
-
 
