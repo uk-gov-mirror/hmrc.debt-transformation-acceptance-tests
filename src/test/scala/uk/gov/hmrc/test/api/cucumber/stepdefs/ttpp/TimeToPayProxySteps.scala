@@ -22,7 +22,7 @@ import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
-import uk.gov.hmrc.test.api.models.Errors
+import uk.gov.hmrc.test.api.models.{Errors, UpdatePlanRequest}
 import uk.gov.hmrc.test.api.models.ttpp.{CreatePlanResponse, GenerateQuoteResponse, UpdatePlanResponse, ViewPlanResponse}
 import uk.gov.hmrc.test.api.requests.TimeToPayProxyRequests
 import uk.gov.hmrc.test.api.requests.TimeToPayProxyRequests.{addDebtItem, addPlan, addPostCodeDetails, _}
@@ -52,6 +52,27 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
     TimeToPayProxyRequests.createRequestParameters(dataTable)
     TimeToPayProxyRequests.createUpdatePlanRequestBody(dataTable)
   }
+
+
+  Given("a cancel plan request") { (dataTable: DataTable) =>
+
+    val asMapTransposed = dataTable.transpose().asMap(classOf[String], classOf[String])
+
+    val request = UpdatePlanRequest(
+      asMapTransposed.get("customerReference"),
+      asMapTransposed.get("planId"),
+      asMapTransposed.get("updateType"),
+      asMapTransposed.get("planStatus"),
+      None,
+      Some(asMapTransposed.get("cancellationReason")),
+      None,
+      None
+    )
+    ScenarioContext.set("customerReference", asMapTransposed.get("customerReference"))
+    ScenarioContext.set("planId", asMapTransposed.get("planId"))
+    ScenarioContext.set("updatePlanRequest", Json.toJson(request).toString())
+  }
+
 
   Given("a view plan request") { (dataTable: DataTable) =>
     TimeToPayProxyRequests.createRequestParameters(dataTable)
@@ -199,7 +220,6 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
     val response: StandaloneWSResponse = ScenarioContext.get("response")
 
     val responseBody = Json.parse(response.body).as[UpdatePlanResponse]
-
     if (asMapTransposed.containsKey("customerReference")) {
       responseBody.customerReference shouldBe asMapTransposed.get("customerReference").toString
     }
