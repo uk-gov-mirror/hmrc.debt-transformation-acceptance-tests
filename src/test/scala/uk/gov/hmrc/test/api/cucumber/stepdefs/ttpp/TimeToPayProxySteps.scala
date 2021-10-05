@@ -273,6 +273,11 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
     }
   }
 
+  Then("the service will return a (.*)") { responseCode: Int =>
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+    response.status.shouldBe(responseCode)
+  }
+
   And("the plan will contain") { dataTable: DataTable =>
     val asMapTransposed =
       dataTable.transpose().asMap(classOf[String], classOf[String])
