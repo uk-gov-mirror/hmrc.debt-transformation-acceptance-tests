@@ -102,6 +102,90 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
     }
   }
 
+  Then("ifs service returns an interest bearing payment instalment plan") { () =>
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+    response.status shouldBe 200
+    val quoteDate                 = LocalDate.now
+    val instalmentPaymentDate     = quoteDate.plusDays(1)
+    val debtId                    = "debtId"
+    val responseBody              = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
+    val actualnumberOfInstalments =
+      Json.parse(response.body).as[InstalmentCalculationSummaryResponse].numberOfInstalments
+
+    val expectedInstalmentCalculationResponse = InstalmentCalculationSummaryResponse(
+      quoteDate,
+      11,
+      0,
+      1423,
+      1423 + 0,
+      11,
+      Vector(
+        InstalmentResponse(debtId, 1, instalmentPaymentDate, 10000, 100000, 7, 10000, 2.6),
+        InstalmentResponse(debtId, 2, instalmentPaymentDate.plusDays(1), 10000, 90000, 6, 10000, 2.6),
+        InstalmentResponse(debtId, 3, instalmentPaymentDate.plusDays(2), 10000, 80000, 5, 30000, 2.6),
+        InstalmentResponse(debtId, 4, instalmentPaymentDate.plusDays(3), 10000, 70000, 4, 40000, 2.6),
+        InstalmentResponse(debtId, 5, instalmentPaymentDate.plusDays(4), 10000, 60000, 4, 50000, 2.6),
+        InstalmentResponse(debtId, 6, instalmentPaymentDate.plusDays(5), 10000, 50000, 3, 60000, 2.6),
+        InstalmentResponse(debtId, 7, instalmentPaymentDate.plusDays(6), 10000, 40000, 2, 70000, 2.6),
+        InstalmentResponse(debtId, 8, instalmentPaymentDate.plusDays(7), 10000, 30000, 2, 80000, 2.6),
+        InstalmentResponse(debtId, 9, instalmentPaymentDate.plusDays(8), 10000, 20000, 1, 90000, 2.6),
+        InstalmentResponse(debtId, 10, instalmentPaymentDate.plusDays(9), 10000, 10000, 0, 100000, 2.6),
+        InstalmentResponse(debtId, 11, instalmentPaymentDate.plusDays(10), 1462, 0, 0, 100000 + 1462, 2.6)
+      )
+    )
+
+    actualnumberOfInstalments             shouldBe expectedInstalmentCalculationResponse.numberOfInstalments
+    responseBody.map(_.dueDate)           shouldBe expectedInstalmentCalculationResponse.instalments.map(
+      _.dueDate
+    )
+    responseBody.map(_.instalmentBalance) shouldBe expectedInstalmentCalculationResponse.instalments.map(
+      _.instalmentBalance
+    )
+
+  }
+
+  Then("ifs service returns an non-interest bearing payment instalment plan") { () =>
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+    response.status shouldBe 200
+    val quoteDate                 = LocalDate.now
+    val instalmentPaymentDate     = quoteDate.plusDays(1)
+    val debtId                    = "debtId"
+    val responseBody              = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
+    val actualnumberOfInstalments =
+      Json.parse(response.body).as[InstalmentCalculationSummaryResponse].numberOfInstalments
+
+    val expectedInstalmentCalculationResponse = InstalmentCalculationSummaryResponse(
+      quoteDate,
+      11,
+      218,
+      1423,
+      1423 + 218,
+      11,
+      Vector(
+        InstalmentResponse(debtId, 1, instalmentPaymentDate, 10000, 100000, 7, 10000, 2.6),
+        InstalmentResponse(debtId, 2, instalmentPaymentDate.plusDays(1), 10000, 90000, 6, 10000, 2.6),
+        InstalmentResponse(debtId, 3, instalmentPaymentDate.plusDays(2), 10000, 80000, 5, 30000, 2.6),
+        InstalmentResponse(debtId, 4, instalmentPaymentDate.plusDays(3), 10000, 70000, 4, 40000, 2.6),
+        InstalmentResponse(debtId, 5, instalmentPaymentDate.plusDays(4), 10000, 60000, 4, 50000, 2.6),
+        InstalmentResponse(debtId, 6, instalmentPaymentDate.plusDays(5), 10000, 50000, 3, 60000, 2.6),
+        InstalmentResponse(debtId, 7, instalmentPaymentDate.plusDays(6), 10000, 40000, 2, 70000, 2.6),
+        InstalmentResponse(debtId, 8, instalmentPaymentDate.plusDays(7), 10000, 30000, 2, 80000, 2.6),
+        InstalmentResponse(debtId, 9, instalmentPaymentDate.plusDays(8), 10000, 20000, 1, 90000, 2.6),
+        InstalmentResponse(debtId, 10, instalmentPaymentDate.plusDays(9), 10000, 10000, 0, 100000, 2.6),
+        InstalmentResponse(debtId, 11, instalmentPaymentDate.plusDays(10), 1462, 0, 0, 100000 + 1462, 2.6)
+      )
+    )
+
+    actualnumberOfInstalments             shouldBe expectedInstalmentCalculationResponse.numberOfInstalments
+    responseBody.map(_.dueDate)           shouldBe expectedInstalmentCalculationResponse.instalments.map(
+      _.dueDate
+    )
+    responseBody.map(_.instalmentBalance) shouldBe expectedInstalmentCalculationResponse.instalments.map(
+      _.instalmentBalance
+    )
+
+  }
+
   Then("ifs service returns single payment frequency instalment calculation plan") { () =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status shouldBe 200
@@ -615,16 +699,16 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
       11,
       Vector(
         InstalmentResponse(debtId, 1, instalmentPaymentDate, 10100, 100000, 7, 10100, 2.6),
-        InstalmentResponse(debtId, 2, instalmentPaymentDate.plusMonths(1), 10000, 89900, 192, 20100, 2.6),
-        InstalmentResponse(debtId, 3, instalmentPaymentDate.plusMonths(2), 10000, 79900, 176, 30100, 2.6),
-        InstalmentResponse(debtId, 4, instalmentPaymentDate.plusMonths(3), 10000, 69900, 149, 40100, 2.6),
+        InstalmentResponse(debtId, 2, instalmentPaymentDate.plusMonths(1), 10000, 89900, 198, 20100, 2.6),
+        InstalmentResponse(debtId, 3, instalmentPaymentDate.plusMonths(2), 10000, 79900, 170, 30100, 2.6),
+        InstalmentResponse(debtId, 4, instalmentPaymentDate.plusMonths(3), 10000, 69900, 154, 40100, 2.6),
         InstalmentResponse(debtId, 5, instalmentPaymentDate.plusMonths(4), 10000, 59900, 132, 50100, 2.6),
-        InstalmentResponse(debtId, 6, instalmentPaymentDate.plusMonths(5), 10000, 49900, 110, 60100, 2.6),
-        InstalmentResponse(debtId, 7, instalmentPaymentDate.plusMonths(6), 10000, 39900, 79, 70100, 2.6),
-        InstalmentResponse(debtId, 8, instalmentPaymentDate.plusMonths(7), 10000, 29900, 66, 80100, 2.6),
-        InstalmentResponse(debtId, 9, instalmentPaymentDate.plusMonths(8), 10000, 19900, 42, 90100, 2.6),
-        InstalmentResponse(debtId, 10, instalmentPaymentDate.plusMonths(9), 10000, 9900, 21, 100100, 2.6),
-        InstalmentResponse(debtId, 11, instalmentPaymentDate.plusMonths(10), 2278, 0, 0, 102378, 2.6)
+        InstalmentResponse(debtId, 6, instalmentPaymentDate.plusMonths(5), 10000, 49900, 99, 60100, 2.6),
+        InstalmentResponse(debtId, 7, instalmentPaymentDate.plusMonths(6), 10000, 39900, 88, 70100, 2.6),
+        InstalmentResponse(debtId, 8, instalmentPaymentDate.plusMonths(7), 10000, 29900, 63, 80100, 2.6),
+        InstalmentResponse(debtId, 9, instalmentPaymentDate.plusMonths(8), 10000, 19900, 43, 90100, 2.6),
+        InstalmentResponse(debtId, 9, instalmentPaymentDate.plusMonths(9), 10000, 9900, 21, 100100, 2.6),
+        InstalmentResponse(debtId, 10, instalmentPaymentDate.plusMonths(10), 2298, 0, 0, 102398, 2.6)
       )
     )
 
