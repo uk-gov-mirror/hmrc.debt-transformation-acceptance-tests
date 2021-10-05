@@ -10,4 +10,13 @@ Feature: TTP Update Plan Request
 
     Then the ttp service is going to return an update response with
       | customerReference | planId     | quoteStatus | quoteUpdatedDate |
-      | custRef1234   | planId1234 | complete    | 2021-05-13       |
+      | custRef1234       | planId1234 | complete    | 2021-05-13       |
+
+  Scenario: Cancel existing TTP plan
+    Given a cancel plan request
+      | customerReference | planId      | updateType | planStatus | completeReason | cancellationReason | thirdPartyBank | paymentMethod | paymentReference |
+      | customerRef12345  | planId12345 | cancel     | success    | earlyRepayment | some reason        | true           | BACS          | paymentRef123    |
+    When the update plan request is sent to the ttpp service
+    Then the ttp service is going to return an update response with
+      | customerReference | planId      | quoteStatus | quoteUpdatedDate |
+      | custRef12345      | planId12345 | cancelled   | 2021-05-13       |
