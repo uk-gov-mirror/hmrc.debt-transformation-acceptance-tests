@@ -18,16 +18,26 @@ package uk.gov.hmrc.test.api.cucumber.stepdefs
 
 import cucumber.api.scala.{EN, ScalaDsl}
 import io.cucumber.datatable.DataTable
+import org.joda.time.LocalDate
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually
 import play.api.libs.ws.StandaloneWSResponse
-import uk.gov.hmrc.test.api.requests.SuppressionRulesRequests.{addSuppressionRules, addSuppressions}
+import uk.gov.hmrc.test.api.requests.SuppressionRulesRequests.{addSuppressionRules, addSuppressionToInstalmentCalculation, addSuppressions}
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 
 class commonSteps extends ScalaDsl with EN with Eventually with Matchers {
 
   Given("suppression data has been created") { (dataTable: DataTable) =>
     addSuppressions(dataTable)
+  }
+
+  Given("a suppression with ID (.*), code (.*), reason (.*) and description (.*) has been applied from (.*) for (.*) months") { (id: String, code: String, reason: String, description: String, fromDate: String, durationMonths: Int) =>
+    val fromDateParsed = if(fromDate == "yesterday"){
+      LocalDate.now().minusDays(1)
+    } else if(fromDate == "today"){
+      LocalDate.now()
+    } else LocalDate.parse(fromDate)
+    addSuppressionToInstalmentCalculation(id, code, reason, description, fromDateParsed, durationMonths)
   }
 
   Given("suppression rules have been created") { (dataTable: DataTable) =>

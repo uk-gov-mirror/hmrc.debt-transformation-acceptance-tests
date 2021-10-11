@@ -18,6 +18,7 @@ package uk.gov.hmrc.test.api.requests
 
 import cucumber.api.scala.{EN, ScalaDsl}
 import io.cucumber.datatable.DataTable
+import org.joda.time.LocalDate
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually
 import play.api.libs.json.Json
@@ -95,6 +96,21 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
 
   def getSuppressionBodyAsString(variant: String): String =
     TestData.loadedSuppressionFiles(variant)
+
+
+  def addSuppressionToInstalmentCalculation(id: String, code: String, reason: String, description: String, from: LocalDate, durationMonths: Int): Unit = {
+    val suppressions = getSuppressionBodyAsString("suppressionData")
+      .replaceAll("<REPLACE_code>", code)
+      .replaceAll("<REPLACE_reason>", reason)
+      .replaceAll("<REPLACE_description>", description)
+      .replaceAll("<REPLACE_enabled>", "true")
+      .replaceAll("<REPLACE_fromDate>", from.toString())
+      .replaceAll("<REPLACE_toDate>", from.plusMonths(durationMonths).toString())
+
+    val request  = getSuppressionBodyAsString("suppressionsData").replaceAll("<REPLACE_suppressions>", suppressions)
+    val response = SuppressionRulesRequests.postSuppressionData(request, id)
+    response.status should be(200)
+  }
 
   def addSuppressions(dataTable: DataTable): Unit = {
     val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])

@@ -3,4 +3,5 @@
           "debtAmount": <REPLACE_debtAmount>,
           "subTrans": "<REPLACE_subTrans>",
           "mainTrans": "<REPLACE_mainTrans>"
+          <REPLACE_periodEnd>
     }
