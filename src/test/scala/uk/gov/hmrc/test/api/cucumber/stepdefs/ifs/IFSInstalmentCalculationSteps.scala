@@ -302,12 +302,12 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
     response.status shouldBe status
   }
 
-
-  Then("the instalment at index (.*) should have an interest accrued of (.*)") { (index: Int, interestAccrued: Int) =>
+  //Then("the ([0-9]\\d*)(?:st|nd|rd|th) debt summary will contain") { (index: Int, dataTable: DataTable) =>
+  Then("the ([0-9]\\d*)(?:st|nd|rd|th) instalment should have an interest accrued of (.*)") { (index: Int, interestAccrued: Int) =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     val responseBody = Json.parse(response.body).as[InstalmentCalculationSummaryResponse]
 
-    responseBody.instalments(index).instalmentInterestAccrued shouldBe interestAccrued
+    responseBody.instalments(index - 1).instalmentInterestAccrued shouldBe interestAccrued
 
   }
 
