@@ -117,7 +117,7 @@ Feature: Multiple Debt Items
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | amountIntTotal | amountOnIntDueTotal |
-      | 0                    | 1000000        | 1000000            |
+      | 0                    | 1000000        | 1000000             |
     And the 1st debt summary will contain
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
       | true            | 0                    | 0                       | 1000000            |
@@ -133,13 +133,13 @@ Feature: Multiple Debt Items
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | amountIntTotal | amountOnIntDueTotal |
-      | 71                   | 1000000        | 1000000            |
+      | 71                   | 1000000        | 1000000             |
     And the 1st debt summary will contain
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
       | true            | 0                    | 71                      | 1000000            |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow |
-      | 2022-02-02 | 2022-02-02 | 0            | 2.6          | 71                      | 1000000             |
+      | 2022-02-02 | 2022-02-02 | 0            | 2.6          | 71                      | 1000000            |
 
 
   Scenario: 7. 1 debt, 1 payment interest requested to date is before the interest start date
@@ -175,5 +175,5 @@ Feature: Multiple Debt Items
       | 0                    | 900000         | 900000              |
     And the 1st debt summary will contain
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
-      | false           | 0                    | 0                        | 900000            |
+      | false           | 0                    | 0                       | 900000             |
     And the 1st debt summary will not have any calculation windows
