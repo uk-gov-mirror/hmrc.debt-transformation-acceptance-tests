@@ -680,7 +680,7 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
     )
   }
 
-  Then("ifs service returns monthly instalment calculation plan with initial payment") { (dataTable: DataTable) =>
+  Then("ifs service returns monthly instalment calculation plan with initial payment") { () =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status shouldBe 200
     val quoteDate                 = LocalDate.now
