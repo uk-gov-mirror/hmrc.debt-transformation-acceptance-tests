@@ -2,8 +2,6 @@ package uk.gov.hmrc.test.api.requests
 
 import cucumber.api.scala.{EN, ScalaDsl}
 import io.cucumber.datatable.DataTable
-import java.time.LocalDate
-import java.util.Date
 import org.joda.time.{DateTime, DateTimeZone}
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually
@@ -11,8 +9,11 @@ import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import play.twirl.api.TwirlHelperImports.twirlJavaCollectionToScala
 import uk.gov.hmrc.test.api.client.WsClient
-import uk.gov.hmrc.test.api.models.{Frequency, InstalmentCalculation}
+import uk.gov.hmrc.test.api.models.{Frequency, InstalmentCalculation, InstalmentCalculationSummaryResponse}
 import uk.gov.hmrc.test.api.utils.{BaseRequests, ScenarioContext, TestData}
+
+import java.time.LocalDate
+import java.util.Date
 
 object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually with Matchers with BaseRequests {
 
@@ -173,6 +174,37 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
       ScenarioContext.get("paymentPlan").toString.replaceAll("<REPLACE_initialPayment>", planWithInitialPayments)
     ScenarioContext.set("paymentPlan", paymentPlan)
     print(s"Plan with initial payment **********************  $paymentPlan")
+  }
+
+  def validateIfsResponseContainsExpectedValues(dataTable: DataTable): Unit = {
+    val asmapTransposed = dataTable.transpose().asMap(classOf[String], classOf[String])
+
+    val index: Int                       = asmapTransposed.get("instalmentNumber").toString.toInt - 1
+    val daysAfterToday: Int              = asmapTransposed.get("daysAfterToday").toString.toInt
+    val plusFrequency: String            = asmapTransposed.get("paymentFrequency").toString
+    val plusUnit: Int                    = asmapTransposed.get("frequencyPassed").toString.toInt
+    val paymentAmount: Int               = asmapTransposed.get("amountDue").toString.toInt // in pennies
+    val balance: Int                     = asmapTransposed.get("instalmentBalance").toString.toInt // in pennies
+    val intRate: Double                  = asmapTransposed.get("interestRate").toString.toDouble
+    val expectedNumberOfInstalments: Int = asmapTransposed.get("expectedNumberOfInstalments").toString.toInt
+    // TODO: Define more assertion K,V here for IFS response assertion checks
+
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+    val responseBody                   = Json.parse(response.body).as[InstalmentCalculationSummaryResponse]
+    val date                           = plusFrequency match {
+      case "monthly" => LocalDate.now().plusDays(daysAfterToday).plusMonths(plusUnit)
+      case "weekly"  => LocalDate.now().plusDays(daysAfterToday).plusWeeks(plusUnit)
+      // TODO:  add more payment frequency here
+    }
+
+    response.status.shouldBe(200)
+    responseBody.numberOfInstalments shouldBe expectedNumberOfInstalments
+    val instalment = responseBody.instalments(index)
+    instalment.dueDate           shouldBe date
+    instalment.amountDue         shouldBe paymentAmount
+    instalment.instalmentBalance shouldBe balance
+    instalment.instalmentNumber  shouldBe index + 1
+    instalment.intRate           shouldBe intRate
   }
 
   def getBodyAsString(variant: String): String =

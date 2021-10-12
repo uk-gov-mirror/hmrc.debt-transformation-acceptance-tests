@@ -2,7 +2,6 @@ package uk.gov.hmrc.test.api.cucumber.stepdefs.ifs
 
 import cucumber.api.scala.{EN, ScalaDsl}
 import io.cucumber.datatable.DataTable
-import java.time.LocalDate
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually
 import play.api.libs.json.Json
@@ -10,6 +9,8 @@ import play.api.libs.ws.StandaloneWSResponse
 import uk.gov.hmrc.test.api.models.{InstalmentCalculationSummaryResponse, InstalmentResponse}
 import uk.gov.hmrc.test.api.requests.IFSInstalmentCalculationRequests._
 import uk.gov.hmrc.test.api.utils.ScenarioContext
+
+import java.time.LocalDate
 
 class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually with Matchers {
 
@@ -92,8 +93,8 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
     response.status should be(200)
     val paymentPlanSummary = Json.parse(response.body).as[InstalmentCalculationSummaryResponse]
     paymentPlanSummary.numberOfInstalments.toString shouldBe (asMapTransposed
-            .get("numberOfInstalments")
-            .toString)
+      .get("numberOfInstalments")
+      .toString)
     if (asMapTransposed.containsKey("totalPlanInt")) {
       paymentPlanSummary.planInterest.toString contains (asMapTransposed.get("totalPlanInt").toString)
     }
@@ -720,6 +721,10 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
       _.instalmentBalance
     )
 
+  }
+
+  Then("IFS response contains expected values") { (dataTable: DataTable) =>
+    validateIfsResponseContainsExpectedValues(dataTable)
   }
 
   Then("ifs service returns weekly frequency instalment calculation plan with initial payment") { () =>

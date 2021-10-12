@@ -1,7 +1,7 @@
 # TODO not part of 627 ticket
 # Refactor (aggregate) both instalment calculation features to use scenario outlines combined together with both interest bearing and non interest, broken down by payment frequencies
 
-@DTD-627
+
 Feature: Instalment calculation for 1 debt and multiple duties with initial payment
 
   Scenario: Calculate quote details for 1 debt and multiple duties with non-interest bearing - weekly
