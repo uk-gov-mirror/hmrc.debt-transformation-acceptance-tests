@@ -2,8 +2,7 @@
 
 environment="local"
 
-tags="@instalmentsWithSuppression"
-#tags="not @wip and not @ignore"
+tags="not @wip and not @ignore"
 
 if [ $# -gt 0 -a "$1" != "$environment" ];
 then

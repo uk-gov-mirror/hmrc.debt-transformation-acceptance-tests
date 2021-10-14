@@ -100,8 +100,8 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
     response.status should be(200)
     val paymentPlanSummary = Json.parse(response.body).as[InstalmentCalculationSummaryResponse]
     paymentPlanSummary.numberOfInstalments.toString shouldBe (asMapTransposed
-            .get("numberOfInstalments")
-            .toString)
+      .get("numberOfInstalments")
+      .toString)
     if (asMapTransposed.containsKey("totalPlanInt")) {
       paymentPlanSummary.planInterest.toString contains (asMapTransposed.get("totalPlanInt").toString)
     }
@@ -285,16 +285,17 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
     )
   }
 
-  Then("ifs service returns monthly payment frequency instalment plan with (.*) instalments") { (noOfInstalments: Int) =>
-    val response: StandaloneWSResponse = ScenarioContext.get("response")
-    response.status shouldBe 200
-    val quoteDate                 = LocalDate.now
-    val instalmentPaymentDate     = quoteDate.plusDays(1)
-    val debtId                    = "debtId"
-    val responseBody              = Json.parse(response.body).as[InstalmentCalculationSummaryResponse]
+  Then("ifs service returns monthly payment frequency instalment plan with (.*) instalments") {
+    (noOfInstalments: Int) =>
+      val response: StandaloneWSResponse = ScenarioContext.get("response")
+      response.status shouldBe 200
+      val quoteDate             = LocalDate.now
+      val instalmentPaymentDate = quoteDate.plusDays(1)
+      val debtId                = "debtId"
+      val responseBody          = Json.parse(response.body).as[InstalmentCalculationSummaryResponse]
 
-    responseBody.numberOfInstalments shouldBe noOfInstalments
-    responseBody.instalments.size shouldBe noOfInstalments
+      responseBody.numberOfInstalments shouldBe noOfInstalments
+      responseBody.instalments.size    shouldBe noOfInstalments
   }
 
   Then("the IFS request should return status (.*)") { (status: Int) =>
@@ -302,18 +303,16 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
     response.status shouldBe status
   }
 
-  //Then("the ([0-9]\\d*)(?:st|nd|rd|th) debt summary will contain") { (index: Int, dataTable: DataTable) =>
-  Then("the ([0-9]\\d*)(?:st|nd|rd|th) instalment should have an interest accrued of (.*)") { (index: Int, interestAccrued: Int) =>
-    val response: StandaloneWSResponse = ScenarioContext.get("response")
-    val responseBody = Json.parse(response.body).as[InstalmentCalculationSummaryResponse]
+  Then("the ([0-9]\\d*)(?:st|nd|rd|th) instalment should have an interest accrued of (.*)") {
+    (index: Int, interestAccrued: Int) =>
+      val response: StandaloneWSResponse = ScenarioContext.get("response")
+      val responseBody                   = Json.parse(response.body).as[InstalmentCalculationSummaryResponse]
 
-    responseBody.instalments(index - 1).instalmentInterestAccrued shouldBe interestAccrued
+      responseBody.instalments(index - 1).instalmentInterestAccrued shouldBe interestAccrued
 
   }
 
-
-
-    Then("ifs service returns monthly payment frequency instalment calculation plan") { () =>
+  Then("ifs service returns monthly payment frequency instalment calculation plan") { () =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status shouldBe 200
     val quoteDate                 = LocalDate.now
