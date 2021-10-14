@@ -24,8 +24,8 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
         | "postCodeDate":"$postCodeDate"
         |}
         |""".stripMargin
-    getBodyAsString("instalmentCalculation").replaceAll("<REPLACE_postCodes>", postCodeJson)
-    ScenarioContext.set("paymentPlan", postCodeJson)
+    val paymentPlanJson = ScenarioContext.get("paymentPlan").toString.replaceAll("<REPLACE_postCodes>", postCodeJson)
+    ScenarioContext.set("paymentPlan", paymentPlanJson)
   }
 
   def addEmptyPostCodeArrayToInstalmentCalculation(): Unit = {

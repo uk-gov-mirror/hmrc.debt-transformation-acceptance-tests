@@ -5,11 +5,11 @@ Feature: Suppression Period ends after quote date
     Given a suppression with ID 9, code COVID, reason Covid relief and description No interest accrued due to covid has been applied from yesterday for 2 months
     And suppression rules have been created
       | ruleId | postCode | suppressionIds |
-      | 1      | TW3      | 9              |
+      | 1      | BS39 5DP      | 9              |
     And debt instalment calculation with details
       | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal |
       | 10000                   | monthly          | 1                    | 1423                 |
-    And the instalment calculation has postcode TW3 with postcode date a year in the future
+    And the instalment calculation has postcode BS39 5DP with postcode date a year in the future
     And no initial payment for the debt item charge
     And the instalment calculation has debt item charges
       | debtId | debtAmount | mainTrans | subTrans |

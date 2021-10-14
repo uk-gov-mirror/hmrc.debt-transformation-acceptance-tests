@@ -25,8 +25,8 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
     addDebtItemChargesToInstalmentCalculation(dataTable)
   }
 
-  Given("the instalment calculation has postcode (.*) with postcode date a year in the future") { (postCode: String) =>
-    addPostCodeToInstalmentCalculation(postCode, LocalDate.now().plusYears(1).toString)
+  Given("the instalment calculation has postcode (.*) with postcode date a year in the past") { (postCode: String) =>
+    addPostCodeToInstalmentCalculation(postCode, LocalDate.now().minusYears(1).toString)
   }
 
   Given("the instalment calculation has no postcodes") { () =>
