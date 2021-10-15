@@ -4,6 +4,9 @@
       "instalmentPaymentDate": "<REPLACE_instalmentPaymentDate>",
       "instalmentPaymentAmount": <REPLACE_instalmentAmount>,
       "paymentFrequency":"<REPLACE_paymentFrequency>",
+      "customerPostCodes": [
+          <REPLACE_postCodes>
+        ],
 	    "interestCallDueTotal": <REPLACE_interestCallDueTotal>
 	    <REPLACE_initialPayment>
     }

@@ -18,6 +18,7 @@ package uk.gov.hmrc.test.api.requests
 
 import cucumber.api.scala.{EN, ScalaDsl}
 import io.cucumber.datatable.DataTable
+import org.joda.time.LocalDate
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually
 import play.api.libs.json.Json
@@ -96,20 +97,46 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
   def getSuppressionBodyAsString(variant: String): String =
     TestData.loadedSuppressionFiles(variant)
 
+
+  def addSuppressionToInstalmentCalculation(id: String, code: String, reason: String, description: String, from: LocalDate, durationMonths: Int): Unit = {
+    val suppressions = getSuppressionBodyAsString("suppressionData")
+      .replaceAll("<REPLACE_code>", code)
+      .replaceAll("<REPLACE_reason>", reason)
+      .replaceAll("<REPLACE_description>", description)
+      .replaceAll("<REPLACE_enabled>", "true")
+      .replaceAll("<REPLACE_fromDate>", from.toString())
+      .replaceAll("<REPLACE_toDate>", from.plusMonths(durationMonths).toString())
+
+    val request  = getSuppressionBodyAsString("suppressionsData").replaceAll("<REPLACE_suppressions>", suppressions)
+    val response = SuppressionRulesRequests.postSuppressionData(request, id)
+    response.status should be(200)
+  }
+
   def addSuppressions(dataTable: DataTable): Unit = {
-    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
+    val asMapTransposed = dataTable.asMaps[String, String](classOf[String], classOf[String])
     var suppressions    = ""
     var id: String      = null
 
+
     asMapTransposed.zipWithIndex.foreach { case (suppression, index) =>
+      val parsedFromDate = suppression.get("fromDate").toString match {
+        case "yesterday" => LocalDate.now().minusDays(1).toString()
+        case other => other
+      }
+
+      val parsedToDate = suppression.get("toDate").toString match {
+        case "2 months from now" => LocalDate.now().plusMonths(2).toString()
+        case other => other
+      }
+      val code = if(suppression.containsKey("code")) suppression.get("code") else "1"
       suppressions = suppressions.concat(
         getSuppressionBodyAsString("suppressionData")
-          .replaceAll("<REPLACE_code>", "1")
-          .replaceAll("<REPLACE_reason>", suppression.get("reason").toString)
-          .replaceAll("<REPLACE_description>", suppression.get("description").toString)
+          .replaceAll("<REPLACE_code>", code)
+          .replaceAll("<REPLACE_reason>", suppression.get("reason"))
+          .replaceAll("<REPLACE_description>", suppression.get("description"))
           .replaceAll("<REPLACE_enabled>", suppression.get("enabled"))
-          .replaceAll("<REPLACE_fromDate>", suppression.get("fromDate").toString)
-          .replaceAll("<REPLACE_toDate>", suppression.get("toDate").toString)
+          .replaceAll("<REPLACE_fromDate>", parsedFromDate)
+          .replaceAll("<REPLACE_toDate>", parsedToDate)
       )
 
       if (asMapTransposed.toString.contains("suppressionId")) {

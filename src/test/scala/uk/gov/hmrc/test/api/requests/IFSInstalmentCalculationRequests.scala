@@ -17,17 +17,41 @@ import java.util.Date
 
 object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually with Matchers with BaseRequests {
 
+  def addPostCodeToInstalmentCalculation(postCode: String, postCodeDate: String): Unit = {
+    val postCodeJson =
+      s"""
+        |{
+        | "postCode": "$postCode",
+        | "postCodeDate":"$postCodeDate"
+        |}
+        |""".stripMargin
+    val paymentPlanJson = ScenarioContext.get("paymentPlan").toString.replaceAll("<REPLACE_postCodes>", postCodeJson)
+    ScenarioContext.set("paymentPlan", paymentPlanJson)
+  }
+
+  def addEmptyPostCodeArrayToInstalmentCalculation(): Unit = {
+    val postCodeJson = ScenarioContext.get("paymentPlan").toString.replaceAll("<REPLACE_postCodes>", "")
+    ScenarioContext.set("paymentPlan", postCodeJson)
+  }
+
   def addDebtItemChargesToInstalmentCalculation(dataTable: DataTable): Unit = {
     val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
     var debtItemCharges = ""
 
     asMapTransposed.zipWithIndex.foreach { case (debtItemCharge, index) =>
+
+      val periodEnd = if(debtItemCharge.containsKey("periodEnd")){
+        s"""
+           |,"periodEnd": "${debtItemCharge.get("periodEnd")}"
+           |""".stripMargin
+      } else ""
       debtItemCharges = debtItemCharges.concat(
         getBodyAsString("debtItemCharge")
           .replaceAll("<REPLACE_debtId>", debtItemCharge.get("debtId"))
           .replaceAll("<REPLACE_debtAmount>", debtItemCharge.get("debtAmount"))
           .replaceAll("<REPLACE_mainTrans>", debtItemCharge.get("mainTrans"))
           .replaceAll("<REPLACE_subTrans>", debtItemCharge.get("subTrans"))
+          .replaceAll("<REPLACE_periodEnd>", periodEnd)
       )
 
       if (index + 1 < asMapTransposed.size) debtItemCharges = debtItemCharges.concat(",")

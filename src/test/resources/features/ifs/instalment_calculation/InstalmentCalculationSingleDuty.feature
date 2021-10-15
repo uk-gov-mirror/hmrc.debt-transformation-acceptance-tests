@@ -4,6 +4,7 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
     Given debt instalment calculation with details
       | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | numberOfDay |
       | 10000                   | single           | 1                    | 1423                 | 1           |
+    And the instalment calculation has no postcodes
     And no initial payment for the debt item charge
     And the instalment calculation has debt item charges
       | debtId | debtAmount | mainTrans | subTrans |
@@ -15,6 +16,7 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
     Given debt instalment calculation with details
       | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal |
       | 10000                   | weekly           | 1                    | 1423                 |
+    And the instalment calculation has no postcodes
     And no initial payment for the debt item charge
     And the instalment calculation has debt item charges
       | debtId | debtAmount | mainTrans | subTrans |
@@ -26,6 +28,7 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
     Given debt instalment calculation with details
       | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal |
       | 10000                   | 2Weekly          | 1                    | 1423                 |
+    And the instalment calculation has no postcodes
     And no initial payment for the debt item charge
     And the instalment calculation has debt item charges
       | debtId | debtAmount | mainTrans | subTrans |
@@ -37,6 +40,7 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
     Given debt instalment calculation with details
       | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal |
       | 10000                   | 4Weekly          | 1                    | 1423                 |
+    And the instalment calculation has no postcodes
     And no initial payment for the debt item charge
     And the instalment calculation has debt item charges
       | debtId | debtAmount | mainTrans | subTrans |
@@ -48,6 +52,7 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
     Given debt instalment calculation with details
       | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal |
       | 10000                   | monthly          | 1                    | 9542                 |
+    And the instalment calculation has no postcodes
     And no initial payment for the debt item charge
     And the instalment calculation has debt item charges
       | debtId | debtAmount | mainTrans | subTrans |
@@ -59,6 +64,7 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
     Given debt instalment calculation with details
       | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal |
       | 10000                   | quarterly        | 1                    | 1423                 |
+    And the instalment calculation has no postcodes
     And no initial payment for the debt item charge
     And the instalment calculation has debt item charges
       | debtId | debtAmount | mainTrans | subTrans |
@@ -71,6 +77,7 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
     Given debt instalment calculation with details
       | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal |
       | 10000                   | 6Monthly         | 1                    | 3538                 |
+    And the instalment calculation has no postcodes
     And no initial payment for the debt item charge
     And the instalment calculation has debt item charges
       | debtId | debtAmount | mainTrans | subTrans |
@@ -82,6 +89,7 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
     Given debt instalment calculation with details
       | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal |
       | 10000                   | annually         | 1                    | 1423                 |
+    And the instalment calculation has no postcodes
     And no initial payment for the debt item charge
     And the instalment calculation has debt item charges
       | debtId | debtAmount | mainTrans | subTrans |
@@ -93,6 +101,7 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
     Given debt instalment calculation with details
       | instalmentPaymentAmount | instalmentPaymentDay | paymentFrequency | interestCallDueTotal |
       | 10000                   | 1                    | monthly          | 1423                 |
+    And the instalment calculation has no postcodes
     And debt plan details with initial payment
       | initialPaymentAmount | initialPaymentDays |
       | 100                 | 1                  |
@@ -107,6 +116,7 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
     Given debt instalment calculation with 129 details
       | instalmentPaymentAmount | instalmentPaymentDay | paymentFrequency | interestCallDueTotal |
       | 5000                    | 129                  | weekly           | 1423                 |
+    And the instalment calculation has no postcodes
     And debt plan details with initial payment
       | initialPaymentAmount | initialPaymentDays |
       | 5000                 | 129                |
@@ -121,6 +131,7 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
     Given debt instalment calculation with details
       | instalmentPaymentAmount | instalmentPaymentDay | paymentFrequency | interestCallDueTotal |
       | 10000                   | 129                  | single           | 1423                 |
+    And the instalment calculation has no postcodes
     And debt plan details with initial payment
       | initialPaymentDays |
       | 129                |
@@ -135,6 +146,7 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
     Given debt instalment calculation with details
       | instalmentPaymentAmount | instalmentPaymentDay | paymentFrequency | interestCallDueTotal |
       | 10000                   | 129                  | single           | 1423                 |
+    And the instalment calculation has no postcodes
     And debt plan details with initial payment
       | initialPaymentAmount |
       | 5000                 |
@@ -149,6 +161,7 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
     Given debt instalment calculation with details
       | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal |
       | 10000                   | single           | 1                    | 1423                 |
+    And the instalment calculation has no postcodes
     And debt plan details with initial payment
       | initialPaymentAmount | initialPaymentDays |
       | 5000                 | 129                |
@@ -163,6 +176,7 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
     Given debt instalment calculation with details
       | instalmentPaymentAmount | paymentFrequency | interestCallDueTotal |
       | 10000                   | monthly          | 1423                 |
+    And the instalment calculation has no postcodes
     And no initial payment for the debt item charge
     And the instalment calculation has debt item charges
       | debtId | debtAmount | mainTrans | subTrans |
@@ -176,6 +190,7 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
     Given debt instalment calculation with details
       | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | quoteDate  |
       | 10000                   | monthly          | 1                    | 1423                 | 2021-09-21 |
+    And the instalment calculation has no postcodes
     And no initial payment for the debt item charge
     And the instalment calculation has debt item charges
       | debtId | debtAmount | mainTrans | subTrans |
@@ -188,6 +203,7 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
     Given debt instalment calculation with details
       | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | quoteDate |
       | 10000                   | monthly          | 1                    | 1423                 |           |
+    And the instalment calculation has no postcodes
     And no initial payment for the debt item charge
     And the instalment calculation has debt item charges
       | debtId | debtAmount | mainTrans | subTrans |

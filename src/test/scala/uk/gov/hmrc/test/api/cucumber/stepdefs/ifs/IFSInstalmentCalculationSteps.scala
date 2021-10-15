@@ -26,6 +26,14 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
     addDebtItemChargesToInstalmentCalculation(dataTable)
   }
 
+  Given("the instalment calculation has postcode (.*) with postcode date a year in the past") { (postCode: String) =>
+    addPostCodeToInstalmentCalculation(postCode, LocalDate.now().minusYears(1).toString)
+  }
+
+  Given("the instalment calculation has no postcodes") { () =>
+    addEmptyPostCodeArrayToInstalmentCalculation()
+  }
+
   Given("debt plan details with initial payment") { (dataTable: DataTable) =>
     addInitialPayment(dataTable)
   }
@@ -276,6 +284,33 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
     responseBody.map(_.instalmentBalance) shouldBe expectedInstalmentCalculationResponse.instalments.map(
       _.instalmentBalance
     )
+  }
+
+  Then("ifs service returns monthly payment frequency instalment plan with (.*) instalments") {
+    (noOfInstalments: Int) =>
+      val response: StandaloneWSResponse = ScenarioContext.get("response")
+      response.status shouldBe 200
+      val quoteDate             = LocalDate.now
+      val instalmentPaymentDate = quoteDate.plusDays(1)
+      val debtId                = "debtId"
+      val responseBody          = Json.parse(response.body).as[InstalmentCalculationSummaryResponse]
+
+      responseBody.numberOfInstalments shouldBe noOfInstalments
+      responseBody.instalments.size    shouldBe noOfInstalments
+  }
+
+  Then("the IFS request should return status (.*)") { (status: Int) =>
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+    response.status shouldBe status
+  }
+
+  Then("the ([0-9]\\d*)(?:st|nd|rd|th) instalment should have an interest accrued of (.*)") {
+    (index: Int, interestAccrued: Int) =>
+      val response: StandaloneWSResponse = ScenarioContext.get("response")
+      val responseBody                   = Json.parse(response.body).as[InstalmentCalculationSummaryResponse]
+
+      responseBody.instalments(index - 1).instalmentInterestAccrued shouldBe interestAccrued
+
   }
 
   Then("ifs service returns monthly payment frequency instalment calculation plan") { () =>
