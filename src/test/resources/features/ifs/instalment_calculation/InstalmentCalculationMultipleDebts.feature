@@ -4,6 +4,7 @@ Feature: Instalment calculation for multiple debts - Input 1
     Given debt instalment calculation with details
       | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | numberOfDay |
       | 10000                   | monthly          | 1                    | 5900                 | 1           |
+    And the instalment calculation has no postcodes
     And debt plan details with initial payment
       | initialPaymentAmount | initialPaymentDays |
       | 100                  | 1                  |
@@ -22,6 +23,7 @@ Feature: Instalment calculation for multiple debts - Input 1
     Given debt instalment calculation with details
       | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | numberOfDay |
       | 10000                   | monthly          | 1                    | 5900                 | 1           |
+    And the instalment calculation has no postcodes
     And debt plan details with initial payment
       | initialPaymentAmount | initialPaymentDays |
       | 100                  | 1                  |
