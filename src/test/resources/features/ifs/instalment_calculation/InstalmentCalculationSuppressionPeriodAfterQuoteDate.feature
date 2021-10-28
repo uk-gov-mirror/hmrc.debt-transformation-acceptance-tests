@@ -9,8 +9,8 @@ Feature: Suppression Period ends after quote date
       | ruleId | postCode | suppressionIds |
       | 1      | BS39 5DP | 9              |
     And debt instalment calculation with details
-      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal |
-      | 10000                   | monthly          | 1                    | 1423                 |
+      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | quoteType        |
+      | 10000                   | monthly          | 1                    | 1423                 | instalmentAmount |
     And the instalment calculation has postcode BS39 5DP with postcode date a year in the past
     And no initial payment for the debt item charge
     And the instalment calculation has debt item charges
@@ -29,8 +29,8 @@ Feature: Suppression Period ends after quote date
       | ruleId | mainTrans | suppressionIds |
       | 2      | 1525      | 10             |
     And debt instalment calculation with details
-      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal |
-      | 10000                   | monthly          | 1                    | 1423                 |
+      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | quoteType        |
+      | 10000                   | monthly          | 1                    | 1423                 | instalmentAmount |
     And the instalment calculation has postcode TW3 with postcode date a year in the past
     And no initial payment for the debt item charge
     And the instalment calculation has debt item charges
@@ -49,8 +49,8 @@ Feature: Suppression Period ends after quote date
       | ruleId | periodEnd  | suppressionIds |
       | 1      | 2021-08-16 | 11             |
     And debt instalment calculation with details
-      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal |
-      | 10000                   | monthly          | 1                    | 1423                 |
+      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | quoteType        |
+      | 10000                   | monthly          | 1                    | 1423                 | instalmentAmount |
     And the instalment calculation has postcode TW3 with postcode date a year in the past
     And no initial payment for the debt item charge
     And the instalment calculation has debt item charges
