@@ -2,8 +2,8 @@ Feature: Instalment calculation for multiple debts - Input 1
 
   Scenario: Should calculate quote for multiple debts with interest bearing & non-interest bearing debts combined
     Given debt instalment calculation with details
-      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | numberOfDay | quoteType        |
-      | 10000                   | monthly          | 1                    | 5900                 | 1           | instalmentAmount |
+      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | numberOfDay | quoteType |
+      | 10000                   | monthly          | 1                    | 5900                 | 1           | duration  |
     And the instalment calculation has no postcodes
     And debt plan details with initial payment
       | initialPaymentAmount | initialPaymentDays |
@@ -21,8 +21,8 @@ Feature: Instalment calculation for multiple debts - Input 1
 
   Scenario: Should calculate quote for multiple debts both with interest bearing & 1 initial payment history
     Given debt instalment calculation with details
-      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | numberOfDay | quoteType        |
-      | 10000                   | monthly          | 1                    | 5900                 | 1           | instalmentAmount |
+      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | numberOfDay | quoteType |
+      | 10000                   | monthly          | 1                    | 5900                 | 1           | duration  |
     And the instalment calculation has no postcodes
     And debt plan details with initial payment
       | initialPaymentAmount | initialPaymentDays |

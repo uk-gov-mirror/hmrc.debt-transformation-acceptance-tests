@@ -5,8 +5,8 @@ Feature: Instalment calculation for 1 debt and multiple duties with initial paym
 
   Scenario: Calculate quote details for 1 debt and multiple duties with non-interest bearing - weekly
     Given debt instalment calculation with details
-      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | numberOfDay | quoteType        |
-      | 10000                   | single           | 1                    | 1423                 | 1           | instalmentAmount |
+      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | numberOfDay | quoteType |
+      | 10000                   | single           | 1                    | 1423                 | 1           | duration  |
     And the instalment calculation has no postcodes
     And no initial payment for the debt item charge
     And the instalment calculation has debt item charges
@@ -18,8 +18,8 @@ Feature: Instalment calculation for 1 debt and multiple duties with initial paym
 
   Scenario: Calculate quote details for 1 debt and multiple duties with interest bearing - weekly
     Given debt instalment calculation with details
-      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | numberOfDay | quoteType        |
-      | 10000                   | single           | 1                    | 1423                 | 1           | instalmentAmount |
+      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | numberOfDay | quoteType |
+      | 10000                   | single           | 1                    | 1423                 | 1           | duration  |
     And the instalment calculation has no postcodes
     And no initial payment for the debt item charge
     And the instalment calculation has debt item charges
