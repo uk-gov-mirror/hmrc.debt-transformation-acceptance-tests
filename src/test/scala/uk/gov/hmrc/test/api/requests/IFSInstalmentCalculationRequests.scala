@@ -83,13 +83,20 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
 
     var quoteDate = dateTime.toString("yyyy-MM-dd")
     if (asmapTransposed.toString.contains("quoteDate")) quoteDate = asmapTransposed.get("quoteDate")
+    val durationOrInstalmentAmount = if (asmapTransposed.get("quoteType").equals("instalmentAmount")) {
+      s""" "duration":${asmapTransposed.get("duration")} """
+    } else {
+      s""" "instalmentPaymentAmount":${asmapTransposed.get("instalmentPaymentAmount")} """
+    }
 
     paymentPlan = getBodyAsString("instalmentCalculation")
       .replaceAll("<REPLACE_quoteDate>", quoteDate)
+      .replaceAll("<REPLACE_quoteType>", asmapTransposed.get("quoteType"))
       .replaceAll("<REPLACE_instalmentPaymentDate>", instalmentPaymentDate)
-      .replaceAll("<REPLACE_instalmentAmount>", asmapTransposed.get("instalmentPaymentAmount"))
+      .replaceAll("<REPLACE_durationOrInstalmentAmount>", durationOrInstalmentAmount)
       .replaceAll("<REPLACE_paymentFrequency>", asmapTransposed.get("paymentFrequency"))
       .replaceAll("<REPLACE_interestCallDueTotal>", asmapTransposed.get("interestCallDueTotal"))
+
 
     if (firstItem == true) {
       paymentPlan = paymentPlan
