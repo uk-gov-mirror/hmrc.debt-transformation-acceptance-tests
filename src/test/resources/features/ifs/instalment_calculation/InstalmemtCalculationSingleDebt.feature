@@ -1,4 +1,3 @@
-@test
 Feature: Instalment calculation for single debt - Input 2
 
   Scenario: Should calculate debts amount for 1 debt 1 duty (input 2)
