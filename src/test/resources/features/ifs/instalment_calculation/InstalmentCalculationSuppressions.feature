@@ -62,7 +62,7 @@ Feature: Suppression Period ends after quote date
     And the 2nd instalment should have an interest accrued of 0
 
 
-    #  Input 2 DTD-417
+#  Input 2 DTD-417
 #  Instalment calculation for suppression period ends after quote date (Input 2)
   Scenario: Should calculate instalment where suppression period ends after the quote date
     Given suppression data has been created
