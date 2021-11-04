@@ -121,11 +121,13 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
     asMapTransposed.zipWithIndex.foreach { case (suppression, index) =>
       val parsedFromDate = suppression.get("fromDate").toString match {
         case "yesterday" => LocalDate.now().minusDays(1).toString()
+        case "2 months from now" => LocalDate.now().plusMonths(2).toString()
         case other => other
       }
 
       val parsedToDate = suppression.get("toDate").toString match {
         case "2 months from now" => LocalDate.now().plusMonths(2).toString()
+        case "4 months from now" => LocalDate.now().plusMonths(4).toString()
         case other => other
       }
       val code = if(suppression.containsKey("code")) suppression.get("code") else "1"
