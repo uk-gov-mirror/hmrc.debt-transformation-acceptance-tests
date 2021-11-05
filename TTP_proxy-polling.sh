@@ -80,7 +80,7 @@ for (( ; ; )); do
     echo ${content} > content.txt
     sed 's/\"/\\\"/g' content.txt > content_escaped.txt
     content_escaped=$(<content_escaped.txt)
-    errors_body_json="{\"requestId\": \"${requestId}\", \"content\": \"${content_escaped}\", \"uri\": \"${uri}\",\"isResponse\": false, \"status\": ${qa_status_code}}"
+    errors_body_json="{\"requestId\": \"${requestId}\", \"content\": \"${content_escaped}\", \"uri\": \"${uri}\",\"isResponse\": true, \"status\": ${qa_status_code}}"
 
     #    Write error to response endpoint with error status code
     et_error_db_status_code=$(curl -s -w %{http_code} ${ETttpStubEndpointResponse} --request POST -H "${et_header_token}" -H "Content-Type: application/json" --data "${errors_body_json}")
