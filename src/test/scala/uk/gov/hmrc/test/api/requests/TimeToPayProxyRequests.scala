@@ -3,6 +3,7 @@ package uk.gov.hmrc.test.api.requests
 import io.cucumber.datatable.DataTable
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
+import java.time.LocalDate
 import play.twirl.api.TwirlHelperImports.twirlJavaCollectionToScala
 import uk.gov.hmrc.test.api.client.WsClient
 import uk.gov.hmrc.test.api.utils.{BaseRequests, BaseUris, ScenarioContext, TestData}
@@ -53,26 +54,47 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
   }
 
   def planDetails(dataTable: DataTable): Unit = {
-    val asMapTransposed      = dataTable.asMaps(classOf[String], classOf[String])
-    val planData             = asMapTransposed.zipWithIndex.head
-    val (plan, _)            = planData
+    val asMapTransposed     = dataTable.asMaps(classOf[String], classOf[String])
+    val planData            = asMapTransposed.zipWithIndex.head
+    val (plan, _)           = planData
+    var quoteDate           = LocalDate.now().toString
+    var instalmentStartDate = LocalDate.now().plusDays(1).toString
+    var initialPaymentDate  = LocalDate.now().plusDays(1).toString
+
+    if (planData.toString.contains("quoteDate")) quoteDate = plan.get("quoteDate")
+    if (planData.toString.contains("instalmentStartDate")) instalmentStartDate = plan.get("instalmentStartDate")
+    if (planData.toString.contains("initialPaymentDate")) initialPaymentDate = plan.get("initialPaymentDate")
+
+    val quoteId             = if (planData.toString().contains("quoteId=")) plan.get("quoteId") else "quoteId1234"
+    val instalmentAmount    = if (planData.toString.contains("instalmentAmount=")) plan.get("instalmentAmount") else "100"
+    val paymentPlanType     = if (planData.toString.contains("paymentPlanType=")) plan.get("paymentPlanType") else "timeToPay"
+    val thirdPartyBank      = if (planData.toString.contains("thirdPartyBank=")) plan.get("thirdPartyBank") else "true"
+    val numberOfInstalments = if (planData.toString.contains("numberOfInstalments=")) plan.get("numberOfInstalments") else "12"
+    val totalDebtIncInt = if (planData.toString.contains("totalDebtIncInt=")) plan.get("totalDebtIncInt") else "10"
+    val totalInterest = if (planData.toString.contains("totalInterest=")) plan.get("totalInterest") else "10"
+    val interestAccrued = if (planData.toString.contains("interestAccrued=")) plan.get("interestAccrued") else "10"
+    val planInterest = if (planData.toString.contains("planInterest=")) plan.get("planInterest") else "10"
+    val frequency = if (planData.toString.contains("frequency=")) plan.get("frequency") else "annually"
+    val duration = if (planData.toString.contains("duration=")) plan.get("duration") else "12"
+
     val replacedPlanDetails  = getBodyAsString("planDetails")
-      .replaceAll("<REPLACE_quoteId>", plan.get("quoteId"))
+      .replaceAll("<REPLACE_quoteId>", quoteId)
       .replaceAll("<REPLACE_quoteType>", plan.get("quoteType"))
-      .replaceAll("<REPLACE_quoteDate>", plan.get("quoteDate"))
-      .replaceAll("<REPLACE_instalmentStartDate>", plan.get("instalmentStartDate"))
-      .replaceAll("<REPLACE_instalmentAmount>", plan.get("instalmentAmount"))
-      .replaceAll("<REPLACE_paymentPlanType>", plan.get("paymentPlanType"))
-      .replaceAll("<REPLACE_thirdPartyBank>", plan.get("thirdPartyBank"))
-      .replaceAll("<REPLACE_numberOfInstalments>", plan.get("numberOfInstalments"))
-      .replaceAll("<REPLACE_frequency>", plan.get("frequency"))
-      .replaceAll("<REPLACE_duration>", plan.get("duration"))
-      .replaceAll("<REPLACE_initialPaymentDate>", plan.get("initialPaymentDate"))
-      .replaceAll("<REPLACE_initialPaymentAmount>", plan.get("initialPaymentAmount"))
-      .replaceAll("<REPLACE_totalDebtIncInt>", plan.get("totalDebtIncInt"))
-      .replaceAll("<REPLACE_totalInterest>", plan.get("totalInterest"))
-      .replaceAll("<REPLACE_interestAccrued>", plan.get("interestAccrued"))
-      .replaceAll("<REPLACE_planInterest>", plan.get("planInterest"))
+      .replaceAll("<REPLACE_quoteDate>", quoteDate)
+      .replaceAll("<REPLACE_instalmentStartDate>", instalmentStartDate)
+      .replaceAll("<REPLACE_instalmentAmount>", instalmentAmount)
+      .replaceAll("<REPLACE_paymentPlanType>", paymentPlanType)
+      .replaceAll("<REPLACE_thirdPartyBank>", thirdPartyBank)
+      .replaceAll("<REPLACE_numberOfInstalments>", numberOfInstalments)
+      .replaceAll("<REPLACE_frequency>", frequency)
+      .replaceAll("<REPLACE_duration>", duration)
+      .replaceAll("<REPLACE_initialPaymentDate>", initialPaymentDate)
+      .replaceAll("<REPLACE_initialPaymentAmount>", instalmentAmount)
+      .replaceAll("<REPLACE_totalDebtIncInt>", totalDebtIncInt)
+      .replaceAll("<REPLACE_totalInterest>", totalInterest)
+      .replaceAll("<REPLACE_interestAccrued>", interestAccrued)
+      .replaceAll("<REPLACE_planInterest>", planInterest)
+
     Try(ScenarioContext.get[String]("planDetails")).fold(
       _ => ScenarioContext.set("planDetails", replacedPlanDetails),
       _ => ()
