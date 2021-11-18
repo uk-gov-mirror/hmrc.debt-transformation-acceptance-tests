@@ -4,10 +4,10 @@ Feature: TTP Create Plan Request
   Scenario: TTP Promote an Arrangement request to create a plan for storage
     Given a create plan
       | customerReference | quoteReference | channelIdentifier |
-      | customerRef1234   | quoteReference | advisor           |
-    And create instalment calculation details
+      | customerRef1234   | quoteReferenc15678911234567891 | advisor           |
+    And create payment plan details
       | quoteId     | quoteType        | quoteDate  | instalmentStartDate | instalmentAmount | paymentPlanType | thirdPartyBank | numberOfInstalments | frequency | duration | initialPaymentDate | initialPaymentAmount | totalDebtIncInt | totalInterest | interestAccrued | planInterest |
-      | quoteId1234 | instalmentAmount | 2021-09-08 | 2021-05-13          | 100              | timeToPay       | true           | 1                   | annually  | 12       | 2021-05-13         | 100                  | 100             | 10            | 10              | 5            |
+      | quoteId1234 | instalmentAmount | 2021-09-08 | 2021-05-13          | 100              | timeToPay       | true           | 1                   | annually  | 12       | 2021-05-13         | 100                  | 100             | 10.1            | 10.1              | 5            |
     And customer address details
       | addressPostcode | postcodeDate |
       | NW9 5XW         | 2021-05-13   |
