@@ -7,6 +7,8 @@
 # 3) Returns the response back to the ET TTP Proxy.
 #
 # If an error is found calling the QA TTP service, the error will be written to the ET response endpoint and processing of the request will end.
+countRequests=0
+lastProcessedTime;
 
 QAttpProxyEndpoint="https://api.qa.tax.service.gov.uk"
 ETttpProxyEndpoint="https://test-api.service.hmrc.gov.uk/individuals/time-to-pay-proxy/"
@@ -38,6 +40,10 @@ echo "*** qa token json is $qa_token_json"
 echo "*** qa token is $qa_token"
 
 for (( ; ; )); do
+  NOW=`date '+%F_%H:%M'`;
+  echo "Current time is:" $NOW
+  echo "Last time a request was seen was:" $lastProcessedTime
+  echo "Count of requests found is:" $countRequests
   sleep 2
   # ******* 1) Poll the GET /requests endpoint on ET TTP Proxy to find next request. *******
   echo "******* START 1) Polling the GET /requests endpoint on ET TTP Proxy to find next request.******* "
@@ -54,6 +60,9 @@ for (( ; ; )); do
     # end processing of request
     continue
   else
+    countRequests=$((countRequests + 1))
+    echo "Request found! Count of requests found is:" $countRequests
+    lastProcessedTime=`date '+%F_%H:%M'`;
     #    No Error found. Set params then continue to next step to call QA
     requestId="$(echo ${body} | sed 's/\[.*requestId\": \"\(.*\)\", \"content.*/\1/')"
     content="$(echo ${body} | sed 's/\[.*content\": \"\(.*\)\", \"uri.*/\1/')"
