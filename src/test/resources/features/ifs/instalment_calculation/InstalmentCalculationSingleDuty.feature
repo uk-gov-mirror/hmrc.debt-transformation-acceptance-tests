@@ -223,7 +223,7 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
     And debt plan details with initial payment
       | initialPaymentAmount | initialPaymentDays |
       | 5000                 | 129                |
-    And the instalment calculation has debt item charges./
+    And the instalment calculation has debt item charges
       | debtId | debtAmount | mainTrans | subTrans |
       | debtId | 100000     | 1530      | 1000     |
     When the instalment calculation detail is sent to the ifs service
