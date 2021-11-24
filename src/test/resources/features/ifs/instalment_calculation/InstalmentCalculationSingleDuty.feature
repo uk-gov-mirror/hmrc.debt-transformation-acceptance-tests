@@ -157,6 +157,64 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
     Then Ifs service returns response code 400
     And Ifs service returns error message {"statusCode":400,"reason":"Invalid JSON error from IFS","message":"Field at path '/initialPaymentDate' missing or invalid"}
 
+  Scenario: Payment plan calculation request -initialPaymentDate in past
+    Given debt instalment calculation with details
+      | instalmentPaymentAmount | instalmentPaymentDay | paymentFrequency | interestCallDueTotal | quoteType |
+      | 10000                   | 129                  | single           | 1423                 | duration  |
+    And the instalment calculation has no postcodes
+    And debt plan details with initial payment
+      | initialPaymentAmount | initialPaymentDays |
+      | 5000                 | -1                 |
+    And the instalment calculation has debt item charges
+      | debtId | debtAmount | mainTrans | subTrans |
+      | debtId | 100000     | 1530      | 1000     |
+    When the instalment calculation detail is sent to the ifs service
+    Then Ifs service returns response code 400
+    And Ifs service returns error message {"statusCode":400,"reason":"Invalid JSON error from IFS","message":"The Initial Payment Date should be on or after quoteDate"}
+
+  Scenario: Payment plan calculation request -initialPaymentDate can be today
+    Given debt instalment calculation with details
+      | instalmentPaymentAmount | instalmentPaymentDay | paymentFrequency | interestCallDueTotal | quoteType |
+      | 10000                   | 129                  | single           | 1423                 | duration  |
+    And the instalment calculation has no postcodes
+    And debt plan details with initial payment
+      | initialPaymentAmount | initialPaymentDays |
+      | 5000                 | 0                 |
+    And the instalment calculation has debt item charges
+      | debtId | debtAmount | mainTrans | subTrans |
+      | debtId | 100000     | 1530      | 1000     |
+    When the instalment calculation detail is sent to the ifs service
+    Then Ifs service returns response code 200
+
+  Scenario: Payment plan calculation request -instalmentDate in past
+    Given debt instalment calculation with details
+      | instalmentPaymentAmount | instalmentPaymentDay | paymentFrequency | interestCallDueTotal | quoteType |
+      | 10000                   | -1                   | single           | 1423                 | duration  |
+    And the instalment calculation has no postcodes
+    And debt plan details with initial payment
+      | initialPaymentAmount | initialPaymentDays |
+      | 5000                 | 0                  |
+    And the instalment calculation has debt item charges
+      | debtId | debtAmount | mainTrans | subTrans |
+      | debtId | 100000     | 1530      | 1000     |
+    When the instalment calculation detail is sent to the ifs service
+    Then Ifs service returns response code 400
+    And Ifs service returns error message {"statusCode":400,"reason":"Invalid JSON error from IFS","message":"Could not parse body due to requirement failed: Instalment Date should be on or after quoteDate."}
+
+  Scenario: Payment plan calculation request -instalmentDate can be today
+    Given debt instalment calculation with details
+      | instalmentPaymentAmount | instalmentPaymentDay | paymentFrequency | interestCallDueTotal | quoteType |
+      | 10000                   | 0                   | single           | 1423                 | duration  |
+    And the instalment calculation has no postcodes
+    And debt plan details with initial payment
+      | initialPaymentAmount | initialPaymentDays |
+      | 5000                 | 0                  |
+    And the instalment calculation has debt item charges
+      | debtId | debtAmount | mainTrans | subTrans |
+      | debtId | 100000     | 1530      | 1000     |
+    When the instalment calculation detail is sent to the ifs service
+    Then Ifs service returns response code 200
+
   Scenario: Payment plan calculation request -initialPaymentDate is after instalmentPaymentDate
     Given debt instalment calculation with details
       | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | quoteType |
@@ -165,7 +223,7 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
     And debt plan details with initial payment
       | initialPaymentAmount | initialPaymentDays |
       | 5000                 | 129                |
-    And the instalment calculation has debt item charges
+    And the instalment calculation has debt item charges./
       | debtId | debtAmount | mainTrans | subTrans |
       | debtId | 100000     | 1530      | 1000     |
     When the instalment calculation detail is sent to the ifs service
