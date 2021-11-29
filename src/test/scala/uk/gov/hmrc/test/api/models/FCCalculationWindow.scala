@@ -18,21 +18,8 @@ case class FCCalculationWindow(
                                 interestDueWindow: Int,
                                 amountOnIntDueWindow: Int,
                                 unpaidAmountWindow: Int,
-                                suppressionApplied: Option[SuppressionApplied]
+                                suppressionApplied: Option[SuppressionApplied])
 
-                                //                                suppressionDateFrom: Option[LocalDate],
-//                                suppressionDateTo: Option[LocalDate],
-//                                suppressionReason: Option[SuppressionReason],
-//                                suppressionReasonDesc: Option[String],
-//                                suppressionPostcode: Option[String]
-                              //suppressionApplied: Option[SuppressionApplied]
-                            )
-
-//case class SuppressionApplied(reason: String, description: String, code: String)
-//
-//object SuppressionApplied {
-//  implicit val formatCalculationWindow: OFormat[SuppressionApplied] = Json.format[SuppressionApplied]
-//}
 
 object FCCalculationWindow {
   implicit val formatDebtItemCalculationWindow: OFormat[FCCalculationWindow] =
