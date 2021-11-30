@@ -1,0 +1,14 @@
+     {
+          "debtItemChargeId": "<REPLACE_debtItemChargeId>",
+          "originalAmount": <REPLACE_originalAmount>,
+          "workItemType": "<REPLACE_workItemType>",
+          "subType": "<REPLACE_subType>",
+          "interestIndicator": "<REPLACE_interestIndicator>",
+          "interestStartDate": "<REPLACE_interestStartDate>",
+          "interestRequestedTo": "<REPLACE_interestRequestedTo>",
+          <REPLACE_periodEnd>
+          "paymentHistory": [
+          		 <REPLACE_payments>
+          ]
+     }
+
