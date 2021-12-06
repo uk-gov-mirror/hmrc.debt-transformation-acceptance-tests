@@ -109,12 +109,6 @@ object FieldCollectionsVATRequests extends ScalaDsl with EN with Eventually with
     print("IFS FC VAT debt-calculation request::::::::::::::::::" + debtItems)
   }
 
-//  def createInterestForcastingRequestWithNoDebtItems(): Unit =
-//    ScenarioContext.set(
-//      "debtItems",
-//      "{\"debtItems\":[],\"breathingSpaces\": []}"
-//    )
-//
   def addFCVATPaymentHistory(dataTable: DataTable): Unit = {
     val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
     var payments        = ""
