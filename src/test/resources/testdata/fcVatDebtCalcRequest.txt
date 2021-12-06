@@ -1,0 +1,14 @@
+{
+  "debtItems": [
+    <REPLACE_fcVatDebtItem>
+  ],
+
+  "customerPostcodes": [
+  <REPLACE_fcCustomerPostCodes>
+  ],
+
+   "breathingSpaces": [
+      <REPLACE_breathingSpaces>
+    ]
+
+}
