@@ -31,17 +31,19 @@ Feature: Debt Calculation Validation
       | statusCode | reason                      | message                                                         |
       | 400        | Invalid JSON error from IFS | Field at path '/debtItems(0)/originalAmount' missing or invalid |
 
-  Scenario: TPSS MainTrans (1525) debt Amount non integer - Edge Case
-    Given a debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 1.2            | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1525      | 1000     | true            |
-    And the debt item has no payment history
-    And no breathing spaces have been applied to the customer
-    And no post codes have been provided for the customer
-    When the debt item is sent to the ifs service
-    Then the ifs service will respond with
-      | statusCode | reason                      | message                                                         |
-      | 400        | Invalid JSON error from IFS | Field at path '/debtItems(0)/originalAmount' missing or invalid |
+
+# Test redundant - Scenario not explicitly defined in requirements  - see DTD-775
+#  Scenario: TPSS MainTrans (1525) debt Amount non integer - Edge Case
+#    Given a debt item
+#      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
+#      | 1.2            | 2021-03-01  | 2021-03-01        | 2021-03-08          | 1525      | 1000     | true            |
+#    And the debt item has no payment history
+#    And no breathing spaces have been applied to the customer
+#    And no post codes have been provided for the customer
+#    When the debt item is sent to the ifs service
+#    Then the ifs service will respond with
+#      | statusCode | reason                      | message                                                         |
+#      | 400        | Invalid JSON error from IFS | Field at path '/debtItems(0)/originalAmount' missing or invalid |
 
   Scenario: TPSS MainTrans (1525) debt invalid entry in Date Created - Edge Case
     Given a debt item
