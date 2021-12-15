@@ -82,13 +82,6 @@ class FCVATInterestForecastingSteps extends ScalaDsl with EN with Eventually wit
     noFCVatBreathingSpace()
   }
 
-  Given("the fc vat customer has post codes") { (dataTable: DataTable) =>
-    addFCVATCustomerPostCodes(dataTable)
-  }
-
-  Given("the fc vat customer has no post codes") { () =>
-    noFCVatCustomerPostCodes()
-  }
   Then("""the fc vat ifs service will respond with (.*)""") { (expectedMessage: String) =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.body   should include(expectedMessage)

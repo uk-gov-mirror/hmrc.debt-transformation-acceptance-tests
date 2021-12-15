@@ -93,7 +93,8 @@ object FieldCollectionsVATRequests extends ScalaDsl with EN with Eventually with
     catch { case e: Exception => firstItem = true }
 
     val fcVatDebtItem = getBodyAsString("fcVatDebtItem")
-      .replaceAll("<REPLACE_debtItemChargeId>", "123")
+      .replaceAll("<REPLACE_debtId>", asmapTransposed.get("debtId"))
+      .replaceAll("<REPLACE_debtItemChargeId>", asmapTransposed.get("debtItemChargeId"))
       .replaceAll("<REPLACE_originalAmount>", asmapTransposed.get("originalAmount"))
       .replaceAll("<REPLACE_interestIndicator>", asmapTransposed.get("interestIndicator"))
       .replaceAll("<REPLACE_interestRequestedTo>", asmapTransposed.get("interestRequestedTo"))
@@ -171,39 +172,6 @@ object FieldCollectionsVATRequests extends ScalaDsl with EN with Eventually with
     ScenarioContext.set(
       "fcVatDebtItem",
       getBodyAsString("fcVatDebtCalcRequest").replaceAllLiterally("<REPLACE_fcVatDebtItem>", ScenarioContext.get("fcVatDebtItem"))
-    )
-    ScenarioContext.set(
-      "fcVatDebtItem",
-      ScenarioContext.get("fcVatDebtItem").toString.replaceAll("<REPLACE_breathingSpaces>", "")
-    )
-  }
-
-  def addFCVATCustomerPostCodes(dataTable: DataTable): Unit = {
-
-    val asMapTransposed   = dataTable.asMaps(classOf[String], classOf[String])
-    var customerPostCodes = ""
-
-    asMapTransposed.zipWithIndex.foreach { case (postCode, index) =>
-      customerPostCodes = customerPostCodes.concat(
-        getBodyAsString("fcCustomerPostCodes")
-          .replaceAll("<REPLACE_addressPostcode>", postCode.get("addressPostcode"))
-          .replaceAll("<REPLACE_postcodeDate>", postCode.get("postcodeDate"))
-      )
-
-      if (index + 1 < asMapTransposed.size) customerPostCodes = customerPostCodes.concat(",")
-
-    }
-
-    val jsonWithCustomerPostCodes =
-      ScenarioContext.get("fcVatDebtItem").toString.replaceAll("<REPLACE_fcCustomerPostCodes>", customerPostCodes)
-    ScenarioContext.set("fcVatDebtItem", jsonWithCustomerPostCodes)
-  }
-
-
-  def noFCVatCustomerPostCodes() {
-    ScenarioContext.set(
-      "fcVatDebtItem",
-      ScenarioContext.get("fcVatDebtItem").toString.replaceAll("<REPLACE_fcCustomerPostCodes>", "")
     )
   }
 }
