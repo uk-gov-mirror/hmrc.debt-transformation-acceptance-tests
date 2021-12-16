@@ -107,9 +107,10 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
     } else { dateCreated = "" }
 
     val fcDebtItem = getBodyAsString("fcDebtItem")
-      .replaceAll("<REPLACE_debtItemChargeId>", "123")
+      .replaceAll("<REPLACE_debtItemChargeId>", asmapTransposed.get("debtItemChargeId"))
       .replaceAll("<REPLACE_originalAmount>", asmapTransposed.get("originalAmount"))
       .replaceAll("<REPLACE_interestIndicator>", asmapTransposed.get("interestIndicator"))
+      .replaceAll("<REPLACE_periodEnd>", asmapTransposed.get("periodEnd"))
       .replaceAll("<REPLACE_interestStartDate>", asmapTransposed.get("interestStartDate"))
       .replaceAll("<REPLACE_interestRequestedTo>", asmapTransposed.get("interestRequestedTo"))
       .replaceAll("<REPLACE_periodEnd>", periodEnd)
