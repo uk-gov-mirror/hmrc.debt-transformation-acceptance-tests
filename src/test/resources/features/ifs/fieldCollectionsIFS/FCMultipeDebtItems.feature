@@ -1,15 +1,16 @@
+@ops
 Feature: FC Debt Calculation End point testing
 
   Scenario: 1. Interest Indicators. 2 debt. 1 payment history
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | workItemType | subType | interestIndicator |
-      | 500000         | 2018-12-16        | 2019-04-14          | 1520         | 1090    | Y                 |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
+      | 500000         | 2018-12-16        | 2019-04-14          | Y                 | 2018-04-06 | 123              |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 100000        | 2019-02-03  |
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | workItemType | subType | interestIndicator |
-      | 300000         | 2018-12-16        | 2019-04-14          | 1520         | 1090    | Y                 |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
+      | 300000         | 2018-12-16        | 2019-04-14          | Y                 | 2018-04-06 | 456              |
     And the fc debt item has no payment history
     And no breathing spaces have been applied to the fc customer
     And the fc customer has post codes
@@ -25,8 +26,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: 2. Interest Indicator. 1 Payment of 1 debt.
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | workItemType | subType | interestIndicator |
-      | 500000         | 2018-12-16        | 2019-04-14          | 1520         | 1090    | Y                 |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
+      | 500000         | 2018-12-16        | 2019-04-14          | Y                 | 2018-04-06 | 123              |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 100000        | 2019-02-03  |
@@ -44,8 +45,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: 3. No Interest Indicator. 1 Payment of 1 debt.
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | workItemType | subType | interestIndicator |
-      | 500000         | 2018-12-16        | 2019-04-14          | 1520         | 1090    | N                 |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
+      | 500000         | 2018-12-16        | 2019-04-14          | N                 | 2018-04-06 | 123              |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 100000        | 2019-02-03  |
@@ -64,8 +65,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: 4. Interest Indicator. 1 Payment of 1 debt. No breathing space.
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | workItemType | subType | interestIndicator |
-      | 500000         | 2018-12-16        | 2019-04-14          | 1520         | 1090    | Y                 |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
+      | 500000         | 2018-12-16        | 2019-04-14          | Y                 | 2018-04-06 | 123              |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 100000        | 2019-02-03  |
@@ -83,8 +84,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: 5. 1 debt, no payment history
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | workItemType | subType | interestIndicator |
-      | 500000         | 2018-07-16        | 2019-04-16          | 1520         | 1090    | Y                 |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
+      | 500000         | 2018-07-16        | 2019-04-16          | Y                 | 2018-04-06 | 123              |
     And the fc debt item has no payment history
     And no breathing spaces have been applied to the fc customer
     And the fc customer has no post codes
@@ -98,8 +99,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: 6. Interest Indicator. 1 Payment of 1 debt. Payment Done.
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | workItemType | subType | interestIndicator |
-      | 500000         | 2018-12-16        | 2019-04-14          | 1520         | 1090    | Y                 |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
+      | 500000         | 2018-12-16        | 2019-04-14          | Y                 | 2018-04-06 | 123              |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 500000        | 2019-02-03  |
@@ -120,8 +121,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: 7. Total Payments cannot be 0.
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | workItemType | subType | interestIndicator |
-      | 500000         | 2018-12-16        | 2019-04-14          | 1520         | 1090    | Y                 |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
+      | 500000         | 2018-12-16        | 2019-04-14          | Y                 | 2018-04-06 | 123              |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 0             | 2019-02-03  |
@@ -132,8 +133,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: 8. Total Payments cannot be negative.
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | workItemType | subType | interestIndicator |
-      | 500000         | 2018-12-16        | 2019-04-14          | 1520         | 1090    | Y                 |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
+      | 500000         | 2018-12-16        | 2019-04-14          | Y                 | 2018-04-06 | 123              |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | -1000         | 2019-02-03  |
@@ -144,8 +145,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: 9. Total Payment amounts cannot be more than the original amount.
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | workItemType | subType | interestIndicator |
-      | 500000         | 2018-12-16        | 2019-04-14          | 1520         | 1090    | Y                 |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
+      | 500000         | 2018-12-16        | 2019-04-14          | Y                 | 2018-04-06 | 123              |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 555555        | 2019-02-03  |
@@ -156,8 +157,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: 10. No InterestStartDate but InterestIndicator is Yes.
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | workItemType | subType | interestIndicator |
-      | 500000         |                   | 2019-04-14          | 1520         | 1090    | Y                 |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
+      | 500000         |                   | 2019-04-14          | Y                 | 2018-04-06 | 123              |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 100000        | 2019-02-03  |
@@ -171,8 +172,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: FC Debt ending in a leap year
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | workItemType | subType | interestIndicator |
-      | 500000         | 2018-01-01        | 2020-04-01          | 1525         | 1000    | Y                 |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
+      | 500000         | 2018-01-01        | 2020-04-01          | Y                 | 2018-04-06 | 123              |
     And the fc debt item has no payment history
     And no breathing spaces have been applied to the fc customer
     And the fc customer has no post codes
@@ -192,8 +193,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: FC Debt starting in a leap year
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | workItemType | subType | interestIndicator |
-      | 500000         | 2020-05-02        | 2021-05-01          | 1525         | 1000    | Y                 |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
+      | 500000         | 2020-05-02        | 2021-05-01          | Y                 | 2018-04-06 | 123              |
     And the fc debt item has no payment history
     And no breathing spaces have been applied to the fc customer
     And the fc customer has no post codes
@@ -211,8 +212,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: FC Debt crossing a leap year
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | workItemType | subType | interestIndicator |
-      | 500000         | 2018-01-01        | 2021-04-01          | 1525         | 1000    | Y                 |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
+      | 500000         | 2018-01-01        | 2021-04-01          | Y                 | 2018-04-06 | 123              |
     And the fc debt item has no payment history
     And no breathing spaces have been applied to the fc customer
     And the fc customer has no post codes
@@ -235,8 +236,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: FC Interest rate changes from 3.25%, 2.75% and 2.6% after a payment is made
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | workItemType | subType | interestIndicator |
-      | 500000         | 2019-12-16        | 2020-05-05          | 1525         | 1000    | Y                 |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
+      | 500000         | 2019-12-16        | 2020-05-05          | Y                 | 2018-04-06 | 123              |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 100000        | 2020-05-03  |
@@ -262,8 +263,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: FC Debt spanning multiple leap years
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | workItemType | subType | interestIndicator |
-      | 500000         | 2011-01-01        | 2017-02-22          | 1525         | 1000    | Y                 |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
+      | 500000         | 2011-01-01        | 2017-02-22          | Y                 | 2018-04-06 | 123              |
     And the fc debt item has no payment history
     And no breathing spaces have been applied to the fc customer
     And the fc customer has no post codes
@@ -286,8 +287,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: FC Interest rate changes from 3% to 3.25%
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | workItemType | subType | interestIndicator |
-      | 500000         | 2017-12-01        | 2019-03-31          | 1525         | 1000    | Y                 |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
+      | 500000         | 2017-12-01        | 2019-03-31          | Y                 | 2018-04-06 | 123              |
     And the fc debt item has no payment history
     And no breathing spaces have been applied to the fc customer
     And the fc customer has no post codes
@@ -306,8 +307,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: FC Interest rate changes from 3% to 3.25% with 2 payments on same date in a leap year
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | workItemType | subType | interestIndicator |
-      | 500000         | 2019-01-01        | 2020-03-31          | 1525         | 1000    | Y                 |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
+      | 500000         | 2019-01-01        | 2020-03-31          | Y                 | 2018-04-06 | 123              |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 100000        | 2020-02-01  |
@@ -332,8 +333,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: FC Interest rate changes from 3% to 3.25% with 2 payments on same date in a leap year
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | workItemType | subType | interestIndicator |
-      | 500000         | 2019-01-01        | 2020-03-31          | 1525         | 1000    | Y                 |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
+      | 500000         | 2019-01-01        | 2020-03-31          | Y                 | 2018-04-06 | 123              |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 100000        | 2020-02-01  |
@@ -357,8 +358,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: FC Interest rate changes from 3% to 3.25%
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | workItemType | subType | interestIndicator |
-      | 500000         | 2017-12-01        | 2019-03-31          | 1525         | 1000    | Y                 |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
+      | 500000         | 2017-12-01        | 2019-03-31          | Y                 | 2018-04-06 | 123              |
     And the fc debt item has no payment history
     And no breathing spaces have been applied to the fc customer
     And the fc customer has no post codes
@@ -376,8 +377,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: FC Interest rate changes from 3% to 3.25% after a payment is made
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | workItemType | subType | interestIndicator |
-      | 500000         | 2018-01-01        | 2019-03-31          | 1525         | 1000    | Y                 |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
+      | 500000         | 2018-01-01        | 2019-03-31          | Y                 | 2018-04-06 | 123              |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 100000        | 2018-03-15  |
@@ -398,8 +399,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: FC Interest rate changes from 3% to 3.25% with 2 payments on same date
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | workItemType | subType | interestIndicator |
-      | 500000         | 2018-01-01        | 2019-03-31          | 1525         | 1000    | Y                 |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
+      | 500000         | 2018-01-01        | 2019-03-31          | Y                 | 2018-04-06 | 123              |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 100000        | 2018-09-01  |
@@ -419,15 +420,15 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: FC 2 Debts - Interest rate changes from 3% to 3.25% and then multiple payments are made for both debts
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | workItemType | subType | interestIndicator |
-      | 500000         | 2018-01-01        | 2019-03-31          | 1525         | 1000    | Y                 |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
+      | 500000         | 2018-01-01        | 2019-03-31          | Y                 | 2018-04-06 | 123              |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 100000        | 2019-03-15  |
       | 100000        | 2019-04-15  |
     And a fc debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | workItemType | subType | interestIndicator |
-      | 500000         | 2018-01-16  | 2018-01-16        | 2019-04-14          | 1545         | 1090    | Y                 |
+      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
+      | 500000         | 2018-01-16  | 2018-01-16        | 2019-04-14          | Y                 | 2018-04-06 | 456              |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 100000        | 2019-01-20  |
@@ -464,8 +465,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: FC Interest rate changes from 2.75% to 2.6% - interestRequestedTo before interestStartDate
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | workItemType | subType |interestIndicator|
-      | 500000         | 2020-04-10        | 2020-03-31          | 1525      | 1000     |Y                  |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
+      | 500000         | 2020-04-10        | 2020-03-31          | Y                 | 2018-04-06 | 123              |
     And the fc debt item has no payment history
     And no breathing spaces have been applied to the fc customer
     And the fc customer has no post codes
@@ -477,4 +478,18 @@ Feature: FC Debt Calculation End point testing
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
       | true            | 0                    | 0                       | 500000             |
     And the 1st fc debt summary will not have any calculation windows
+
+  Scenario: periodEnd and interestStartDate is missing or invalid.
+    Given a fc debt item
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd | debtItemChargeId |
+      | 500000         |                   | 2019-04-14          | Y                 |           | 123              |
+    And the debt item has fc payment history
+      | paymentAmount | paymentDate |
+      | 100000        | 2019-02-03  |
+    And no breathing spaces have been applied to the fc customer
+    And the fc customer has post codes
+      | addressPostcode | postcodeDate |
+      | TW3 4QQ         | 2019-07-06   |
+    When the debt item is sent to the fc ifs service
+    Then the fc ifs service will respond with Field at path '/debtItems(0)/interestStartDate' missing or invalid\nField at path '/debtItems(0)/periodEnd' missing or invalid
 

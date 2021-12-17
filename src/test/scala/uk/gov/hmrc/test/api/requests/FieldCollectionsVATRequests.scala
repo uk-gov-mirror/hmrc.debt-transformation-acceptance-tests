@@ -22,11 +22,12 @@ import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
-import play.twirl.api.TwirlHelperImports.twirlJavaCollectionToScala
 import uk.gov.hmrc.test.api.client.WsClient
 import uk.gov.hmrc.test.api.utils.{BaseRequests, ScenarioContext, TestData}
 
-object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Matchers with BaseRequests {
+import scala.collection.convert.WrapAsScala.`deprecated asScalaBuffer`
+
+object FieldCollectionsVATRequests extends ScalaDsl with EN with Eventually with Matchers with BaseRequests {
 
   def getDebtCalculation(json: String): StandaloneWSResponse = {
     val bearerToken = createBearerToken(
@@ -34,14 +35,14 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
       userType = getRandomAffinityGroup,
       utr = "123456789012"
     )
-    val baseUri     = s"$interestForecostingApiUrl/fc-debt-calculation"
+    val baseUri     = s"$interestForecostingApiUrl/fc-vat-debt-calculation"
     val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
       "Content-Type"  -> "application/json",
       "Accept"        -> "application/vnd.hmrc.1.0+json"
     )
-    print("IFS debt-calculation baseUri ************************" + baseUri)
-    print("IFS debt-calculation request json********************" + Json.parse(json))
+    print("IFS FC VAT debt-calculation baseUri ************************" + baseUri)
+    print("IFS FC VAT debt-calculation request json********************" + Json.parse(json))
 
     WsClient.post(baseUri, headers = headers, Json.parse(json))
   }
@@ -84,54 +85,31 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
   def getBodyAsString(variant: String): String =
     TestData.loadedFiles(variant)
 
-  def createInterestFocastingRequestBodyFC(dataTable: DataTable): Unit = {
+  def createInterestForecastingRequestBodyFCVAT(dataTable: DataTable): Unit = {
     val asmapTransposed   = dataTable.transpose().asMap(classOf[String], classOf[String])
     var firstItem         = false
     var debtItems: String = null
-    try ScenarioContext.get("fcDebtItem")
+    try ScenarioContext.get("fcVatDebtItem")
     catch { case e: Exception => firstItem = true }
 
-    var periodEnd = ""
-    if (asmapTransposed.toString.contains("periodEnd")) {
-      periodEnd = "\"periodEnd\": \"" + asmapTransposed.get("periodEnd") + "\","
-    } else { periodEnd = "" }
-
-    var dateCreated = ""
-    if (asmapTransposed.toString.contains("dateCreated")) {
-      periodEnd = "\"dateCreated\": \"" + asmapTransposed.get("dateCreated") + "\","
-    } else { dateCreated = "" }
-
-    var interestStartDate = ""
-    if (asmapTransposed.toString.contains("interestStartDate")) {
-      interestStartDate = "\"interestStartDate\": \"" + asmapTransposed.get("interestStartDate") + "\","
-    } else { dateCreated = "" }
-
-    val fcDebtItem = getBodyAsString("fcDebtItem")
+    val fcVatDebtItem = getBodyAsString("fcVatDebtItem")
       .replaceAll("<REPLACE_debtItemChargeId>", asmapTransposed.get("debtItemChargeId"))
       .replaceAll("<REPLACE_originalAmount>", asmapTransposed.get("originalAmount"))
       .replaceAll("<REPLACE_interestIndicator>", asmapTransposed.get("interestIndicator"))
-      .replaceAll("<REPLACE_periodEnd>", asmapTransposed.get("periodEnd"))
-      .replaceAll("<REPLACE_interestStartDate>", asmapTransposed.get("interestStartDate"))
       .replaceAll("<REPLACE_interestRequestedTo>", asmapTransposed.get("interestRequestedTo"))
-      .replaceAll("<REPLACE_periodEnd>", periodEnd)
+      .replaceAll("<REPLACE_periodEnd>", asmapTransposed.get("periodEnd"))
 
-    if (firstItem == true) { debtItems = fcDebtItem }
-    else { debtItems = ScenarioContext.get("fcDebtItem").toString.concat(",").concat(fcDebtItem) }
+    if (firstItem == true) { debtItems = fcVatDebtItem }
+    else { debtItems = ScenarioContext.get("fcVatDebtItem").toString.concat(",").concat(fcVatDebtItem) }
 
     ScenarioContext.set(
-      "fcDebtItem",
+      "fcVatDebtItem",
       debtItems
     )
-    print("IFS debt-calculation request::::::::::::::::::" + debtItems)
+    print("IFS FC VAT debt-calculation request::::::::::::::::::" + debtItems)
   }
 
-  def createInterestForcastingRequestWithNoDebtItems(): Unit =
-    ScenarioContext.set(
-      "debtItems",
-      "{\"debtItems\":[],\"breathingSpaces\": []}"
-    )
-
-  def addFCPaymentHistory(dataTable: DataTable): Unit = {
+  def addFCVATPaymentHistory(dataTable: DataTable): Unit = {
     val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
     var payments        = ""
 
@@ -144,21 +122,21 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
 
       if (index + 1 < asMapTransposed.size) payments = payments.concat(",")
     }
-    val jsonWithPayments = ScenarioContext.get("fcDebtItem").toString.replaceAll("<REPLACE_payments>", payments)
-    ScenarioContext.set("fcDebtItem", jsonWithPayments)
+    val jsonWithPayments = ScenarioContext.get("fcVatDebtItem").toString.replaceAll("<REPLACE_payments>", payments)
+    ScenarioContext.set("fcVatDebtItem", jsonWithPayments)
     print("debt with payment history ::::::::::::::::::::::::::::::" + jsonWithPayments)
 
   }
 
-  def fcCustomerWithNoPaymentHistory(): Unit =
-    ScenarioContext.set("fcDebtItem", ScenarioContext.get("fcDebtItem").toString.replaceAll("<REPLACE_payments>", ""))
+  def fcVatCustomerWithNoPaymentHistory(): Unit =
+    ScenarioContext.set("fcVatDebtItem", ScenarioContext.get("fcVatDebtItem").toString.replaceAll("<REPLACE_payments>", ""))
 
-  def addFCBreathingSpace(dataTable: DataTable): Unit = {
+  def addFCVATBreathingSpace(dataTable: DataTable): Unit = {
     // Set scenario Context to be all debt items with payments.
     ScenarioContext.set(
-      "fcDebtItem",
-      getBodyAsString("fcdebtCalcRequest")
-        .replaceAllLiterally("<REPLACE_fcDebtItem>", ScenarioContext.get("fcDebtItem"))
+      "fcVatDebtItem",
+      getBodyAsString("fcVatDebtCalcRequest")
+        .replaceAllLiterally("<REPLACE_fcVatDebtItem>", ScenarioContext.get("fcVatDebtItem"))
     )
 
     val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
@@ -184,48 +162,15 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
     }
 
     val jsonWithbreathingSpaces =
-      ScenarioContext.get("fcDebtItem").toString.replaceAll("<REPLACE_breathingSpaces>", breathingSpaces)
-    ScenarioContext.set("fcDebtItem", jsonWithbreathingSpaces)
+      ScenarioContext.get("fcVatDebtItem").toString.replaceAll("<REPLACE_breathingSpaces>", breathingSpaces)
+    ScenarioContext.set("fcVatDebtItem", jsonWithbreathingSpaces)
   }
 
-  def noFCBreathingSpace() {
+  def noFCVatBreathingSpace() {
     // Set scenario Context to be all debt items with payments.
     ScenarioContext.set(
-      "fcDebtItem",
-      getBodyAsString("fcdebtCalcRequest").replaceAllLiterally("<REPLACE_fcDebtItem>", ScenarioContext.get("fcDebtItem"))
-    )
-    ScenarioContext.set(
-      "fcDebtItem",
-      ScenarioContext.get("fcDebtItem").toString.replaceAll("<REPLACE_breathingSpaces>", "")
-    )
-  }
-
-  def addFCCustomerPostCodes(dataTable: DataTable): Unit = {
-
-    val asMapTransposed   = dataTable.asMaps(classOf[String], classOf[String])
-    var customerPostCodes = ""
-
-    asMapTransposed.zipWithIndex.foreach { case (postCode, index) =>
-      customerPostCodes = customerPostCodes.concat(
-        getBodyAsString("fcCustomerPostCodes")
-          .replaceAll("<REPLACE_addressPostcode>", postCode.get("addressPostcode"))
-          .replaceAll("<REPLACE_postcodeDate>", postCode.get("postcodeDate"))
-      )
-
-      if (index + 1 < asMapTransposed.size) customerPostCodes = customerPostCodes.concat(",")
-
-    }
-
-    val jsonWithCustomerPostCodes =
-      ScenarioContext.get("fcDebtItem").toString.replaceAll("<REPLACE_fcCustomerPostCodes>", customerPostCodes)
-    ScenarioContext.set("fcDebtItem", jsonWithCustomerPostCodes)
-  }
-
-
-  def noFCCustomerPostCodes() {
-    ScenarioContext.set(
-      "fcDebtItem",
-      ScenarioContext.get("fcDebtItem").toString.replaceAll("<REPLACE_fcCustomerPostCodes>", "")
+      "fcVatDebtItem",
+      getBodyAsString("fcVatDebtCalcRequest").replaceAllLiterally("<REPLACE_fcVatDebtItem>", ScenarioContext.get("fcVatDebtItem"))
     )
   }
 }
