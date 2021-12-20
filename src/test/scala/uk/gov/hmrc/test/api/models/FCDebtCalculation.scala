@@ -8,8 +8,7 @@ package uk.gov.hmrc.test.api.models
 import play.api.libs.json.{Json, OFormat}
 
 case class FCDebtCalculation(
-
-                              interestBearing: Boolean,
+                              debtItemChargeId: String,
                               interestDueDailyAccrual: Int,
                               interestDueDutyTotal: Int,
                               amountOnIntDueDuty: Int,

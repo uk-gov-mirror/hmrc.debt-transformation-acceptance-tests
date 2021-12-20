@@ -85,8 +85,8 @@ class FCInterestForecastingSteps extends ScalaDsl with EN with Eventually with M
       val responseBody: FCDebtCalculation =
         Json.parse(response.body).as[FCDebtCalculationsSummary].debtCalculations(index - 1)
 
-      if (asMapTransposed.containsKey("interestBearing")) {
-        responseBody.interestBearing.toString shouldBe asMapTransposed.get("interestBearing").toString
+      if (asMapTransposed.containsKey("debtItemChargeId")) {
+        responseBody.debtItemChargeId.toString shouldBe asMapTransposed.get("debtItemChargeId").toString
       }
 
       if (asMapTransposed.containsKey("interestDueDailyAccrual")) {

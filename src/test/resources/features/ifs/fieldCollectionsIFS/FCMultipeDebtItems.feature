@@ -20,8 +20,8 @@ Feature: FC Debt Calculation End point testing
       | combinedDailyAccrual | unpaidAmountTotal | interestDueCallTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 61                   | 700000            | 7852                 | 707852              | 700000              |
     And the 1st fc debt summary will contain
-      | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
-      | true            | 0                    | 35                      | 4674                 | 400000           | 404674             | 400000             |
+      | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
+      | 0                    | 35                      | 4674                 | 400000           | 404674             | 400000             |
 
   Scenario: 2. Interest Indicator. 1 Payment of 1 debt.
     Given a fc debt item
@@ -39,8 +39,8 @@ Feature: FC Debt Calculation End point testing
       | combinedDailyAccrual | unpaidAmountTotal | interestDueCallTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 35                   | 400000            | 4674                 | 404674              | 400000              |
     And the 1st fc debt summary will contain
-      | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
-      | true            | 0                    | 35                      | 4674                 | 400000           | 404674             | 400000             |
+      | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
+      | 0                    | 35                      | 4674                 | 400000           | 404674             | 400000             |
 
   Scenario: 3. No Interest Indicator. 1 Payment of 1 debt.
     Given a fc debt item
@@ -58,8 +58,8 @@ Feature: FC Debt Calculation End point testing
       | combinedDailyAccrual | unpaidAmountTotal | interestDueCallTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 0                    | 400000            | 0                    | 400000              | 400000              |
     And the 1st fc debt summary will contain
-      | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
-      | false           | 0                    | 0                       | 0                    | 400000           | 400000             | 400000             |
+      | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
+      | 0                    | 0                       | 0                    | 400000           | 400000             | 400000             |
     And the 1st fc debt summary will not have any calculation windows
 
   Scenario: 4. Interest Indicator. 1 Payment of 1 debt. No breathing space.
@@ -78,8 +78,8 @@ Feature: FC Debt Calculation End point testing
       | combinedDailyAccrual | unpaidAmountTotal | interestDueCallTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 35                   | 400000            | 4674                 | 404674              | 400000              |
     And the 1st fc debt summary will contain
-      | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
-      | true            | 0                    | 35                      | 4674                 | 400000           | 404674             | 400000             |
+      | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
+      | 0                    | 35                      | 4674                 | 400000           | 404674             | 400000             |
 
   Scenario: 5. 1 debt, no payment history
     Given a fc debt item
@@ -93,8 +93,8 @@ Feature: FC Debt Calculation End point testing
       | combinedDailyAccrual | unpaidAmountTotal | interestDueCallTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 44                   | 500000            | 12078                | 512078              | 500000              |
     And the 1st fc debt summary will contain
-      | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
-      | true            | 0                    | 44                      | 12078                | 500000           | 512078             | 500000             |
+      | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
+      | 0                    | 44                      | 12078                | 500000           | 512078             | 500000             |
 
   Scenario: 6. Interest Indicator. 1 Payment of 1 debt. Payment Done.
     Given a fc debt item
@@ -110,8 +110,8 @@ Feature: FC Debt Calculation End point testing
       | combinedDailyAccrual | unpaidAmountTotal | interestDueCallTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 0                    | 0                 | 2181                 | 2181                | 0                   |
     And the 1st fc debt summary will contain
-      | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
-      | true            | 0                    | 0                       | 2181                 | 0                | 2181               | 0                  |
+      | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
+      | 0                    | 0                       | 2181                 | 0                | 2181               | 0                  |
     And the 1st fc debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow |
       | 2018-12-16 | 2019-02-03 | 49           | 3.25         | 44                      | 502181             |
@@ -181,8 +181,8 @@ Feature: FC Debt Calculation End point testing
       | combinedDailyAccrual | unpaidAmountTotal | interestDueCallTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 37                   | 500000            | 35727                | 535727              | 500000              |
     And the 1st fc debt summary will contain
-      | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
-      | true            | 821                  | 37                      | 35727                | 500000           | 535727             | 500000             |
+      | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
+      | 821                  | 37                      | 35727                | 500000           | 535727             | 500000             |
     And the 1st fc debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2018-01-01 | 2018-08-20 | 231          | 3.0          | 41                      | 9493              | 500000               | 509493             |
@@ -221,8 +221,8 @@ Feature: FC Debt Calculation End point testing
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal |
       | 35                   | 48710                | 500000            |
     And the 1st fc debt summary will contain
-      | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty |
-      | true            | 1186                 | 35                      | 48710                | 500000           |
+      | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty |
+      | 1186                 | 35                      | 48710                | 500000           |
     And the 1st fc debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow |
       | 2018-01-01 | 2018-08-20 | 231          | 3.0          | 41                      | 9493              | 500000               |
@@ -296,8 +296,8 @@ Feature: FC Debt Calculation End point testing
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
       | 44                   | 20695                | 500000            | 520695         | 500000              |
     And the 1st fc debt summary will contain
-      | interestBearing | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | numberChargeableDays | amountOnIntDueDuty | interestOnlyIndicator |
-      | true            | 44                      | 20695                | 500000           | 520695             | 485                  | 500000             | false                 |
+      | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | numberChargeableDays | amountOnIntDueDuty | interestOnlyIndicator |
+      | 44                      | 20695                | 500000           | 520695             | 485                  | 500000             |                       |
     And the 1st fc debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2017-12-01 | 2018-08-20 | 262          | 3.0          | 41                      | 10767             | 500000               | 510767             |
@@ -474,8 +474,8 @@ Feature: FC Debt Calculation End point testing
       | combinedDailyAccrual | amountIntTotal | amountOnIntDueTotal |
       | 0                    | 500000         | 500000              |
     And the 1st fc debt summary will contain
-      | interestBearing | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
-      | true            | 0                    | 0                       | 500000             |
+      | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
+      | 0                    | 0                       | 500000             |
     And the 1st fc debt summary will not have any calculation windows
 
   Scenario: periodEnd and interestStartDate is missing or invalid.
