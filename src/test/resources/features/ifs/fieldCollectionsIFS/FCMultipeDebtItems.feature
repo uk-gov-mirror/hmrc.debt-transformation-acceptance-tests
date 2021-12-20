@@ -1,4 +1,3 @@
-@ops
 Feature: FC Debt Calculation End point testing
 
   Scenario: 1. Interest Indicators. 2 debt. 1 payment history

@@ -1,4 +1,3 @@
-@ops
 Feature: FC VAT Debt Calculation End point testing
 
 
