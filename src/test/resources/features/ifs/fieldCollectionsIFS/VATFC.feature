@@ -17,7 +17,7 @@ Feature: FC VAT Debt Calculation End point testing
       | 0                    | 400000            |
     And the 1st fc vat debt summary will contain
       | debtItemChargeId | interestDailyAccrual | interestRate |
-      | 123              | 28                   | 2.6          |
+      | 123              | 28                   | 2.75          |
 
 
   Scenario: 2. Interest Indicator as No. 1 Payment of 1 debt.
@@ -36,7 +36,7 @@ Feature: FC VAT Debt Calculation End point testing
       | 0                    | 400000            |
     And the 1st fc vat debt summary will contain
       | debtItemChargeId | interestDailyAccrual | interestRate |
-      | 123              | 28                   | 2.6          |
+      | 123              | 28                   | 2.75          |
 
 
   Scenario: 3. Interest Indicator as Yes. 2 Payment of 1 debt.
@@ -58,7 +58,7 @@ Feature: FC VAT Debt Calculation End point testing
       | 0                    | 4800              |
     And the 1st fc vat debt summary will contain
       | debtItemChargeId | interestDailyAccrual | interestRate |
-      | 123              | 28                   | 2.6          |
+      | 123              | 28                   | 2.75          |
 
   Scenario: 4. Interest Indicator as Yes. 1 Payment of 1 debt. Payment amount is more than Original amount
     Given a fc vat debt item
@@ -119,13 +119,13 @@ Feature: FC VAT Debt Calculation End point testing
     When the debt item is sent to the fc vat ifs service
     Then the fc vat ifs service wilL return a total debts summary of
       | combinedDailyAccrual | unpaidAmountTotal |
-      | 56                   | 800000            |
+      | 0                   | 800000            |
     And the 1st fc vat debt summary will contain
       | debtItemChargeId | interestDailyAccrual | interestRate |
-      | 123              | 28                   | 2.6          |
+      | 123              | 28                   | 2.75          |
     And the 2nd fc vat debt summary will contain
       | debtItemChargeId | interestDailyAccrual | interestRate |
-      | 123              | 28                   | 2.6          |
+      | 123              | 0                   | 2.75          |
 
   Scenario: 7. Interest Indicator as Yes. No Payment History.
     Given a fc vat debt item
@@ -138,10 +138,10 @@ Feature: FC VAT Debt Calculation End point testing
     When the debt item is sent to the fc vat ifs service
     Then the fc vat ifs service wilL return a total debts summary of
       | combinedDailyAccrual | unpaidAmountTotal |
-      | 35                   | 500000            |
+      | 0                   | 500000            |
     And the 1st fc vat debt summary will contain
       | debtItemChargeId | interestDailyAccrual | interestRate |
-      | 123              | 35                   | 2.6          |
+      | 123              | 0                   | 2.75          |
 
   Scenario: 8. Interest Indicator as No. No Payment History.
     Given a fc vat debt item
@@ -157,7 +157,7 @@ Feature: FC VAT Debt Calculation End point testing
       | 0                    | 500000            |
     And the 1st fc vat debt summary will contain
       | debtItemChargeId | interestDailyAccrual | interestRate |
-      | 123              | 0                    | 2.6          |
+      | 123              | 0                    | 2.75          |
 
   Scenario: 9. periodEnd missing. Interest Indicator as No. No Payment History.
     Given a fc vat debt item

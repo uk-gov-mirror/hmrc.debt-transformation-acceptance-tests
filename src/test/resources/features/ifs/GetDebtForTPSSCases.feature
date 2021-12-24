@@ -62,7 +62,7 @@ Feature: Debt Calculation For Interest & Non Interest Bearing cases
       | 0                    | 106                  | 0                 | 106            | 0                   |
     Then the 1st debt summary will contain
       | interestBearing | interestDueDailyAccrual | interestDueDutyTotal | intRate | unpaidAmountDuty | totalAmountIntDuty | numberChargeableDays | amountOnIntDueDuty | interestOnlyIndicator |
-      | true            | 0                       | 106                  | 2.6     | 0                | 106                | 3                    | 0                  | false                 |
+      | true            | 0                       | 106                  | 2.75     | 0                | 106                | 10                    | 0                  | false                 |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2021-03-01 | 2021-03-04 | 3            | 2.6          | 35                      | 106               | 500000               | 500106             |

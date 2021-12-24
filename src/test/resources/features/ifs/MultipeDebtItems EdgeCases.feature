@@ -118,6 +118,7 @@ Feature: Multiple Debt Items - Edge Cases
       | 2018-12-16 | 2019-04-14 | 119          | 3.25         | 44                      | 505297             |
 
 #    300 debts items is the max says Helen
+
   Scenario: 4. 300 debt items
     Given 300 debt items
     And no breathing spaces have been applied to the customer
@@ -125,10 +126,10 @@ Feature: Multiple Debt Items - Edge Cases
     When the debt items is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
-      | 10500                | 1271400              | 150000000         | 151271400      | 150000000           |
+      | 11100                | 1333500              | 150000000         | 151333500      | 150000000           |
     And the 300th debt summary will contain
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
-      | true            | 119                  | 35                      | 504238             |
+      | true            | 119                  | 37                      | 504445             |
 
 
   Scenario: 5. 2 debts, 5 payments on 1 debt
