@@ -118,7 +118,7 @@ Feature: Interest Rate Changes - Edge cases
       | periodFrom | periodTo   | interestRate | numberOfDays | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow |
       | 2020-04-07 | 2020-12-31 | 2.6          | 268          | 35                      | 9519              | 500000               |
 
-@wip
+  @wip
   Scenario:  Interest rate changes day prior to interest start date
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
@@ -132,11 +132,11 @@ Feature: Interest Rate Changes - Edge cases
       | 35                   | 9554                 | 500000            |
     And the 1st debt summary will contain
       | interestBearing | numberChargeableDays | totalAmountIntDuty |
-      | true            | 268                  | 509519             |
+      | true            | 269                  | 509554            |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | interestRate | numberOfDays | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow |
       | 2020-04-06 | 2020-04-06 | 2.75         | 0            | 7                       | 67                | 500000               |
-      | 2020-04-07 | 2020-12-31 | 2.6          | 268          | 35                      | 9519              | 500000               |
+      | 2020-04-07 | 2020-12-31 | 2.6          | 269          | 35                      | 9554              | 500000               |
 
 
 #  BUG: Test failing due to issue with interest accrued returned

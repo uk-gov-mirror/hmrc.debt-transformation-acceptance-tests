@@ -79,10 +79,10 @@ Feature: Suppression by Postcode
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal |
-      | 35                   | 2314                 |
+      | 35                   | 5520                 |
     And the 1st debt summary will contain
       | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
-      | 65                   | 35                      | 502314             |
+      | 155                   | 35                      | 502314             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual |
       | 2021-02-01 | 2021-07-06 | 155          | 2.6          | 35                      |
@@ -109,10 +109,10 @@ Feature: Suppression by Postcode
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal |
-      | 35                   | 2314                 |
+      | 35                   | 5520                 |
     And the 1st debt summary will contain
       | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
-      | 65                   | 35                      | 502314             |
+      | 155                   | 35                      | 502314             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual |
       | 2021-02-01 | 2021-07-06 | 155          | 2.6          | 35                      |
