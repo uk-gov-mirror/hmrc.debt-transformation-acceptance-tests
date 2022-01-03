@@ -67,17 +67,19 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
 
     val quoteId             = if (planData.toString().contains("quoteId=")) plan.get("quoteId") else "quoteId1234"
     val instalmentAmount    = if (planData.toString.contains("instalmentAmount=")) plan.get("instalmentAmount") else "100"
-    val paymentPlanType     = if (planData.toString.contains("paymentPlanType=")) plan.get("paymentPlanType") else "timeToPay"
+    val paymentPlanType     =
+      if (planData.toString.contains("paymentPlanType=")) plan.get("paymentPlanType") else "timeToPay"
     val thirdPartyBank      = if (planData.toString.contains("thirdPartyBank=")) plan.get("thirdPartyBank") else "true"
-    val numberOfInstalments = if (planData.toString.contains("numberOfInstalments=")) plan.get("numberOfInstalments") else "12"
-    val totalDebtIncInt = if (planData.toString.contains("totalDebtIncInt=")) plan.get("totalDebtIncInt") else "10"
-    val totalInterest = if (planData.toString.contains("totalInterest=")) plan.get("totalInterest") else "10"
-    val interestAccrued = if (planData.toString.contains("interestAccrued=")) plan.get("interestAccrued") else "10"
-    val planInterest = if (planData.toString.contains("planInterest=")) plan.get("planInterest") else "10"
-    val frequency = if (planData.toString.contains("frequency=")) plan.get("frequency") else "annually"
-    val duration = if (planData.toString.contains("duration=")) plan.get("duration") else "12"
+    val numberOfInstalments =
+      if (planData.toString.contains("numberOfInstalments=")) plan.get("numberOfInstalments") else "12"
+    val totalDebtIncInt     = if (planData.toString.contains("totalDebtIncInt=")) plan.get("totalDebtIncInt") else "10"
+    val totalInterest       = if (planData.toString.contains("totalInterest=")) plan.get("totalInterest") else "10"
+    val interestAccrued     = if (planData.toString.contains("interestAccrued=")) plan.get("interestAccrued") else "10"
+    val planInterest        = if (planData.toString.contains("planInterest=")) plan.get("planInterest") else "10"
+    val frequency           = if (planData.toString.contains("frequency=")) plan.get("frequency") else "annually"
+    val duration            = if (planData.toString.contains("duration=")) plan.get("duration") else "12"
 
-    val replacedPlanDetails  = getBodyAsString("planDetails")
+    val replacedPlanDetails = getBodyAsString("planDetails")
       .replaceAll("<REPLACE_quoteId>", quoteId)
       .replaceAll("<REPLACE_quoteType>", plan.get("quoteType"))
       .replaceAll("<REPLACE_quoteDate>", quoteDate)

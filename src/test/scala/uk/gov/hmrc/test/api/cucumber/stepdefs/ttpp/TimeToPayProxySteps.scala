@@ -53,9 +53,7 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
     TimeToPayProxyRequests.createUpdatePlanRequestBody(dataTable)
   }
 
-
   Given("a cancel plan request") { (dataTable: DataTable) =>
-
     val asMapTransposed = dataTable.transpose().asMap(classOf[String], classOf[String])
 
     val request = UpdatePlanRequest(
@@ -72,7 +70,6 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
     ScenarioContext.set("planId", asMapTransposed.get("planId"))
     ScenarioContext.set("updatePlanRequest", Json.toJson(request).toString())
   }
-
 
   Given("a view plan request") { (dataTable: DataTable) =>
     TimeToPayProxyRequests.createRequestParameters(dataTable)
@@ -295,10 +292,10 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
   }
 
   And("the plan will contain") { dataTable: DataTable =>
-    val asMapTransposed =
+    val asMapTransposed                =
       dataTable.transpose().asMap(classOf[String], classOf[String])
     val response: StandaloneWSResponse = ScenarioContext.get("response")
-    val responseBody = Json.parse(response.body).as[ViewPlanResponse].plan
+    val responseBody                   = Json.parse(response.body).as[ViewPlanResponse].plan
 
     ScenarioContext.set("viewPlanResponse", responseBody)
 

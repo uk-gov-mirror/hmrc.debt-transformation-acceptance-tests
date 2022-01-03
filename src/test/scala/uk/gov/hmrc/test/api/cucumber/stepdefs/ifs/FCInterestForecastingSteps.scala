@@ -30,81 +30,78 @@ import scala.collection.convert.WrapAsScala.collectionAsScalaIterable
 
 class FCInterestForecastingSteps extends ScalaDsl with EN with Eventually with Matchers {
 
+  Given("a fc debt item") { (dataTable: DataTable) =>
+    createInterestFocastingRequestBodyFC(dataTable)
+  }
 
-    Given("a fc debt item") { (dataTable: DataTable) =>
-      createInterestFocastingRequestBodyFC(dataTable)
+  Given("the debt item has fc payment history") { (dataTable: DataTable) =>
+    addFCPaymentHistory(dataTable)
+  }
+
+  Given("the fc debt item has no payment history") { () =>
+    fcCustomerWithNoPaymentHistory()
+  }
+
+  When("the debt item(s) is sent to the fc ifs service") { () =>
+    val request  = ScenarioContext.get("fcDebtItem").toString
+    println(s"IFS REQUEST --> $request")
+    val response = getDebtCalculation(request)
+    println(s"IFS RESPONSE --> ${response.body}")
+    ScenarioContext.set("response", response)
+  }
+
+  Then("the fc ifs service wilL return a total debts summary of") { (dataTable: DataTable) =>
+    val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[String])
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+
+    val responseBody = Json.parse(response.body).as[FCDebtCalculationsSummary]
+
+    if (asMapTransposed.containsKey("combinedDailyAccrual")) {
+      responseBody.combinedDailyAccrual.toString shouldBe asMapTransposed.get("combinedDailyAccrual").toString
+    }
+    if (asMapTransposed.containsKey("unpaidAmountTotal")) {
+      responseBody.unpaidAmountTotal.toString shouldBe asMapTransposed.get("unpaidAmountTotal").toString
     }
 
-    Given("the debt item has fc payment history") { (dataTable: DataTable) =>
-      addFCPaymentHistory(dataTable)
+    if (asMapTransposed.containsKey("interestDueCallTotal")) {
+      responseBody.interestDueCallTotal.toString shouldBe asMapTransposed.get("interestDueCallTotal").toString
+    }
+    if (asMapTransposed.containsKey("totalAmountIntTotal")) {
+      responseBody.totalAmountIntTotal.toString shouldBe asMapTransposed.get("totalAmountIntTotal").toString
+    }
+    if (asMapTransposed.containsKey("amountOnIntDueTotal")) {
+      responseBody.amountOnIntDueTotal.toString shouldBe asMapTransposed.get("amountOnIntDueTotal").toString
+    }
+  }
+
+  Then("the ([0-9]\\d*)(?:st|nd|rd|th) fc debt summary will contain") { (index: Int, dataTable: DataTable) =>
+    val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[String])
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+    response.status should be(200)
+
+    val responseBody: FCDebtCalculation =
+      Json.parse(response.body).as[FCDebtCalculationsSummary].debtCalculations(index - 1)
+
+    if (asMapTransposed.containsKey("debtItemChargeId")) {
+      responseBody.debtItemChargeId.toString shouldBe asMapTransposed.get("debtItemChargeId").toString
     }
 
-    Given("the fc debt item has no payment history") { () =>
-      fcCustomerWithNoPaymentHistory()
+    if (asMapTransposed.containsKey("interestDueDailyAccrual")) {
+      responseBody.interestDueDailyAccrual.toString shouldBe asMapTransposed.get("interestDueDailyAccrual").toString
     }
-
-    When("the debt item(s) is sent to the fc ifs service") { () =>
-      val request  = ScenarioContext.get("fcDebtItem").toString
-      println(s"IFS REQUEST --> $request")
-      val response = getDebtCalculation(request)
-      println(s"IFS RESPONSE --> ${response.body}")
-      ScenarioContext.set("response", response)
+    if (asMapTransposed.containsKey("interestDueDutyTotal")) {
+      responseBody.interestDueDutyTotal.toString shouldBe asMapTransposed.get("interestDueDutyTotal").toString
     }
-
-    Then("the fc ifs service wilL return a total debts summary of") { (dataTable: DataTable) =>
-      val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[String])
-      val response: StandaloneWSResponse = ScenarioContext.get("response")
-
-      val responseBody = Json.parse(response.body).as[FCDebtCalculationsSummary]
-
-
-
-      if (asMapTransposed.containsKey("combinedDailyAccrual")) {
-        responseBody.combinedDailyAccrual.toString shouldBe asMapTransposed.get("combinedDailyAccrual").toString
-      }
-      if (asMapTransposed.containsKey("unpaidAmountTotal")) {
-        responseBody.unpaidAmountTotal.toString shouldBe asMapTransposed.get("unpaidAmountTotal").toString
-      }
-
-      if (asMapTransposed.containsKey("interestDueCallTotal")) {
-        responseBody.interestDueCallTotal.toString shouldBe asMapTransposed.get("interestDueCallTotal").toString
-      }
-      if (asMapTransposed.containsKey("totalAmountIntTotal")) {
-        responseBody.totalAmountIntTotal.toString shouldBe asMapTransposed.get("totalAmountIntTotal").toString
-      }
-      if (asMapTransposed.containsKey("amountOnIntDueTotal")) {
-        responseBody.amountOnIntDueTotal.toString shouldBe asMapTransposed.get("amountOnIntDueTotal").toString
-      }
+    if (asMapTransposed.containsKey("amountOnIntDueDuty")) {
+      responseBody.amountOnIntDueDuty.toString shouldBe asMapTransposed.get("amountOnIntDueDuty").toString
     }
-
-    Then("the ([0-9]\\d*)(?:st|nd|rd|th) fc debt summary will contain") { (index: Int, dataTable: DataTable) =>
-      val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[String])
-      val response: StandaloneWSResponse = ScenarioContext.get("response")
-      response.status should be(200)
-
-      val responseBody: FCDebtCalculation =
-        Json.parse(response.body).as[FCDebtCalculationsSummary].debtCalculations(index - 1)
-
-      if (asMapTransposed.containsKey("debtItemChargeId")) {
-        responseBody.debtItemChargeId.toString shouldBe asMapTransposed.get("debtItemChargeId").toString
-      }
-
-      if (asMapTransposed.containsKey("interestDueDailyAccrual")) {
-        responseBody.interestDueDailyAccrual.toString shouldBe asMapTransposed.get("interestDueDailyAccrual").toString
-      }
-      if (asMapTransposed.containsKey("interestDueDutyTotal")) {
-        responseBody.interestDueDutyTotal.toString shouldBe asMapTransposed.get("interestDueDutyTotal").toString
-      }
-      if (asMapTransposed.containsKey("amountOnIntDueDuty")) {
-        responseBody.amountOnIntDueDuty.toString shouldBe asMapTransposed.get("amountOnIntDueDuty").toString
-      }
-      if (asMapTransposed.containsKey("totalAmountIntDuty")) {
-        responseBody.totalAmountIntDuty.toString shouldBe asMapTransposed.get("totalAmountIntDuty").toString
-      }
-      if (asMapTransposed.containsKey("unpaidAmountDuty")) {
-        responseBody.unpaidAmountDuty.toString shouldBe asMapTransposed.get("unpaidAmountDuty").toString
-      }
+    if (asMapTransposed.containsKey("totalAmountIntDuty")) {
+      responseBody.totalAmountIntDuty.toString shouldBe asMapTransposed.get("totalAmountIntDuty").toString
     }
+    if (asMapTransposed.containsKey("unpaidAmountDuty")) {
+      responseBody.unpaidAmountDuty.toString shouldBe asMapTransposed.get("unpaidAmountDuty").toString
+    }
+  }
 
   Then("the ([0-9])(?:st|nd|rd|th) fc debt summary will have calculation windows") {
     (summaryIndex: Int, dataTable: DataTable) =>
@@ -151,21 +148,21 @@ class FCInterestForecastingSteps extends ScalaDsl with EN with Eventually with M
         }
       }
   }
-    And("the fc customer has breathing spaces applied") { (dataTable: DataTable) =>
-      addFCBreathingSpace(dataTable)
-    }
+  And("the fc customer has breathing spaces applied") { (dataTable: DataTable) =>
+    addFCBreathingSpace(dataTable)
+  }
 
-    Given("no breathing spaces have been applied to the fc customer") { () =>
-      noFCBreathingSpace()
-    }
+  Given("no breathing spaces have been applied to the fc customer") { () =>
+    noFCBreathingSpace()
+  }
 
-    Given("the fc customer has post codes") { (dataTable: DataTable) =>
-      addFCCustomerPostCodes(dataTable)
-    }
+  Given("the fc customer has post codes") { (dataTable: DataTable) =>
+    addFCCustomerPostCodes(dataTable)
+  }
 
-    Given("the fc customer has no post codes") { () =>
-      noFCCustomerPostCodes()
-    }
+  Given("the fc customer has no post codes") { () =>
+    noFCCustomerPostCodes()
+  }
 
   Then("the ([0-9])(?:st|nd|rd|th) fc debt summary will not have any calculation windows") { (summaryIndex: Int) =>
     getFCCountOfCalculationWindows(summaryIndex) shouldBe 0
@@ -177,8 +174,8 @@ class FCInterestForecastingSteps extends ScalaDsl with EN with Eventually with M
     response.status should be(400)
   }
 
-    def getFCCountOfCalculationWindows(summaryIndex: Int): Int = {
-      val response: StandaloneWSResponse = ScenarioContext.get("response")
-      Json.parse(response.body).as[FCDebtCalculationsSummary].debtCalculations(summaryIndex - 1).calculationWindows.size
-    }
+  def getFCCountOfCalculationWindows(summaryIndex: Int): Int = {
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+    Json.parse(response.body).as[FCDebtCalculationsSummary].debtCalculations(summaryIndex - 1).calculationWindows.size
   }
+}

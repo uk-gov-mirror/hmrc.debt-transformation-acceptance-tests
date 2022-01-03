@@ -10,15 +10,14 @@ import java.time.LocalDate
 import play.api.libs.json.{Json, OFormat}
 
 case class FCDebtCalculationsSummary(
-                                      dateOfCalculation: Option[LocalDate],
-                                      combinedDailyAccrual: Int,
-                                      unpaidAmountTotal: Int,
-                                      interestDueCallTotal: Int,
-                                      totalAmountIntTotal: Int,
-                                      amountOnIntDueTotal: Int,
-                                      debtCalculations: List[FCDebtCalculation]
-                                  )
-
+  dateOfCalculation: Option[LocalDate],
+  combinedDailyAccrual: Int,
+  unpaidAmountTotal: Int,
+  interestDueCallTotal: Int,
+  totalAmountIntTotal: Int,
+  amountOnIntDueTotal: Int,
+  debtCalculations: List[FCDebtCalculation]
+)
 
 object FCDebtCalculationsSummary {
   implicit val formatDebtCalculation: OFormat[FCDebtCalculationsSummary] = Json.format[FCDebtCalculationsSummary]
