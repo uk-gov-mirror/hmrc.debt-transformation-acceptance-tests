@@ -233,7 +233,4 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
     )
   }
 
-
-
 }
-

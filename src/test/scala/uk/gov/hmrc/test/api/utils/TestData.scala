@@ -39,7 +39,6 @@ object TestData extends LazyLogging {
       file.getName.replace(".txt", "") -> data
     }.toMap
 
-
   private lazy val fcDebtCalculationFiles: Seq[File] = FileUtils
     .listFiles(new File("src/test/resources/testdata/fieldCollection"), Array("txt"), false)
     .asScala
@@ -52,7 +51,6 @@ object TestData extends LazyLogging {
       source.close()
       file.getName.replace(".txt", "") -> data
     }.toMap
-
 
   private lazy val ttppFiles: Seq[File] = FileUtils
     .listFiles(new File("src/test/resources/testdata/ttpp"), Array("txt"), false)

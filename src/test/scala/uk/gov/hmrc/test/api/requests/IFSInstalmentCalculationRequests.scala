@@ -18,7 +18,7 @@ import java.util.Date
 object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually with Matchers with BaseRequests {
 
   def addPostCodeToInstalmentCalculation(postCode: String, postCodeDate: String): Unit = {
-    val postCodeJson =
+    val postCodeJson    =
       s"""
         |{
         | "postCode": "$postCode",
@@ -39,8 +39,7 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
     var debtItemCharges = ""
 
     asMapTransposed.zipWithIndex.foreach { case (debtItemCharge, index) =>
-
-      val periodEnd = if(debtItemCharge.containsKey("periodEnd")){
+      val periodEnd = if (debtItemCharge.containsKey("periodEnd")) {
         s"""
            |,"periodEnd": "${debtItemCharge.get("periodEnd")}"
            |""".stripMargin
@@ -81,7 +80,7 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
       instalmentPaymentDate = localDate.plusDays(addNumberOfDays.toInt).toString
     }
 
-    var quoteDate = dateTime.toString("yyyy-MM-dd")
+    var quoteDate                  = dateTime.toString("yyyy-MM-dd")
     if (asmapTransposed.toString.contains("quoteDate")) quoteDate = asmapTransposed.get("quoteDate")
     val durationOrInstalmentAmount = if (asmapTransposed.get("quoteType").equals("instalmentAmount")) {
       s""" "duration":${asmapTransposed.get("duration")} """
@@ -96,7 +95,6 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
       .replaceAll("<REPLACE_durationOrInstalmentAmount>", durationOrInstalmentAmount)
       .replaceAll("<REPLACE_paymentFrequency>", asmapTransposed.get("paymentFrequency"))
       .replaceAll("<REPLACE_interestCallDueTotal>", asmapTransposed.get("interestCallDueTotal"))
-
 
     if (firstItem == true) {
       paymentPlan = paymentPlan

@@ -192,7 +192,8 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
     // Set scenario Context to be all debt items with payments.
     ScenarioContext.set(
       "fcDebtItem",
-      getBodyAsString("fcdebtCalcRequest").replaceAllLiterally("<REPLACE_fcDebtItem>", ScenarioContext.get("fcDebtItem"))
+      getBodyAsString("fcdebtCalcRequest")
+        .replaceAllLiterally("<REPLACE_fcDebtItem>", ScenarioContext.get("fcDebtItem"))
     )
     ScenarioContext.set(
       "fcDebtItem",
@@ -221,7 +222,6 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
     ScenarioContext.set("fcDebtItem", jsonWithCustomerPostCodes)
   }
 
-
   def noFCCustomerPostCodes() {
     ScenarioContext.set(
       "fcDebtItem",
@@ -229,4 +229,3 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
     )
   }
 }
-

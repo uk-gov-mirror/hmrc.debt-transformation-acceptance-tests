@@ -129,7 +129,10 @@ object FieldCollectionsVATRequests extends ScalaDsl with EN with Eventually with
   }
 
   def fcVatCustomerWithNoPaymentHistory(): Unit =
-    ScenarioContext.set("fcVatDebtItem", ScenarioContext.get("fcVatDebtItem").toString.replaceAll("<REPLACE_payments>", ""))
+    ScenarioContext.set(
+      "fcVatDebtItem",
+      ScenarioContext.get("fcVatDebtItem").toString.replaceAll("<REPLACE_payments>", "")
+    )
 
   def addFCVATBreathingSpace(dataTable: DataTable): Unit = {
     // Set scenario Context to be all debt items with payments.
@@ -170,8 +173,8 @@ object FieldCollectionsVATRequests extends ScalaDsl with EN with Eventually with
     // Set scenario Context to be all debt items with payments.
     ScenarioContext.set(
       "fcVatDebtItem",
-      getBodyAsString("fcVatDebtCalcRequest").replaceAllLiterally("<REPLACE_fcVatDebtItem>", ScenarioContext.get("fcVatDebtItem"))
+      getBodyAsString("fcVatDebtCalcRequest")
+        .replaceAllLiterally("<REPLACE_fcVatDebtItem>", ScenarioContext.get("fcVatDebtItem"))
     )
   }
 }
-

@@ -97,8 +97,14 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
   def getSuppressionBodyAsString(variant: String): String =
     TestData.loadedSuppressionFiles(variant)
 
-
-  def addSuppressionToInstalmentCalculation(id: String, code: String, reason: String, description: String, from: LocalDate, durationMonths: Int): Unit = {
+  def addSuppressionToInstalmentCalculation(
+    id: String,
+    code: String,
+    reason: String,
+    description: String,
+    from: LocalDate,
+    durationMonths: Int
+  ): Unit = {
     val suppressions = getSuppressionBodyAsString("suppressionData")
       .replaceAll("<REPLACE_code>", code)
       .replaceAll("<REPLACE_reason>", reason)
@@ -117,20 +123,19 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
     var suppressions    = ""
     var id: String      = null
 
-
     asMapTransposed.zipWithIndex.foreach { case (suppression, index) =>
       val parsedFromDate = suppression.get("fromDate").toString match {
-        case "yesterday" => LocalDate.now().minusDays(1).toString()
+        case "yesterday"         => LocalDate.now().minusDays(1).toString()
         case "2 months from now" => LocalDate.now().plusMonths(2).toString()
-        case other => other
+        case other               => other
       }
 
       val parsedToDate = suppression.get("toDate").toString match {
         case "2 months from now" => LocalDate.now().plusMonths(2).toString()
         case "4 months from now" => LocalDate.now().plusMonths(4).toString()
-        case other => other
+        case other               => other
       }
-      val code = if(suppression.containsKey("code")) suppression.get("code") else "1"
+      val code         = if (suppression.containsKey("code")) suppression.get("code") else "1"
       suppressions = suppressions.concat(
         getSuppressionBodyAsString("suppressionData")
           .replaceAll("<REPLACE_code>", code)
