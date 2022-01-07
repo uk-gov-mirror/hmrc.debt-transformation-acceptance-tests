@@ -14,10 +14,10 @@ Feature: Configuration
     And the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
-      | 273                  | 145793               | 500000            | 645793         | 500000              |
+      | 410                  | 159081               | 500000            | 659081         | 500000              |
     And the 1st debt summary will contain
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
-      | true            | 3808                 | 273                     | 145793               | 500000           | 645793             | 500000             |
+      | true            | 3808                 | 91506                     | 145793               | 500000           | 659081             | 500000             |
 
   Scenario: A new interest rate is added
     Given a new interest rate table
