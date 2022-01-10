@@ -7,8 +7,8 @@ import play.api.libs.json.Json
 case class UpdatePlanResponse(
   customerReference: String,
   planId: String,
-  quoteStatus: String,
-  quoteUpdatedDate: LocalDate
+  planStatus: String,
+  planUpdatedDate: LocalDate
 )
 
 object UpdatePlanResponse {
