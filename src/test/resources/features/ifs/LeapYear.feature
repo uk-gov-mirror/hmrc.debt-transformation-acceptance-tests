@@ -1,3 +1,4 @@
+@wip4
 Feature: Leap years
 
   Scenario: Debt ending in a leap year
@@ -101,7 +102,7 @@ Feature: Leap years
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal |
-      | 37                   | 91482                | 500000            |
+      | 37                   | 91506                | 500000            |
     And the 1st debt summary will contain
       | numberChargeableDays | interestDueDailyAccrual |
       | 2244                 | 37                      |
@@ -110,8 +111,8 @@ Feature: Leap years
       | 2011-01-01 | 2011-12-31 | 364          | 3.0          | 41                      | 14958             | 500000               |
       | 2012-01-01 | 2012-12-31 | 366          | 3.0          | 40                      | 15000             | 500000               |
       | 2013-01-01 | 2015-12-31 | 1095         | 3.0          | 41                      | 45000             | 500000               |
-      | 2016-01-01 | 2016-08-15 | 228          | 3.0          | 40                      | 9344              | 500000               |
-      | 2016-08-16 | 2016-12-31 | 138          | 2.75         | 37                      | 5184              | 500000               |
+      | 2016-01-01 | 2016-08-22 | 235          | 3.0          | 40                      | 9631              | 500000               |
+      | 2016-08-23 | 2016-12-31 | 131          | 2.75         | 37                      | 4921              | 500000               |
       | 2017-01-01 | 2017-02-22 | 53           | 2.75         | 37                      | 1996              | 500000               |
 
 
