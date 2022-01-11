@@ -1,4 +1,4 @@
-@updatePlan
+@updatePlan @wip4
 Feature: TTP Update Plan Request
 
   Scenario: Update Existing TTP Plan
