@@ -101,4 +101,15 @@ Feature: fc statement of liability multiple debts
     When a debt fc statement of liability is requested
     Then the fc sol service will respond with Invalid Json
 
+  Scenario: 7. FC Sol request with missing Interest Indicator.
+
+    Given fc sol request
+      | customerUniqueRef | solRequestedDate |
+      | NEHA1234          | 2021-05-13       |
+    And the fc sol debt item has multiple debts
+      | debtId | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | solDescription |
+      | duty01 | 10000          | 2020-05-13        | 2021-08-01          |                  | 2020-05-13 | Debt1          |
+    And the fc sol debt item has no payment history
+    When a debt fc statement of liability is requested
+    Then the fc sol service will respond with Field at path '/debts(0)/interestIndicator' missing or invalid
 
