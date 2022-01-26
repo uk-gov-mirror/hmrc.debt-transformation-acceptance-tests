@@ -20,8 +20,8 @@ object FCStatementOfLiabilityRequests extends BaseRequests with RandomValues {
     val baseUri = s"$statementOfLiabilityApiUrl/fc-sol"
     val headers = Map(
       "Authorization" -> s"Bearer $bearerToken",
-      "Content-Type" -> "application/json",
-      "Accept" -> "application/vnd.hmrc.1.0+json"
+      "Content-Type"  -> "application/json",
+      "Accept"        -> "application/vnd.hmrc.1.0+json"
     )
     WsClient.post(baseUri, headers = headers, Json.parse(json))
   }
@@ -30,8 +30,8 @@ object FCStatementOfLiabilityRequests extends BaseRequests with RandomValues {
     TestData.loadedFiles(variant)
 
   def fcSolRequest(dataTable: DataTable): Unit = {
-    val asMapTransposed = dataTable.transpose().asMap(classOf[String], classOf[String])
-    var firstItem = false
+    val asMapTransposed     = dataTable.transpose().asMap(classOf[String], classOf[String])
+    var firstItem           = false
     var debtDetails: String = null
 
     try ScenarioContext.get("debtDetails")
@@ -44,8 +44,7 @@ object FCStatementOfLiabilityRequests extends BaseRequests with RandomValues {
       .replaceAll("REPLACE_solRequestedDate", asMapTransposed.get("solRequestedDate"))
     if (firstItem == true) {
       debtDetails = FCSolMultipleDebts
-    }
-    else {
+    } else {
       debtDetails = ScenarioContext.get("debtDetails").toString.concat(",").concat(FCSolMultipleDebts)
     }
 
@@ -55,7 +54,7 @@ object FCStatementOfLiabilityRequests extends BaseRequests with RandomValues {
 
   def addFCDebts(dataTable: DataTable): Unit = {
     val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
-    var debtIds = ""
+    var debtIds         = ""
     asMapTransposed.zipWithIndex.foreach { case (debtId, index) =>
       debtIds = debtIds.concat(
         getBodyAsString("debtId")
@@ -65,32 +64,31 @@ object FCStatementOfLiabilityRequests extends BaseRequests with RandomValues {
           .replaceAll("<REPLACE_interestStartDate>", debtId.get("interestStartDate"))
           .replaceAll("<REPLACE_interestRequestedTo>", debtId.get("interestRequestedTo"))
           .replaceAll("<REPLACE_interestIndicator>", debtId.get("interestIndicator"))
-          .replaceAll("<REPLACE_periodEnd>", debtId.get("periodEnd")))
+          .replaceAll("<REPLACE_periodEnd>", debtId.get("periodEnd"))
+      )
       if (index + 1 < asMapTransposed.size) debtIds = debtIds.concat(",")
     }
     val jsonWithdebtIds = ScenarioContext.get("debtDetails").toString.replaceAll("<REPLACE_debtId>", debtIds)
     ScenarioContext.set("debtDetails", jsonWithdebtIds)
     print("debt with payment history ::::::::::::::::::::::::::::::" + jsonWithdebtIds)
+  }
 
+  def addFCSOLPaymentHistory(dataTable: DataTable): Unit = {
+    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
+    var payments        = ""
+
+    asMapTransposed.zipWithIndex.foreach { case (payment, index) =>
+      payments = payments.concat(
+        getBodyAsString("payment")
+          .replaceAll("<REPLACE_paymentAmount>", payment.get("paymentAmount"))
+          .replaceAll("<REPLACE_paymentDate>", payment.get("paymentDate"))
+      )
+
+      if (index + 1 < asMapTransposed.size) payments = payments.concat(",")
     }
-
-
-    def addFCSOLPaymentHistory(dataTable: DataTable): Unit = {
-      val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
-      var payments = ""
-
-      asMapTransposed.zipWithIndex.foreach { case (payment, index) =>
-        payments = payments.concat(
-          getBodyAsString("payment")
-            .replaceAll("<REPLACE_paymentAmount>", payment.get("paymentAmount"))
-            .replaceAll("<REPLACE_paymentDate>", payment.get("paymentDate"))
-        )
-
-        if (index + 1 < asMapTransposed.size) payments = payments.concat(",")
-      }
-      val jsonWithPayments = ScenarioContext.get("debtDetails").toString.replaceAll("<REPLACE_payments>", payments)
-      ScenarioContext.set("debtDetails", jsonWithPayments)
-      print("debt with payment history ::::::::::::::::::::::::::::::" + jsonWithPayments)
+    val jsonWithPayments = ScenarioContext.get("debtDetails").toString.replaceAll("<REPLACE_payments>", payments)
+    ScenarioContext.set("debtDetails", jsonWithPayments)
+    print("debt with payment history ::::::::::::::::::::::::::::::" + jsonWithPayments)
   }
 
   def FCSolWithNoPaymentHistory(): Unit =
