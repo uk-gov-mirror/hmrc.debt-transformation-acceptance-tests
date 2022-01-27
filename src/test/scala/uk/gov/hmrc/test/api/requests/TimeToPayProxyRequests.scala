@@ -461,31 +461,37 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
   }
 
   def updatePlanRequest(dataTable: DataTable): Unit = {
-    val asMapTransposed = dataTable.transpose().asMap(classOf[String], classOf[String])
-    var completeReason: Option[String] = None
-    var cancellationReason: Option[String] = None
-    var thirdPartyBank: Option[Boolean] = None
-    var paymentMethod: String = ""
-    var paymentReference: String = ""
+    val asMapTransposed                            = dataTable.transpose().asMap(classOf[String], classOf[String])
+    var completeReason: Option[String]             = None
+    var cancellationReason: Option[String]         = None
+    var thirdPartyBank: Option[Boolean]            = None
+    var paymentMethod: String                      = ""
+    var paymentReference: String                   = ""
     var payments: Option[List[PaymentInformation]] = None
 
     if (asMapTransposed.toString.contains("paymentMethod")) {
       paymentMethod = asMapTransposed.get("paymentMethod")
       paymentReference = asMapTransposed.get("paymentReference")
-      payments = Some(List(PaymentInformation(paymentMethod, (paymentReference))))
+      payments = Some(List(PaymentInformation(paymentMethod, paymentReference)))
     }
     print(s" create plan customer Reference  ************************" + ScenarioContext.get("customerReference"))
     print(s"create planId ************************" + ScenarioContext.get("planId"))
-
 
     val request = UpdatePlanRequest(
       ScenarioContext.get("customerReference"),
       ScenarioContext.get("planId"),
       asMapTransposed.get("updateType"),
-      planStatus = if (asMapTransposed.toString.contains("planStatus")) Some(asMapTransposed.get("planStatus")) else None,
-      completeReason = if (asMapTransposed.toString.contains("completeReason")) Some(asMapTransposed.get("completeReason")) else None,
-      cancellationReason = if (asMapTransposed.toString.contains("cancellationReason")) Some(asMapTransposed.get("cancellationReason")) else None,
-      thirdPartyBank = if (asMapTransposed.toString.contains("thirdPartyBank")) Option(asMapTransposed.get("thirdPartyBank").toString.toBoolean) else None,
+      planStatus =
+        if (asMapTransposed.toString.contains("planStatus")) Some(asMapTransposed.get("planStatus")) else None,
+      completeReason =
+        if (asMapTransposed.toString.contains("completeReason")) Some(asMapTransposed.get("completeReason")) else None,
+      cancellationReason =
+        if (asMapTransposed.toString.contains("cancellationReason")) Some(asMapTransposed.get("cancellationReason"))
+        else None,
+      thirdPartyBank =
+        if (asMapTransposed.toString.contains("thirdPartyBank"))
+          Option(asMapTransposed.get("thirdPartyBank").toString.toBoolean)
+        else None,
       payments
     )
 

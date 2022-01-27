@@ -85,7 +85,7 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
 
   When("the update plan request is sent to the ttpp service") { () =>
     val request           = ScenarioContext.get("updatePlanRequest").toString
-    println(s"TTP UPDATE PLAN REQUEST ---------> ${request}")
+    println(s"TTP UPDATE PLAN REQUEST ---------> $request")
     val customerReference = ScenarioContext.get("customerReference").toString
     val planId            = ScenarioContext.get("planId").toString
     val response          = TimeToPayProxyRequests.putPlan(request, customerReference, planId)

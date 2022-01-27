@@ -12,4 +12,3 @@ final case class Payment(paymentDate: String, paymentAmount: Int)
 object Payment {
   implicit val format = Json.format[Payment]
 }
-
