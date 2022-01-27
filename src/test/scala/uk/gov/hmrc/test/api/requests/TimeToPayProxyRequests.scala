@@ -187,6 +187,20 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
     ScenarioContext.set("debtItems", jsonWithCustomerDebtPaymentHistoryDetails)
   }
 
+  def debtItem(dataTable: DataTable): Unit = {
+    val asMapTransposed                           =
+      dataTable.transpose().asMap(classOf[String], classOf[String])
+    val replaceDebtItem                           = getBodyAsString("debtItemsWithNoInterestStartDate")
+      .replaceAll("<REPLACE_debtItemChargeId>", asMapTransposed.get("debtItemChargeId"))
+      .replaceAll("<REPLACE_mainTrans>", asMapTransposed.get("mainTrans"))
+      .replaceAll("<REPLACE_subTrans>", asMapTransposed.get("subTrans"))
+      .replaceAll("<REPLACE_originalDebtAmount>", asMapTransposed.get("originalDebtAmount"))
+    ScenarioContext.set("currentDebtItem", replaceDebtItem)
+    val jsonWithCustomerDebtPaymentHistoryDetails =
+      ScenarioContext.get("debtItems").toString.replaceAll("<REPLACE_debtItems>", replaceDebtItem)
+    ScenarioContext.set("debtItems", jsonWithCustomerDebtPaymentHistoryDetails)
+  }
+
   def addInstalments(dataTable: DataTable): Unit = {
     val asMapTransposed    =
       dataTable.transpose().asMap(classOf[String], classOf[String])

@@ -261,3 +261,28 @@ Feature: TTP Create Plan Request
       | planInterest    |
 
 
+  Scenario: TTP Promote an Arrangement request to create a plan for storage
+    Given a create plan
+      | customerReference | quoteReference | channelIdentifier |
+      | customerRef1234   | quoteReferenc15678911234567891 | advisor           |
+    And create payment plan details
+      | quoteId     | quoteType        | quoteDate  | instalmentStartDate | instalmentAmount | paymentPlanType | thirdPartyBank | numberOfInstalments | frequency | duration | initialPaymentDate | initialPaymentAmount | totalDebtIncInt | totalInterest | interestAccrued | planInterest |
+      | quoteId1234 | instalmentAmount | 2021-09-08 | 2021-05-13          | 100              | timeToPay       | true           | 1                   | annually  | 12       | 2021-05-13         | 100                  | 100             | 10.1            | 10.1              | 5            |
+    And customer address details
+      | addressPostcode | postcodeDate |
+      | NW9 5XW         | 2021-05-13   |
+    And add debtItem details
+      | debtItemChargeId  | mainTrans | subTrans | originalDebtAmount |
+      | debtItemChargeId1 | 1525      | 1000     | 100                |
+    And payment history for the debt Item
+      | paymentDate | paymentAmount |
+      | 2021-05-13  | 100           |
+    And debt payment method details
+      | paymentMethod | paymentReference |
+      | BACS          | paymentRef123    |
+
+    And debt instalment repayment details
+      | debtItemChargeId  | debtItemId  | dueDate    | amountDue | expectedPayment | interestRate | instalmentNumber | instalmentInterestAccrued | instalmentBalance |
+      | debtItemChargeId1 | debtItemId1 | 2021-05-13 | 100       | 100             | 0.25         | 1                | 10                        | 90                |
+    When the create plan request is sent to the ttpp service
+    And service returns error message {"statusCode":400,"errorMessage":"Invalid CreatePlanRequest payload: Payload has a missing field or an invalid format. Field name: interestStartDate. "}
