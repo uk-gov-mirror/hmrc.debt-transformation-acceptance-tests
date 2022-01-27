@@ -442,24 +442,6 @@ object TimeToPayProxyRequests extends BaseRequests with BaseUris {
     ScenarioContext.set("createPlanRequest", updatePlanRequest)
   }
 
-  def createUpdatePlanRequestBody(dataTable: DataTable): Unit = {
-    val asMapTransposed =
-      dataTable.transpose().asMap(classOf[String], classOf[String])
-
-    val updatePlanRequest = getBodyAsString("updatePlanRequest")
-      .replaceAll("<REPLACE_customerReference>", asMapTransposed.get("customerReference"))
-      .replaceAll("<REPLACE_planId>", asMapTransposed.get("planId"))
-      .replaceAll("<REPLACE_updateType>", asMapTransposed.get("updateType"))
-      .replaceAll("<REPLACE_planStatus>", asMapTransposed.get("planStatus"))
-      .replaceAll("<REPLACE_completeReason>", asMapTransposed.get("completeReason"))
-      .replaceAll("<REPLACE_cancellationReason>", asMapTransposed.get("cancellationReason"))
-      .replaceAll("<REPLACE_thirdPartyBank>", asMapTransposed.get("thirdPartyBank"))
-      .replaceAll("<REPLACE_paymentMethod>", asMapTransposed.get("paymentMethod"))
-      .replaceAll("<REPLACE_paymentReference>", asMapTransposed.get("paymentReference"))
-
-    ScenarioContext.set("updatePlanRequest", updatePlanRequest)
-  }
-
   def updatePlanRequest(dataTable: DataTable): Unit = {
     val asMapTransposed                            = dataTable.transpose().asMap(classOf[String], classOf[String])
     var completeReason: Option[String]             = None
