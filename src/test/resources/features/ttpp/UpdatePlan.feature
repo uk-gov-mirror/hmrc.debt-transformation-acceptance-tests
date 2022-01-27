@@ -37,4 +37,3 @@ Feature: TTP Update Plan Request
     When the update plan request is sent to the ttpp service
     Then service returns response code 400
     And service returns error message {"statusCode":400,"errorMessage":"Could not parse body due to requirement failed: Direct Debit should always have payment reference"}
-
