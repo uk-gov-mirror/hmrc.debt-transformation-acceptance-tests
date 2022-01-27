@@ -24,6 +24,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
       | debtItemChargeId  | debtItemId  | dueDate    | amountDue | expectedPayment | interestRate | instalmentNumber | instalmentInterestAccrued | instalmentBalance |
       | debtItemChargeId1 | debtItemId1 | 2021-05-13 | 100       | 100             | 0.24         | 1                | 10                        | 10                |
 
+
   Scenario: Weekly instalment payment frequency with for 1 debt -No initial payment
     Given a generate quote request
       | customerReference | channelIdentifier |
@@ -47,6 +48,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
     And the 2nd instalment will contain
       | debtItemChargeId  | debtItemId  | dueDate    | amountDue | expectedPayment | interestRate | instalmentNumber | instalmentInterestAccrued | instalmentBalance |
       | debtItemChargeId1 | debtItemId1 | 2021-05-13 | 100       | 100             | 0.24         | 1                | 10                        | 10                |
+
 
   Scenario:  2Weekly instalment payment frequency with for 1 debt -No initial payment
     Given a generate quote request
@@ -72,6 +74,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
       | debtItemChargeId  | debtItemId  | dueDate    | amountDue | expectedPayment | interestRate | instalmentNumber | instalmentInterestAccrued | instalmentBalance |
       | debtItemChargeId1 | debtItemId1 | 2021-05-13 | 100       | 100             | 0.24         | 1                | 10                        | 10                |
 
+
   Scenario:  4Weekly instalment payment frequency with for 1 debt -No initial payment
     Given a generate quote request
       | customerReference | channelIdentifier |
@@ -95,6 +98,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
     And the 2nd instalment will contain
       | debtItemChargeId  | debtItemId  | dueDate    | amountDue | expectedPayment | interestRate | instalmentNumber | instalmentInterestAccrued | instalmentBalance |
       | debtItemChargeId1 | debtItemId1 | 2021-05-13 | 100       | 100             | 0.24         | 1                | 10                        | 10                |
+
 
   Scenario:  Monthly instalment payment frequency with for 1 debt -No initial payment
     Given a generate quote request
@@ -120,6 +124,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
       | debtItemChargeId  | debtItemId  | dueDate    | amountDue | expectedPayment | interestRate | instalmentNumber | instalmentInterestAccrued | instalmentBalance |
       | debtItemChargeId1 | debtItemId1 | 2021-05-13 | 100       | 100             | 0.24         | 1                | 10                        | 10                |
 
+
   Scenario:  quarterly instalment payment frequency with for 1 debt -No initial payment
     Given a generate quote request
       | customerReference | channelIdentifier |
@@ -143,6 +148,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
     And the 2nd instalment will contain
       | debtItemChargeId  | debtItemId  | dueDate    | amountDue | expectedPayment | interestRate | instalmentNumber | instalmentInterestAccrued | instalmentBalance |
       | debtItemChargeId1 | debtItemId1 | 2021-05-13 | 100       | 100             | 0.24         | 1                | 10                        | 10                |
+
 
   Scenario:  6Monthly instalment payment frequency with for 1 debt -No initial payment
     Given a generate quote request
@@ -168,6 +174,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
       | debtItemChargeId  | debtItemId  | dueDate    | amountDue | expectedPayment | interestRate | instalmentNumber | instalmentInterestAccrued | instalmentBalance |
       | debtItemChargeId1 | debtItemId1 | 2021-05-13 | 100       | 100             | 0.24         | 1                | 10                        | 10                |
 
+
   Scenario:  Annually instalment payment frequency with for 1 debt -No initial payment
     Given a generate quote request
       | customerReference | channelIdentifier |
@@ -191,6 +198,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
     And the 2nd instalment will contain
       | debtItemChargeId  | debtItemId  | dueDate    | amountDue | expectedPayment | interestRate | instalmentNumber | instalmentInterestAccrued | instalmentBalance |
       | debtItemChargeId1 | debtItemId1 | 2021-05-13 | 100       | 100             | 0.24         | 1                | 10                        | 10                |
+
 
   Scenario: TTP service returns  -Invalid debtItemChargeId.
     Given a generate quote request
@@ -317,6 +325,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
     Then service returns response code 400
     And service returns error message {"statusCode":400,"errorMessage":"Could not parse body due to requirement failed: addressPostcode should not be empty"}
 
+
   Scenario: TTP service returns  -Invalid addressPostcode.
     Given a generate quote request
       | customerReference | channelIdentifier |
@@ -336,3 +345,24 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
     When the generate quote request is sent to the ttpp service
     Then service returns response code 400
     And service returns error message {"statusCode":400,"errorMessage":"Invalid GenerateQuoteRequest payload: Payload has a missing field or an invalid format. Field name: paymentDate. Date format should be correctly provided"}
+
+
+  Scenario: TTP service returns  -Invalid addressPostcode.
+    Given a generate quote request
+      | customerReference | channelIdentifier |
+      | uniqRef1234       | selfService       |
+    And payment plan details
+      | quoteType        | quoteDate  | instalmentStartDate | instalmentAmount | frequency | duration | initialPaymentAmount | initialPaymentDate | paymentPlanType |
+      | instalmentAmount | 2021-05-13 | 2021-05-13          | 100              | annually  | 12       | 100                  | 2021-05-13         | timeToPay       |
+    And post codes details
+      | addressPostcode | postcodeDate |
+      | 2021-05-13        | 2021-05-13   |
+    And add debtItem details
+      | debtItemChargeId  | mainTrans | subTrans | originalDebtAmount |
+      | debtItemChargeId1 | 1546      | 1090     | 100                |
+    And payment history for the debt Item
+      | paymentDate | paymentAmount |
+      | debtItemId1 | 100           |
+    When the generate quote request is sent to the ttpp service
+    Then service returns response code 400
+    And service returns error message {"statusCode":400,"errorMessage":"Invalid GenerateQuoteRequest payload: Payload has a missing field or an invalid format. Field name: interestStartDate. "}
