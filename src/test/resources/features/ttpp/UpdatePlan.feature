@@ -7,8 +7,8 @@ Feature: TTP Update Plan Request
       | customerRef1234   | planId1234 | planStatus | Resolved - Completed | earlyRepayment | some reason        | true           | BACS          | paymentRef123    |
     When the update plan request is sent to the ttpp service
     Then the ttp service is going to return an update response with
-      | customerReference | planId     | quoteStatus | quoteUpdatedDate |
-      | custRef1234       | planId1234 | Resolved - Completed    | 2021-05-13       |
+      | customerReference | planId     | planStatus           | quoteUpdatedDate |
+      | custRef1234       | planId1234 | Resolved - Completed | 2021-05-13       |
 
 
   Scenario: Cancel existing TTP plan
