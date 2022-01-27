@@ -347,7 +347,7 @@ Feature: Retrieve generate quote response from Time to Pay Proxy
     And service returns error message {"statusCode":400,"errorMessage":"Invalid GenerateQuoteRequest payload: Payload has a missing field or an invalid format. Field name: paymentDate. Date format should be correctly provided"}
 
 
-  Scenario: TTP service returns  -Invalid addressPostcode.
+  Scenario: Request to generate quote for a debt with no interestStartDate.
     Given a generate quote request
       | customerReference | channelIdentifier |
       | uniqRef1234       | selfService       |

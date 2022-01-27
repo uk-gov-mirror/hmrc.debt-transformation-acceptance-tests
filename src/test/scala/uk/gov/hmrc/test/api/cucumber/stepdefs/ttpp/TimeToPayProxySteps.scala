@@ -50,7 +50,7 @@ class TimeToPayProxySteps extends ScalaDsl with EN with Eventually with Matchers
 
   Given("an update plan request") { (dataTable: DataTable) =>
     TimeToPayProxyRequests.createRequestParameters(dataTable)
-    TimeToPayProxyRequests.createUpdatePlanRequestBody(dataTable)
+    TimeToPayProxyRequests.updatePlanRequest(dataTable)
   }
 
   Given("a cancel plan request") { (dataTable: DataTable) =>

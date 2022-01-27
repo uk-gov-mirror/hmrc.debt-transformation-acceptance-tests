@@ -261,7 +261,7 @@ Feature: TTP Create Plan Request
       | planInterest    |
 
 
-  Scenario: TTP Promote an Arrangement request to create a plan for storage
+  Scenario: Request to create a plan for a debt with no interestStartDate.
     Given a create plan
       | customerReference | quoteReference | channelIdentifier |
       | customerRef1234   | quoteReferenc15678911234567891 | advisor           |
