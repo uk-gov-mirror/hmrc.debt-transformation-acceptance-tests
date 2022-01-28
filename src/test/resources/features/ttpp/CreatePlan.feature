@@ -260,7 +260,7 @@ Feature: TTP Create Plan Request
       | interestAccrued |
       | planInterest    |
 
-
+  @ignore
   Scenario: Request to create a plan for a debt with no interestStartDate.
     Given a create plan
       | customerReference | quoteReference | channelIdentifier |
