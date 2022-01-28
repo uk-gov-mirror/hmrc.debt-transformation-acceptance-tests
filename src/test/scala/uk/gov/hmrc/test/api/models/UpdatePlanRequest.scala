@@ -6,7 +6,7 @@ case class UpdatePlanRequest(
   customerReference: String,
   planId: String,
   updateType: String,
-  planStatus: String,
+  planStatus: Option[String],
   completeReason: Option[String],
   cancellationReason: Option[String],
   thirdPartyBank: Option[Boolean],

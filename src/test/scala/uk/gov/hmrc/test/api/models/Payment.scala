@@ -5,12 +5,10 @@
 
 package uk.gov.hmrc.test.api.models
 
-import java.time.LocalDate
+import play.api.libs.json.Json
 
-import play.api.libs.json.{Json, OFormat}
-
-case class Payment(paymentAmount: BigDecimal, paymentDate: LocalDate)
+final case class Payment(paymentDate: String, paymentAmount: Int)
 
 object Payment {
-  implicit val formatPayment: OFormat[Payment] = Json.format[Payment]
+  implicit val format = Json.format[Payment]
 }
