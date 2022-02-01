@@ -115,8 +115,6 @@ Feature: FC Debt Calculation End point testing
     And the 1st fc debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow |
       | 2018-12-16 | 2019-02-03 | 49           | 3.25         | 44                      | 502181             |
-      | 2018-12-16 | 2019-04-14 | 119          | 3.25         | 0                       | 0                  |
-
 
   Scenario: 7. Total Payments cannot be 0.
     Given a fc debt item

@@ -46,7 +46,7 @@ Feature: Debt Calculation For Interest & Non Interest Bearing cases
       | false           | 0                       | 0                    | 0       | 500000           | 500000             | 0                    | 500000             | false                 |
     And the 1st debt summary will not have any calculation windows
 
-  @dtd-509 @wip
+
   Scenario: interestBearing flag should be true where amount has been paid off. Payment date AFTER interest start date (for bug DTD-509)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
@@ -62,12 +62,11 @@ Feature: Debt Calculation For Interest & Non Interest Bearing cases
       | 0                    | 106                  | 0                 | 106            | 0                   |
     Then the 1st debt summary will contain
       | interestBearing | interestDueDailyAccrual | interestDueDutyTotal | intRate | unpaidAmountDuty | totalAmountIntDuty | numberChargeableDays | amountOnIntDueDuty | interestOnlyIndicator |
-      | true            | 0                       | 106                  | 2.75     | 0                | 106                | 10                    | 0                  | false                 |
+      | true            | 0                       | 106                  | 2.75    | 0                | 106                | 3                    | 0                  | false                 |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2021-03-01 | 2021-03-04 | 3            | 2.6          | 35                      | 106               | 500000               | 500106             |
 
-  @dtd-509 @wip
   Scenario: interestBearing flag should be true even when debt has been paid off. Payment date BEFORE interest start date (for bug DTD-509)
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
