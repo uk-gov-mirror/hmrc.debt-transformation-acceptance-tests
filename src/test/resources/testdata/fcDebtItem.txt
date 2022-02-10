@@ -6,7 +6,13 @@
           "interestStartDate": "<REPLACE_interestStartDate>",
           "interestRequestedTo": "<REPLACE_interestRequestedTo>",
           "paymentHistory": [
-          		 <REPLACE_payments>
+          		  <REPLACE_payments>
+          ],
+          "customerPostcodes": [
+                <REPLACE_fcCustomerPostCodes>
+          ],
+          "breathingSpaces": [
+                <REPLACE_breathingSpaces>
           ]
      }
 

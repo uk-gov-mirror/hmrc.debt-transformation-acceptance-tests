@@ -152,7 +152,7 @@ class FCInterestForecastingSteps extends ScalaDsl with EN with Eventually with M
     addFCBreathingSpace(dataTable)
   }
 
-  Given("no breathing spaces have been applied to the fc customer") { () =>
+  Given("no breathing spaces have been applied to the debt item") { () =>
     noFCBreathingSpace()
   }
 
@@ -172,6 +172,11 @@ class FCInterestForecastingSteps extends ScalaDsl with EN with Eventually with M
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.body   should include(expectedMessage)
     response.status should be(400)
+  }
+
+
+  Then("the ([0-9])(?:st|nd|rd|th) fc debt summary will have ([0-9]) calculation windows") { (summaryIndex: Int, numberOfWindows: Int) =>
+    getFCCountOfCalculationWindows(summaryIndex) shouldBe numberOfWindows
   }
 
   def getFCCountOfCalculationWindows(summaryIndex: Int): Int = {
