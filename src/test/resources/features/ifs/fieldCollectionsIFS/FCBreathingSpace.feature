@@ -95,7 +95,7 @@ Feature: FC Debt Calculation Breathing Space
       | 2021-02-01 | 2021-06-14 | 133          | 2.6          | 35                      | 4736              | 504736             |
       | 2021-06-15 | 2021-11-30 | 168          | 0.0          | 0                       | 0                 | 500000             |
 
-  Scenario: Multiple debts with Breathing Spaces
+  Scenario: Multiple debts with multiple breathing Spaces
     Given a fc debt item
       | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
       | 500000         | 2021-02-01        | 2021-11-30          | Y                 | 2022-04-01 | 123              |
@@ -110,13 +110,14 @@ Feature: FC Debt Calculation Breathing Space
     And the fc customer has breathing spaces applied
       | debtRespiteFrom | debtRespiteTo |
       | 2021-06-15      | 2021-08-14    |
+      | 2021-08-16      | 2021-08-18    |
     And the fc customer has post codes
       | addressPostcode | postcodeDate |
       | TW3 4QQ         | 2019-07-06   |
     When the debt item is sent to the fc ifs service
     Then the fc ifs service wilL return a total debts summary of
       | combinedDailyAccrual | totalAmountIntTotal |
-      | 70                   | 1017236             |
+      | 70                   | 1017164             |
     And the 1st fc debt summary will contain
       | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
       | 0                    | 35                      | 508618             |
@@ -125,14 +126,16 @@ Feature: FC Debt Calculation Breathing Space
       | 2021-02-01 | 2021-06-14 | 133          | 2.6          | 35                      | 4736              | 504736             |
       | 2021-06-15 | 2021-08-14 | 60           | 0.0          | 0                       | 0                 | 500000             |
       | 2021-08-14 | 2021-11-30 | 109          | 2.6          | 35                      | 3882              | 503882             |
-    And the 1st fc debt summary will contain
+    And the 2nd fc debt summary will contain
       | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
-      | 0                    | 35                      | 508618             |
-    And the 1st fc debt summary will have calculation windows
+      | 0                    | 35                      | 508546             |
+    And the 2nd fc debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow |
       | 2021-02-01 | 2021-06-14 | 133          | 2.6          | 35                      | 4736              | 504736             |
       | 2021-06-15 | 2021-08-14 | 60           | 0.0          | 0                       | 0                 | 500000             |
-      | 2021-08-14 | 2021-11-30 | 109          | 2.6          | 35                      | 3882              | 503882             |
+      | 2021-08-14 | 2021-08-15 | 2            | 2.6          | 35                      | 71                | 500071             |
+      | 2021-08-16 | 2021-08-18 | 2            | 0.0          | 0                       | 0                 | 500000             |
+      | 2021-08-18 | 2021-11-30 | 105          | 2.6          | 35                      | 3739              | 503739             |
 
   Scenario: Multiple debts, 1 with a breathing Space, 1 without
     Given a fc debt item
