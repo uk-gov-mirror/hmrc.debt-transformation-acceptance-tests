@@ -122,6 +122,9 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
       "fcDebtItem",
       debtItems
     )
+
+    println("debtItems is.1111.." + debtItems)
+
     print("IFS debt-calculation request::::::::::::::::::" + debtItems)
   }
 
@@ -154,13 +157,6 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
     ScenarioContext.set("fcDebtItem", ScenarioContext.get("fcDebtItem").toString.replaceAll("<REPLACE_payments>", ""))
 
   def addFCBreathingSpace(dataTable: DataTable): Unit = {
-    // Set scenario Context to be all debt items with payments.
-    ScenarioContext.set(
-      "fcDebtItem",
-      getBodyAsString("fcdebtCalcRequest")
-        .replaceAllLiterally("<REPLACE_fcDebtItem>", ScenarioContext.get("fcDebtItem"))
-    )
-
     val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
     var breathingSpaces = ""
 
@@ -189,12 +185,6 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
   }
 
   def noFCBreathingSpace() {
-    // Set scenario Context to be all debt items with payments.
-    ScenarioContext.set(
-      "fcDebtItem",
-      getBodyAsString("fcdebtCalcRequest")
-        .replaceAllLiterally("<REPLACE_fcDebtItem>", ScenarioContext.get("fcDebtItem"))
-    )
     ScenarioContext.set(
       "fcDebtItem",
       ScenarioContext.get("fcDebtItem").toString.replaceAll("<REPLACE_breathingSpaces>", "")
@@ -202,6 +192,12 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
   }
 
   def addFCCustomerPostCodes(dataTable: DataTable): Unit = {
+    // Set scenario Context to be all debt items with payments.
+    ScenarioContext.set(
+      "fcDebtItem",
+      getBodyAsString("fcdebtCalcRequest")
+        .replaceAllLiterally("<REPLACE_fcDebtItem>", ScenarioContext.get("fcDebtItem"))
+    )
 
     val asMapTransposed   = dataTable.asMaps(classOf[String], classOf[String])
     var customerPostCodes = ""
@@ -223,6 +219,13 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
   }
 
   def noFCCustomerPostCodes() {
+    // Set scenario Context to be all debt items with payments.
+    ScenarioContext.set(
+      "fcDebtItem",
+      getBodyAsString("fcdebtCalcRequest")
+        .replaceAllLiterally("<REPLACE_fcDebtItem>", ScenarioContext.get("fcDebtItem"))
+    )
+
     ScenarioContext.set(
       "fcDebtItem",
       ScenarioContext.get("fcDebtItem").toString.replaceAll("<REPLACE_fcCustomerPostCodes>", "")

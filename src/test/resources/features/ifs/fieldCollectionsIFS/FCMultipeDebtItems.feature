@@ -1,4 +1,3 @@
-@runMe
 Feature: FC Debt Calculation End point testing
 
   Scenario: 1. Interest Indicators. 2 debt. 1 payment history
@@ -43,55 +42,6 @@ Feature: FC Debt Calculation End point testing
     And the 1st fc debt summary will contain
       | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
       | 0                    | 35                      | 4674                 | 400000           | 404674             | 400000             |
-
-  Scenario: . Interest Indicator. 1 Payment of 1 debt. With Breathing Space
-    Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
-      | 500000         | 2021-02-01        | 2021-11-30          | Y                 | 2022-04-01 | 123              |
-    And the fc debt item has no payment history
-    And the fc customer has breathing spaces applied
-      | debtRespiteFrom | debtRespiteTo |
-      | 2021-06-15      | 2021-08-14    |
-    And the fc customer has post codes
-      | addressPostcode | postcodeDate |
-      | TW3 4QQ         | 2019-07-06   |
-    When the debt item is sent to the fc ifs service
-    Then the fc ifs service wilL return a total debts summary of
-      | combinedDailyAccrual | unpaidAmountTotal | interestDueCallTotal | totalAmountIntTotal | amountOnIntDueTotal |
-      | 35                   | 500000            | 8618                 | 508618              | 500000              |
-    And the 1st fc debt summary will contain
-      | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
-      | 0                    | 35                      | 8618                 | 500000           | 508618             | 500000             |
-    And the 1st fc debt summary will have calculation windows
-      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow |
-      | 2021-02-01 | 2021-06-14 | 133          | 2.6          | 35                      | 4736              | 504736             |
-      | 2021-06-15 | 2021-08-14 | 60           | 0.0          | 0                       | 0                 | 500000             |
-      | 2021-08-14 | 2021-11-30 | 109          | 2.6          | 35                      | 3882              | 503882             |
-
-  @wip @John @runMee
-  Scenario: . Interest Indicator. 1 Payment of 1 debt. With Open Ended Breathing Space
-    Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
-      | 500000         | 2021-02-01        | 2021-11-30          | Y                 | 2022-04-01 | 123              |
-    And the fc debt item has no payment history
-    And the fc customer has breathing spaces applied
-      | debtRespiteFrom | debtRespiteTo |
-      | 2021-06-15      |               |
-    And the fc customer has post codes
-      | addressPostcode | postcodeDate |
-      | TW3 4QQ         | 2019-07-06   |
-    When the debt item is sent to the fc ifs service
-    Then the fc ifs service wilL return a total debts summary of
-      | combinedDailyAccrual | unpaidAmountTotal | interestDueCallTotal | totalAmountIntTotal | amountOnIntDueTotal |
-      | 35                   | 500000            | 4736                 | 504736              | 500000              |
-    And the 1st fc debt summary will contain
-      | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
-      | 0                    | 35                      | 4736                 | 500000           | 504736             | 500000             |
-    And the 1st fc debt summary will have 2 calculation windows
-    And the 1st fc debt summary will have calculation windows
-      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow |
-      | 2021-02-01 | 2021-06-14 | 133          | 2.6          | 35                      | 4736              | 504736             |
-      | 2021-06-15 | 2021-11-30 | 169          | 0.0          | 0                       | 0                 | 500000             |
 
   Scenario: 3. No Interest Indicator. 1 Payment of 1 debt.
     Given a fc debt item
