@@ -122,9 +122,7 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
       "fcDebtItem",
       debtItems
     )
-
-    println("debtItems is.1111.." + debtItems)
-
+    
     print("IFS debt-calculation request::::::::::::::::::" + debtItems)
   }
 
