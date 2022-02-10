@@ -2,15 +2,15 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: 1. Interest Indicators. 2 debt. 1 payment history
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
-      | 500000         | 2018-12-16        | 2019-04-14          | Y                 | 2018-04-06 | 123              |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
+      | 500000         | 2018-12-16        | 2019-04-14          | Y                 | 2018-04-06 | 123    |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 100000        | 2019-02-03  |
     And no breathing spaces have been applied to the debt item
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
-      | 300000         | 2018-12-16        | 2019-04-14          | Y                 | 2018-04-06 | 456              |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
+      | 300000         | 2018-12-16        | 2019-04-14          | Y                 | 2018-04-06 | 456    |
     And the fc debt item has no payment history
     And no breathing spaces have been applied to the debt item
     And the fc customer has post codes
@@ -21,13 +21,13 @@ Feature: FC Debt Calculation End point testing
       | combinedDailyAccrual | unpaidAmountTotal | interestDueCallTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 61                   | 700000            | 7852                 | 707852              | 700000              |
     And the 1st fc debt summary will contain
-      | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
-      | 0                    | 35                      | 4674                 | 400000           | 404674             | 400000             |
+      | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
+      | 35                      | 4674                 | 400000           | 404674             | 400000             |
 
   Scenario: 2. Interest Indicator. 1 Payment of 1 debt.
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
-      | 500000         | 2018-12-16        | 2019-04-14          | Y                 | 2018-04-06 | 123              |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
+      | 500000         | 2018-12-16        | 2019-04-14          | Y                 | 2018-04-06 | 123    |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 100000        | 2019-02-03  |
@@ -40,13 +40,13 @@ Feature: FC Debt Calculation End point testing
       | combinedDailyAccrual | unpaidAmountTotal | interestDueCallTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 35                   | 400000            | 4674                 | 404674              | 400000              |
     And the 1st fc debt summary will contain
-      | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
-      | 0                    | 35                      | 4674                 | 400000           | 404674             | 400000             |
+      | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
+      | 35                      | 4674                 | 400000           | 404674             | 400000             |
 
   Scenario: 3. No Interest Indicator. 1 Payment of 1 debt.
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
-      | 500000         | 2018-12-16        | 2019-04-14          | N                 | 2018-04-06 | 123              |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
+      | 500000         | 2018-12-16        | 2019-04-14          | N                 | 2018-04-06 | 123    |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 100000        | 2019-02-03  |
@@ -59,14 +59,14 @@ Feature: FC Debt Calculation End point testing
       | combinedDailyAccrual | unpaidAmountTotal | interestDueCallTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 0                    | 400000            | 0                    | 400000              | 400000              |
     And the 1st fc debt summary will contain
-      | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
-      | 0                    | 0                       | 0                    | 400000           | 400000             | 400000             |
+      | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
+      | 0                       | 0                    | 400000           | 400000             | 400000             |
     And the 1st fc debt summary will not have any calculation windows
 
   Scenario: 4. Interest Indicator. 1 Payment of 1 debt. No breathing space.
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
-      | 500000         | 2018-12-16        | 2019-04-14          | Y                 | 2018-04-06 | 123              |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
+      | 500000         | 2018-12-16        | 2019-04-14          | Y                 | 2018-04-06 | 123    |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 100000        | 2019-02-03  |
@@ -79,13 +79,13 @@ Feature: FC Debt Calculation End point testing
       | combinedDailyAccrual | unpaidAmountTotal | interestDueCallTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 35                   | 400000            | 4674                 | 404674              | 400000              |
     And the 1st fc debt summary will contain
-      | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
-      | 0                    | 35                      | 4674                 | 400000           | 404674             | 400000             |
+      | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
+      | 35                      | 4674                 | 400000           | 404674             | 400000             |
 
   Scenario: 5. 1 debt, no payment history
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
-      | 500000         | 2018-07-16        | 2019-04-16          | Y                 | 2018-04-06 | 123              |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
+      | 500000         | 2018-07-16        | 2019-04-16          | Y                 | 2018-04-06 | 123    |
     And the fc debt item has no payment history
     And no breathing spaces have been applied to the debt item
     And the fc customer has no post codes
@@ -99,8 +99,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: 6. Interest Indicator. 1 Payment of 1 debt. Payment Done.
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
-      | 500000         | 2018-12-16        | 2019-04-14          | Y                 | 2018-04-06 | 123              |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
+      | 500000         | 2018-12-16        | 2019-04-14          | Y                 | 2018-04-06 | 123    |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 500000        | 2019-02-03  |
@@ -111,16 +111,16 @@ Feature: FC Debt Calculation End point testing
       | combinedDailyAccrual | unpaidAmountTotal | interestDueCallTotal | totalAmountIntTotal | amountOnIntDueTotal |
       | 0                    | 0                 | 2181                 | 2181                | 0                   |
     And the 1st fc debt summary will contain
-      | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
-      | 0                    | 0                       | 2181                 | 0                | 2181               | 0                  |
+      | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
+      | 0                       | 2181                 | 0                | 2181               | 0                  |
     And the 1st fc debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow |
       | 2018-12-16 | 2019-02-03 | 49           | 3.25         | 44                      | 502181             |
 
   Scenario: 7. Total Payments cannot be 0.
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
-      | 500000         | 2018-12-16        | 2019-04-14          | Y                 | 2018-04-06 | 123              |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
+      | 500000         | 2018-12-16        | 2019-04-14          | Y                 | 2018-04-06 | 123    |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 0             | 2019-02-03  |
@@ -131,8 +131,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: 8. Total Payments cannot be negative.
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
-      | 500000         | 2018-12-16        | 2019-04-14          | Y                 | 2018-04-06 | 123              |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
+      | 500000         | 2018-12-16        | 2019-04-14          | Y                 | 2018-04-06 | 123    |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | -1000         | 2019-02-03  |
@@ -143,8 +143,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: 9. Total Payment amounts cannot be more than the original amount.
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
-      | 500000         | 2018-12-16        | 2019-04-14          | Y                 | 2018-04-06 | 123              |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
+      | 500000         | 2018-12-16        | 2019-04-14          | Y                 | 2018-04-06 | 123    |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 555555        | 2019-02-03  |
@@ -155,8 +155,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: 10. No InterestStartDate but InterestIndicator is Yes.
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
-      | 500000         |                   | 2019-04-14          | Y                 | 2018-04-06 | 123              |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
+      | 500000         |                   | 2019-04-14          | Y                 | 2018-04-06 | 123    |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 100000        | 2019-02-03  |
@@ -170,8 +170,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: FC Debt ending in a leap year
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
-      | 500000         | 2018-01-01        | 2020-04-01          | Y                 | 2018-04-06 | 123              |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
+      | 500000         | 2018-01-01        | 2020-04-01          | Y                 | 2018-04-06 | 123    |
     And the fc debt item has no payment history
     And no breathing spaces have been applied to the debt item
     And the fc customer has no post codes
@@ -191,8 +191,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: FC Debt starting in a leap year
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
-      | 500000         | 2020-05-02        | 2021-05-01          | Y                 | 2018-04-06 | 123              |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
+      | 500000         | 2020-05-02        | 2021-05-01          | Y                 | 2018-04-06 | 123    |
     And the fc debt item has no payment history
     And no breathing spaces have been applied to the debt item
     And the fc customer has no post codes
@@ -201,8 +201,8 @@ Feature: FC Debt Calculation End point testing
       | combinedDailyAccrual | unpaidAmountTotal | interestDueCallTotal |
       | 35                   | 500000            | 12940                |
     And the 1st fc debt summary will contain
-      | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty |
-      | 364                  | 35                      | 12940                | 500000           |
+      | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty |
+      | 35                      | 12940                | 500000           |
     And the 1st fc debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow |
       | 2020-05-02 | 2020-12-31 | 243          | 2.6          | 35                      | 8631              | 500000               |
@@ -210,8 +210,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: FC Debt crossing a leap year
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
-      | 500000         | 2018-01-01        | 2021-04-01          | Y                 | 2018-04-06 | 123              |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
+      | 500000         | 2018-01-01        | 2021-04-01          | Y                 | 2018-04-06 | 123    |
     And the fc debt item has no payment history
     And no breathing spaces have been applied to the debt item
     And the fc customer has no post codes
@@ -220,8 +220,8 @@ Feature: FC Debt Calculation End point testing
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal |
       | 35                   | 48710                | 500000            |
     And the 1st fc debt summary will contain
-      | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty |
-      | 1186                 | 35                      | 48710                | 500000           |
+      | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty |
+      | 35                      | 48710                | 500000           |
     And the 1st fc debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow |
       | 2018-01-01 | 2018-08-20 | 231          | 3.0          | 41                      | 9493              | 500000               |
@@ -234,8 +234,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: FC Interest rate changes from 3.25%, 2.75% and 2.6% after a payment is made
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
-      | 500000         | 2019-12-16        | 2020-05-05          | Y                 | 2018-04-06 | 123              |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
+      | 500000         | 2019-12-16        | 2020-05-05          | Y                 | 2018-04-06 | 123    |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 100000        | 2020-05-03  |
@@ -246,8 +246,8 @@ Feature: FC Debt Calculation End point testing
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
       | 28                   | 5933                 | 400000            | 405933         | 400000              |
     And the 1st fc debt summary will contain
-      | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty |
-      | 280                  | 28                      | 5933                 | 400000           |
+      | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty |
+      | 28                      | 5933                 | 400000           |
     And the 1st fc debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow |
       | 2019-12-16 | 2019-12-31 | 15           | 3.25         | 8                       | 133               | 100000               |
@@ -261,8 +261,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: FC Debt spanning multiple leap years
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
-      | 500000         | 2011-01-01        | 2017-02-22          | Y                 | 2018-04-06 | 123              |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
+      | 500000         | 2011-01-01        | 2017-02-22          | Y                 | 2018-04-06 | 123    |
     And the fc debt item has no payment history
     And no breathing spaces have been applied to the debt item
     And the fc customer has no post codes
@@ -271,8 +271,8 @@ Feature: FC Debt Calculation End point testing
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal |
       | 37                   | 91506                | 500000            |
     And the 1st fc debt summary will contain
-      | numberChargeableDays | interestDueDailyAccrual |
-      | 2244                 | 37                      |
+      | interestDueDailyAccrual |
+      | 37                      |
     And the 1st fc debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow |
       | 2011-01-01 | 2011-12-31 | 364          | 3.0          | 41                      | 14958             | 500000               |
@@ -285,8 +285,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: FC Interest rate changes from 3% to 3.25%
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
-      | 500000         | 2017-12-01        | 2019-03-31          | Y                 | 2018-04-06 | 123              |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
+      | 500000         | 2017-12-01        | 2019-03-31          | Y                 | 2018-04-06 | 123    |
     And the fc debt item has no payment history
     And no breathing spaces have been applied to the debt item
     And the fc customer has no post codes
@@ -305,8 +305,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: FC Interest rate changes from 3% to 3.25% with 2 payments on same date in a leap year
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
-      | 500000         | 2019-01-01        | 2020-03-31          | Y                 | 2018-04-06 | 123              |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
+      | 500000         | 2019-01-01        | 2020-03-31          | Y                 | 2018-04-06 | 123    |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 100000        | 2020-02-01  |
@@ -317,9 +317,6 @@ Feature: FC Debt Calculation End point testing
     Then the fc ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
       | 22                   | 19188                | 300000            | 319188         | 300000              |
-    And the 1st fc debt summary will contain
-      | numberChargeableDays |
-      | 851                  |
     And the 1st fc debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow | amountOnIntDueWindow |
       | 2019-01-01 | 2019-12-31 | 364          | 3.25         | 17                      | 6482              | 206482             | 200000               |
@@ -331,8 +328,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: FC Interest rate changes from 3% to 3.25% with 2 payments on same date in a leap year
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
-      | 500000         | 2019-01-01        | 2020-03-31          | Y                 | 2018-04-06 | 123              |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
+      | 500000         | 2019-01-01        | 2020-03-31          | Y                 | 2018-04-06 | 123    |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 100000        | 2020-02-01  |
@@ -343,9 +340,6 @@ Feature: FC Debt Calculation End point testing
     Then the fc ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
       | 22                   | 19188                | 300000            | 319188         | 300000              |
-    And the 1st fc debt summary will contain
-      | numberChargeableDays |
-      | 851                  |
     And the 1st fc debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow | amountOnIntDueWindow |
       | 2019-01-01 | 2019-12-31 | 364          | 3.25         | 17                      | 6482              | 206482             | 200000               |
@@ -356,8 +350,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: FC Interest rate changes from 3% to 3.25%
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
-      | 500000         | 2017-12-01        | 2019-03-31          | Y                 | 2018-04-06 | 123              |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
+      | 500000         | 2017-12-01        | 2019-03-31          | Y                 | 2018-04-06 | 123    |
     And the fc debt item has no payment history
     And no breathing spaces have been applied to the debt item
     And the fc customer has no post codes
@@ -375,8 +369,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: FC Interest rate changes from 3% to 3.25% after a payment is made
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
-      | 500000         | 2018-01-01        | 2019-03-31          | Y                 | 2018-04-06 | 123              |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
+      | 500000         | 2018-01-01        | 2019-03-31          | Y                 | 2018-04-06 | 123    |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 100000        | 2018-03-15  |
@@ -386,9 +380,6 @@ Feature: FC Debt Calculation End point testing
     Then the fc ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal |
       | 35                   | 16136                | 400000            |
-    And the 1st fc debt summary will contain
-      | numberChargeableDays |
-      | 527                  |
     And the 1st fc debt summary will have calculation windows
       | periodFrom | periodTo   | interestRate | interestDueDailyAccrual | amountOnIntDueWindow |
       | 2018-01-01 | 2018-03-15 | 3.0          | 8                       | 100000               |
@@ -397,8 +388,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: FC Interest rate changes from 3% to 3.25% with 2 payments on same date
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
-      | 500000         | 2018-01-01        | 2019-03-31          | Y                 | 2018-04-06 | 123              |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
+      | 500000         | 2018-01-01        | 2019-03-31          | Y                 | 2018-04-06 | 123    |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 100000        | 2018-09-01  |
@@ -418,15 +409,15 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: FC 2 Debts - Interest rate changes from 3% to 3.25% and then multiple payments are made for both debts
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
-      | 500000         | 2018-01-01        | 2019-03-31          | Y                 | 2018-04-06 | 123              |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
+      | 500000         | 2018-01-01        | 2019-03-31          | Y                 | 2018-04-06 | 123    |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 100000        | 2019-03-15  |
       | 100000        | 2019-04-15  |
     And a fc debt item
-      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
-      | 500000         | 2018-01-16  | 2018-01-16        | 2019-04-14          | Y                 | 2018-04-06 | 456              |
+      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
+      | 500000         | 2018-01-16  | 2018-01-16        | 2019-04-14          | Y                 | 2018-04-06 | 456    |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 100000        | 2019-01-20  |
@@ -438,8 +429,8 @@ Feature: FC Debt Calculation End point testing
       | combinedDailyAccrual | interestDueCallTotal | amountIntTotal | amountOnIntDueTotal |
       | 52                   | 37775                | 637775         | 600000              |
     And the 1st fc debt summary will contain
-      | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | amountOnIntDueDuty |
-      | 1361                 | 26                      | 19409                | 300000             |
+      | interestDueDailyAccrual | interestDueDutyTotal | amountOnIntDueDuty |
+      | 26                      | 19409                | 300000             |
     And the 1st fc debt summary will have calculation windows
       | periodFrom | periodTo   | interestRate | interestDueDailyAccrual | interestDueWindow |
       | 2018-01-01 | 2018-08-20 | 3.0          | 8                       | 1898              |
@@ -463,8 +454,8 @@ Feature: FC Debt Calculation End point testing
 
   Scenario: FC Interest rate changes from 2.75% to 2.6% - interestRequestedTo before interestStartDate
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtItemChargeId |
-      | 500000         | 2020-04-10        | 2020-03-31          | Y                 | 2018-04-06 | 123              |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
+      | 500000         | 2020-04-10        | 2020-03-31          | Y                 | 2018-04-06 | 123    |
     And the fc debt item has no payment history
     And no breathing spaces have been applied to the debt item
     And the fc customer has no post codes
@@ -473,14 +464,14 @@ Feature: FC Debt Calculation End point testing
       | combinedDailyAccrual | amountIntTotal | amountOnIntDueTotal |
       | 0                    | 500000         | 500000              |
     And the 1st fc debt summary will contain
-      | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
-      | 0                    | 0                       | 500000             |
+      | interestDueDailyAccrual | totalAmountIntDuty |
+      | 0                       | 500000             |
     And the 1st fc debt summary will not have any calculation windows
 
   Scenario: periodEnd and interestStartDate is missing or invalid.
     Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd | debtItemChargeId |
-      | 500000         |                   | 2019-04-14          | Y                 |           | 123              |
+      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd | debtId |
+      | 500000         |                   | 2019-04-14          | Y                 |           | 123    |
     And the debt item has fc payment history
       | paymentAmount | paymentDate |
       | 100000        | 2019-02-03  |
