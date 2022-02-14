@@ -107,7 +107,7 @@ for (( ; ; )); do
     #    No Error found. Continue to next step to return response back to ET
     qa_response=$(<qaResponse.txt)
     echo " *** Response returned from QA ttp endpoint is $qa_response"
-    jq @json <qa_response.txt >qa_response_escaped.txt
+    sed 's/\"/\\\"/g' qaResponse.txt | tr '\n' ' ' >qa_response_escaped.txt
     qa_response_escaped=$(<qa_response_escaped.txt)
     echo " *** Escaped response from QA ttp endpoint is ${qa_response_escaped}"
   fi
