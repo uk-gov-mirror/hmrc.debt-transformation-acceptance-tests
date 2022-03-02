@@ -21,14 +21,14 @@ Formatting is also taken care as part of pre-commit hooks by running
 git commit
 ```  
 
-To run Interesting forecasting api tests against localhost, use the following command:
+To run Interest forecasting api tests against localhost, use the following command:
 
 ```
 AUTH_ENABLED=true sm --start DTD_ALL
 ```
 
 ```
-./run_interesting_forecasting_api_tests.sh
+./run_interest_forecasting_api_tests.sh
 ```
 
 To run statement of liability api tests against localhost, use the following command:
