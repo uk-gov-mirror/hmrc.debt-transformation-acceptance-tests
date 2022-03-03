@@ -21,6 +21,11 @@ Formatting is also taken care as part of pre-commit hooks by running
 git commit
 ```  
 
+To start Interest forescasting on a local branch, use the following command:
+````
+sbt run 9946 -Dapplication.router=testOnlyDoNotUseInAppConf.Routes
+````
+
 To run Interest forecasting api tests against localhost, use the following command:
 
 ```

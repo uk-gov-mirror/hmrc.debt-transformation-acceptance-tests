@@ -662,8 +662,7 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
           0,
           100000 + 9398,
           2.6
-        )
-        ,
+        ),
         InstalmentResponse(
           debtId,
           12,

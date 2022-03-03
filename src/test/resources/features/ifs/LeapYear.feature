@@ -1,4 +1,3 @@
-@wip4
 Feature: Leap years
 
   Scenario: Debt ending in a leap year

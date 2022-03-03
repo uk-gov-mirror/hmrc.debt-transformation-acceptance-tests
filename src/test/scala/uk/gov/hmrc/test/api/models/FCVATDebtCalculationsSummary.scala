@@ -10,7 +10,7 @@ import java.time.LocalDate
 import play.api.libs.json.{Json, OFormat}
 
 case class FCVATDebtCalculationsSummary(
-  dateOfCalculation: Option[LocalDate],
+  dateOfCalculation: LocalDate,
   combinedDailyAccrual: Int,
   unpaidAmountTotal: Int,
   debtCalculations: List[FCVATDebtCalculation]
