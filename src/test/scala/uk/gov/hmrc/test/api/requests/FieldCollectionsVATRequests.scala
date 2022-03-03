@@ -93,7 +93,7 @@ object FieldCollectionsVATRequests extends ScalaDsl with EN with Eventually with
     catch { case e: Exception => firstItem = true }
 
     val fcVatDebtItem = getBodyAsString("fcVatDebtItem")
-      .replaceAll("<REPLACE_debtId>", asmapTransposed.get("debtId"))
+      .replaceAll("<REPLACE_debtItemChargeId>", asmapTransposed.get("debtItemChargeId"))
       .replaceAll("<REPLACE_originalAmount>", asmapTransposed.get("originalAmount"))
       .replaceAll("<REPLACE_interestIndicator>", asmapTransposed.get("interestIndicator"))
       .replaceAll("<REPLACE_interestRequestedTo>", asmapTransposed.get("interestRequestedTo"))

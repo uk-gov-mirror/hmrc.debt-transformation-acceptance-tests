@@ -174,9 +174,9 @@ class FCInterestForecastingSteps extends ScalaDsl with EN with Eventually with M
     response.status should be(400)
   }
 
-
-  Then("the ([0-9])(?:st|nd|rd|th) fc debt summary will have ([0-9]) calculation windows") { (summaryIndex: Int, numberOfWindows: Int) =>
-    getFCCountOfCalculationWindows(summaryIndex) shouldBe numberOfWindows
+  Then("the ([0-9])(?:st|nd|rd|th) fc debt summary will have ([0-9]) calculation windows") {
+    (summaryIndex: Int, numberOfWindows: Int) =>
+      getFCCountOfCalculationWindows(summaryIndex) shouldBe numberOfWindows
   }
 
   def getFCCountOfCalculationWindows(summaryIndex: Int): Int = {

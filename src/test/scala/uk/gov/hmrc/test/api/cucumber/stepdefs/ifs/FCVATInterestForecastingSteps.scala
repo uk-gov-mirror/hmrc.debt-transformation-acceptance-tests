@@ -26,6 +26,8 @@ import uk.gov.hmrc.test.api.models._
 import uk.gov.hmrc.test.api.requests.FieldCollectionsVATRequests._
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 
+import java.time.LocalDate
+
 class FCVATInterestForecastingSteps extends ScalaDsl with EN with Eventually with Matchers {
 
   Given("a fc vat debt item") { (dataTable: DataTable) =>
@@ -51,9 +53,11 @@ class FCVATInterestForecastingSteps extends ScalaDsl with EN with Eventually wit
   Then("the fc vat ifs service wilL return a total debts summary of") { (dataTable: DataTable) =>
     val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[String])
     val response: StandaloneWSResponse = ScenarioContext.get("response")
+    val toDaysDate                     = LocalDate.now().toString
 
     val responseBody = Json.parse(response.body).as[FCVATDebtCalculationsSummary]
 
+    responseBody.dateOfCalculation.toString shouldBe toDaysDate
     if (asMapTransposed.containsKey("combinedDailyAccrual")) {
       responseBody.combinedDailyAccrual.toString shouldBe asMapTransposed.get("combinedDailyAccrual").toString
     }
@@ -66,14 +70,24 @@ class FCVATInterestForecastingSteps extends ScalaDsl with EN with Eventually wit
     val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[String])
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status should be(200)
-
-    val responseBody: FCVATDebtCalculation =
-      Json.parse(response.body).as[FCVATDebtCalculationsSummary].debtCalculations(index - 1)
+    val responseBody =
+      Json
+        .parse(response.body)
+        .as[FCVATDebtCalculationsSummary]
+        .debtCalculations(index - 1)
 
     if (asMapTransposed.containsKey("interestRate")) {
       responseBody.interestRate.toString shouldBe asMapTransposed.get("interestRate").toString
     }
+    if (asMapTransposed.containsKey("debtItemChargeId")) {
+      responseBody.debtItemChargeId.toString shouldBe asMapTransposed.get("debtItemChargeId").toString
+    }
+    if (asMapTransposed.containsKey("interestDueDailyAccrual")) {
+      responseBody.interestDueDailyAccrual.toString shouldBe asMapTransposed.get("interestDueDailyAccrual").toString
+    }
+
   }
+
   And("the fc vat customer has breathing spaces applied") { (dataTable: DataTable) =>
     addFCVATBreathingSpace(dataTable)
   }

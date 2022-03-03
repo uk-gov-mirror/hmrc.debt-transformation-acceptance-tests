@@ -7,9 +7,7 @@ package uk.gov.hmrc.test.api.models
 
 import play.api.libs.json.{Json, OFormat}
 
-case class FCVATDebtCalculation(
-  interestRate: Double
-)
+case class FCVATDebtCalculation(debtItemChargeId: String, interestDueDailyAccrual: BigDecimal, interestRate: Double)
 
 object FCVATDebtCalculation {
   implicit val formatDebtCalculation: OFormat[FCVATDebtCalculation] = Json.format[FCVATDebtCalculation]
