@@ -31,7 +31,7 @@ echo "*** et token json is $et_token_json"
 echo "*** et token is $et_token"
 
 # Get token for qa
-qa_token_body="client_secret=6c2fc716-b9c6-4bb8-a57e-4908d32b9b27&client_id=reRg5ZSks9hGLpzxS5RRnYHjHYtW&grant_type=client_credentials&expires_in=500000&scope=read:time-to-pay-proxy"
+qa_token_body="client_secret=6c2fc716-b9c6-4bb8-a57e-4908d32b9b27&client_id=reRg5ZSks9hGLpzxS5RRnYHjHYtW&grant_type=client_credentials&expires_in=500000&scope=read:debt-management-api"
 curl -s -o qa_token_response.txt -w %{http_code} --request POST --header "content-type: application/x-www-form-urlencoded" --data $qa_token_body $QATokenEndpoint
 
 qa_token_json=$(<qa_token_response.txt)
@@ -87,7 +87,7 @@ for (( ; ; )); do
   if [ "$qa_status_code" != 200 ]; then
     echo "${qa_status_code} Error received calling qa endpoint $QAuri Handling error and exiting !!!"
     echo ${content} > content.txt
-    sed 's/\"/\\\"/g' content.txt > content_escaped.txt
+    sed 's/\"/\\\"/g' qaResponse.txt > content_escaped.txt
     content_escaped=$(<content_escaped.txt)
     errors_body_json="{\"requestId\": \"${requestId}\", \"content\": \"${content_escaped}\", \"uri\": \"${uri}\",\"isResponse\": true, \"status\": ${qa_status_code}}"
 
