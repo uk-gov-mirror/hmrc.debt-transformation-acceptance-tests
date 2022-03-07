@@ -135,15 +135,9 @@ object FieldCollectionsVATRequests extends ScalaDsl with EN with Eventually with
     )
 
   def addFCVATBreathingSpace(dataTable: DataTable): Unit = {
-    // Set scenario Context to be all debt items with payments.
-    ScenarioContext.set(
-      "fcVatDebtItem",
-      getBodyAsString("fcVatDebtCalcRequest")
-        .replaceAllLiterally("<REPLACE_fcVatDebtItem>", ScenarioContext.get("fcVatDebtItem"))
-    )
-
     val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
     var breathingSpaces = ""
+
 
     asMapTransposed.zipWithIndex.foreach { case (breathingSpace, index) =>
       if (breathingSpace.get("debtRespiteTo").toString.contains("-")) {
@@ -170,11 +164,18 @@ object FieldCollectionsVATRequests extends ScalaDsl with EN with Eventually with
   }
 
   def noFCVatBreathingSpace() {
-    // Set scenario Context to be all debt items with payments.
     ScenarioContext.set(
       "fcVatDebtItem",
-      getBodyAsString("fcVatDebtCalcRequest")
-        .replaceAllLiterally("<REPLACE_fcVatDebtItem>", ScenarioContext.get("fcVatDebtItem"))
+      ScenarioContext.get("fcVatDebtItem").toString.replaceAll("<REPLACE_breathingSpaces>", "")
     )
   }
+
+  def addFCVATdebtsWithBreathingSpace(): Unit = {
+        ScenarioContext.set(
+          "fcVatDebtItem",
+          getBodyAsString("fcVatDebtCalcRequest")
+            .replaceAllLiterally("<REPLACE_fcVatDebtItem>", ScenarioContext.get("fcVatDebtItem"))
+        )
+  }
+
 }

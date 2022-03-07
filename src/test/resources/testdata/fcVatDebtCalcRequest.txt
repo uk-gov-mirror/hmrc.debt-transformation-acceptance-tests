@@ -1,6 +1,5 @@
 {
   "debtItems": [
     <REPLACE_fcVatDebtItem>
-
-   ]
+  ]
 }
