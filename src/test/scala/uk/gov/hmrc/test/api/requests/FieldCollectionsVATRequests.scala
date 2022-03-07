@@ -169,7 +169,7 @@ object FieldCollectionsVATRequests extends ScalaDsl with EN with Eventually with
     )
   }
 
-  def addFCVATdebtsWithBreathingSpace(): Unit =
+  def addFcVatDebtItemRequest(): Unit =
     ScenarioContext.set(
       "fcVatDebtItem",
       getBodyAsString("fcVatDebtCalcRequest")
