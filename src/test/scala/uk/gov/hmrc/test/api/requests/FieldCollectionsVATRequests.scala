@@ -138,7 +138,6 @@ object FieldCollectionsVATRequests extends ScalaDsl with EN with Eventually with
     val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
     var breathingSpaces = ""
 
-
     asMapTransposed.zipWithIndex.foreach { case (breathingSpace, index) =>
       if (breathingSpace.get("debtRespiteTo").toString.contains("-")) {
         breathingSpaces = breathingSpaces.concat(
@@ -170,12 +169,11 @@ object FieldCollectionsVATRequests extends ScalaDsl with EN with Eventually with
     )
   }
 
-  def addFCVATdebtsWithBreathingSpace(): Unit = {
-        ScenarioContext.set(
-          "fcVatDebtItem",
-          getBodyAsString("fcVatDebtCalcRequest")
-            .replaceAllLiterally("<REPLACE_fcVatDebtItem>", ScenarioContext.get("fcVatDebtItem"))
-        )
-  }
+  def addFCVATdebtsWithBreathingSpace(): Unit =
+    ScenarioContext.set(
+      "fcVatDebtItem",
+      getBodyAsString("fcVatDebtCalcRequest")
+        .replaceAllLiterally("<REPLACE_fcVatDebtItem>", ScenarioContext.get("fcVatDebtItem"))
+    )
 
 }
