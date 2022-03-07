@@ -6,10 +6,11 @@
           "interestRequestedTo": "<REPLACE_interestRequestedTo>",
           "periodEnd": "<REPLACE_periodEnd>",
           "paymentHistory": [
-          		  <REPLACE_payments>
-          ],
+               		  <REPLACE_payments>
+               ],
+               "breathingSpaces": [<REPLACE_breathingSpaces>
 
-          "breathingSpaces": [
+                 ]
 
-          ]
-     }
+
+  }
