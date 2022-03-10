@@ -185,21 +185,6 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
     When the instalment calculation detail is sent to the ifs service
     Then Ifs service returns response code 200
 
-  Scenario: Payment plan calculation request -instalmentDate in past
-    Given debt instalment calculation with details
-      | instalmentPaymentAmount | instalmentPaymentDay | paymentFrequency | interestCallDueTotal | quoteType |
-      | 10000                   | -1                   | single           | 1423                 | duration  |
-    And the instalment calculation has no postcodes
-    And debt plan details with initial payment
-      | initialPaymentAmount | initialPaymentDays |
-      | 5000                 | 0                  |
-    And the instalment calculation has debt item charges
-      | debtId | debtAmount | mainTrans | subTrans |
-      | debtId | 100000     | 1530      | 1000     |
-    When the instalment calculation detail is sent to the ifs service
-    Then Ifs service returns response code 400
-    And Ifs service returns error message {"statusCode":400,"reason":"Invalid JSON error from IFS","message":"Could not parse body due to requirement failed: Instalment Date should be on or after quoteDate."}
-
   Scenario: Payment plan calculation request -instalmentDate can be today
     Given debt instalment calculation with details
       | instalmentPaymentAmount | instalmentPaymentDay | paymentFrequency | interestCallDueTotal | quoteType |
@@ -241,20 +226,6 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
     When the instalment calculation detail is sent to the ifs service
     Then Ifs service returns response code 400
     And Ifs service returns error message {"statusCode":400,"reason":"Invalid JSON error from IFS","message":"Field at path '/instalmentPaymentDate' missing or invalid"}
-
-
-  Scenario: Payment plan calculation request error  - quote date in past
-    Given debt instalment calculation with details
-      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | quoteDate  | quoteType |
-      | 10000                   | monthly          | 1                    | 1423                 | 2021-09-21 | duration  |
-    And the instalment calculation has no postcodes
-    And no initial payment for the debt item charge
-    And the instalment calculation has debt item charges
-      | debtId | debtAmount | mainTrans | subTrans |
-      | debtId | 100000     | 1530      | 1000     |
-    When the instalment calculation detail is sent to the ifs service
-    Then Ifs service returns response code 400
-    And Ifs service returns error message {"statusCode":400,"reason":"Invalid JSON error from IFS","message":"Could not parse body due to requirement failed: Quote Date must be today's Date."}
 
   Scenario: Payment plan calculation request error  -quoteDate missing
     Given debt instalment calculation with details
