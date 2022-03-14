@@ -2,8 +2,8 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
 
   Scenario: Payment plan calculation instalment - Single payment frequency
     Given debt instalment calculation with details
-      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | numberOfDay | quoteType |
-      | 10000                   | single           | 1                    | 1423                 | 1           | duration  |
+      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDate | interestCallDueTotal | numberOfDay | quoteType | quoteDate  |
+      | 10000                   | single           | 2022-03-15            | 1423                 | 1           | duration  | 2022-03-13 |
     And the instalment calculation has no postcodes
     And no initial payment for the debt item charge
     And the instalment calculation has debt item charges
@@ -14,8 +14,8 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
 
   Scenario: Payment plan calculation instalment - weekly payment frequency
     Given debt instalment calculation with details
-      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | quoteType |
-      | 10000                   | weekly           | 1                    | 1423                 | duration  |
+      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDate | interestCallDueTotal | quoteType | quoteDate  |
+      | 10000                   | weekly           | 2022-03-15            | 1423                 | duration  | 2022-03-13 |
     And the instalment calculation has no postcodes
     And no initial payment for the debt item charge
     And the instalment calculation has debt item charges
@@ -26,8 +26,8 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
 
   Scenario: Payment plan calculation instalment - 2Weekly payment frequency
     Given debt instalment calculation with details
-      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | quoteType |
-      | 10000                   | 2Weekly          | 1                    | 1423                 | duration  |
+      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDate | interestCallDueTotal | quoteType | quoteDate  |
+      | 10000                   | 2Weekly          | 2022-03-15            | 1423                 | duration  | 2022-03-13 |
     And the instalment calculation has no postcodes
     And no initial payment for the debt item charge
     And the instalment calculation has debt item charges
@@ -38,8 +38,8 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
 
   Scenario: Payment plan calculation instalment - 4Weekly payment frequency with end of month instalment start Date
     Given debt instalment calculation with details
-      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | quoteType |
-      | 10000                   | 4Weekly          | 1                    | 1423                 | duration  |
+      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDate | interestCallDueTotal | quoteType | quoteDate  |
+      | 10000                   | 4Weekly          | 2022-03-15            | 1423                 | duration  | 2022-03-13 |
     And the instalment calculation has no postcodes
     And no initial payment for the debt item charge
     And the instalment calculation has debt item charges
@@ -50,8 +50,8 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
 
   Scenario: Payment plan calculation instalment - Monthly payment frequency type
     Given debt instalment calculation with details
-      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | quoteType |
-      | 10000                   | monthly          | 1                    | 9542                 | duration  |
+      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDate | interestCallDueTotal | quoteType | quoteDate  |
+      | 10000                   | monthly          | 2022-03-15            | 9542                 | duration  | 2022-03-13 |
     And the instalment calculation has no postcodes
     And no initial payment for the debt item charge
     And the instalment calculation has debt item charges
@@ -62,8 +62,8 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
 
   Scenario: Payment plan calculation instalment - Quarterly payment frequency with end of Leap year instalment Date
     Given debt instalment calculation with details
-      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | quoteType |
-      | 10000                   | quarterly        | 1                    | 1423                 | duration  |
+      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDate | interestCallDueTotal | quoteType | quoteDate  |
+      | 10000                   | quarterly        | 2022-03-15            | 1423                 | duration  | 2022-03-13 |
     And the instalment calculation has no postcodes
     And no initial payment for the debt item charge
     And the instalment calculation has debt item charges
@@ -74,8 +74,8 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
 
   Scenario: Payment plan calculation instalment - 6Monthly payment frequency instalment Date starts in non leap year to Leap year
     Given debt instalment calculation with details
-      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | quoteType |
-      | 10000                   | 6Monthly         | 1                    | 3538                 | duration  |
+      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDate | interestCallDueTotal | quoteType | quoteDate  |
+      | 10000                   | 6Monthly         | 2022-03-15            | 3538                 | duration  | 2022-03-13 |
     And the instalment calculation has no postcodes
     And no initial payment for the debt item charge
     And the instalment calculation has debt item charges
@@ -86,8 +86,8 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
 
   Scenario: Payment plan calculation instalment - Annually payment frequency
     Given debt instalment calculation with details
-      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | quoteType |
-      | 10000                   | annually         | 1                    | 1423                 | duration  |
+      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDate | interestCallDueTotal | quoteType | quoteDate  |
+      | 10000                   | annually         | 2022-03-15            | 1423                 | duration  | 2022-03-13 |
     And the instalment calculation has no postcodes
     And no initial payment for the debt item charge
     And the instalment calculation has debt item charges
@@ -98,12 +98,12 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
 
   Scenario: Single debt payment instalment calculation plan - Monthly payments with initial payment
     Given debt instalment calculation with details
-      | instalmentPaymentAmount | instalmentPaymentDay | paymentFrequency | interestCallDueTotal | quoteType |
-      | 10000                   | 1                    | monthly          | 1423                 | duration  |
+      | instalmentPaymentAmount | instalmentPaymentDate | paymentFrequency | interestCallDueTotal | quoteType | quoteDate  |
+      | 10000                   | 2022-03-15            | monthly          | 1423                 | duration  | 2022-03-13 |
     And the instalment calculation has no postcodes
     And debt plan details with initial payment
-      | initialPaymentAmount | initialPaymentDays |
-      | 100                  | 1                  |
+      | initialPaymentAmount | initialPaymentDate |
+      | 100                  | 2022-03-15         |
     And the instalment calculation has debt item charges
       | debtId | debtAmount | mainTrans | subTrans |
       | debtId | 100000     | 1525      | 1000     |
@@ -113,12 +113,12 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
 
   Scenario: Single debt payment instalment calculation plan - Weekly payments with initial payment 129
     Given debt instalment calculation with 129 details
-      | instalmentPaymentAmount | instalmentPaymentDay | paymentFrequency | interestCallDueTotal | quoteType |
-      | 5000                    | 129                  | weekly           | 1423                 | duration  |
+      | instalmentPaymentAmount | instalmentPaymentDate | paymentFrequency | interestCallDueTotal | quoteType | quoteDate  |
+      | 5000                    | 2022-07-21            | weekly           | 1423                 | duration  | 2022-03-13 |
     And the instalment calculation has no postcodes
     And debt plan details with initial payment
-      | initialPaymentAmount | initialPaymentDays |
-      | 5000                 | 129                |
+      | initialPaymentAmount | initialPaymentDate |
+      | 5000                 | 2022-07-21         |
     And the instalment calculation has debt item charges
       | debtId | debtAmount | mainTrans | subTrans |
       | debtId | 100000     | 1525      | 1000     |
@@ -128,12 +128,12 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
 
   Scenario: Payment plan calculation request -initialPaymentAmount missing
     Given debt instalment calculation with details
-      | instalmentPaymentAmount | instalmentPaymentDay | paymentFrequency | interestCallDueTotal | quoteType |
-      | 10000                   | 129                  | single           | 1423                 | duration  |
+      | instalmentPaymentAmount | instalmentPaymentDate | paymentFrequency | interestCallDueTotal | quoteType | quoteDate  |
+      | 10000                   | 2022-03-15            | single           | 1423                 | duration  | 2022-03-14 |
     And the instalment calculation has no postcodes
     And debt plan details with initial payment
-      | initialPaymentDays |
-      | 129                |
+      | initialPaymentDate |
+      | 2022-07-21         |
     And the instalment calculation has debt item charges
       | debtId | debtAmount | mainTrans | subTrans |
       | debtId | 100000     | 1530      | 1000     |
@@ -158,12 +158,12 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
 
   Scenario: Payment plan calculation request -initialPaymentDate in past
     Given debt instalment calculation with details
-      | instalmentPaymentAmount | instalmentPaymentDay | paymentFrequency | interestCallDueTotal | quoteType |
-      | 10000                   | 129                  | single           | 1423                 | duration  |
+      | instalmentPaymentAmount | instalmentPaymentDate | paymentFrequency | interestCallDueTotal | quoteType | quoteDate  |
+      | 10000                   | 2022-03-15            | single           | 1423                 | duration  | 2022-03-14 |
     And the instalment calculation has no postcodes
     And debt plan details with initial payment
-      | initialPaymentAmount | initialPaymentDays |
-      | 5000                 | -1                 |
+      | initialPaymentAmount | initialPaymentDate |
+      | 5000                 | 2022-03-13         |
     And the instalment calculation has debt item charges
       | debtId | debtAmount | mainTrans | subTrans |
       | debtId | 100000     | 1530      | 1000     |
@@ -178,7 +178,7 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
     And the instalment calculation has no postcodes
     And debt plan details with initial payment
       | initialPaymentAmount | initialPaymentDays |
-      | 5000                 | 0                 |
+      | 5000                 | 0                  |
     And the instalment calculation has debt item charges
       | debtId | debtAmount | mainTrans | subTrans |
       | debtId | 100000     | 1530      | 1000     |
@@ -188,7 +188,7 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
   Scenario: Payment plan calculation request -instalmentDate can be today
     Given debt instalment calculation with details
       | instalmentPaymentAmount | instalmentPaymentDay | paymentFrequency | interestCallDueTotal | quoteType |
-      | 10000                   | 0                   | single           | 1423                 | duration  |
+      | 10000                   | 0                    | single           | 1423                 | duration  |
     And the instalment calculation has no postcodes
     And debt plan details with initial payment
       | initialPaymentAmount | initialPaymentDays |
@@ -201,12 +201,12 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
 
   Scenario: Payment plan calculation request -initialPaymentDate is after instalmentPaymentDate
     Given debt instalment calculation with details
-      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | quoteType |
-      | 10000                   | single           | 1                    | 1423                 | duration  |
+      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDate | interestCallDueTotal | quoteType | quoteDate  |
+      | 10000                   | single           | 2022-03-15            | 1423                 | duration  | 2022-03-14 |
     And the instalment calculation has no postcodes
     And debt plan details with initial payment
-      | initialPaymentAmount | initialPaymentDays |
-      | 5000                 | 129                |
+      | initialPaymentAmount | initialPaymentDate |
+      | 5000                 | 2022-03-16         |
     And the instalment calculation has debt item charges
       | debtId | debtAmount | mainTrans | subTrans |
       | debtId | 100000     | 1530      | 1000     |
