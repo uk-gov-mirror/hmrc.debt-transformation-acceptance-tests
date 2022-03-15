@@ -74,10 +74,15 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
 
     var addNumberOfDays       = ""
     var instalmentPaymentDate = ""
+
     if (asmapTransposed.toString.contains("instalmentPaymentDay")) {
       addNumberOfDays = asmapTransposed.get("instalmentPaymentDay")
       val localDate = LocalDate.now()
       instalmentPaymentDate = localDate.plusDays(addNumberOfDays.toInt).toString
+    }
+
+    if (asmapTransposed.toString.contains("instalmentPaymentDate")) {
+      instalmentPaymentDate = asmapTransposed.get("instalmentPaymentDate")
     }
 
     var quoteDate                  = dateTime.toString("yyyy-MM-dd")
@@ -192,6 +197,11 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
       val localDate       = LocalDate.now()
       initialPaymentDate = localDate.plusDays(addNumberOfDays.toInt).toString
     }
+
+    if (asmapTransposed.toString.contains("initialPaymentDate")) {
+      initialPaymentDate = asmapTransposed.get("initialPaymentDate")
+    }
+
     if (asmapTransposed.toString.contains("initialPaymentAmount")) {
       initialPaymentAmount = asmapTransposed.get("initialPaymentAmount")
     }
@@ -235,6 +245,11 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
     if (asmapTransposed.toString.contains("daysAfterToday")) {
       instalment.dueDate shouldBe date
     }
+
+    if (asmapTransposed.toString.contains("dueDate")) {
+      instalment.dueDate.toString shouldBe asmapTransposed.get("dueDate").toString
+    }
+
     instalment.amountDue shouldBe paymentAmount
     instalment.instalmentBalance shouldBe balance
     instalment.instalmentNumber  shouldBe index + 1
