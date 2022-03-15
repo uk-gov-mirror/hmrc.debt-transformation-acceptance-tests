@@ -9,10 +9,16 @@ import play.api.libs.ws.StandaloneWSResponse
 import uk.gov.hmrc.test.api.models.{InstalmentCalculationSummaryResponse, InstalmentResponse}
 import uk.gov.hmrc.test.api.requests.IFSInstalmentCalculationRequests._
 import uk.gov.hmrc.test.api.utils.ScenarioContext
-
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually with Matchers {
+
+  val quoteDateString = "2022-03-13"
+  val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+  val quoteDate = LocalDate.parse(quoteDateString, formatter)
+  val instalmentPaymentDate     = quoteDate.plusDays(1)
+
 
   Given("debt instalment calculation with details") { (dataTable: DataTable) =>
     createInstalmentCalculationRequestBody(dataTable)
@@ -57,8 +63,7 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
   Then("ifs service returns weekly payment frequency instalment calculation plan") { () =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status shouldBe 200
-    val quoteDate                 = LocalDate.now
-    val instalmentPaymentDate     = quoteDate.plusDays(1)
+
     val debtId                    = "debtId"
     val responseBody              = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
     val actualnumberOfInstalments =
@@ -114,8 +119,7 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
   Then("ifs service returns an interest bearing payment instalment plan") { () =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status shouldBe 200
-    val quoteDate                 = LocalDate.now
-    val instalmentPaymentDate     = quoteDate.plusDays(1)
+
     val debtId                    = "debtId"
     val responseBody              = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
     val actualnumberOfInstalments =
@@ -156,8 +160,7 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
   Then("ifs service returns an non-interest bearing payment instalment plan") { () =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status shouldBe 200
-    val quoteDate                 = LocalDate.now
-    val instalmentPaymentDate     = quoteDate.plusDays(1)
+
     val debtId                    = "debtId"
     val responseBody              = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
     val actualnumberOfInstalments =
@@ -198,8 +201,7 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
   Then("ifs service returns single payment frequency instalment calculation plan") { () =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status shouldBe 200
-    val quoteDate                 = LocalDate.now
-    val instalmentPaymentDate     = quoteDate.plusDays(1)
+
     val debtId                    = "debtId"
     val responseBody              = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
     val actualnumberOfInstalments =
@@ -239,8 +241,7 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
   Then("ifs service returns 2-Weekly frequency instalment calculation plan") { () =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status shouldBe 200
-    val quoteDate                 = LocalDate.now
-    val instalmentPaymentDate     = quoteDate.plusDays(1)
+
     val debtId                    = "debtId"
     val responseBody              = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
     val actualnumberOfInstalments =
@@ -316,8 +317,7 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
   Then("ifs service returns monthly payment frequency instalment calculation plan") { () =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status shouldBe 200
-    val quoteDate                 = LocalDate.now
-    val instalmentPaymentDate     = quoteDate.plusDays(1)
+
     val debtId                    = "debtId"
     val responseBody              = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
     val actualnumberOfInstalments =
@@ -358,8 +358,7 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
   Then("ifs service returns 4-Weekly frequency instalment calculation plan") { () =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status shouldBe 200
-    val quoteDate                 = LocalDate.now
-    val instalmentPaymentDate     = quoteDate.plusDays(1)
+
     val debtId                    = "debtId"
     val responseBody              = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
     val actualnumberOfInstalments =
@@ -416,8 +415,7 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
   Then("ifs service returns Quarterly payment frequency instalment calculation plan") { () =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status shouldBe 200
-    val quoteDate                 = LocalDate.now
-    val instalmentPaymentDate     = quoteDate.plusDays(1)
+
     val debtId                    = "debtId"
     val responseBody              = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
     val actualnumberOfInstalments =
@@ -547,8 +545,7 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
   Then("ifs service returns 6Monthly payment frequency instalment calculation plan") { () =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status shouldBe 200
-    val quoteDate                 = LocalDate.now
-    val instalmentPaymentDate     = quoteDate.plusDays(1)
+
     val debtId                    = "debtId"
     val responseBody              = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
     val actualnumberOfInstalments =
@@ -687,8 +684,7 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
   Then("ifs service returns Annually payment frequency instalment calculation plan") { () =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status shouldBe 200
-    val quoteDate                 = LocalDate.now
-    val instalmentPaymentDate     = quoteDate.plusDays(1)
+
     val debtId                    = "debtId"
     val responseBody              = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
     val actualnumberOfInstalments =
@@ -728,9 +724,7 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
   Then("ifs service returns monthly instalment calculation plan with initial payment") { () =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status shouldBe 200
-    val quoteDate                 = LocalDate.now
-    val instalmentPaymentDate     = quoteDate.plusDays(1)
-    val initialPaymentDate        = quoteDate.plusDays(1)
+
     val debtId                    = "debtId"
     val responseBody              = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
     val actualnumberOfInstalments =
@@ -775,7 +769,7 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
   Then("ifs service returns weekly frequency instalment calculation plan with initial payment") { () =>
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status shouldBe 200
-    val quoteDate                 = LocalDate.now
+
     val instalmentPaymentDate     = quoteDate.plusDays(129)
     val debtId                    = "debtId"
     val responseBody              = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
