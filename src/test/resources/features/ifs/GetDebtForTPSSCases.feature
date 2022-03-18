@@ -11,7 +11,7 @@
 #  When bearing the interest rate is 2.6%
 
 Feature: Debt Calculation For Interest & Non Interest Bearing cases
-@wipSara
+
   Scenario: Interest Bearing TPSS MainTrans 1525 debt
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
