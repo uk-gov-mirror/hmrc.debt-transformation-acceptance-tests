@@ -73,7 +73,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | interestBearing | interestDueDailyAccrual | totalAmountIntDuty | interestOnlyIndicator |
       | true            | 35                      | 500249             | false                 |
 
-  Scenario: All Non Interest Bearing MainTrans and SunTrans
+  Scenario: All Non Interest Bearing MainTrans and SubTrans
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 100000         | 2021-03-01        | 2021-03-08          | 5330      | 7006     |
@@ -146,12 +146,20 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 100000         | 2021-03-01        | 2021-03-08          | 1546      | 2000     |
     And the debt item has no payment history
+    And a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 100000         | 2021-03-01        | 2021-03-08          | 2421      | 1150     |
+    And the debt item has no payment history
+    And a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 100000         | 2021-03-01        | 2021-03-08          | 1441      | 1150     |
+    And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
-      | 0                    | 0                    | 1800000           | 1800000        | 1800000             |
+      | 0                    | 0                    | 2000000           | 2000000        | 2000000             |
 
   Scenario: MainTrans (1525) debt empty subTrans (7006)
     Given a debt item
