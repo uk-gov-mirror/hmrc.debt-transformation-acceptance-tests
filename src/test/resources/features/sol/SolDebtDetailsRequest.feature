@@ -133,3 +133,45 @@ Feature: statement of liability Debt details
     And the 1st sol debt summary will contain duties
       | dutyId  | subTrans | dutyTypeDescription | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
       | Idle_01 | 1090     | Tax Interest        | 250              | 0                    | false           | false                 |
+
+  Scenario: 5. Non interest bearing Main trans 1441 and sub trans 1150
+    Given debt details
+      | solType | debtId  | mainTrans | subTrans | interestRequestedTo |
+      | CO      | debt005 | 1441      | 1150     | 2021-08-10          |
+    And add debt item chargeIDs to the debt
+      | dutyId |
+      | duty06 |
+    When a debt statement of liability is requested
+
+    Then service returns debt statement of liability data
+      | amountIntTotal | combinedDailyAccrual |
+      | 200000         | 0                    |
+
+    And the 1st sol debt summary will contain
+      | debtId  | mainTrans | debtTypeDescription   | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
+      | debt005 | 5350      | CO: ChB Migrated Debt | 0                    | 200000             | 0                    |
+
+    And the 1st sol debt summary will contain duties
+      | dutyId | subTrans | dutyTypeDescription             | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
+      | duty06 | 7012     | CO: Child Benefit Migrated Debt | 200000           | 0                    | false           | false                 |
+
+  Scenario: 5.  Non interest bearing Main trans 2421 and sub trans 1150
+    Given debt details
+      | solType | debtId  | mainTrans | subTrans | interestRequestedTo |
+      | CO      | debt005 | 2421      | 1150     | 2021-08-10          |
+    And add debt item chargeIDs to the debt
+      | dutyId |
+      | duty06 |
+    When a debt statement of liability is requested
+
+    Then service returns debt statement of liability data
+      | amountIntTotal | combinedDailyAccrual |
+      | 200000         | 0                    |
+
+    And the 1st sol debt summary will contain
+      | debtId  | mainTrans | debtTypeDescription   | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
+      | debt005 | 5350      | CO: ChB Migrated Debt | 0                    | 200000             | 0                    |
+
+    And the 1st sol debt summary will contain duties
+      | dutyId | subTrans | dutyTypeDescription             | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
+      | duty06 | 7012     | CO: Child Benefit Migrated Debt | 200000           | 0                    | false           | false                 |
