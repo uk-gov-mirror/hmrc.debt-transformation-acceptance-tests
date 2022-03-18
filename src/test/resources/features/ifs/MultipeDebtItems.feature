@@ -14,7 +14,7 @@
 Feature: Multiple Debt Items
 
   Scenario: 1. Non Interest Bearing. 1 Payment of 1 debt.
-    Given a debt item
+    Given a   debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2018-12-16        | 2019-04-14          | 1520      | 1090     | true            |
     And the debt item has payment history
@@ -107,6 +107,7 @@ Feature: Multiple Debt Items
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow |
       | 2018-12-16 | 2019-04-14 | 119          | 3.25         | 44                      | 505297             |
 
+
   Scenario: 5. 1 debt, no payment interest requested to date is before the interest start date
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
@@ -177,3 +178,4 @@ Feature: Multiple Debt Items
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
       | false           | 0                    | 0                       | 900000             |
     And the 1st debt summary will not have any calculation windows
+
