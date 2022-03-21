@@ -69,7 +69,7 @@ def retrieveExternalTestToken(): Result[TokenResponse] =
 def retrieveQAToken(): Result[TokenResponse] =
   retrieveAccessToken(qaTokenURL, qaTokenParams)
 
-def retriveAllUnprocessedRequests(token: TokenResponse): Result[List[RequestDetail]] = {
+def retrieveAllUnprocessedRequests(token: TokenResponse): Result[List[RequestDetail]] = {
   val response = requests.get(
     url = externalTestsRequestsURL,
     auth = token.authBearerToken
@@ -126,24 +126,26 @@ def postResponseToExternalTest(token: TokenResponse, details: RequestDetail, qaR
 
 def parseQAResponse(response: requests.Response): Result[Json] =
   parse(response.text()).left.map { error =>
-    BridgeToolError.Decode(response.text(), error),
+    BridgeToolError.Decode(response.text(), error)
   }
 
 def nextProcessableRequest(details: List[RequestDetail]): Result[RequestDetail] =
   details.headOption.toRight(BridgeToolError.NoRequestsToProcess)
 
-def deleteRequest(token: TokenResponse, details: RequestDetail): Result[Unit] =
-  requests.delete(
+def deleteRequest(token: TokenResponse, details: RequestDetail): Result[Unit] = {
+  val response = requests.delete(
     url = externalTestDeleteURL(details.requestId),
     auth = token.authBearerToken
-  ).statusCode match {
+  )
+  response.statusCode match {
     case ok if ok < 300 && ok >= 200 => Right(())
-    case _ => Left(???)
+    case _ => Left(BridgeToolError.Connectivity("ExternalTest", response))
   }
+}
 
 def process(qaToken: TokenResponse, externalTestToken: TokenResponse): Result[Unit] =
   for {
-    requests        <- retriveAllUnprocessedRequests(externalTestToken)
+    requests        <- retrieveAllUnprocessedRequests(externalTestToken)
     details         <- nextProcessableRequest(requests)
     qaResponse      <- postRequestDetailsToQA(qaToken, details)
     responseContent <- parseQAResponse(qaResponse)
