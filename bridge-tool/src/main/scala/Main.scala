@@ -2,7 +2,6 @@
 // * Handle error cases; respond with HTTP errors, log connectivity errors
 // * Request new token after timeout (4 hours?)
 // * Logging??
-// * Add json headers
 // * Refactor: classes; packages;
 package main
 
@@ -22,7 +21,13 @@ final case class RequestDetail(
   status: Option[Int] = None
 )
 
-final case class TokenResponse(`access_token`: String)
+final case class TokenResponse(`access_token`: String) {
+
+  def authBearerToken = requests.RequestAuth.Bearer(`access_token`)
+
+}
+
+val defaultHeaders = Map("Content-Type" -> "application/json")
 
 val externalTestTokenURL = "https://test-api.service.hmrc.gov.uk/oauth/token"
 val qaTokenURL = "https://api.qa.tax.service.gov.uk/oauth/token"
@@ -59,10 +64,10 @@ def retrieveExternalTestToken(): TokenResponse =
 def retrieveQAToken(): TokenResponse =
   retrieveAccessToken(qaTokenURL, qaTokenParams)
 
-def retriveAllUnprocessedRequests(token: String): List[RequestDetail] = {
+def retriveAllUnprocessedRequests(token: TokenResponse): List[RequestDetail] = {
   val response = requests.get(
     url = externalTestsRequestsURL,
-    auth = requests.RequestAuth.Bearer(token)
+    auth = token.authBearerToken
   )
   decode[List[RequestDetail]](response.text()).getOrElse { ??? }
 }
@@ -70,30 +75,31 @@ def retriveAllUnprocessedRequests(token: String): List[RequestDetail] = {
 def formatQAURL(path: String): String =
   s"${qaTTPURL}${path}"
 
-def postRequestDetailsToQA(token: String, details: RequestDetail): requests.Response = {
-  val auth = requests.RequestAuth.Bearer(token)
+def postRequestDetailsToQA(token: TokenResponse, details: RequestDetail): requests.Response = {
+  val auth = token.authBearerToken
   val url = details.uri.getOrElse { ??? }
   val method = details.method.getOrElse("POST").trim.toUpperCase
   pprint.pprintln("Posting to QA:")
   pprint.pprintln(details.content)
-  requests.send(method).apply(auth = auth, url = formatQAURL(url), data = details.content.noSpaces)
+  requests.send(method).apply(auth = auth, url = formatQAURL(url), data = details.content.noSpaces, headers = defaultHeaders)
 }
 
-def postResponseToExternalTest(token: String, details: RequestDetail, qaResponse: Json): Int = {
+def postResponseToExternalTest(token: TokenResponse, details: RequestDetail, qaResponse: Json): Int = {
   val responseDetails = RequestDetail(
     isResponse = true,
     requestId = details.requestId,
     content = qaResponse
   )
   requests.post(
-    auth = requests.RequestAuth.Bearer(token),
+    auth = token.authBearerToken,
     url = externalTestsResponseURL,
-    data = responseDetails.asJson.noSpaces
+    data = responseDetails.asJson.noSpaces,
+    headers = defaultHeaders
   ).statusCode
 }
 
 @scala.annotation.tailrec
-def loop(qaToken: String, externalTestToken: String): Unit = {
+def loop(qaToken: TokenResponse, externalTestToken: TokenResponse): Unit = {
   val unprocessed = retriveAllUnprocessedRequests(externalTestToken)
 
   unprocessed.headOption match {
@@ -114,10 +120,8 @@ def loop(qaToken: String, externalTestToken: String): Unit = {
 }
 
 object Main extends App {
-  logging.info("this is an info")
-  logging.error("this is an error")
-  // val externalTestToken = retrieveExternalTestToken().`access_token`
-  // val qaToken = retrieveQAToken().`access_token`
+  val externalTestToken = retrieveExternalTestToken()
+  val qaToken = retrieveQAToken()
 
-  // loop(qaToken, externalTestToken)
+  loop(qaToken, externalTestToken)
 }
