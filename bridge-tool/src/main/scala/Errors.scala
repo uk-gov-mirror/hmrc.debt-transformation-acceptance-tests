@@ -13,8 +13,11 @@ sealed abstract class BridgeToolError {
       case Token(error: Response) =>
         s"Failed get token; got: $error"
 
-      case Connectivity(env: String, error: Response) =>
-        s"Failed to connect to $env; got: $error"
+      case Connectivity(url: String, message: String) =>
+        s"Failed to connect to $url; $message"
+
+      case BadResponse(error: Response) =>
+        s"Bad Response got: $error"
 
       case MissingURL(badDetails: RequestDetail) =>
         s"Missing URL from request details; details: $badDetails"
@@ -42,7 +45,8 @@ object BridgeToolError {
   type Result[A] = Either[BridgeToolError, A]
 
   final case class Token(error: Response) extends BridgeToolError
-  final case class Connectivity(env: String, error: Response) extends BridgeToolError
+  final case class Connectivity(url: String, message: String) extends BridgeToolError
+  final case class BadResponse(error: Response) extends BridgeToolError
   final case class MissingURL(badDetails: RequestDetail) extends BridgeToolError
   final case class BadMethod(badDetails: RequestDetail) extends BridgeToolError
   final case class Decode(badObject: String, error: CirceError) extends BridgeToolError

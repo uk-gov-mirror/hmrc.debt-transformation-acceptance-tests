@@ -25,6 +25,7 @@ lib_managed
 src_managed/
 project/project
 project/target
+project/metals.sbt
 
 # polling script files
 content.txt

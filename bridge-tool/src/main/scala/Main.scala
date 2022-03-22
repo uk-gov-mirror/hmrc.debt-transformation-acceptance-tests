@@ -13,6 +13,7 @@ import io.circe.syntax._
 import java.time.LocalDateTime
 import errors.BridgeToolError
 import errors.BridgeToolError.Result
+import requests._
 
 final case class RequestDetail(
   requestId: String,
@@ -54,14 +55,24 @@ val qaAPIURL = "https://api.qa.tax.service.gov.uk"
 val externalTestsRequestsURL = s"${externalTestTTPURL}test-only/requests"
 val externalTestsResponseURL = s"${externalTestTTPURL}test-only/response"
 def externalTestDeleteURL(id: String): String =
-  s"${externalTestTTPURL}test-only/request/${id}"
+  s"${externalTestTTPURL}test-only/request/$id"
 
-def retrieveAccessToken(url: String, data: Map[String, String]): Result[TokenResponse] = {
-  val response = requests.post(url, data = data)
-  decode[TokenResponse](response.text()).left.map { error =>
-    BridgeToolError.Decode(response.text(), error)
+def captureFailedRequests(requestAction: () => Response): Result[Response] =
+  try
+    Right(requestAction())
+  catch {
+    case ex: RequestFailedException => Left(BridgeToolError.BadResponse(ex.response))
+    case ex: TimeoutException       => Left(BridgeToolError.Connectivity(ex.url, ex.message))
+    case ex: UnknownHostException   => Left(BridgeToolError.Connectivity(ex.url, ex.message))
   }
-}
+
+def retrieveAccessToken(url: String, data: Map[String, String]): Result[TokenResponse] =
+  for {
+    response <- captureFailedRequests(() => requests.post(url, data = data))
+    result <- decode[TokenResponse](response.text()).left.map { error =>
+                BridgeToolError.Decode(response.text(), error)
+              }
+  } yield result
 
 def retrieveExternalTestToken(): Result[TokenResponse] =
   retrieveAccessToken(externalTestTokenURL, externalTestTokenParams)
@@ -69,15 +80,18 @@ def retrieveExternalTestToken(): Result[TokenResponse] =
 def retrieveQAToken(): Result[TokenResponse] =
   retrieveAccessToken(qaTokenURL, qaTokenParams)
 
-def retrieveAllUnprocessedRequests(token: TokenResponse): Result[List[RequestDetail]] = {
-  val response = requests.get(
-    url = externalTestsRequestsURL,
-    auth = token.authBearerToken
-  )
-  decode[List[RequestDetail]](response.text()).left.map { error =>
-    BridgeToolError.Decode(response.text(), error)
-  }
-}
+def retrieveAllUnprocessedRequests(token: TokenResponse): Result[List[RequestDetail]] =
+  for {
+    response <- captureFailedRequests { () =>
+                  requests.get(
+                    url = externalTestsRequestsURL,
+                    auth = token.authBearerToken
+                  )
+                }
+    result <- decode[List[RequestDetail]](response.text()).left.map { error =>
+                BridgeToolError.Decode(response.text(), error)
+              }
+  } yield result
 
 def extractURL(details: RequestDetail): Result[String] =
   details.uri
@@ -99,29 +113,33 @@ def postRequestDetailsToQA(token: TokenResponse, details: RequestDetail): Result
   for {
     url    <- extractURL(details)
     method <- extractMethod(details)
-  } yield requests
-    .send(method)
-    .apply(
-      auth = token.authBearerToken,
-      url = url,
-      data = details.content.noSpaces,
-      headers = defaultHeaders
-    )
+    response <- captureFailedRequests { () =>
+                  requests
+                    .send(method)
+                    .apply(
+                      auth = token.authBearerToken,
+                      url = url,
+                      data = details.content.noSpaces,
+                      headers = defaultHeaders
+                    )
+                }
+  } yield response
 
-def postResponseToExternalTest(token: TokenResponse, details: RequestDetail, qaResponse: Json): Int = {
+def postResponseToExternalTest(token: TokenResponse, details: RequestDetail, qaResponse: Json): Result[Int] = {
   val responseDetails = RequestDetail(
     isResponse = true,
     requestId = details.requestId,
     content = qaResponse
   )
-  requests
-    .post(
-      auth = token.authBearerToken,
-      url = externalTestsResponseURL,
-      data = responseDetails.asJson.noSpaces,
-      headers = defaultHeaders
-    )
-    .statusCode
+  captureFailedRequests { () =>
+    requests
+      .post(
+        auth = token.authBearerToken,
+        url = externalTestsResponseURL,
+        data = responseDetails.asJson.noSpaces,
+        headers = defaultHeaders
+      )
+  }.map(_.statusCode)
 }
 
 def parseQAResponse(response: requests.Response): Result[Json] =
@@ -132,16 +150,13 @@ def parseQAResponse(response: requests.Response): Result[Json] =
 def nextProcessableRequest(details: List[RequestDetail]): Result[RequestDetail] =
   details.headOption.toRight(BridgeToolError.NoRequestsToProcess)
 
-def deleteRequest(token: TokenResponse, details: RequestDetail): Result[Unit] = {
-  val response = requests.delete(
-    url = externalTestDeleteURL(details.requestId),
-    auth = token.authBearerToken
-  )
-  response.statusCode match {
-    case ok if ok < 300 && ok >= 200 => Right(())
-    case _ => Left(BridgeToolError.Connectivity("ExternalTest", response))
-  }
-}
+def deleteRequest(token: TokenResponse, details: RequestDetail): Result[Unit] =
+  captureFailedRequests { () =>
+    requests.delete(
+      url = externalTestDeleteURL(details.requestId),
+      auth = token.authBearerToken
+    )
+  }.map(_ => ())
 
 def process(qaToken: TokenResponse, externalTestToken: TokenResponse): Result[Unit] =
   for {
@@ -149,7 +164,8 @@ def process(qaToken: TokenResponse, externalTestToken: TokenResponse): Result[Un
     details         <- nextProcessableRequest(requests)
     qaResponse      <- postRequestDetailsToQA(qaToken, details)
     responseContent <- parseQAResponse(qaResponse)
-  } yield postResponseToExternalTest(externalTestToken, details, responseContent)
+    _               <- postResponseToExternalTest(externalTestToken, details, responseContent)
+  } yield ()
 
 @scala.annotation.tailrec
 def loop(qaToken: TokenResponse, externalTestToken: TokenResponse): Unit =
@@ -166,7 +182,6 @@ def loop(qaToken: TokenResponse, externalTestToken: TokenResponse): Unit =
     case Left(error) =>
       logging.error("Failed to process request;")
       logging.error(error.errorMessage)
-
       Thread.sleep(2000)
       loop(qaToken, externalTestToken)
 
