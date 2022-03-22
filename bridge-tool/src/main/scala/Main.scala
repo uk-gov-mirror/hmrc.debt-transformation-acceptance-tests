@@ -14,6 +14,7 @@ import java.time.LocalDateTime
 import errors.BridgeToolError
 import errors.BridgeToolError.Result
 import requests._
+import java.net.ConnectException
 
 final case class RequestDetail(
   requestId: String,
@@ -51,6 +52,8 @@ val qaTokenParams = Map(
 
 val externalTestTTPURL = "https://test-api.service.hmrc.gov.uk/individuals/time-to-pay-proxy/"
 val qaAPIURL = "https://api.qa.tax.service.gov.uk"
+// val externalTestTTPURL = "http://localhost:9611/"
+// val qaAPIURL = "http://localhost:7054"
 
 val externalTestsRequestsURL = s"${externalTestTTPURL}test-only/requests"
 val externalTestsResponseURL = s"${externalTestTTPURL}test-only/response"
@@ -64,6 +67,7 @@ def captureFailedRequests(requestAction: () => Response): Result[Response] =
     case ex: RequestFailedException => Left(BridgeToolError.BadResponse(ex.response))
     case ex: TimeoutException       => Left(BridgeToolError.Connectivity(ex.url, ex.message))
     case ex: UnknownHostException   => Left(BridgeToolError.Connectivity(ex.url, ex.message))
+    case ex: ConnectException       => Left(BridgeToolError.Connectivity("unknown", ex.getMessage))
   }
 
 def retrieveAccessToken(url: String, data: Map[String, String]): Result[TokenResponse] =
@@ -92,6 +96,12 @@ def retrieveAllUnprocessedRequests(token: TokenResponse): Result[List[RequestDet
                 BridgeToolError.Decode(response.text(), error)
               }
   } yield result
+
+def rewriteForLocal(url: String): String =
+  if (url.contains("localhost"))
+    url.replace("/individuals/field-collections", "")
+  else
+    url
 
 def extractURL(details: RequestDetail): Result[String] =
   details.uri
