@@ -17,7 +17,6 @@ logs
 /.idea_modules
 eclipse
 .scala_dependencies
-bridge-tool/.bsp/sbt.json
 
 # sbt files
 dist
