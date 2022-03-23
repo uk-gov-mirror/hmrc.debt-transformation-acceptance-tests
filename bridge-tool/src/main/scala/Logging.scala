@@ -1,13 +1,10 @@
 package logging
 
-private val errorPrinter = pprint.copy(colorLiteral = fansi.Color.Red)
+private val infoPrinter = pprint.PPrinter.BlackWhite
+private val errorPrinter = pprint.PPrinter.BlackWhite
 
-def info(input: String): Unit = {
-  val formatted = pprint.apply(input)
-  Console.out.println(formatted)
-}
+def info(input: Any*): Unit =
+  input.map(infoPrinter.apply(_)).foreach(Console.out.println)
 
-def error(input: String): Unit = {
-  val formatted = errorPrinter.apply(input)
-  Console.err.println(formatted)
-}
+def error(input: Any*): Unit =
+  input.map(errorPrinter.apply(_)).foreach(Console.err.println)

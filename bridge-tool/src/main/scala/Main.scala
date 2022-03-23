@@ -1,20 +1,15 @@
-// TODO:
-// * Handle error cases; respond with HTTP errors, log connectivity errors
-// * Request new token after timeout (4 hours?)
-// * Logging??
-// * Refactor: classes; packages;
-// * Delete processed requests
 package main
 
+import errors.BridgeToolError
+import errors.BridgeToolError._
 import io.circe._
 import io.circe.generic.auto._
 import io.circe.parser._
 import io.circe.syntax._
-import java.time.LocalDateTime
-import errors.BridgeToolError
-import errors.BridgeToolError.Result
 import requests._
+
 import java.net.ConnectException
+import java.time.LocalDateTime
 
 final case class RequestDetail(
   requestId: String,
@@ -52,8 +47,6 @@ val qaTokenParams = Map(
 
 val externalTestTTPURL = "https://test-api.service.hmrc.gov.uk/individuals/time-to-pay-proxy/"
 val qaAPIURL = "https://api.qa.tax.service.gov.uk"
-// val externalTestTTPURL = "http://localhost:9611/"
-// val qaAPIURL = "http://localhost:7054"
 
 val externalTestsRequestsURL = s"${externalTestTTPURL}test-only/requests"
 val externalTestsResponseURL = s"${externalTestTTPURL}test-only/response"
@@ -95,6 +88,7 @@ def retrieveAllUnprocessedRequests(token: TokenResponse): Result[List[RequestDet
     result <- decode[List[RequestDetail]](response.text()).left.map { error =>
                 BridgeToolError.Decode(response.text(), error)
               }
+    _ = logging.info(s"Found ${result.length} requests to process")
   } yield result
 
 def rewriteForLocal(url: String): String =
@@ -115,8 +109,10 @@ def extractMethod(details: RequestDetail): Result[String] =
     case Some("POST") => Right("POST")
     case Some("PUT")  => Right("PUT")
     case Some("GET")  => Right("GET")
-    case None         => Right("POST")
-    case invalid      => Left(BridgeToolError.BadMethod(details))
+    case None =>
+      logging.error(s"Missing method for request ${details.requestId}. Defaulting to POST.")
+      Right("POST")
+    case invalid => Left(BridgeToolError.BadMethod(details))
   }
 
 def postRequestDetailsToQA(token: TokenResponse, details: RequestDetail): Result[requests.Response] =
@@ -132,6 +128,9 @@ def postRequestDetailsToQA(token: TokenResponse, details: RequestDetail): Result
                       data = details.content.noSpaces,
                       headers = defaultHeaders
                     )
+                }.left.map {
+                  case BadResponse(response) => BadResponseWithDetails(response, details)
+                  case other                 => other
                 }
   } yield response
 
@@ -149,7 +148,11 @@ def postResponseToExternalTest(token: TokenResponse, details: RequestDetail, qaR
         data = responseDetails.asJson.noSpaces,
         headers = defaultHeaders
       )
-  }.map(_.statusCode)
+  } match {
+    case Left(BadResponse(response)) => Left(BadResponseWithDetails(response, details))
+    case Right(ok)                   => Right(ok.statusCode)
+    case Left(other)                 => Left(other)
+  }
 }
 
 def parseQAResponse(response: requests.Response): Result[Json] =
@@ -175,6 +178,7 @@ def process(qaToken: TokenResponse, externalTestToken: TokenResponse): Result[Un
     qaResponse      <- postRequestDetailsToQA(qaToken, details)
     responseContent <- parseQAResponse(qaResponse)
     _               <- postResponseToExternalTest(externalTestToken, details, responseContent)
+    _               <- deleteRequest(externalTestToken, details)
   } yield ()
 
 @scala.annotation.tailrec
@@ -186,6 +190,18 @@ def loop(qaToken: TokenResponse, externalTestToken: TokenResponse): Unit =
 
     case Left(BridgeToolError.NoRequestsToProcess) =>
       logging.info("Haven't found any requests to process right now. Sleeping..")
+      Thread.sleep(2000)
+      loop(qaToken, externalTestToken)
+
+    case Left(BridgeToolError.BadResponseWithDetails(errorResponse, details)) =>
+      logging.error(
+        s"Bad response; got ${errorResponse.statusCode} from ${errorResponse.url}; posting response to ET",
+        errorResponse
+      )
+      parseQAResponse(errorResponse).flatMap { json =>
+        postResponseToExternalTest(externalTestToken, details, json)
+      }
+
       Thread.sleep(2000)
       loop(qaToken, externalTestToken)
 

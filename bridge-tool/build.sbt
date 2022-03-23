@@ -21,4 +21,6 @@ scalacOptions ++= Seq(
   "-Ycheck-all-patmat",
 )
 
+Compile / run / fork := true
+
 testFrameworks += new TestFramework("utest.runner.Framework")
