@@ -19,8 +19,10 @@ final case class RequestDetail(
   createdOn: Option[LocalDateTime] = None,
   method: Option[String] = None,
   status: Option[Int] = None,
-  headers: Map[String, String] = Map.empty
-)
+  headers: Option[Map[String, String]] = None
+) {
+  def headersToApply = headers.getOrElse(Map.empty)
+}
 
 final case class TokenResponse(`access_token`: String) {
   def authBearerToken: requests.RequestAuth =
@@ -127,7 +129,7 @@ def postRequestDetailsToQA(token: TokenResponse, details: RequestDetail): Result
                       auth = token.authBearerToken,
                       url = url,
                       data = details.content.noSpaces,
-                      headers = defaultHeaders ++ details.headers
+                      headers = defaultHeaders ++ details.headersToApply
                     )
                 }.left.map {
                   case BadResponse(response) => BadResponseWithDetails(response, details)
@@ -147,7 +149,7 @@ def postResponseToExternalTest(token: TokenResponse, details: RequestDetail, qaR
         auth = token.authBearerToken,
         url = externalTestsResponseURL,
         data = responseDetails.asJson.noSpaces,
-        headers = defaultHeaders ++ details.headers
+        headers = defaultHeaders ++ details.headersToApply
       )
   } match {
     case Left(BadResponse(response)) => Left(BadResponseWithDetails(response, details))

@@ -63,6 +63,19 @@ object BridgeToolTests extends TestSuite {
       assert(methods == expected)
     }
 
+    test("parse a RequestDetail with headers") {
+      val raw = scala.io.Source.fromFile("src/test/resources/requests-with-headers.json").mkString
+      val obj = decode[List[RequestDetail]](raw)
+
+      assert(obj.isRight)
+
+      val details = obj.right.get
+      val headers = details.head.headersToApply
+      val expected = Map("CorrelationId" -> "some string")
+
+      assert(headers == expected)
+    }
+
     test("process the next request") {
       val raw = scala.io.Source.fromFile("src/test/resources/unprocessed-requests.json").mkString
       val obj = decode[List[RequestDetail]](raw)
@@ -77,7 +90,6 @@ object BridgeToolTests extends TestSuite {
     }
 
     test("return NoRequestsToProcess for an empty list") {
-
       val details = List.empty
       val methods = nextProcessableRequest(details)
       val expected = Left(BridgeToolError.NoRequestsToProcess)
