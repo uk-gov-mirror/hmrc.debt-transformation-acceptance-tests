@@ -185,16 +185,16 @@ def process(qaToken: TokenResponse, externalTestToken: TokenResponse): Result[Un
   } yield ()
 
 @scala.annotation.tailrec
-def loop(qaToken: TokenResponse, externalTestToken: TokenResponse): Unit =
+def pollForRequests(qaToken: TokenResponse, externalTestToken: TokenResponse): Unit =
   process(qaToken, externalTestToken) match {
 
     case Right(()) =>
-      loop(qaToken, externalTestToken)
+      pollForRequests(qaToken, externalTestToken)
 
     case Left(BridgeToolError.NoRequestsToProcess) =>
       logging.info("Haven't found any requests to process right now. Sleeping..")
       Thread.sleep(2000)
-      loop(qaToken, externalTestToken)
+      pollForRequests(qaToken, externalTestToken)
 
     case Left(BridgeToolError.BadResponseWithDetails(errorResponse, details)) =>
       logging.error(
@@ -206,13 +206,13 @@ def loop(qaToken: TokenResponse, externalTestToken: TokenResponse): Unit =
       }
 
       Thread.sleep(2000)
-      loop(qaToken, externalTestToken)
+      pollForRequests(qaToken, externalTestToken)
 
     case Left(error) =>
       logging.error("Failed to process request;")
       logging.error(error.errorMessage)
       Thread.sleep(2000)
-      loop(qaToken, externalTestToken)
+      pollForRequests(qaToken, externalTestToken)
 
   }
 
@@ -221,6 +221,6 @@ object Main extends App {
   for {
     externalTestToken <- retrieveExternalTestToken()
     qaToken           <- retrieveQAToken()
-  } yield loop(qaToken, externalTestToken)
+  } yield pollForRequests(qaToken, externalTestToken)
 
 }
