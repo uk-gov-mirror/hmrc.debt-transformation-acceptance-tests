@@ -137,11 +137,12 @@ def postRequestDetailsToQA(token: TokenResponse, details: RequestDetail): Result
                 }
   } yield response
 
-def postResponseToExternalTest(token: TokenResponse, details: RequestDetail, qaResponse: Json): Result[Int] = {
+def postResponseToExternalTest(token: TokenResponse, details: RequestDetail, qaResponse: Json, status: Int): Result[Int] = {
   val responseDetails = RequestDetail(
     isResponse = true,
     requestId = details.requestId,
-    content = qaResponse
+    content = qaResponse,
+    status = Some(status)
   )
   captureFailedRequests { () =>
     requests
@@ -180,7 +181,7 @@ def process(qaToken: TokenResponse, externalTestToken: TokenResponse): Result[Un
     details         <- nextProcessableRequest(requests)
     qaResponse      <- postRequestDetailsToQA(qaToken, details)
     responseContent <- parseQAResponse(qaResponse)
-    _               <- postResponseToExternalTest(externalTestToken, details, responseContent)
+    _               <- postResponseToExternalTest(externalTestToken, details, responseContent, qaResponse.statusCode)
     _               <- deleteRequest(externalTestToken, details)
   } yield ()
 
@@ -202,7 +203,7 @@ def pollForRequests(qaToken: TokenResponse, externalTestToken: TokenResponse): U
         errorResponse
       )
       parseQAResponse(errorResponse).flatMap { json =>
-        postResponseToExternalTest(externalTestToken, details, json)
+        postResponseToExternalTest(externalTestToken, details, json, errorResponse.statusCode)
       }
 
       Thread.sleep(2000)
