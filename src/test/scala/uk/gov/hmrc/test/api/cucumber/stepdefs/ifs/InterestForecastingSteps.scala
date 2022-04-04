@@ -23,7 +23,7 @@ import org.scalatest.concurrent.Eventually
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import play.twirl.api.TwirlHelperImports.twirlJavaCollectionToScala
-import uk.gov.hmrc.test.api.models.{InstalmentCalculationSummaryResponse, _}
+import uk.gov.hmrc.test.api.models._
 import uk.gov.hmrc.test.api.requests.InterestForecastingRequests.{getBodyAsString, _}
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 
@@ -59,7 +59,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     val newRules: List[String] = collection.rules.find(_.enabled) match {
       case Some(activeRules) =>
         val rules = activeRules.rules.filterNot(vl =>
-          (vl.contains(asmapTransposed.get("mainTrans")) && vl.contains(asmapTransposed.get("subTrans")))
+          vl.contains(asmapTransposed.get("mainTrans")) && vl.contains(asmapTransposed.get("subTrans"))
         )
         rules ++ List(s"IF mainTrans == '${asmapTransposed.get("mainTrans")}' AND subTrans == '${asmapTransposed
           .get("subTrans")}' -> intRate = ${asmapTransposed.get("intRate")} AND interestOnlyDebt = false")
@@ -116,7 +116,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
         debtItems = debtItems.concat(",").concat(debtItem)
       }
 
-      ScenarioContext.set("debtItems", debtItems.toString.replaceAll("<REPLACE_payments>", ""))
+      ScenarioContext.set("debtItems", debtItems.replaceAll("<REPLACE_payments>", ""))
       n = n + 1
     }
   }
@@ -142,7 +142,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
         debtItems = debtItems.concat(",").concat(debtItem)
       }
 
-      ScenarioContext.set("debtItems", debtItems.toString.replaceAll("<REPLACE_payments>", ""))
+      ScenarioContext.set("debtItems", debtItems.replaceAll("<REPLACE_payments>", ""))
       n = n + 1
     }
   }
@@ -215,6 +215,9 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     }
     if (asMapTransposed.containsKey("unpaidAmountDuty")) {
       responseBody.unpaidAmountDuty.toString shouldBe asMapTransposed.get("unpaidAmountDuty").toString
+    }
+    if (asMapTransposed.containsKey("interestOnlyIndicator")) {
+      responseBody.interestOnlyIndicator.toString shouldBe asMapTransposed.get("interestOnlyIndicator").toString
     }
   }
 
