@@ -182,23 +182,23 @@ Feature: Debt Calculation For Interest & Non Interest Bearing cases
       | 35                   | 249                  | 500000            | 500249         | 500000              |
     Then the 1st debt summary will contain
       | interestBearing | interestDueDailyAccrual | interestDueDutyTotal | intRate | unpaidAmountDuty | totalAmountIntDuty | numberChargeableDays | amountOnIntDueDuty | interestOnlyIndicator |
-      | true            | 35                      | 249                  | 2.6     | 500000           | 500249             | 7                    | 500000             | true                  |
+      | true            | 35                      | 249                  | 2.6     | 500000           | 500249             | 7                    | 500000             | false                 |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2021-03-01 | 2021-03-08 | 7            | 2.6          | 35                      | 249               | 500000               | 500249             |
 
-Scenario: Non Interest Bearing TPSS MainTrans 2421 debt
-  Given a debt item
-    | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-    | 500000         | 2021-03-01        | 2021-03-08          | 2421      | 1150     | false           |
-  And the debt item has no payment history
-  And no breathing spaces have been applied to the customer
-  And no post codes have been provided for the customer
-  When the debt item is sent to the ifs service
-  Then the ifs service wilL return a total debts summary of
-    | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
-    | 0                    | 0                    | 500000            | 500000         | 500000              |
-  Then the 1st debt summary will contain
-    | interestBearing | interestDueDailyAccrual | interestDueDutyTotal | intRate | unpaidAmountDuty | totalAmountIntDuty | numberChargeableDays | amountOnIntDueDuty | interestOnlyIndicator |
-    | false           | 0                       | 0                    | 0       | 500000           | 500000             | 0                    | 500000             | false                 |
-  And the 1st debt summary will not have any calculation windows
+  Scenario: Non Interest Bearing TPSS MainTrans 2421 debt
+    Given a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2021-03-01        | 2021-03-08          | 2421      | 1150     | false           |
+    And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service wilL return a total debts summary of
+      | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
+      | 0                    | 0                    | 500000            | 500000         | 500000              |
+    Then the 1st debt summary will contain
+      | interestBearing | interestDueDailyAccrual | interestDueDutyTotal | intRate | unpaidAmountDuty | totalAmountIntDuty | numberChargeableDays | amountOnIntDueDuty | interestOnlyIndicator |
+      | false           | 0                       | 0                    | 0       | 500000           | 500000             | 0                    | 500000             | false                 |
+    And the 1st debt summary will not have any calculation windows
