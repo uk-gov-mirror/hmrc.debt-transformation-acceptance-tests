@@ -9,7 +9,6 @@ Feature: Interest Rate Changes
 # No repayments
 # No suppression
 # No breathing space
-
   Scenario: Interest rate changes from 3% to 3.25%
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
@@ -179,3 +178,22 @@ Feature: Interest Rate Changes
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
       | true            | 0                    | 0                       | 500000             |
     And the 1st debt summary will not have any calculation windows
+
+  Scenario: Interest rate changes from 3% to 3.25% effective from 05/04/2022
+    Given a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2022-04-03        | 2023-04-05          | 1525      | 1000     |
+    And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service wilL return a total debts summary of
+      | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
+      | 44                   | 16335                | 500000            | 516335         | 500000              |
+    And the 1st debt summary will contain
+      | interestBearing | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | numberChargeableDays | amountOnIntDueDuty | interestOnlyIndicator |
+      | true            | 44                      | 16335                | 500000           | 516335             | 367                  | 500000             | false                 |
+    And the 1st debt summary will have calculation windows
+      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
+      | 2022-04-03 | 2022-04-04 | 1            | 3.0          | 41                      | 41                | 500000               | 500041             |
+      | 2022-04-05 | 2023-04-05 | 366          | 3.25         | 44                      | 16294             | 500000               | 516294             |
