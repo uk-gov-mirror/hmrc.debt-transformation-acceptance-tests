@@ -126,10 +126,10 @@ Feature: Multiple Debt Items - Edge Cases
     When the debt items is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | 1388100 | unpaidAmountTotal | amountIntTotal | 151388100 |
-      | 12300                | 1333500 | 150000000         | 151388100      | 150000000 |
+      | 13200                | 1398300 | 150000000         | 151398300      | 150000000 |
     And the 300th debt summary will contain
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
-      | true            | 119                  | 41                      | 504627             |
+      | true            | 119                  | 44                      | 504661             |
 
 
   Scenario: 5. 2 debts, 5 payments on 1 debt

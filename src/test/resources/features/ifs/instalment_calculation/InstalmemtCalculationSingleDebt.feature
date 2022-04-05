@@ -1,5 +1,4 @@
 Feature: Instalment calculation for single debt - Input 2
-
   Scenario: Should calculate debts amount for 1 debt 1 duty (input 2)
     Given debt instalment calculation with details
       | duration | paymentFrequency | instalmentPaymentDate | interestCallDueTotal | numberOfDay | quoteType        | quoteDate  |
@@ -12,7 +11,7 @@ Feature: Instalment calculation for single debt - Input 2
     When the instalment calculation detail is sent to the ifs service
     Then IFS response contains expected values
       | instalmentNumber | dueDate    | paymentFrequency | frequencyPassed | amountDue | instalmentBalance | interestRate | expectedNumberOfInstalments |
-      | 1                | 2022-03-14 | monthly          | 0               | 4286      | 100000            | 3.0          | 24                          |
+      | 1                | 2022-03-14 | monthly          | 0               | 4295      | 100000            | 3.0          | 24                          |
 
 # DTD-397 Edge-cases below
 

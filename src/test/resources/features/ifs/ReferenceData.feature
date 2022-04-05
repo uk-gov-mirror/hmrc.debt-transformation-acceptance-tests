@@ -1,4 +1,3 @@
-@runMe
 Feature: Get Debt For all the SUPPORTED REGIMES
 
   Scenario Outline: Interest Bearing TPSS MainTrans SubTrans
