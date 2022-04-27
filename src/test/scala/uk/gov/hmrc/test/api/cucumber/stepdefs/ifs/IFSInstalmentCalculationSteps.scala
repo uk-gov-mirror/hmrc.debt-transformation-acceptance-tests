@@ -6,19 +6,20 @@ import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
+import play.twirl.api.TwirlHelperImports.twirlJavaCollectionToScala
 import uk.gov.hmrc.test.api.models.{InstalmentCalculationSummaryResponse, InstalmentResponse}
 import uk.gov.hmrc.test.api.requests.IFSInstalmentCalculationRequests._
 import uk.gov.hmrc.test.api.utils.ScenarioContext
+
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually with Matchers {
 
-  val quoteDateString = "2022-03-13"
-  val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-  val quoteDate = LocalDate.parse(quoteDateString, formatter)
-  val instalmentPaymentDate     = quoteDate.plusDays(1)
-
+  val quoteDateString       = "2022-03-13"
+  val formatter             = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+  val quoteDate             = LocalDate.parse(quoteDateString, formatter)
+  val instalmentPaymentDate = quoteDate.plusDays(1)
 
   Given("debt instalment calculation with details") { (dataTable: DataTable) =>
     createInstalmentCalculationRequestBody(dataTable)
@@ -763,7 +764,51 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
   }
 
   Then("IFS response contains expected values") { (dataTable: DataTable) =>
-    validateIfsResponseContainsExpectedValues(dataTable)
+    val map = dataTable.asMaps(classOf[String], classOf[String])
+
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+    val responseBody                   = Json.parse(response.body).as[InstalmentCalculationSummaryResponse]
+
+    response.status.shouldBe(200)
+
+    map.zipWithIndex.foreach { case (expectedInstalment, index) =>
+      val responseIndex: Int = expectedInstalment.get("instalmentNumber").toString.toInt - 1
+
+      if (map.toString.contains("expectedNumberOfInstalments")) {
+        responseBody.numberOfInstalments.toString shouldBe expectedInstalment
+          .get("expectedNumberOfInstalments")
+          .toString
+      }
+
+      if (map.toString.contains("debtId")) {
+        responseBody.instalments(responseIndex).debtId shouldBe expectedInstalment.get("debtId").toString
+      }
+
+      if (map.toString.contains("dueDate")) {
+        responseBody.instalments(responseIndex).dueDate.toString shouldBe expectedInstalment.get("dueDate").toString
+      }
+
+      if (map.toString.contains("amountDue")) {
+        responseBody.instalments(responseIndex).amountDue.toString shouldBe expectedInstalment.get("amountDue").toString
+      }
+
+      if (map.toString.contains("instalmentBalance")) {
+        responseBody.instalments(responseIndex).instalmentBalance.toString shouldBe expectedInstalment
+          .get("instalmentBalance")
+          .toString
+      }
+
+      if (map.toString.contains("instalmentNumber")) {
+        responseBody.instalments(responseIndex).instalmentNumber.toString shouldBe expectedInstalment
+          .get("instalmentNumber")
+          .toString
+      }
+
+      if (map.toString.contains("intRate")) {
+        responseBody.instalments(responseIndex).intRate.toString shouldBe expectedInstalment.get("intRate").toString
+      }
+    }
+
   }
 
   Then("ifs service returns weekly frequency instalment calculation plan with initial payment") { () =>
