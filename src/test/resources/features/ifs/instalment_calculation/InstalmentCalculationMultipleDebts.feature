@@ -56,3 +56,38 @@ Feature: Instalment calculation for multiple debts - Input 1 & 2
     Then IFS response contains expected values
       | instalmentNumber | dueDate    | paymentFrequency | frequencyPassed | amountDue | instalmentBalance | interestRate | expectedNumberOfInstalments |
       | 1                | 2022-03-14 | monthly          | 0               | 8491      | 100000            | 3.0          | 25                          |
+
+  Scenario: Multiple Debts should be returned in the order they are sent in
+    Given debt instalment calculation with details
+      | duration | paymentFrequency | instalmentPaymentDate | interestCallDueTotal | numberOfDay | quoteType        | quoteDate  |
+      | 12       | monthly          | 2022-03-14            | 0                    | 1           | instalmentAmount | 2022-03-13 |
+    And the instalment calculation has no postcodes
+    And debt plan details with initial payment
+      | initialPaymentAmount | initialPaymentDate |
+      | 100                  | 2022-03-14         |
+    And the instalment calculation has debt item charges
+      | debtId   | debtAmount | mainTrans | subTrans |
+      | DebtId1  | 100000     | 1525      | 1000     |
+      | DebtId2  | 200000     | 1085      | 1000     |
+      | DebtId3  | 100000     | 1525      | 1000     |
+      | DebtId4  | 70000      | 1541      | 2000     |
+      | DebtId5  | 200000     | 1085      | 1000     |
+      | DebtId6  | 6000       | 1085      | 1000     |
+      | DebtId7  | 7000       | 1085      | 1000     |
+      | DebtId7  | 8000       | 1085      | 1000     |
+      | DebtId8  | 8000       | 1540      | 1000     |
+      | DebtId9  | 9000       | 1085      | 1000     |
+      | DebtId10 | 17000      | 1535      | 1000     |
+    When the instalment calculation detail is sent to the ifs service
+    Then IFS response contains expected values
+      | instalmentNumber | debtId   |
+      | 1                | DebtId1  |
+      | 3                | DebtId2  |
+      | 8                | DebtId3  |
+      | 10               | DebtId4  |
+      | 12               | DebtId5  |
+      | 17               | DebtId6  |
+      | 18               | DebtId7  |
+      | 19               | DebtId8  |
+      | 20               | DebtId9  |
+      | 21               | DebtId10 |
