@@ -155,7 +155,7 @@ Feature: statement of liability Debt details
       | dutyId | subTrans | dutyTypeDescription             | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
       | duty06 | 7012     | CO: Child Benefit Migrated Debt | 200000           | 0                    | false           | false                 |
 
-  Scenario: 5.  Non interest bearing Main trans 2421 and sub trans 1150
+  Scenario: 6.  Non interest bearing Main trans 2421 and sub trans 1150
     Given debt details
       | solType | debtId  | mainTrans | subTrans | interestRequestedTo |
       | CO      | debt005 | 2421      | 1150     | 2021-08-10          |
@@ -177,7 +177,7 @@ Feature: statement of liability Debt details
       | duty06 | 7012     | CO: Child Benefit Migrated Debt | 200000           | 0                    | false           | false                 |
 
 
-  Scenario: 4. non interest bearing - 9999999999 interest and it is zero
+  Scenario: 7. non interest bearing - 9999999999 interest and it is zero
     Given debt details
       | solType | debtId   | mainTrans | subTrans | interestRequestedTo |
       | UI      | debt0012 | 1520      | 1090     | 2022-04-25          |
@@ -198,3 +198,21 @@ Feature: statement of liability Debt details
       | dutyId | subTrans | dutyTypeDescription | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
       | duty01 | 1090     | TGPEN               | 9999999999       | 0                    | false           | false                 |
 
+
+  Scenario: 8. Large interest bearing debt with no payment history - 9999999999.
+    Given debt details
+      | solType | debtId  | mainTrans | subTrans | interestRequestedTo | solRequestedDate |
+      | UI      | debt009 | 1525      | 1000     | 2021-08-10          | 2021-05-13       |
+    And add debt item chargeIDs to the debt
+      | dutyId |
+      | duty01 |
+    When a debt statement of liability is requested
+    Then service returns debt statement of liability data
+      | amountIntTotal | combinedDailyAccrual |
+      | 10165951192    | 712328               |
+    And the 1st sol debt summary will contain
+      | debtId  | mainTrans | debtTypeDescription         | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
+      | debt009 | 1525      | TPSS Account Tax Assessment | 165951193            | 10165951192        | 712328               |
+    And the 1st sol debt summary will contain duties
+      | dutyId | subTrans | dutyTypeDescription | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
+      | duty01 | 1000     | IT                  | 9999999999       | 712328               | true            | false                 |
