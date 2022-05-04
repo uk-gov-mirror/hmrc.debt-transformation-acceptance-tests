@@ -11,8 +11,8 @@ case class SolDuty(
   dutyId: String,
   subTrans: String,
   dutyTypeDescription: String,
-  unpaidAmountDuty: Int,
-  combinedDailyAccrual: Int,
+  unpaidAmountDuty: BigInt,
+  combinedDailyAccrual: BigInt,
   interestBearing: Boolean,
   interestOnlyIndicator: Boolean
 )

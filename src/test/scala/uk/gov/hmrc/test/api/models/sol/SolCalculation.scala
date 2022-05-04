@@ -11,9 +11,9 @@ case class SolCalculation(
   debtId: String,
   mainTrans: String,
   debtTypeDescription: String,
-  interestDueDebtTotal: Int,
-  totalAmountIntDebt: Int,
-  combinedDailyAccrual: Int,
+  interestDueDebtTotal: BigInt,
+  totalAmountIntDebt: BigInt,
+  combinedDailyAccrual: BigInt,
   duties: Seq[SolDuty]
 )
 
