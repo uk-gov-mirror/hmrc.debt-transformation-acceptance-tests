@@ -8,8 +8,8 @@ package uk.gov.hmrc.test.api.models.sol
 import play.api.libs.json.{Json, OFormat}
 
 case class SolCalculationSummaryResponse(
-  amountIntTotal: Int,
-  combinedDailyAccrual: Int,
+  amountIntTotal: BigInt,
+  combinedDailyAccrual: BigInt,
   debts: List[SolCalculation]
 )
 

@@ -175,3 +175,26 @@ Feature: statement of liability Debt details
     And the 1st sol debt summary will contain duties
       | dutyId | subTrans | dutyTypeDescription             | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
       | duty06 | 7012     | CO: Child Benefit Migrated Debt | 200000           | 0                    | false           | false                 |
+
+
+  Scenario: 4. non interest bearing - 9999999999 interest and it is zero
+    Given debt details
+      | solType | debtId   | mainTrans | subTrans | interestRequestedTo |
+      | UI      | debt0012 | 1520      | 1090     | 2022-04-25          |
+    And add debt item chargeIDs to the debt
+      | dutyId |
+      | duty01 |
+    When a debt statement of liability is requested
+
+    Then service returns debt statement of liability data
+      | amountIntTotal | combinedDailyAccrual |
+      | 9999999999     | 0                    |
+
+    And the 1st sol debt summary will contain
+      | debtId   | mainTrans | debtTypeDescription | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
+      | debt0012 | 1520      | TPSS Penalty        | 0                    | 9999999999         | 0                    |
+
+    And the 1st sol debt summary will contain duties
+      | dutyId | subTrans | dutyTypeDescription | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
+      | duty01 | 1090     | TGPEN               | 9999999999       | 0                    | false           | false                 |
+
