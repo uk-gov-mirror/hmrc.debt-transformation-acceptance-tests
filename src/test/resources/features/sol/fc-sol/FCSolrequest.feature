@@ -113,3 +113,40 @@ Feature: fc statement of liability multiple debts
     When a debt fc statement of liability is requested
     Then the fc sol service will respond with Field at path '/debts(0)/interestIndicator' missing or invalid
 
+
+  Scenario: 4. Large Interest bearing debt with no payments.
+
+    Given fc sol request
+      | customerUniqueRef | solRequestedDate |
+      | NEHA1234          | 2021-08-01       |
+    And the fc sol debt item has multiple debts
+      | debtId         | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | solDescription |
+      | XS002610170037 | 9999999999     | 2021-08-01        | 2021-08-01          | Y                 | 2021-08-01 | Debt1          |
+    And the fc sol debt item has no payment history
+    When a debt fc statement of liability is requested
+    Then service returns fc debt statement of liability data
+      | amountIntTotal | combinedDailyAccrual |
+      | 9999999999     | 712328               |
+    And the 1st multiple fc statement of liability debt summary will contain duties
+      | debtId | interestDueDebtTotal | totalAmountIntDebt |
+      | XS002610170037 | 712328               | 9999999999         |
+
+
+  Scenario: 4. Large Non Interest bearing debt with no payments.
+
+    Given fc sol request
+      | customerUniqueRef | solRequestedDate |
+      | NEHA1234          | 2021-08-01       |
+    And the fc sol debt item has multiple debts
+      | debtId         | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | solDescription |
+      | XS002610170037 | 9999999999     | 2021-08-01        | 2021-08-01          | N                 | 2021-08-01 | Debt1          |
+    And the fc sol debt item has no payment history
+    When a debt fc statement of liability is requested
+    Then service returns fc debt statement of liability data
+      | amountIntTotal | combinedDailyAccrual |
+      | 9999999999     | 0                    |
+    And the 1st multiple fc statement of liability debt summary will contain duties
+      | debtId | interestDueDebtTotal | totalAmountIntDebt |
+      | XS002610170037 | 0                    | 9999999999         |
+
+
