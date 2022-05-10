@@ -9,8 +9,8 @@ import play.api.libs.json.{Json, OFormat}
 
 case class FCSolCalculation(
   debtId: String,
-  interestDueDebtTotal: Int,
-  totalAmountIntDebt: Int
+  interestDueDebtTotal: BigInt,
+  totalAmountIntDebt: BigDecimal
 )
 
 object FCSolCalculation {
