@@ -55,7 +55,7 @@ Feature: Instalment calculation for multiple debts - Input 1 & 2
     When the instalment calculation detail is sent to the ifs service
     Then IFS response contains expected values
       | instalmentNumber | dueDate    | paymentFrequency | frequencyPassed | amountDue | instalmentBalance | interestRate | expectedNumberOfInstalments |
-      | 1                | 2022-03-14 | monthly          | 0               | 8491      | 100000            | 3.0          | 25                          |
+      | 1                | 2022-03-14 | monthly          | 0               | 8494      | 100000            | 3.0          | 25                          |
 
   Scenario: Multiple Debts should be returned in the order they are sent in
     Given debt instalment calculation with details

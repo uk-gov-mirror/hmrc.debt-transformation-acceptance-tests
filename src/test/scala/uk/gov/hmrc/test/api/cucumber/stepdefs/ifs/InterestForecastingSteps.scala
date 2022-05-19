@@ -39,18 +39,6 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     createInterestForcastingRequestWithNoDebtItems()
   }
 
-  Given("a new interest rate table") { () =>
-    val newIntTable = InterestRates(
-      22,
-      Seq(
-        InterestRate(LocalDate.of(2010, 1, 1), 1),
-        InterestRate(LocalDate.of(2020, 1, 1), 10),
-        InterestRate(LocalDate.of(2021, 1, 1), 20)
-      )
-    )
-    postNewInterestRatesTable(Json.toJson(newIntTable).toString())
-  }
-
   When("a rule has been updated") { (dataTable: DataTable) =>
     val asmapTransposed        = dataTable.transpose().asMap(classOf[String], classOf[String])
     val newRule                = asmapTransposed.get("rule")
@@ -80,20 +68,6 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     }
   }
 
-  When("a new interest rate is added") { (dataTable: DataTable) =>
-    val asmapTransposed = dataTable.transpose().asMap(classOf[String], classOf[String])
-    postNewInterestRate(
-      Json
-        .toJson(
-          InterestRate(
-            LocalDate.parse(asmapTransposed.get("date")),
-            asmapTransposed.get("interestRate").toString.toDouble
-          )
-        )
-        .toString(),
-      "22"
-    )
-  }
 
   Given("(.*) debt items") { (numberItems: Int) =>
     var debtItems: String = null
