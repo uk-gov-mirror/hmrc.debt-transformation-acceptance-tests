@@ -90,8 +90,11 @@ def getNewTokens(): Result[Tokens] =
     generationTime = LocalDateTime.now()
   )
 
+def isOlderThanThreeHours(time: LocalDateTime): Boolean =
+  LocalDateTime.now().minusHours(3).isAfter(time)
+
 def updateTokensIfNeeded(oldTokens: Tokens): Result[Tokens] =
-  if (LocalDateTime.now().minusHours(3).isAfter(oldTokens.generationTime))
+  if (isOlderThanThreeHours(oldTokens.generationTime))
     getNewTokens()
   else
     Right(oldTokens)
