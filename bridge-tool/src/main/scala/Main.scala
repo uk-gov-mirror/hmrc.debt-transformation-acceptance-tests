@@ -29,6 +29,12 @@ final case class TokenResponse(`access_token`: String) {
     requests.RequestAuth.Bearer(`access_token`)
 }
 
+final case class Tokens(
+  externalTestToken: TokenResponse,
+  qaToken: TokenResponse,
+  generationTime: LocalDateTime
+)
+
 val defaultHeaders = Map("Content-Type" -> "application/json")
 
 val externalTestTokenURL = "https://test-api.service.hmrc.gov.uk/oauth/token"
@@ -74,11 +80,21 @@ def retrieveAccessToken(url: String, data: Map[String, String]): Result[TokenRes
               }
   } yield result
 
-def retrieveExternalTestToken(): Result[TokenResponse] =
-  retrieveAccessToken(externalTestTokenURL, externalTestTokenParams)
+def getNewTokens(): Result[Tokens] =
+  for {
+    externalTestToken <- retrieveAccessToken(externalTestTokenURL, externalTestTokenParams)
+    qaToken           <- retrieveAccessToken(qaTokenURL, qaTokenParams)
+  } yield Tokens(
+    externalTestToken = externalTestToken,
+    qaToken = qaToken,
+    generationTime = LocalDateTime.now()
+  )
 
-def retrieveQAToken(): Result[TokenResponse] =
-  retrieveAccessToken(qaTokenURL, qaTokenParams)
+def updateTokensIfNeeded(oldTokens: Tokens): Result[Tokens] =
+  if (LocalDateTime.now().minusHours(3).isAfter(oldTokens.generationTime))
+    getNewTokens()
+  else
+    Right(oldTokens)
 
 def retrieveAllUnprocessedRequests(token: TokenResponse): Result[List[RequestDetail]] =
   for {
@@ -175,27 +191,28 @@ def deleteRequest(token: TokenResponse, details: RequestDetail): Result[Unit] =
     )
   }.map(_ => ())
 
-def process(qaToken: TokenResponse, externalTestToken: TokenResponse): Result[Unit] =
+def process(tokens: Tokens): Result[Unit] =
   for {
-    requests        <- retrieveAllUnprocessedRequests(externalTestToken)
+    updatedTokens   <- updateTokensIfNeeded(tokens)
+    requests        <- retrieveAllUnprocessedRequests(tokens.externalTestToken)
     details         <- nextProcessableRequest(requests)
-    qaResponse      <- postRequestDetailsToQA(qaToken, details)
+    qaResponse      <- postRequestDetailsToQA(tokens.qaToken, details)
     responseContent <- parseQAResponse(qaResponse)
-    _               <- postResponseToExternalTest(externalTestToken, details, responseContent, qaResponse.statusCode)
-    _               <- deleteRequest(externalTestToken, details)
+    _               <- postResponseToExternalTest(tokens.externalTestToken, details, responseContent, qaResponse.statusCode)
+    _               <- deleteRequest(tokens.externalTestToken, details)
   } yield ()
 
 @scala.annotation.tailrec
-def pollForRequests(qaToken: TokenResponse, externalTestToken: TokenResponse): Unit =
-  process(qaToken, externalTestToken) match {
+def pollForRequests(tokens: Tokens): Unit =
+  process(tokens) match {
 
     case Right(()) =>
-      pollForRequests(qaToken, externalTestToken)
+      pollForRequests(tokens)
 
     case Left(BridgeToolError.NoRequestsToProcess) =>
       logging.info("Haven't found any requests to process right now. Sleeping..")
       Thread.sleep(2000)
-      pollForRequests(qaToken, externalTestToken)
+      pollForRequests(tokens)
 
     case Left(BridgeToolError.BadResponseWithDetails(errorResponse, details)) =>
       logging.error(
@@ -203,25 +220,22 @@ def pollForRequests(qaToken: TokenResponse, externalTestToken: TokenResponse): U
         errorResponse
       )
       parseQAResponse(errorResponse).flatMap { json =>
-        postResponseToExternalTest(externalTestToken, details, json, errorResponse.statusCode)
+        postResponseToExternalTest(tokens.externalTestToken, details, json, errorResponse.statusCode)
       }
 
       Thread.sleep(2000)
-      pollForRequests(qaToken, externalTestToken)
+      pollForRequests(tokens)
 
     case Left(error) =>
       logging.error("Failed to process request;")
       logging.error(error.errorMessage)
       Thread.sleep(2000)
-      pollForRequests(qaToken, externalTestToken)
+      pollForRequests(tokens)
 
   }
 
 object Main extends App {
 
-  for {
-    externalTestToken <- retrieveExternalTestToken()
-    qaToken           <- retrieveQAToken()
-  } yield pollForRequests(qaToken, externalTestToken)
+  getNewTokens().map(pollForRequests)
 
 }
