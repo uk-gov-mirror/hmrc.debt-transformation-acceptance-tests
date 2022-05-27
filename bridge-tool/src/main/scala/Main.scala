@@ -194,15 +194,15 @@ def deleteRequest(token: TokenResponse, details: RequestDetail): Result[Unit] =
     )
   }.map(_ => ())
 
-def process(tokens: Tokens): Result[Unit] =
+def process(oldTokens: Tokens): Result[Unit] =
   for {
-    updatedTokens   <- updateTokensIfNeeded(tokens)
-    requests        <- retrieveAllUnprocessedRequests(tokens.externalTestToken)
+    updatedTokens   <- updateTokensIfNeeded(oldTokens)
+    requests        <- retrieveAllUnprocessedRequests(updatedTokens.externalTestToken)
     details         <- nextProcessableRequest(requests)
-    qaResponse      <- postRequestDetailsToQA(tokens.qaToken, details)
+    qaResponse      <- postRequestDetailsToQA(updatedTokens.qaToken, details)
     responseContent <- parseQAResponse(qaResponse)
-    _               <- postResponseToExternalTest(tokens.externalTestToken, details, responseContent, qaResponse.statusCode)
-    _               <- deleteRequest(tokens.externalTestToken, details)
+    _               <- postResponseToExternalTest(updatedTokens.externalTestToken, details, responseContent, qaResponse.statusCode)
+    _               <- deleteRequest(updatedTokens.externalTestToken, details)
   } yield ()
 
 @scala.annotation.tailrec
