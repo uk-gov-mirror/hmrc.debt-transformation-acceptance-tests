@@ -97,6 +97,16 @@ object BridgeToolTests extends TestSuite {
       assert(methods == expected)
     }
 
+    test("check if a time is older than three hours") {
+      val fourHoursAgo = LocalDateTime.now().minusHours(4)
+      assert(isOlderThanThreeHours(fourHoursAgo))
+    }
+
+    test("check if a time is newer than three hours") {
+      val fourHoursAgo = LocalDateTime.now().minusHours(2)
+      assert(!isOlderThanThreeHours(fourHoursAgo))
+    }
+
   }
 
 }
