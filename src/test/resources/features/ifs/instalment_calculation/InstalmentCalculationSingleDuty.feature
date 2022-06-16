@@ -1,4 +1,5 @@
 Feature: Instalment calculation for 1 debt 1 duty with initial payment
+
   Scenario: Payment plan calculation instalment - Single payment frequency
     Given debt instalment calculation with details
       | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDate | interestCallDueTotal | numberOfDay | quoteType | quoteDate  |
@@ -124,7 +125,7 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
     When the instalment calculation detail is sent to the ifs service
     Then ifs service returns weekly frequency instalment calculation plan with initial payment
 
-  Scenario: Single debt payment instalment calculation plan - initialPaymentDate is after instalmentPaymentDate
+  Scenario: Single debt payment instalment calculation plan - plan duration should not include initial payment
     Given debt instalment calculation with 129 details
       | instalmentPaymentAmount | instalmentPaymentDate | paymentFrequency | interestCallDueTotal | quoteType | quoteDate  |
       | 15000                   | 2022-08-01            | monthly          | 5000                 | duration  | 2022-06-10 |
