@@ -763,6 +763,35 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
 
   }
 
+  Then("the instalment calculation summary contains values") { (dataTable: DataTable) =>
+    val map = dataTable.transpose().asMap(classOf[String], classOf[String])
+
+    val response: StandaloneWSResponse = ScenarioContext.get("response")
+    val responseBody                   = Json.parse(response.body).as[InstalmentCalculationSummaryResponse]
+
+    response.status.shouldBe(200)
+
+    if (map.containsKey("numberOfInstalments")) {
+      responseBody.numberOfInstalments.toString shouldBe map.get("numberOfInstalments").toString
+    }
+
+    if (map.containsKey("interestAccrued")) {
+      responseBody.interestAccrued.toString shouldBe map.get("interestAccrued").toString
+    }
+
+    if (map.containsKey("planInterest")) {
+      responseBody.planInterest.toString shouldBe map.get("planInterest").toString
+    }
+
+    if (map.containsKey("totalInterest")) {
+      responseBody.totalInterest.toString shouldBe map.get("totalInterest").toString
+    }
+
+    if (map.containsKey("duration")) {
+      responseBody.duration.toString shouldBe map.get("duration").toString
+    }
+  }
+
   Then("IFS response contains expected values") { (dataTable: DataTable) =>
     val map = dataTable.asMaps(classOf[String], classOf[String])
 
