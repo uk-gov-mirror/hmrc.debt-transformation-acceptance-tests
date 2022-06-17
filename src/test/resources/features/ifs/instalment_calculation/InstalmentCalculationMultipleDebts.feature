@@ -40,7 +40,7 @@ Feature: Instalment calculation for multiple debts - Input 1 & 2
 
     #  Input 2
 
-  Scenario: Should calculate debts amount for 1 debt 1 duty with initial payment (input 2)
+  Scenario: Should calculate debts amount for 2 debts with initial payment (input 2)
     Given debt instalment calculation with details
       | duration | paymentFrequency | instalmentPaymentDate | interestCallDueTotal | numberOfDay | quoteType        | quoteDate  |
       | 24       | monthly          | 2022-03-14            | 0                    | 1           | instalmentAmount | 2022-03-13 |
@@ -53,9 +53,34 @@ Feature: Instalment calculation for multiple debts - Input 1 & 2
       | TPSSDebt1  | 100000     | 1525      | 1000     |
       | DRIERDebt1 | 100000     | 1085      | 1000     |
     When the instalment calculation detail is sent to the ifs service
-    Then IFS response contains expected values
+    Then the instalment calculation summary contains values
+      | numberOfInstalments | duration | interestAccrued | planInterest | totalInterest |
+      | 25                  | 24       | 0               | 1571         | 1571          |
+    And IFS response contains expected values
       | instalmentNumber | dueDate    | paymentFrequency | frequencyPassed | amountDue | instalmentBalance | interestRate | expectedNumberOfInstalments |
       | 1                | 2022-03-14 | monthly          | 0               | 8494      | 100000            | 3.0          | 25                          |
+
+  Scenario: Multiple debt item charges - duration should not include initial payment
+    Given debt instalment calculation with 129 details
+      | instalmentPaymentAmount | instalmentPaymentDate | paymentFrequency | interestCallDueTotal | quoteType | quoteDate  |
+      | 6000                    | 2022-08-01            | monthly          | 1000                 | duration  | 2022-06-10 |
+    And the instalment calculation has no postcodes
+    And debt plan details with initial payment
+      | initialPaymentAmount | initialPaymentDate |
+      | 5000                 | 2022-07-01         |
+    And the instalment calculation has debt item charges
+      | debtId     | debtAmount | mainTrans | subTrans |
+      | TPSSDebt1  | 16000      | 1525      | 1000     |
+      | DRIERDebt1 | 14000      | 1525      | 1000     |
+    When the instalment calculation detail is sent to the ifs service
+    Then the instalment calculation summary contains values
+      | numberOfInstalments | duration | interestAccrued | planInterest | totalInterest |
+      | 7                   | 5        | 1000            | 250          | 1250          |
+    And IFS response contains expected values
+      | instalmentNumber | dueDate    | amountDue |
+      | 1                | 2022-07-01 | 5000      |
+      | 2                | 2022-08-01 | 6000      |
+      | 7                | 2022-12-01 | 2250      |
 
   Scenario: Multiple Debts should be returned in the order they are sent in
     Given debt instalment calculation with details

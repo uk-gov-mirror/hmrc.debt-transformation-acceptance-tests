@@ -1,4 +1,4 @@
-Feature: Instalment calculation for 1 debt 1 duty with initial payment
+Feature: Instalment calculation for 1 debt 1 duty
 
   Scenario: Payment plan calculation instalment - Single payment frequency
     Given debt instalment calculation with details
@@ -125,7 +125,7 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
     When the instalment calculation detail is sent to the ifs service
     Then ifs service returns weekly frequency instalment calculation plan with initial payment
 
-  Scenario: Single debt payment instalment calculation plan - plan duration should not include initial payment
+  Scenario: Single debt instalment calculation - duration should not include initial payment
     Given debt instalment calculation with 129 details
       | instalmentPaymentAmount | instalmentPaymentDate | paymentFrequency | interestCallDueTotal | quoteType | quoteDate  |
       | 15000                   | 2022-08-01            | monthly          | 5000                 | duration  | 2022-06-10 |
@@ -145,6 +145,27 @@ Feature: Instalment calculation for 1 debt 1 duty with initial payment
       | 1                | 2022-07-01 | 45000     |
       | 2                | 2022-08-01 | 15000     |
       | 6                | 2022-12-01 | 591       |
+
+  Scenario: Initial payment on same day as instalment start date
+    Given debt instalment calculation with 129 details
+      | instalmentPaymentAmount | instalmentPaymentDate | paymentFrequency | interestCallDueTotal | quoteType | quoteDate  |
+      | 15000                   | 2022-07-01            | monthly          | 5000                 | duration  | 2022-06-10 |
+    And the instalment calculation has no postcodes
+    And debt plan details with initial payment
+      | initialPaymentAmount | initialPaymentDate |
+      | 45000                | 2022-07-01         |
+    And the instalment calculation has debt item charges
+      | debtId | debtAmount | mainTrans | subTrans |
+      | debtId | 100000     | 1525      | 1000     |
+    When the instalment calculation detail is sent to the ifs service
+    Then the instalment calculation summary contains values
+      | numberOfInstalments | duration | interestAccrued | planInterest | totalInterest |
+      | 5                   | 5        | 5000            | 430          | 5430          |
+    And IFS response contains expected values
+      | instalmentNumber | dueDate    | amountDue |
+      | 1                | 2022-07-01 | 60000     |
+      | 2                | 2022-08-01 | 15000     |
+      | 5                | 2022-11-01 | 430       |
 
   Scenario: Payment plan calculation request -initialPaymentAmount missing
     Given debt instalment calculation with details
