@@ -12,6 +12,8 @@
 #7. 3 debts, 2 payments
 #8. 300 debt items
 #9. debts, 5 payments on 1 debt
+
+
 Feature: Multiple Debt Items - Edge Cases
 
   Scenario: 1. 2 debts, 1 interest bearing. 1 non interest bearing
@@ -126,10 +128,10 @@ Feature: Multiple Debt Items - Edge Cases
     When the debt items is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | 1388100 | unpaidAmountTotal | amountIntTotal | 151388100 |
-      | 13200                | 1398300 | 150000000         | 151398300      | 150000000 |
+      | 13200                | 1398300 | 150000000         | 151396200      | 150000000 |
     And the 300th debt summary will contain
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
-      | true            | 119                  | 44                      | 504661             |
+      | true            | 119                  | 44                      | 504654             |
 
 
   Scenario: 5. 2 debts, 5 payments on 1 debt
