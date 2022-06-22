@@ -17,7 +17,7 @@ Feature: Debt Calculation Validation
     When the debt item is sent to the ifs service
     Then the ifs service will respond with
       | statusCode | reason                      | message                                                                                                                  |
-      | 400        | Invalid JSON error from IFS | Could not parse body due to requirement failed: Original Amount can be zero or greater, negative values are not accepted |
+      | 400        | Invalid JSON error from IFS | Could not parse body due to requirement failed: Original Amount can be zero or greater, negative values are not accepted; Amount paid in payments cannot be greater than Original Amount |
 
   Scenario: TPSS MainTrans (1525) debt Amount non integer - Edge Case
     Given a debt item
