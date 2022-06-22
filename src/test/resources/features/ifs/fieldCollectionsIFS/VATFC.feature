@@ -1,3 +1,4 @@
+
 Feature: FC VAT Debt Calculation End point testing
 
   Scenario: 1. Interest Indicator as Yes. 1 Payment of 1 debt.
