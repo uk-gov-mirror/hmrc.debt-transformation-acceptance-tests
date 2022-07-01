@@ -192,9 +192,8 @@ Feature: Interest Rate Changes
       | 47                   | 17420                | 500000            | 517420         | 500000              |
     And the 1st debt summary will contain
       | interestBearing | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | numberChargeableDays | amountOnIntDueDuty | interestOnlyIndicator |
-      | true            | 47                      | 17420                | 500000           | 517420             | 367                  | 500000             | false                 |
-    And the 1st debt summary will have calculation windows
+      | true            | 47                      | 17420               | 500000           | 517420             | 367                  | 500000             | false                 |
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
       | 2022-04-03 | 2022-04-04 | 1            | 3.0          | 41                      | 41                | 500000               | 500041             |
-      | 2022-04-05 | 2022-05-15 | 41           | 3.25         | 44                      | 1825              | 500000               | 501825             |
-      | 2022-05-16 | 2023-04-05 | 325          | 3.5          | 47                      | 15582             | 500000               | 515582             |
+      | 2022-04-05 | 2022-05-23 | 49           | 3.25         | 44                      | 2181              | 500000               | 502181             |
+      | 2022-05-24 | 2023-04-05 | 317          | 3.5          | 47                      | 15198             | 500000               | 515198             |
