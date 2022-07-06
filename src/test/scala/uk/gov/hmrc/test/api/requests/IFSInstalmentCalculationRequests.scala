@@ -178,29 +178,6 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
     WsClient.post(baseUri, headers = headers, Json.parse(json))
   }
 
-  def getInstalmentCalculationWithQueryParams(json: String, combineLastInstalments: String): StandaloneWSResponse = {
-    val bearerToken = createBearerToken(
-      enrolments = Seq("read:interest-forecasting"),
-      userType = getRandomAffinityGroup
-    )
-    val baseUri     = s"$interestForecostingApiUrl/instalment-calculation"
-
-    val headers = Map(
-      "Authorization" -> s"Bearer $bearerToken",
-      "Content-Type"  -> "application/json",
-      "Accept"        -> "application/vnd.hmrc.1.0+json"
-    )
-
-    val queryParameters = Map(
-      "combineLastInstalments" ->  s"$combineLastInstalments"
-    )
-
-    println(s"query string parameters ******************** --> ${queryParameters}")
-    println(s"instalment-calculation baseUri ******************** --> ${baseUri}")
-
-    WsClient.postWithQueryParams(baseUri, headers = headers, queryParameters = queryParameters, Json.parse(json))
-  }
-
   def noInitialPayment() {
     ScenarioContext.set(
       "paymentPlan",
