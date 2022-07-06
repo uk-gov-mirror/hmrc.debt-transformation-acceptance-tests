@@ -179,22 +179,22 @@ Feature: Interest Rate Changes
       | true            | 0                    | 0                       | 500000             |
     And the 1st debt summary will not have any calculation windows
 
-  Scenario: Interest rate changes from 3% -> 3.25% -> 3.5
+  Scenario: Interest rate changes from 2.6% -> 2.75% -> 3
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2022-04-03        | 2023-04-05          | 1525      | 1000     |
+      | 500000         | 2021-04-03        | 2022-04-04          | 1525      | 1000     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
-      | 47                   | 17420                | 500000            | 517420         | 500000              |
+      | 41                   | 13363                | 500000            | 513363         | 500000              |
     And the 1st debt summary will contain
       | interestBearing | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | numberChargeableDays | amountOnIntDueDuty | interestOnlyIndicator |
-      | true            | 47                      | 17420               | 500000           | 517420             | 367                  | 500000             | false                 |
+      | true            | 41                      | 13363                | 500000           | 513363             | 366                  | 500000             | false                 |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | unpaidAmountWindow |
-      | 2022-04-03 | 2022-04-04 | 1            | 3.0          | 41                      | 41                | 500000               | 500041             |
-      | 2022-04-05 | 2022-05-23 | 49           | 3.25         | 44                      | 2181              | 500000               | 502181             |
-      | 2022-05-24 | 2023-04-05 | 317          | 3.5          | 47                      | 15198             | 500000               | 515198             |
+      | 2021-04-03 | 2022-01-06 | 278          | 2.6          | 35                      | 9901              | 500000               | 509901             |
+      | 2022-01-07 | 2022-02-20 | 45           | 2.75         | 37                      | 1695              | 500000               | 501695             |
+      | 2022-02-21 | 2022-04-04 | 43           | 3.0          | 41                      | 1767              | 500000               | 501767             |
