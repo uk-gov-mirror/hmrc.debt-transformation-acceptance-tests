@@ -1,8 +1,9 @@
 Feature: Instalment calculation for single debt - Input 2
+
   Scenario: Should calculate debts amount for 1 debt 1 duty (input 2)
     Given debt instalment calculation with details
       | duration | paymentFrequency | instalmentPaymentDate | interestCallDueTotal | numberOfDay | quoteType        | quoteDate  |
-      | 24       | monthly          | 2022-03-14            | 0                    | 1           | instalmentAmount | 2022-03-13 |
+      | 24       | monthly          | 2020-03-14            | 0                    | 1           | instalmentAmount | 2020-03-13 |
     And the instalment calculation has no postcodes
     And no initial payment for the debt item charge
     And the instalment calculation has debt item charges
@@ -11,10 +12,9 @@ Feature: Instalment calculation for single debt - Input 2
     When the instalment calculation detail is sent to the ifs service
     Then IFS response contains expected values
       | instalmentNumber | dueDate    | paymentFrequency | frequencyPassed | amountDue | instalmentBalance | interestRate | expectedNumberOfInstalments |
-      | 1                | 2022-03-14 | monthly          | 0               | 4303      | 100000            | 3.0          | 24                          |
+      | 1                | 2020-03-14 | monthly          | 0               | 4271      | 100000            | 3.25         | 24                          |
 
 # DTD-397 Edge-cases below
-
   Scenario: Should return an error from IFS if quote type is duration and duration is provided
     Given debt instalment calculation with details
       | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | numberOfDay | quoteType | duration |
