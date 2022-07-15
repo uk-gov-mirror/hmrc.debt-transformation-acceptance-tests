@@ -57,6 +57,16 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
     ScenarioContext.set("response", response)
   }
 
+  When("the instalment calculation is sent to the ifs service with query parameters") { (dataTable: DataTable) =>
+    val map                = dataTable.transpose().asMap(classOf[String], classOf[String])
+    val combineLastInstalments = map.get("combineLastInstalments").toString
+    val request  = ScenarioContext.get("paymentPlan").toString
+    println(s"IFS REQUST --> $request")
+    val response = getInstalmentCalculationWithQueryParams(request, combineLastInstalments )
+    println(s"RESP --> ${response.body}")
+    ScenarioContext.set("response", response)
+  }
+
   And("add initial payment for the debt item charge") { (dataTable: DataTable) =>
     addInitialPayment(dataTable)
   }
@@ -833,8 +843,8 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
           .toString
       }
 
-      if (map.toString.contains("intRate")) {
-        responseBody.instalments(responseIndex).intRate.toString shouldBe expectedInstalment.get("intRate").toString
+      if (map.toString.contains("interestRate")) {
+        responseBody.instalments(responseIndex).intRate.toString shouldBe expectedInstalment.get("interestRate").toString
       }
     }
 
