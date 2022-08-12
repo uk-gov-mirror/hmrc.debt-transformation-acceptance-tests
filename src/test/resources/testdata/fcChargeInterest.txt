@@ -5,6 +5,7 @@
           "periodEnd": "<REPLACE_periodEnd>",
           "interestStartDate": "<REPLACE_interestStartDate>",
           "interestRequestedTo": "<REPLACE_interestRequestedTo>",
+          "chargedInterest":     <REPLACE_chargedInterest>,
           "paymentHistory": [
           		  <REPLACE_payments>
           ],

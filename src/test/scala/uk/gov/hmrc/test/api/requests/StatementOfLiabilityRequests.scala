@@ -42,9 +42,6 @@ object StatementOfLiabilityRequests extends BaseRequests with RandomValues {
     WsClient.get(baseUri, headers = headers)
   }
 
-  def getBodyAsString(variant: String): String =
-    TestData.loadedFiles(variant)
-
   def addDutyIds(dataTable: DataTable): Unit = {
     val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
     var dutyIds         = ""
@@ -64,4 +61,7 @@ object StatementOfLiabilityRequests extends BaseRequests with RandomValues {
     ScenarioContext.set("debtDetails", jsonWithCustomerPostCodes)
     print("duty id **********************   " + jsonWithCustomerPostCodes)
   }
+
+  def getBodyAsString(variant: String): String =
+    TestData.loadedFiles(variant)
 }
