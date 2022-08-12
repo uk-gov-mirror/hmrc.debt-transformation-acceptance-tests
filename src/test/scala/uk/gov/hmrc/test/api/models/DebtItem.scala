@@ -17,7 +17,6 @@
 package uk.gov.hmrc.test.api.models
 
 import play.api.libs.json.Json
-import uk.gov.hmrc.test.api.models.{DebtItemId, ValueTypeFormatter}
 
 import java.time.LocalDate
 
@@ -34,6 +33,7 @@ final case class DebtItem(
   subTrans: SubTransType,
   originalDebtAmount: BigDecimal,
   interestStartDate: LocalDate,
+  chargedInterest: Option[Int] = None,
   paymentHistory: Seq[Payment]
 )
 

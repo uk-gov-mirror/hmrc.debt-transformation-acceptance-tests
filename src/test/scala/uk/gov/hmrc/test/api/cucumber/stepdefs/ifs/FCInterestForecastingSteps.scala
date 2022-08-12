@@ -34,6 +34,11 @@ class FCInterestForecastingSteps extends ScalaDsl with EN with Eventually with M
     createInterestFocastingRequestBodyFC(dataTable)
   }
 
+  Given("fc debt item with cotax charge interest")
+  { (dataTable: DataTable) =>
+    createFcCotaxChargeInterestRequest(dataTable)
+  }
+
   Given("the debt item has fc payment history") { (dataTable: DataTable) =>
     addFCPaymentHistory(dataTable)
   }
@@ -158,6 +163,10 @@ class FCInterestForecastingSteps extends ScalaDsl with EN with Eventually with M
 
   Given("the fc customer has post codes") { (dataTable: DataTable) =>
     addFCCustomerPostCodes(dataTable)
+  }
+
+  Given("add charge interest cotax") { (dataTable: DataTable) =>
+    addChargedInterestCotax(dataTable)
   }
 
   Given("the fc customer has no post codes") { () =>

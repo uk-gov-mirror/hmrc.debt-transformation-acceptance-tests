@@ -101,7 +101,6 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
     if (asmapTransposed.toString.contains("dateCreated")) {
       periodEnd = "\"dateCreated\": \"" + asmapTransposed.get("dateCreated") + "\","
     } else { dateCreated = "" }
-
     var interestStartDate = ""
     if (asmapTransposed.toString.contains("interestStartDate")) {
       interestStartDate = "\"interestStartDate\": \"" + asmapTransposed.get("interestStartDate") + "\","
@@ -118,6 +117,54 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
 
     if (firstItem == true) { debtItems = fcDebtItem }
     else { debtItems = ScenarioContext.get("fcDebtItem").toString.concat(",").concat(fcDebtItem) }
+    ScenarioContext.set(
+      "fcDebtItem",
+      debtItems
+    )
+
+    print("IFS debt-calculation request::::::::::::::::::" + debtItems)
+  }
+
+  def createFcCotaxChargeInterestRequest(dataTable: DataTable): Unit = {
+    val asmapTransposed   = dataTable.transpose().asMap(classOf[String], classOf[String])
+    var firstItem         = false
+    var debtItems: String = null
+    try ScenarioContext.get("fcDebtItem")
+    catch { case e: Exception => firstItem = true }
+
+    var periodEnd = ""
+    if (asmapTransposed.toString.contains("periodEnd")) {
+      periodEnd = "\"periodEnd\": \"" + asmapTransposed.get("periodEnd") + "\","
+    } else { periodEnd = "" }
+
+    var dateCreated = ""
+    if (asmapTransposed.toString.contains("dateCreated")) {
+      periodEnd = "\"dateCreated\": \"" + asmapTransposed.get("dateCreated") + "\","
+    } else { dateCreated = "" }
+
+    var chargedInterest = ""
+    if (asmapTransposed.toString.contains("chargedInterest")) {
+      periodEnd = "\"chargedInterest\": \"" + asmapTransposed.get("chargedInterest") + "\","
+    } else { chargedInterest = "" }
+
+    var interestStartDate = ""
+    if (asmapTransposed.toString.contains("interestStartDate")) {
+      interestStartDate = "\"interestStartDate\": \"" + asmapTransposed.get("interestStartDate") + "\","
+    } else { dateCreated = "" }
+
+    val fcDebtItem = getBodyAsString("fcChargeInterest")
+      .replaceAll("<REPLACE_debtItemChargeId>", asmapTransposed.get("debtItemChargeId"))
+      .replaceAll("<REPLACE_originalAmount>", asmapTransposed.get("originalAmount"))
+      .replaceAll("<REPLACE_interestIndicator>", asmapTransposed.get("interestIndicator"))
+      .replaceAll("<REPLACE_periodEnd>", asmapTransposed.get("periodEnd"))
+      .replaceAll("<REPLACE_interestStartDate>", asmapTransposed.get("interestStartDate"))
+      .replaceAll("<REPLACE_interestRequestedTo>", asmapTransposed.get("interestRequestedTo"))
+      .replaceAll("<REPLACE_chargedInterest>",asmapTransposed.get("chargedInterest"))
+      .replaceAll("<REPLACE_periodEnd>", periodEnd)
+
+    if (firstItem == true) { debtItems = fcDebtItem }
+    else { debtItems = ScenarioContext.get("fcDebtItem").toString.concat(",").concat(fcDebtItem) }
+
 
     ScenarioContext.set(
       "fcDebtItem",
@@ -216,6 +263,32 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
       ScenarioContext.get("fcDebtItem").toString.replaceAll("<REPLACE_fcCustomerPostCodes>", customerPostCodes)
     ScenarioContext.set("fcDebtItem", jsonWithCustomerPostCodes)
   }
+
+  def addChargedInterestCotax(dataTable: DataTable): Unit = {
+    ScenarioContext.set(
+      "fcDebtItem",
+      getBodyAsString("fcChargeInterest")
+        .replaceAllLiterally("<REPLACE_chargedInterest>", ScenarioContext.get("fcDebtItem"))
+    )
+
+    val asMapTransposed   = dataTable.asMaps(classOf[String], classOf[String])
+    var chargedInterest = ""
+
+    asMapTransposed.zipWithIndex.foreach { case (chargedInte, index) =>
+      chargedInterest = chargedInterest.concat(
+        getBodyAsString("fcChargeInterest")
+          .replaceAll("<REPLACE_addressPostcode>", chargedInte.get("addressPostcode"))
+      )
+
+      if (index + 1 < asMapTransposed.size) chargedInterest = chargedInterest.concat(",")
+
+    }
+
+    val jsonWithChargedInterest =
+      ScenarioContext.get("fcDebtItem").toString.replaceAll("<REPLACE_fcCustomerPostCodes>", chargedInterest)
+    ScenarioContext.set("fcDebtItem", jsonWithChargedInterest)
+  }
+
 
   def noFCCustomerPostCodes() {
     // Set scenario Context to be all debt items with payments.

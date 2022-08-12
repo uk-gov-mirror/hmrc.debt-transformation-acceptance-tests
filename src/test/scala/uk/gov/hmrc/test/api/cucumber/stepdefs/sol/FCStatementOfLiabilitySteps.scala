@@ -35,6 +35,10 @@ class FCStatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with 
     FCStatementOfLiabilityRequests.fcSolRequest(dataTable)
   }
 
+  Given("fc sol debt item has multiple debts with charge interest") { (dataTable: DataTable) =>
+    FCStatementOfLiabilityRequests.fcSolWithCotaxInterestChargeRequest(dataTable)
+  }
+
   And("""the fc sol debt item has multiple debts""") { (dataTable: DataTable) =>
     FCStatementOfLiabilityRequests.addFCDebts(dataTable)
   }

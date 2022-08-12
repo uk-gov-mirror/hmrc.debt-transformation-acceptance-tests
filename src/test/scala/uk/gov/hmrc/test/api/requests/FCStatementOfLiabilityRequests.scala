@@ -26,9 +26,6 @@ object FCStatementOfLiabilityRequests extends BaseRequests with RandomValues {
     WsClient.post(baseUri, headers = headers, Json.parse(json))
   }
 
-  def getBodyAsString(variant: String): String =
-    TestData.loadedFiles(variant)
-
   def fcSolRequest(dataTable: DataTable): Unit = {
     val asMapTransposed     = dataTable.transpose().asMap(classOf[String], classOf[String])
     var firstItem           = false
@@ -65,6 +62,31 @@ object FCStatementOfLiabilityRequests extends BaseRequests with RandomValues {
           .replaceAll("<REPLACE_interestRequestedTo>", debtId.get("interestRequestedTo"))
           .replaceAll("<REPLACE_interestIndicator>", debtId.get("interestIndicator"))
           .replaceAll("<REPLACE_periodEnd>", debtId.get("periodEnd"))
+      )
+      if (index + 1 < asMapTransposed.size) debtIds = debtIds.concat(",")
+    }
+    val jsonWithdebtIds = ScenarioContext.get("debtDetails").toString.replaceAll("<REPLACE_debtId>", debtIds)
+    ScenarioContext.set("debtDetails", jsonWithdebtIds)
+    print("debt with payment history ::::::::::::::::::::::::::::::" + jsonWithdebtIds)
+  }
+
+  def getBodyAsString(variant: String): String =
+    TestData.loadedFiles(variant)
+
+  def fcSolWithCotaxInterestChargeRequest(dataTable: DataTable): Unit = {
+    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
+    var debtIds         = ""
+    asMapTransposed.zipWithIndex.foreach { case (debtId, index) =>
+      debtIds = debtIds.concat(
+        getBodyAsString("chargeInterestDebtItem")
+          .replaceAll("<REPLACE_debtId>", debtId.get("debtId"))
+          .replaceAll("<REPLACE_originalAmount>", debtId.get("originalAmount"))
+          .replaceAll("<REPLACE_solDescription>", "solDescription")
+          .replaceAll("<REPLACE_interestStartDate>", debtId.get("interestStartDate"))
+          .replaceAll("<REPLACE_interestRequestedTo>", debtId.get("interestRequestedTo"))
+          .replaceAll("<REPLACE_interestIndicator>", debtId.get("interestIndicator"))
+          .replaceAll("<REPLACE_periodEnd>", debtId.get("periodEnd"))
+          .replaceAll("<REPLACE_chargedInterest>", debtId.get("chargedInterest"))
       )
       if (index + 1 < asMapTransposed.size) debtIds = debtIds.concat(",")
     }
