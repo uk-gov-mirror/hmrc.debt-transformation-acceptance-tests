@@ -16,7 +16,7 @@ import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
 
 class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually with Matchers {
 
-  val quoteDateString       = "2022-03-13"
+  var quoteDateString       = "2022-03-13"
   val formatter             = DateTimeFormatter.ofPattern("yyyy-MM-dd")
   val quoteDate             = LocalDate.parse(quoteDateString, formatter)
   val instalmentPaymentDate = quoteDate.plusDays(1)
@@ -698,29 +698,35 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
 
     val debtId                    = "debtId"
     val responseBody              = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
+
+    quoteDateString       = "2011-03-13"
+    val formatter             = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val quoteDate             = LocalDate.parse(quoteDateString, formatter)
+    val instalmentPaymentDate = quoteDate.plusDays(1)
+
     val actualnumberOfInstalments =
       Json.parse(response.body).as[InstalmentCalculationSummaryResponse].numberOfInstalments
 
     val expectedInstalmentCalculationResponse = InstalmentCalculationSummaryResponse(
       quoteDate,
       12,
-      11701,
+      13458,
       1423,
-      1423 + 13124,
+      1423 + 13458,
       12,
       Vector(
-        InstalmentResponse(debtId, 1, instalmentPaymentDate, 10000, 100000, 7, 10000, 2.6),
-        InstalmentResponse(debtId, 2, instalmentPaymentDate.plusYears(1), 10000, 90000, 2340, 10000, 2.6),
-        InstalmentResponse(debtId, 3, instalmentPaymentDate.plusYears(2), 10000, 80000, 2080, 30000, 2.6),
-        InstalmentResponse(debtId, 4, instalmentPaymentDate.plusYears(3), 10000, 70000, 1820, 40000, 2.6),
-        InstalmentResponse(debtId, 5, instalmentPaymentDate.plusYears(4), 10000, 60000, 1555, 50000, 2.6),
-        InstalmentResponse(debtId, 6, instalmentPaymentDate.plusYears(5), 10000, 50000, 1300, 60000, 2.6),
-        InstalmentResponse(debtId, 7, instalmentPaymentDate.plusYears(6), 10000, 40000, 1040, 70000, 2.6),
-        InstalmentResponse(debtId, 8, instalmentPaymentDate.plusYears(7), 10000, 30000, 780, 80000, 2.6),
-        InstalmentResponse(debtId, 9, instalmentPaymentDate.plusYears(8), 10000, 20000, 518, 90000, 2.6),
-        InstalmentResponse(debtId, 10, instalmentPaymentDate.plusYears(9), 10000, 10000, 260, 100000, 2.6),
-        InstalmentResponse(debtId, 10, instalmentPaymentDate.plusYears(10), 10000, 0, 0, 110000, 2.6),
-        InstalmentResponse(debtId, 11, instalmentPaymentDate.plusYears(11), 3124, 0, 0, 100000 + 3124, 2.6)
+        InstalmentResponse(debtId, 1, instalmentPaymentDate, 10000, 100000, 16, 10000, 3),
+        InstalmentResponse(debtId, 2, instalmentPaymentDate.plusYears(1), 10000, 90000, 2705, 10000, 3),
+        InstalmentResponse(debtId, 3, instalmentPaymentDate.plusYears(2), 10000, 80000, 2080, 30000, 3),
+        InstalmentResponse(debtId, 4, instalmentPaymentDate.plusYears(3), 10000, 70000, 1820, 40000, 3),
+        InstalmentResponse(debtId, 5, instalmentPaymentDate.plusYears(4), 10000, 60000, 1555, 50000, 3),
+        InstalmentResponse(debtId, 6, instalmentPaymentDate.plusYears(5), 10000, 50000, 1300, 60000, 3),
+        InstalmentResponse(debtId, 7, instalmentPaymentDate.plusYears(6), 10000, 40000, 1040, 70000, 3),
+        InstalmentResponse(debtId, 8, instalmentPaymentDate.plusYears(7), 10000, 30000, 780, 80000, 3),
+        InstalmentResponse(debtId, 9, instalmentPaymentDate.plusYears(8), 10000, 20000, 518, 90000, 3),
+        InstalmentResponse(debtId, 10, instalmentPaymentDate.plusYears(9), 10000, 10000, 260, 100000, 3.25),
+        InstalmentResponse(debtId, 10, instalmentPaymentDate.plusYears(10), 10000, 0, 0, 110000, 3.25),
+        InstalmentResponse(debtId, 11, instalmentPaymentDate.plusYears(11), 4881, 0, 0, 100000 + 4881, 2.6)
       )
     )
     actualnumberOfInstalments             shouldBe expectedInstalmentCalculationResponse.numberOfInstalments
