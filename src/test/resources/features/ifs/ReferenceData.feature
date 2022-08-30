@@ -1,3 +1,4 @@
+@runMe
 Feature: Get Debt For all the SUPPORTED REGIMES
 
   Scenario Outline: Interest Bearing TPSS MainTrans SubTrans
@@ -79,7 +80,6 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | true            | 35                      | 500249             | <interestOnlyIndicator> |
     Examples:
       | mainTrans | subTrans | interestOnlyIndicator |
-
       | 1525      | 1000     | false                 |
       | 1530      | 1000     | false                 |
       | 1535      | 1000     | false                 |
@@ -93,7 +93,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 2000      | 1026     | false                 |
       | 2000      | 1030     | false                 |
       | 2000      | 1100     | false                 |
-      | 2006      | 1106     | true                  |
+      | 2006      | 1106     | false                  |
       | 2030      | 1250     | false                 |
       | 2030      | 1260     | false                 |
       | 2030      | 1270     | false                 |
@@ -107,7 +107,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 2030      | 1350     | false                 |
       | 2030      | 1390     | false                 |
       | 2030      | 1395     | false                 |
-      | 2040      | 1000     | true                  |
+      | 2040      | 1000     | false                  |
       | 2060      | 1020     | false                 |
       | 2090      | 1000     | false                 |
       | 2090      | 1020     | false                 |
@@ -169,7 +169,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 2005      | 2023     | true                  |
       | 2005      | 2026     | true                  |
       | 2005      | 2030     | true                  |
-      | 2005      | 2100     | false                 |
+      | 2005      | 2100     | true                 |
       | 2007      | 1107     | true                  |
       | 2045      | 2000     | true                  |
       | 2045      | 2100     | true                  |
@@ -214,7 +214,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 2000      | 1026     | false                 |
       | 2000      | 1030     | false                 |
       | 2000      | 1100     | false                 |
-      | 2006      | 1106     | true                  |
+      | 2006      | 1106     | false                  |
       | 2030      | 1250     | false                 |
       | 2030      | 1260     | false                 |
       | 2030      | 1270     | false                 |
@@ -228,7 +228,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 2030      | 1350     | false                 |
       | 2030      | 1390     | false                 |
       | 2030      | 1395     | false                 |
-      | 2040      | 1000     | true                  |
+      | 2040      | 1000     | false                  |
       | 2060      | 1020     | false                 |
       | 2090      | 1000     | false                 |
       | 2090      | 1020     | false                 |
