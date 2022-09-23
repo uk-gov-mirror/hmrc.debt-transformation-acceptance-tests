@@ -84,10 +84,11 @@ Feature: Instalment calculation for 1 debt 1 duty
     When the instalment calculation detail is sent to the ifs service
     And ifs service returns 6Monthly payment frequency instalment calculation plan
 
+    @runMe
   Scenario: Payment plan calculation instalment - Annually payment frequency
     Given debt instalment calculation with details
       | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDate | interestCallDueTotal | quoteType | quoteDate  |
-      | 10000                   | annually         | 2022-03-14            | 1423                 | duration  | 2022-03-13 |
+      | 10000                   | annually         | 2011-03-14            | 1423                 | duration  | 2011-03-13 |
     And the instalment calculation has no postcodes
     And no initial payment for the debt item charge
     And the instalment calculation has debt item charges
