@@ -1,11 +1,10 @@
 
 Feature: Instalment calculation for multiple debts - Input 2
 
-
   Scenario: Should calculate instalment amount for multiple debts no initial payment debt 1 (input 2)
     Given debt instalment calculation with details
       | duration | paymentFrequency | instalmentPaymentDate | interestCallDueTotal | numberOfDay | quoteType        | quoteDate  |
-      | 24       | weekly           | 2020-03-14            | 0                    | 1           | instalmentAmount | 2020-03-13 |
+      | 24       | monthly          | 2020-03-14            | 0                    | 1           | instalmentAmount | 2020-03-13 |
     And the instalment calculation has no postcodes
     And no initial payment for the debt item charge
     And the instalment calculation has debt item charges
@@ -15,7 +14,8 @@ Feature: Instalment calculation for multiple debts - Input 2
     When the instalment calculation detail is sent to the ifs service
     Then IFS response contains expected values
       | instalmentNumber | dueDate    | paymentFrequency | amountDue | instalmentBalance | interestRate | expectedNumberOfInstalments |
-      | 1                | 2020-03-14 | weekly           | 10479     | 100000            | 3.25         | 25                          |
+      | 1                | 2020-03-14 | monthly          | 10680     | 100000            | 3.25         | 25                          |
+
 
   Scenario: Should calculate instalment amount for multiple debts no initial payment debt 2 (input 2)
     Given debt instalment calculation with details
