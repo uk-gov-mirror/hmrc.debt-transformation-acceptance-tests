@@ -48,7 +48,6 @@ Feature: Instalment calculation for multiple debts - Input 2
       | 1                | monthly          | 100256    | 100000            | 5.5          | 3                           |
 
 
-
   Scenario: calculate instalment amount -Day before interest rate change
     Given debt instalment calculation with details
       | duration | paymentFrequency | instalmentPaymentDate | interestCallDueTotal | numberOfDay | quoteType        | quoteDate |
