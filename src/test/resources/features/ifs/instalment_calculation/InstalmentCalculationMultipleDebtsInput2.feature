@@ -49,7 +49,7 @@ Feature: Instalment calculation for multiple debts - Input 2
 
 
 
-  Scenario: calculate instalment amount -Day before interest rate change day
+  Scenario: calculate instalment amount -Day before interest rate change
     Given debt instalment calculation with details
       | duration | paymentFrequency | instalmentPaymentDate | interestCallDueTotal | numberOfDay | quoteType        | quoteDate |
       | 2        | monthly          | 2022-11-20            | 0                    | 1           | instalmentAmount | 2022-11-21 |
@@ -63,7 +63,3 @@ Feature: Instalment calculation for multiple debts - Input 2
     Then IFS response contains expected values
       | instalmentNumber | paymentFrequency | amountDue | instalmentBalance | interestRate | expectedNumberOfInstalments |
       | 1                | monthly          | 100224    | 100000            | 4.75         | 3                           |
-
-
-
-
