@@ -44,7 +44,6 @@ Feature: Multiple Debt Items - Edge Cases
       | false           | 0                    | 0                       | 0                    | 500000           | 500000             | 500000             | false                 |
     And the 2nd debt summary will not have any calculation windows
 
-
   Scenario: 2. 2 debts, 1 payment each of different amounts
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
@@ -75,7 +74,6 @@ Feature: Multiple Debt Items - Edge Cases
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
       | false           | 0                    | 0                       | 400000             |
     And the 2nd debt summary will not have any calculation windows
-
 
   Scenario: 3. 3 debts, 1 payments
     And a debt item
@@ -119,7 +117,6 @@ Feature: Multiple Debt Items - Edge Cases
       | 2018-12-16 | 2019-04-14 | 119          | 3.25         | 44                      | 505297             |
 
 #    300 debts items is the max says Helen
-
   Scenario: 4. 300 debt items
     Given 300 debt items
     And no breathing spaces have been applied to the customer
@@ -131,7 +128,6 @@ Feature: Multiple Debt Items - Edge Cases
     And the 300th debt summary will contain
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
       | true            | 119                  | 44                      | 504654             |
-
 
   Scenario: 5. 2 debts, 5 payments on 1 debt
     Given a debt item
@@ -160,8 +156,8 @@ Feature: Multiple Debt Items - Edge Cases
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow |
       | 2018-12-16 | 2019-02-03 | 49           | 3.25         | 26                      | 301308             |
-      | 2018-12-16 | 2019-02-06 | 52           | 3.25         | 8                       | 100463             |
       | 2018-12-16 | 2019-02-13 | 59           | 3.25         | 17                      | 201050             |
+      | 2018-12-16 | 2019-02-06 | 52           | 3.25         | 8                       | 100463             |
       | 2018-12-16 | 2019-04-14 | 119          | 3.25         | 35                      | 404238             |
     And the 2nd debt summary will contain
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |

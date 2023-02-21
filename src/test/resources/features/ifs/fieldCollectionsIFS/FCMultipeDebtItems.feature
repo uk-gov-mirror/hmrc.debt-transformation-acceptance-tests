@@ -475,9 +475,9 @@ Feature: FC Debt Calculation End point testing
     And the 1st fc debt summary will have calculation windows
       | periodFrom | periodTo   | interestRate | interestDueDailyAccrual | interestDueWindow |
       | 2018-01-01 | 2018-08-20 | 3.0          | 8                       | 1898              |
-      | 2018-08-21 | 2019-04-15 | 3.25         | 8                       | 2119              |
-      | 2018-01-01 | 2018-08-20 | 3.0          | 8                       | 1898              |
       | 2018-08-21 | 2019-03-15 | 3.25         | 8                       | 1843              |
+      | 2018-01-01 | 2018-08-20 | 3.0          | 8                       | 1898              |
+      | 2018-08-21 | 2019-04-15 | 3.25         | 8                       | 2119              |
       | 2018-01-01 | 2018-08-20 | 3.0          | 24                      | 5695              |
       | 2018-08-21 | 2019-03-31 | 3.25         | 26                      | 5956              |
     And the 2nd fc debt summary will contain
@@ -486,9 +486,9 @@ Feature: FC Debt Calculation End point testing
     And the 2nd fc debt summary will have calculation windows
       | periodFrom | periodTo   | interestRate | interestDueDailyAccrual | interestDueWindow |
       | 2018-01-16 | 2018-08-20 | 3.0          | 8                       | 1775              |
-      | 2018-08-21 | 2019-03-10 | 3.25         | 8                       | 1798              |
-      | 2018-01-16 | 2018-08-20 | 3.0          | 8                       | 1775              |
       | 2018-08-21 | 2019-01-20 | 3.25         | 8                       | 1362              |
+      | 2018-01-16 | 2018-08-20 | 3.0          | 8                       | 1775              |
+      | 2018-08-21 | 2019-03-10 | 3.25         | 8                       | 1798              |
       | 2018-01-16 | 2018-08-20 | 3.0          | 24                      | 5326              |
       | 2018-08-21 | 2019-04-14 | 3.25         | 26                      | 6330              |
 
@@ -522,4 +522,4 @@ Feature: FC Debt Calculation End point testing
       | addressPostcode | postcodeDate |
       | TW3 4QQ         | 2019-07-06   |
     When the debt item is sent to the fc ifs service
-    Then the fc ifs service will respond with Field at path '/debtItems(0)/interestStartDate' missing or invalid\nField at path '/debtItems(0)/periodEnd' missing or invalid
+    Then the fc ifs service will respond with Field at path '/debtItems(0)/periodEnd' missing or invalid\nField at path '/debtItems(0)/interestStartDate' missing or invalid

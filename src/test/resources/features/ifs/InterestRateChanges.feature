@@ -145,9 +145,10 @@ Feature: Interest Rate Changes
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | interestRate | interestDueDailyAccrual | interestDueWindow |
       | 2018-01-01 | 2018-08-20 | 3.0          | 8                       | 1898              |
-      | 2018-08-21 | 2019-04-15 | 3.25         | 8                       | 2119              |
-      | 2018-01-01 | 2018-08-20 | 3.0          | 8                       | 1898              |
       | 2018-08-21 | 2019-03-15 | 3.25         | 8                       | 1843              |
+
+      | 2018-01-01 | 2018-08-20 | 3.0          | 8                       | 1898              |
+      | 2018-08-21 | 2019-04-15 | 3.25         | 8                       | 2119              |
       | 2018-01-01 | 2018-08-20 | 3.0          | 24                      | 5695              |
       | 2018-08-21 | 2019-03-31 | 3.25         | 26                      | 5956              |
     And the 2nd debt summary will contain
@@ -156,9 +157,9 @@ Feature: Interest Rate Changes
     And the 2nd debt summary will have calculation windows
       | periodFrom | periodTo   | interestRate | interestDueDailyAccrual | interestDueWindow |
       | 2018-01-16 | 2018-08-20 | 3.0          | 8                       | 1775              |
-      | 2018-08-21 | 2019-03-10 | 3.25         | 8                       | 1798              |
-      | 2018-01-16 | 2018-08-20 | 3.0          | 8                       | 1775              |
       | 2018-08-21 | 2019-01-20 | 3.25         | 8                       | 1362              |
+      | 2018-01-16 | 2018-08-20 | 3.0          | 8                       | 1775              |
+      | 2018-08-21 | 2019-03-10 | 3.25         | 8                       | 1798              |
       | 2018-01-16 | 2018-08-20 | 3.0          | 24                      | 5326              |
       | 2018-08-21 | 2019-04-14 | 3.25         | 26                      | 6330              |
 
