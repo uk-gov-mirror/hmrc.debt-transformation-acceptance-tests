@@ -31,8 +31,8 @@ Feature: Interest Rate Changes - Edge cases
       | 500000         | 2018-06-01        | 2021-03-31          | 1525      | 1000     | true            |
     And the debt item has payment history
       | paymentAmount | paymentDate |
-      | 100000        | 2019-03-15  |
       | 100000        | 2020-04-15  |
+      | 100000        | 2019-03-15  |
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2009-01-01        | 2010-01-01          | 1545      | 1090     | true            |
@@ -49,12 +49,12 @@ Feature: Interest Rate Changes - Edge cases
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow |
       | 2018-06-01 | 2018-08-20 | 80           | 3.0          | 8                       | 657               | 100000               |
+      | 2018-08-21 | 2019-03-15 | 207          | 3.25         | 8                       | 1843              | 100000               |
+      | 2018-06-01 | 2018-08-20 | 80           | 3.0          | 8                       | 657               | 100000               |
       | 2018-08-21 | 2019-12-31 | 498          | 3.25         | 8                       | 4434              | 100000               |
       | 2020-01-01 | 2020-03-29 | 89           | 3.25         | 8                       | 790               | 100000               |
       | 2020-03-30 | 2020-04-06 | 8            | 2.75         | 7                       | 60                | 100000               |
       | 2020-04-07 | 2020-04-15 | 9            | 2.6          | 7                       | 63                | 100000               |
-      | 2018-06-01 | 2018-08-20 | 80           | 3.0          | 8                       | 657               | 100000               |
-      | 2018-08-21 | 2019-03-15 | 207          | 3.25         | 8                       | 1843              | 100000               |
       | 2018-06-01 | 2018-08-20 | 80           | 3.0          | 24                      | 1972              | 300000               |
       | 2018-08-21 | 2019-12-31 | 498          | 3.25         | 26                      | 13302             | 300000               |
       | 2020-01-01 | 2020-03-29 | 89           | 3.25         | 26                      | 2370              | 300000               |
@@ -152,7 +152,7 @@ Feature: Interest Rate Changes - Edge cases
       | true            | 7                    | 500262             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow |
-      | 2020-03-29 | 2020-03-29 | 3.25         | 44                      | 0               | 500000               |
+      | 2020-03-29 | 2020-03-29 | 3.25         | 44                      | 0                 | 500000               |
       | 2020-03-30 | 2020-04-05 | 2.75         | 37                      | 262               | 500000               |
 
 #  BUG: Test failing due to issue with interest accrued returned
