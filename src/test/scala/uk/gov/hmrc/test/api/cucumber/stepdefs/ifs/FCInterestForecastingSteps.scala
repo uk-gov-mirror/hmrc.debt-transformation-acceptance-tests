@@ -25,6 +25,7 @@ import play.api.libs.ws.StandaloneWSResponse
 import uk.gov.hmrc.test.api.models._
 import uk.gov.hmrc.test.api.requests.FieldCollectionsRequests._
 import uk.gov.hmrc.test.api.utils.ScenarioContext
+import scala.language.postfixOps
 
 import scala.collection.convert.WrapAsScala.collectionAsScalaIterable
 
