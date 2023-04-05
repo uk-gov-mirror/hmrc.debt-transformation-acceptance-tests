@@ -25,9 +25,9 @@ import play.api.libs.ws.StandaloneWSResponse
 import uk.gov.hmrc.test.api.models._
 import uk.gov.hmrc.test.api.requests.FieldCollectionsRequests._
 import uk.gov.hmrc.test.api.utils.ScenarioContext
-import scala.language.postfixOps
 
-import scala.collection.convert.WrapAsScala.collectionAsScalaIterable
+import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
+import scala.language.postfixOps
 
 class FCInterestForecastingSteps extends ScalaDsl with EN with Eventually with Matchers {
 

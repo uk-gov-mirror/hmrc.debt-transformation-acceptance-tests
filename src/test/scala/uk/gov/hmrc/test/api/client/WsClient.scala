@@ -7,8 +7,10 @@ import com.typesafe.scalalogging.LazyLogging
 import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws._
 import play.api.libs.ws.ahc.StandaloneAhcWSClient
+
 import scala.concurrent.Await
 import scala.concurrent.duration._
+import scala.language.postfixOps
 
 object WsClient extends LazyLogging {
   val timeout: FiniteDuration = 60 seconds
