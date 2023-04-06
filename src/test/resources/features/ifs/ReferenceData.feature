@@ -360,3 +360,6 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 4771      | 1175     | true                  |
       | 4722      | 1175     | true                  |
       | 4674      | 1175     | true                  |
+      | 4618      | 1090     | false                 |
+      | 3996      | 1091     | false                 |
+      | 3997      | 2091     | true                  |
