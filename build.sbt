@@ -1,6 +1,6 @@
 name := "debt-transformation-acceptance-tests"
 version := "0.1"
-scalaVersion := "2.12.11"
+scalaVersion := "2.13.11"
 
 val CucumberVersion = "4.7.1"
 

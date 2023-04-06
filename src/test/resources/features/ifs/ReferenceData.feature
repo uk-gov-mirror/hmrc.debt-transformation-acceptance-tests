@@ -1,3 +1,4 @@
+
 Feature: Get Debt For all the SUPPORTED REGIMES
 
   Scenario Outline: Interest Bearing TPSS MainTrans SubTrans
@@ -299,7 +300,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 7730      | 1174     | false                 |
       | 7731      | 1174     | false                 |
       | 4735      | 1090     | false                 |
-
+      | 3996      | 1091     | false                 |
 
   Scenario Outline: Non Interest Bearing VAT Charges
     Given the current set of rules
@@ -361,5 +362,4 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 4722      | 1175     | true                  |
       | 4674      | 1175     | true                  |
       | 4618      | 1090     | false                 |
-      | 3996      | 1091     | false                 |
       | 3997      | 2091     | true                  |
