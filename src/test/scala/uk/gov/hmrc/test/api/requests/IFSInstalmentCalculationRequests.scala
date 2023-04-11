@@ -11,7 +11,8 @@ import uk.gov.hmrc.test.api.client.WsClient
 import uk.gov.hmrc.test.api.models.{Frequency, InstalmentCalculation, InstalmentCalculationSummaryResponse}
 import uk.gov.hmrc.test.api.utils.{BaseRequests, ScenarioContext, TestData}
 
-import java.time.LocalDate
+import java.time.{LocalDate, LocalDateTime}
+import java.time.format.DateTimeFormatter
 import java.util.Date
 import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
 
@@ -70,8 +71,8 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
       case e: Exception => firstItem = true
     }
 
-    val dateTime = new DateTime(new Date()).withZone(DateTimeZone.UTC)
-
+    val dateTime = LocalDateTime.now()
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     var addNumberOfDays       = ""
     var instalmentPaymentDate = ""
 
@@ -84,8 +85,7 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
     if (asmapTransposed.toString.contains("instalmentPaymentDate")) {
       instalmentPaymentDate = asmapTransposed.get("instalmentPaymentDate")
     }
-
-    var quoteDate                  = dateTime.toString("yyyy-MM-dd")
+    var quoteDate= dateTime.format(formatter)
     if (asmapTransposed.toString.contains("quoteDate")) quoteDate = asmapTransposed.get("quoteDate")
     val durationOrInstalmentAmount = if (asmapTransposed.get("quoteType").equals("instalmentAmount")) {
       s""" "duration":${asmapTransposed.get("duration")} """
