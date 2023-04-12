@@ -25,7 +25,7 @@ import play.api.libs.ws.StandaloneWSResponse
 import uk.gov.hmrc.test.api.client.WsClient
 import uk.gov.hmrc.test.api.utils.{BaseRequests, ScenarioContext, TestData}
 
-import scala.collection.convert.WrapAsScala.`deprecated asScalaBuffer`
+import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
 
 object FieldCollectionsVATRequests extends ScalaDsl with EN with Eventually with Matchers with BaseRequests {
 

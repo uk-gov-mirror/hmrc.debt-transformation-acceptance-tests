@@ -51,7 +51,6 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
         )
         rules ++ List(s"IF mainTrans == '${asmapTransposed.get("mainTrans")}' AND subTrans == '${asmapTransposed
           .get("subTrans")}' -> intRate = ${asmapTransposed.get("intRate")} AND interestOnlyDebt = false")
-
     }
 
     postNewRulesTable(Json.toJson(CreateRuleRequest(newRules)).toString())

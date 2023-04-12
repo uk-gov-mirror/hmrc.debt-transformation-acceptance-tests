@@ -18,7 +18,6 @@ package uk.gov.hmrc.test.api.requests
 
 import cucumber.api.scala.{EN, ScalaDsl}
 import io.cucumber.datatable.DataTable
-import org.joda.time.LocalDate
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually
 import play.api.libs.json.Json
@@ -26,6 +25,8 @@ import play.api.libs.ws.StandaloneWSResponse
 import uk.gov.hmrc.test.api.client.WsClient
 import uk.gov.hmrc.test.api.utils.{BaseRequests, TestData}
 
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
 
 object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Matchers with BaseRequests {
@@ -124,9 +125,10 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
     var suppressions    = ""
     var id: String      = null
 
+
     asMapTransposed.zipWithIndex.foreach { case (suppression, index) =>
       val parsedFromDate = suppression.get("fromDate").toString match {
-        case "yesterday"         => LocalDate.now().minusDays(1).toString()
+        case "yesterday"         =>  LocalDate.now().minusDays(1).toString()
         case "2 months from now" => LocalDate.now().plusMonths(2).toString()
         case other               => other
       }
