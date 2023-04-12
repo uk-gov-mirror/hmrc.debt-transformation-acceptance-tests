@@ -36,7 +36,7 @@ trait BaseRequests extends RandomValues with BaseUris {
         )
 
       val response                          = WsClient.post(s"$authLoginApiUri/session/login", Map("Content-Type" -> "application/json"), json)
-      val authHeader: (String, Seq[String]) =
+      val authHeader: (String, collection.Seq[String]) =
         response.headers.filter(header => header._1.equalsIgnoreCase("Authorization")).head
       val authBearerToken                   = authHeader._2.head.replace("Bearer ", "")
       authBearerToken

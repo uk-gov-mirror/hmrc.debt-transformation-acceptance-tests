@@ -26,7 +26,8 @@ import uk.gov.hmrc.test.api.models._
 import uk.gov.hmrc.test.api.requests.FieldCollectionsRequests._
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 
-import scala.collection.convert.WrapAsScala.collectionAsScalaIterable
+import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
+
 
 class FCInterestForecastingSteps extends ScalaDsl with EN with Eventually with Matchers {
 

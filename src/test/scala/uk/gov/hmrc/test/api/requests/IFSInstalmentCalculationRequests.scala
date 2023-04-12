@@ -2,7 +2,6 @@ package uk.gov.hmrc.test.api.requests
 
 import cucumber.api.scala.{EN, ScalaDsl}
 import io.cucumber.datatable.DataTable
-import org.joda.time.{DateTime, DateTimeZone}
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually
 import play.api.libs.json.Json
@@ -85,6 +84,7 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
     if (asmapTransposed.toString.contains("instalmentPaymentDate")) {
       instalmentPaymentDate = asmapTransposed.get("instalmentPaymentDate")
     }
+
     var quoteDate= dateTime.format(formatter)
     if (asmapTransposed.toString.contains("quoteDate")) quoteDate = asmapTransposed.get("quoteDate")
     val durationOrInstalmentAmount = if (asmapTransposed.get("quoteType").equals("instalmentAmount")) {
@@ -120,10 +120,12 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
     catch {
       case e: Exception => firstItem = true
     }
-    val dateTime              = new DateTime(new Date()).withZone(DateTimeZone.UTC)
-    val quoteDate             = dateTime.toString("yyyy-MM-dd")
-    val instalmentPaymentDate = dateTime.plusDays(129).toString("yyyy-MM-dd")
-    val initialPaymentDate    = dateTime.plusDays(129).toString("yyyy-MM-dd")
+    val dateTime = LocalDateTime.now()
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    //val dateTime              = new DateTime(new Date()).withZone(DateTimeZone.UTC)
+    var quoteDate= dateTime.format(formatter)
+    val instalmentPaymentDate = dateTime.plusDays(129).format(formatter)
+    val initialPaymentDate    = dateTime.plusDays(129).format(formatter)
 
     paymentPlan = getBodyAsString("DebtCalculationWithInitialPayment")
       .replaceAll("<REPLACE_quoteDate>", quoteDate)
@@ -210,8 +212,6 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
 
   def addInitialPayment(dataTable: DataTable): Unit = {
     val asmapTransposed = dataTable.transpose().asMap(classOf[String], classOf[String])
-    val dateTime        = new DateTime(new Date()).withZone(DateTimeZone.UTC)
-
     var initialPaymentDate   = ""
     var initialPaymentAmount = "\"\""
     if (asmapTransposed.toString.contains("initialPaymentDays")) {
