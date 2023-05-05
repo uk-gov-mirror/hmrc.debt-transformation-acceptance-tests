@@ -1,4 +1,3 @@
-
 Feature: Get Debt For all the SUPPORTED REGIMES
 
   Scenario Outline: Interest Bearing TPSS MainTrans SubTrans
@@ -134,8 +133,6 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 2100      | 1030     | false                 |
       | 2100      | 1100     | false                 |
       | 2130      | 1355     | false                 |
-      | 4759      | 1090     | false                 |
-      | 4758      | 1090     | false                 |
 
   Scenario Outline: Non Interest Bearing Employer PAYE MainTrans and SubTrans
     Given the current set of rules
@@ -196,14 +193,8 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 4796      | 1090     | false                 |
       | 4799      | 1090     | false                 |
       | 4747      | 1090     | false                 |
-      | 4705      | 1175     | true                  |
-      | 4706      | 1175     | true                  |
-      | 4707      | 1175     | true                  |
-      | 4708      | 1175     | true                  |
       | 4711      | 1174     | false                 |
-      | 4721      | 1175     | true                  |
       | 4786      | 1090     | false                 |
-      | 4672      | 1175     | true                  |
 
 
   Scenario Outline: Interest Bearing VAT charges
@@ -271,16 +262,12 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 2100      | 1100     | false                 |
       | 2130      | 1355     | false                 |
       | 4700      | 1174     | false                 |
-      | 4730      | 1174     | false                 |
-      | 4731      | 1174     | false                 |
-      | 4733      | 1174     | false                 |
       | 4760      | 1090     | false                 |
       | 4766      | 1090     | false                 |
       | 4745      | 1090     | false                 |
       | 4770      | 1090     | false                 |
       | 4773      | 1090     | false                 |
       | 4776      | 1090     | false                 |
-      | 4780      | 1090     | false                 |
       | 4755      | 1090     | false                 |
       | 4783      | 1090     | false                 |
       | 4765      | 1090     | false                 |
@@ -290,15 +277,6 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 4748      | 1090     | false                 |
       | 4703      | 1090     | false                 |
       | 4704      | 1090     | false                 |
-      | 4741      | 1090     | false                 |
-      | 4742      | 1090     | false                 |
-      | 4743      | 1090     | false                 |
-      | 4744      | 1090     | false                 |
-      | 4761      | 1090     | false                 |
-      | 4762      | 1090     | false                 |
-      | 4732      | 1174     | false                 |
-      | 7730      | 1174     | false                 |
-      | 7731      | 1174     | false                 |
       | 4735      | 1090     | false                 |
       | 3996      | 1091     | false                 |
 
@@ -334,15 +312,6 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 4620      | 1175     | true                  |
       | 4622      | 1175     | true                  |
       | 4624      | 1175     | true                  |
-      | 4658      | 1175     | true                  |
-      | 4660      | 1175     | true                  |
-      | 4662      | 1175     | true                  |
-      | 4664      | 1175     | true                  |
-      | 4666      | 1175     | true                  |
-      | 4668      | 1175     | true                  |
-      | 4676      | 1175     | true                  |
-      | 4678      | 1175     | true                  |
-      | 4680      | 1175     | true                  |
       | 4682      | 1175     | true                  |
       | 4684      | 1175     | true                  |
       | 4687      | 1175     | true                  |
@@ -351,15 +320,10 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 4767      | 1175     | true                  |
       | 4697      | 1175     | true                  |
       | 4777      | 1175     | true                  |
-      | 4781      | 1175     | true                  |
       | 4784      | 1175     | true                  |
       | 4791      | 1175     | true                  |
       | 4794      | 1175     | true                  |
-      | 4670      | 1175     | true                  |
-      | 7721      | 1175     | true                  |
       | 4774      | 1175     | true                  |
       | 4771      | 1175     | true                  |
-      | 4722      | 1175     | true                  |
-      | 4674      | 1175     | true                  |
       | 4618      | 1090     | false                 |
       | 3997      | 2091     | true                  |
