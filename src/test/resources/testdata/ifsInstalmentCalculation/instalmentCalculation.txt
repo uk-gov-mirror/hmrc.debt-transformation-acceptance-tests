@@ -2,7 +2,7 @@
       "debtItemCharges":[<REPLACE_debtItemCharges>],
       "quoteDate": "<REPLACE_quoteDate>",
       "quoteType": "<REPLACE_quoteType>",
-      "isQuoteDateNonInclusive": <REPLACE_isQuoteDateNonInclusive>,
+      <REPLACE_isQuoteDateNonInclusive>
       "instalmentPaymentDate": "<REPLACE_instalmentPaymentDate>",
       "paymentFrequency":"<REPLACE_paymentFrequency>",
       <REPLACE_durationOrInstalmentAmount>,
