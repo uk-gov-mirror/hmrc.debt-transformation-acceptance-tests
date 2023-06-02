@@ -2,8 +2,8 @@ Feature: Instalment calculation for single debt - Input 2
 
   Scenario: Should calculate debts amount for 1 debt 1 duty (input 2)
     Given debt instalment calculation with details
-      | duration | paymentFrequency | instalmentPaymentDate | interestCallDueTotal | numberOfDay | quoteType        | quoteDate  |
-      | 24       | monthly          | 2020-03-14            | 0                    | 1           | instalmentAmount | 2020-03-13 |
+      | duration | paymentFrequency | instalmentPaymentDate | interestCallDueTotal | numberOfDay | quoteType        | quoteDate  | isQuoteDateNonInclusive |
+      | 24       | monthly          | 2020-03-14            | 0                    | 1           | instalmentAmount | 2020-03-13 | false                   |
     And the instalment calculation has no postcodes
     And no initial payment for the debt item charge
     And the instalment calculation has debt item charges
