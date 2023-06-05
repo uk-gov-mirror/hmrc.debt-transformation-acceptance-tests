@@ -127,7 +127,7 @@ Feature: Debt Calculation Validation
     When the debt item is sent to the ifs service
     Then the ifs service will respond with
       | statusCode | reason                      | message                                                    |
-      | 400        | Invalid JSON error from IFS | Field at path '/debtItems(0)/mainTrans' missing or invalid |
+      | 400        | Invalid JSON error from IFS | Invalid mainTrans and/or subTrans |
 
   Scenario: TPSS debt empty mainTrans - Edge Case
     Given a debt item
@@ -139,7 +139,7 @@ Feature: Debt Calculation Validation
     When the debt item is sent to the ifs service
     Then the ifs service will respond with
       | statusCode | reason                      | message                                                    |
-      | 400        | Invalid JSON error from IFS | Field at path '/debtItems(0)/mainTrans' missing or invalid |
+      | 400        | Invalid JSON error from IFS | Invalid mainTrans and/or subTrans |
 
   Scenario: TPSS MainTrans (1525) debt invalid subTrans - Edge Case
     Given a debt item
@@ -151,7 +151,7 @@ Feature: Debt Calculation Validation
     When the debt item is sent to the ifs service
     Then the ifs service will respond with
       | statusCode | reason                      | message                                                   |
-      | 400        | Invalid JSON error from IFS | Field at path '/debtItems(0)/subTrans' missing or invalid |
+      | 400        | Invalid JSON error from IFS | Invalid mainTrans and/or subTrans |
 
   Scenario: TPSS MainTrans (1525) debt empty subTrans - Edge Case
     Given a debt item
@@ -163,7 +163,7 @@ Feature: Debt Calculation Validation
     When the debt item is sent to the ifs service
     Then the ifs service will respond with
       | statusCode | reason                      | message                                                   |
-      | 400        | Invalid JSON error from IFS | Field at path '/debtItems(0)/subTrans' missing or invalid |
+      | 400        | Invalid JSON error from IFS | Invalid mainTrans and/or subTrans |
 
   Scenario: TPSS interestStartDate debt before 2001 jan 01 - Edge Case
     Given a debt item

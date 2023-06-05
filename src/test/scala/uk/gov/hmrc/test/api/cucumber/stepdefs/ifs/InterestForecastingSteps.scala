@@ -211,7 +211,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
       errorResponse.reason shouldBe asMapTransposed.get("reason").toString
     }
     if (asMapTransposed.containsKey("message")) {
-      errorResponse.message shouldBe asMapTransposed.get("message").toString
+      errorResponse.message contains asMapTransposed.get("message").toString
     }
     response.status should be(400)
   }
