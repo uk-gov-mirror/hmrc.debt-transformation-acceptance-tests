@@ -58,11 +58,11 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
   }
 
   When("the instalment calculation is sent to the ifs service with query parameters") { (dataTable: DataTable) =>
-    val map                = dataTable.transpose().asMap(classOf[String], classOf[String])
+    val map                    = dataTable.transpose().asMap(classOf[String], classOf[String])
     val combineLastInstalments = map.get("combineLastInstalments").toString
-    val request  = ScenarioContext.get("paymentPlan").toString
+    val request                = ScenarioContext.get("paymentPlan").toString
     println(s"IFS REQUST --> $request")
-    val response = getInstalmentCalculationWithQueryParams(request, combineLastInstalments )
+    val response               = getInstalmentCalculationWithQueryParams(request, combineLastInstalments)
     println(s"RESP --> ${response.body}")
     ScenarioContext.set("response", response)
   }
@@ -696,10 +696,10 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status shouldBe 200
 
-    val debtId                    = "debtId"
-    val responseBody              = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
+    val debtId       = "debtId"
+    val responseBody = Json.parse(response.body).as[InstalmentCalculationSummaryResponse].instalments
 
-    quoteDateString       = "2011-03-13"
+    quoteDateString = "2011-03-13"
     val formatter             = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     val quoteDate             = LocalDate.parse(quoteDateString, formatter)
     val instalmentPaymentDate = quoteDate.plusDays(1)
@@ -850,7 +850,15 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
       }
 
       if (map.toString.contains("interestRate")) {
-        responseBody.instalments(responseIndex).intRate.toString shouldBe expectedInstalment.get("interestRate").toString
+        responseBody.instalments(responseIndex).intRate.toString shouldBe expectedInstalment
+          .get("interestRate")
+          .toString
+      }
+
+      if (map.toString.contains("instalmentInterestAccrued")) {
+        responseBody.instalments(responseIndex).instalmentInterestAccrued.toString shouldBe expectedInstalment
+          .get("instalmentInterestAccrued")
+          .toString
       }
     }
 

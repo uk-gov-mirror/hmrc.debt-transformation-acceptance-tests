@@ -7,12 +7,11 @@ import org.scalatest.concurrent.Eventually
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import uk.gov.hmrc.test.api.client.WsClient
-import uk.gov.hmrc.test.api.models.{Frequency, InstalmentCalculation, InstalmentCalculationSummaryResponse}
+import uk.gov.hmrc.test.api.models.{Frequency, InstalmentCalculation}
 import uk.gov.hmrc.test.api.utils.{BaseRequests, ScenarioContext, TestData}
 
-import java.time.{LocalDate, LocalDateTime}
 import java.time.format.DateTimeFormatter
-import java.util.Date
+import java.time.{LocalDate, LocalDateTime}
 import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
 
 object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually with Matchers with BaseRequests {
@@ -20,11 +19,11 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
   def addPostCodeToInstalmentCalculation(postCode: String, postCodeDate: String): Unit = {
     val postCodeJson    =
       s"""
-        |{
-        | "postCode": "$postCode",
-        | "postCodeDate":"$postCodeDate"
-        |}
-        |""".stripMargin
+         |{
+         | "postCode": "$postCode",
+         | "postCodeDate":"$postCodeDate"
+         |}
+         |""".stripMargin
     val paymentPlanJson = ScenarioContext.get("paymentPlan").toString.replaceAll("<REPLACE_postCodes>", postCodeJson)
     ScenarioContext.set("paymentPlan", paymentPlanJson)
   }
@@ -70,10 +69,11 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
       case e: Exception => firstItem = true
     }
 
-    val dateTime = LocalDateTime.now()
-    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-    var addNumberOfDays       = ""
-    var instalmentPaymentDate = ""
+    val dateTime                = LocalDateTime.now()
+    val formatter               = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    var addNumberOfDays         = ""
+    var instalmentPaymentDate   = ""
+    var isQuoteDateNonInclusive = ""
 
     if (asmapTransposed.toString.contains("instalmentPaymentDay")) {
       addNumberOfDays = asmapTransposed.get("instalmentPaymentDay")
@@ -85,8 +85,13 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
       instalmentPaymentDate = asmapTransposed.get("instalmentPaymentDate")
     }
 
-    var quoteDate= dateTime.format(formatter)
+    var quoteDate = dateTime.format(formatter)
     if (asmapTransposed.toString.contains("quoteDate")) quoteDate = asmapTransposed.get("quoteDate")
+
+    if (asmapTransposed.toString.contains("isQuoteDateNonInclusive")) {
+      isQuoteDateNonInclusive = s""" "isQuoteDateNonInclusive":${asmapTransposed.get("isQuoteDateNonInclusive")}, """
+    }
+
     val durationOrInstalmentAmount = if (asmapTransposed.get("quoteType").equals("instalmentAmount")) {
       s""" "duration":${asmapTransposed.get("duration")} """
     } else {
@@ -96,6 +101,7 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
     paymentPlan = getBodyAsString("instalmentCalculation")
       .replaceAll("<REPLACE_quoteDate>", quoteDate)
       .replaceAll("<REPLACE_quoteType>", asmapTransposed.get("quoteType"))
+      .replaceAll("<REPLACE_isQuoteDateNonInclusive>", isQuoteDateNonInclusive)
       .replaceAll("<REPLACE_instalmentPaymentDate>", instalmentPaymentDate)
       .replaceAll("<REPLACE_durationOrInstalmentAmount>", durationOrInstalmentAmount)
       .replaceAll("<REPLACE_paymentFrequency>", asmapTransposed.get("paymentFrequency"))
@@ -120,10 +126,10 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
     catch {
       case e: Exception => firstItem = true
     }
-    val dateTime = LocalDateTime.now()
-    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val dateTime              = LocalDateTime.now()
+    val formatter             = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     //val dateTime              = new DateTime(new Date()).withZone(DateTimeZone.UTC)
-    var quoteDate= dateTime.format(formatter)
+    var quoteDate             = dateTime.format(formatter)
     val instalmentPaymentDate = dateTime.plusDays(129).format(formatter)
     val initialPaymentDate    = dateTime.plusDays(129).format(formatter)
 
@@ -194,11 +200,11 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
     )
 
     val queryParameters = Map(
-      "combineLastInstalments" ->  s"$combineLastInstalments"
+      "combineLastInstalments" -> s"$combineLastInstalments"
     )
 
-    println(s"query string parameters ******************** --> ${queryParameters}")
-    println(s"instalment-calculation baseUri ******************** --> ${baseUri}")
+    println(s"query string parameters ******************** --> $queryParameters")
+    println(s"instalment-calculation baseUri ******************** --> $baseUri")
 
     WsClient.postWithQueryParams(baseUri, headers = headers, queryParameters = queryParameters, Json.parse(json))
   }
@@ -211,7 +217,7 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
   }
 
   def addInitialPayment(dataTable: DataTable): Unit = {
-    val asmapTransposed = dataTable.transpose().asMap(classOf[String], classOf[String])
+    val asmapTransposed      = dataTable.transpose().asMap(classOf[String], classOf[String])
     var initialPaymentDate   = ""
     var initialPaymentAmount = "\"\""
     if (asmapTransposed.toString.contains("initialPaymentDays")) {

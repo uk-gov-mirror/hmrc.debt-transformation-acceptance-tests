@@ -141,7 +141,7 @@ Feature: Instalment calculation with combined instalments
       | true                   |
     Then the instalment calculation summary contains values
       | numberOfInstalments | duration | interestAccrued | planInterest | totalInterest |
-      | 5                   | 5        | 1003            | 27           | 1030            |
+      | 5                   | 5        | 1003            | 27           | 1030          |
     And IFS response contains expected values
       | instalmentNumber | dueDate    | amountDue |
       | 1                | 2021-08-01 | 1006      |
