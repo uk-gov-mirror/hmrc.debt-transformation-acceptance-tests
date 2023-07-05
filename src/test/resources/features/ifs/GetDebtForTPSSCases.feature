@@ -167,10 +167,7 @@ Feature: Debt Calculation For Interest & Non Interest Bearing cases
     And the 2nd debt summary will not have any calculation windows
 
   Scenario: Interest only debt that is interest bearing
-    Given a rule has been updated
-      | mainTrans | subTrans | intRate |
-      | 5330      | 7006     | 4       |
-    And a debt item
+    Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2021-03-01        | 2021-03-08          | 1525      | 1000     | true            |
     And the debt item has no payment history
