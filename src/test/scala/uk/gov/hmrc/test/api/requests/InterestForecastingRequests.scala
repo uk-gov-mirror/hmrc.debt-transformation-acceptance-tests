@@ -49,27 +49,6 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
 
     WsClient.post(baseUri, headers = headers, Json.parse(json))
   }
-
-  def postNewInterestRatesTable(json: String): StandaloneWSResponse =
-    WsClient.post(
-      dataForIFSApis("test-only/rates")._1,
-      headers = dataForIFSApis("test-only/rates")._2,
-      Json.parse(json)
-    )
-
-  def getAllRules =
-    WsClient.get(dataForIFSApis("rules")._1, headers = dataForIFSApis("rules")._2)
-
-  def postNewInterestRate(json: String, referenceId: String): StandaloneWSResponse =
-    WsClient.put(
-      dataForIFSApis(s"test-only/rates/$referenceId/interestRate")._1,
-      headers = dataForIFSApis(s"test-only/rates/$referenceId/interestRate")._2,
-      Json.parse(json)
-    )
-
-  def postNewRulesTable(json: String): StandaloneWSResponse =
-    WsClient.post(dataForIFSApis("test-only/rules")._1, headers = dataForIFSApis("rules")._2, Json.parse(json))
-
   private def dataForIFSApis(uri: String) = {
     val bearerToken = createBearerToken(
       enrolments = Seq("read:interest-forecasting"),
