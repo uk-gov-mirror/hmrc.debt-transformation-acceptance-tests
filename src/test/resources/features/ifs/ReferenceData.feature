@@ -23,8 +23,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
 
 
   Scenario Outline: Non Interest Bearing TPSS MainTrans and SubTrans
-    Given the current set of rules
-    And a debt item
+    Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans   | subTrans   |
       | 500000         | 2021-03-01        | 2021-03-08          | <mainTrans> | <subTrans> |
     And the debt item has no payment history
@@ -135,8 +134,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 2130      | 1355     | false                 |
 
   Scenario Outline: Non Interest Bearing Employer PAYE MainTrans and SubTrans
-    Given the current set of rules
-    And a debt item
+    Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans   | subTrans   |
       | 500000         | 2021-03-01        | 2021-03-08          | <mainTrans> | <subTrans> |
     And the debt item has no payment history
@@ -281,8 +279,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 3996      | 1091     | false                 |
 
   Scenario Outline: Non Interest Bearing VAT Charges
-    Given the current set of rules
-    And a debt item
+    Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans   | subTrans   |
       | 500000         | 2021-03-01        | 2021-03-08          | <mainTrans> | <subTrans> |
     And the debt item has no payment history
