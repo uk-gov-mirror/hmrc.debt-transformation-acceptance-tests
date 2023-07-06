@@ -22,13 +22,9 @@ import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
-import uk.gov.hmrc.test.api.client.WsClient
-import uk.gov.hmrc.test.api.models._
-import uk.gov.hmrc.test.api.utils.{BaseRequests, ScenarioContext, TestData}
-
-import java.time.LocalDate
-import java.util.Date
 import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
+import uk.gov.hmrc.test.api.client.WsClient
+import uk.gov.hmrc.test.api.utils.{BaseRequests, ScenarioContext, TestData}
 
 object InterestForecastingRequests extends ScalaDsl with EN with Eventually with Matchers with BaseRequests {
 
@@ -49,6 +45,13 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
 
     WsClient.post(baseUri, headers = headers, Json.parse(json))
   }
+
+  def getAllRules =
+    WsClient.get(dataForIFSApis("rules")._1, headers = dataForIFSApis("rules")._2)
+
+  def postNewRulesTable(json: String): StandaloneWSResponse =
+    WsClient.post(dataForIFSApis("test-only/rules")._1, headers = dataForIFSApis("rules")._2, Json.parse(json))
+
   private def dataForIFSApis(uri: String) = {
     val bearerToken = createBearerToken(
       enrolments = Seq("read:interest-forecasting"),

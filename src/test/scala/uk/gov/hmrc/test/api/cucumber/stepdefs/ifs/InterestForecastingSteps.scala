@@ -39,6 +39,34 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     createInterestForcastingRequestWithNoDebtItems()
   }
 
+  When("a rule has been updated") { (dataTable: DataTable) =>
+    val asmapTransposed        = dataTable.transpose().asMap(classOf[String], classOf[String])
+    val newRule                = asmapTransposed.get("rule")
+    val responseGEtRules       = getAllRules
+    val collection             = Json.parse(responseGEtRules.body).as[GetRulesResponse]
+    val newRules: List[String] = collection.rules.find(_.enabled) match {
+      case Some(activeRules) =>
+        val rules = activeRules.rules.filterNot(vl =>
+          vl.contains(asmapTransposed.get("mainTrans")) && vl.contains(asmapTransposed.get("subTrans"))
+        )
+        rules ++ List(s"IF mainTrans == '${asmapTransposed.get("mainTrans")}' AND subTrans == '${asmapTransposed
+          .get("subTrans")}' -> intRate = ${asmapTransposed.get("intRate")} AND interestOnlyDebt = false")
+    }
+
+    postNewRulesTable(Json.toJson(CreateRuleRequest(newRules)).toString())
+  }
+
+  Given("the current set of rules") { () =>
+    val responseGEtRules = getAllRules
+
+    val collection        = Json.parse(responseGEtRules.body).as[GetRulesResponse]
+    val existingProdRules = collection.rules.find(_.version == 1)
+    existingProdRules match {
+      case Some(rules) => postNewRulesTable(Json.toJson(CreateRuleRequest(rules.rules)).toString())
+      case _           => println("Error. No rules with version 1 found")
+    }
+  }
+
   Given("(.*) debt items") { (numberItems: Int) =>
     var debtItems: String = null
     var n                 = 0
