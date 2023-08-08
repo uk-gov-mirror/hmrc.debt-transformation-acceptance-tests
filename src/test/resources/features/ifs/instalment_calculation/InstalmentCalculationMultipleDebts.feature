@@ -140,3 +140,34 @@ Feature: Instalment calculation for multiple debts - Input 1 & 2
       | 19               | DebtId8  |
       | 20               | DebtId9  |
       | 21               | DebtId10 |
+
+  @DTD-1874
+  Scenario: Multiple Debts can be paid off within the same instalment period
+    Given debt instalment calculation with details
+      | duration | paymentFrequency | instalmentPaymentDate | interestCallDueTotal | numberOfDay | quoteType        | quoteDate  |
+      | 6        | monthly          | 2020-03-14            | 0                    | 1           | instalmentAmount | 2020-03-13 |
+    And the instalment calculation has no postcodes
+    And debt plan details with initial payment
+      | initialPaymentAmount | initialPaymentDate |
+      | 100                  | 2020-03-14         |
+    And the instalment calculation has debt item charges
+      | debtId  | debtAmount | mainTrans | subTrans |
+      | DebtId1 | 10000      | 1525      | 1000     |
+      | DebtId2 | 200        | 2130      | 1355     |
+      | DebtId3 | 100        | 2135      | 2355     |
+      | DebtId4 | 70         | 2105      | 2030     |
+      | DebtId5 | 6000       | 1441      | 1150     |
+      | DebtId6 | 3000       | 4700      | 1174     |
+
+    When the instalment calculation detail is sent to the ifs service
+    Then IFS response contains expected values
+      | instalmentNumber | dueDate    | debtId  |
+      | 1                | 2020-03-14 | DebtId1 |
+      | 4                | 2020-06-14 | DebtId1 |
+      | 5                | 2020-06-14 | DebtId2 |
+      | 6                | 2020-06-14 | DebtId3 |
+      | 7                | 2020-06-14 | DebtId4 |
+      | 8                | 2020-06-14 | DebtId5 |
+      | 9                | 2020-07-14 | DebtId5 |
+      | 10               | 2020-08-14 | DebtId5 |
+      | 11               | 2020-08-14 | DebtId6 |
