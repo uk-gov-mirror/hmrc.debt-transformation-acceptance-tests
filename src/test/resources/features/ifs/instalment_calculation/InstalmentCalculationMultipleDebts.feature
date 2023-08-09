@@ -141,7 +141,7 @@ Feature: Instalment calculation for multiple debts - Input 1 & 2
       | 20               | DebtId9  |
       | 21               | DebtId10 |
 
-  @DTD-1874 @runMe
+  @DTD-1874
   Scenario: Multiple Debts can be paid off within the same instalment period
     Given debt instalment calculation with details
       | duration | paymentFrequency | instalmentPaymentDate | interestCallDueTotal | numberOfDay | quoteType        | quoteDate  |
