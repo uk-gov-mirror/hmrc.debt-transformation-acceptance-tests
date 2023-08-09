@@ -152,22 +152,22 @@ Feature: Instalment calculation for multiple debts - Input 1 & 2
       | 100                  | 2020-03-14         |
     And the instalment calculation has debt item charges
       | debtId  | debtAmount | mainTrans | subTrans |
-      | DebtId1 | 10000      | 1525      | 1000     |
-      | DebtId2 | 200        | 2130      | 1355     |
-      | DebtId3 | 100        | 2135      | 2355     |
-      | DebtId4 | 70         | 2105      | 2030     |
-      | DebtId5 | 6000       | 1441      | 1150     |
-      | DebtId6 | 3000       | 4700      | 1174     |
+      | DebtId1 | 100000     | 1525      | 1000     |
+      | DebtId2 | 2000       | 2130      | 1355     |
+      | DebtId3 | 1000       | 4766      | 1090     |
+      | DebtId4 | 700        | 4745      | 1090     |
+      | DebtId5 | 60000      | 4770      | 1090     |
+      | DebtId6 | 30000      | 4700      | 1174     |
 
     When the instalment calculation detail is sent to the ifs service
     Then IFS response contains expected values
       | instalmentNumber | dueDate    | debtId  | instalmentInterestAccrued |
-      | 1                | 2020-03-14 | DebtId1 | 1                         |
-      | 4                | 2020-06-14 | DebtId1 | 0                       |
-      | 5                | 2020-06-14 | DebtId2 | 0                         |
-      | 6                | 2020-06-14 | DebtId3 | 0                         |
-      | 7                | 2020-06-14 | DebtId4 | 0                         |
-      | 8                | 2020-06-14 | DebtId5 | 0                         |
-      | 9                | 2020-07-14 | DebtId5 | 0                         |
-      | 10               | 2020-08-14 | DebtId5 | 0                         |
-      | 11               | 2020-08-14 | DebtId6 | 32                        |
+      | 1                | 2020-03-14 | DebtId1 | 17                        |
+      | 4                | 2020-06-14 | DebtId1 | 6                         |
+      | 5                | 2020-06-14 | DebtId2 | 13                        |
+      | 6                | 2020-06-14 | DebtId3 | 5                         |
+      | 7                | 2020-06-14 | DebtId4 | 4                         |
+      | 8                | 2020-06-14 | DebtId5 | 420                       |
+      | 9                | 2020-07-14 | DebtId5 | 73                        |
+      | 10               | 2020-08-14 | DebtId5 | 4                         |
+      | 11               | 2020-08-14 | DebtId6 | 340                       |
