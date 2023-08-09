@@ -161,13 +161,13 @@ Feature: Instalment calculation for multiple debts - Input 1 & 2
 
     When the instalment calculation detail is sent to the ifs service
     Then IFS response contains expected values
-      | instalmentNumber | dueDate    | debtId  | instalmentInterestAccrued |
-      | 1                | 2020-03-14 | DebtId1 | 17                        |
-      | 4                | 2020-06-14 | DebtId1 | 6                         |
-      | 5                | 2020-06-14 | DebtId2 | 13                        |
-      | 6                | 2020-06-14 | DebtId3 | 5                         |
-      | 7                | 2020-06-14 | DebtId4 | 4                         |
-      | 8                | 2020-06-14 | DebtId5 | 420                       |
-      | 9                | 2020-07-14 | DebtId5 | 73                        |
-      | 10               | 2020-08-14 | DebtId5 | 4                         |
-      | 11               | 2020-08-14 | DebtId6 | 340                       |
+      | instalmentNumber | dueDate    | debtId  | interestRate | instalmentInterestAccrued |
+      | 1                | 2020-03-14 | DebtId1 | 3.25         | 17                        |
+      | 4                | 2020-06-14 | DebtId1 | 2.6          | 6                         |
+      | 5                | 2020-06-14 | DebtId2 | 2.6          | 13                        |
+      | 6                | 2020-06-14 | DebtId3 | 2.6          | 5                         |
+      | 7                | 2020-06-14 | DebtId4 | 2.6          | 4                         |
+      | 8                | 2020-06-14 | DebtId5 | 2.6          | 420                       |
+      | 9                | 2020-07-14 | DebtId5 | 2.6          | 73                        |
+      | 10               | 2020-08-14 | DebtId5 | 2.6          | 4                         |
+      | 11               | 2020-08-14 | DebtId6 | 2.6          | 340                       |
