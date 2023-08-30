@@ -17,7 +17,7 @@ Feature: Instalment calculation for multiple debts - Input 1 & 2
     When the instalment calculation detail is sent to the ifs service
     Then IFS response contains expected values
       | instalmentNumber | dueDate    | paymentFrequency | frequencyPassed | amountDue | instalmentBalance | interestRate | expectedNumberOfInstalments |
-      | 9                | 2020-10-14 | monthly          | 7               | 100       | 70000             | 0.0            | 17                          |
+      | 9                | 2020-10-14 | monthly          | 7               | 100       | 70000             | 0.0          | 17                          |
 
   Scenario: Should calculate quote for multiple debts both with interest bearing & 1 initial payment history
     Given debt instalment calculation with details
@@ -36,7 +36,7 @@ Feature: Instalment calculation for multiple debts - Input 1 & 2
     When the instalment calculation detail is sent to the ifs service
     Then IFS response contains expected values
       | instalmentNumber | dueDate    | paymentFrequency | frequencyPassed | amountDue | instalmentBalance | interestRate | expectedNumberOfInstalments |
-      | 1                | 2020-03-14 | monthly          | 0               | 10100     | 80000             | 3.25          | 17                          |
+      | 1                | 2020-03-14 | monthly          | 0               | 10100     | 80000             | 3.25         | 17                          |
 
     #  Input 2
   Scenario: Should calculate debts amount for 2 debts with initial payment (input 2)
@@ -57,7 +57,7 @@ Feature: Instalment calculation for multiple debts - Input 1 & 2
       | 25                  | 24       | 0               | 1232         | 1232          |
     And IFS response contains expected values
       | instalmentNumber | dueDate    | paymentFrequency | frequencyPassed | amountDue | instalmentBalance | interestRate | expectedNumberOfInstalments |
-      | 1                | 2020-03-14 | monthly          | 0               | 8480      | 100000            | 3.25          | 25                          |
+      | 1                | 2020-03-14 | monthly          | 0               | 8480      | 100000            | 3.25         | 25                          |
 
   Scenario: Multiple debt item charges - duration should not include initial payment (initial payment date before instalment date)
     Given debt instalment calculation with 129 details
@@ -99,7 +99,7 @@ Feature: Instalment calculation for multiple debts - Input 1 & 2
       | 6                   | 5        | 1000            | 198          | 1198          |
     And IFS response contains expected values
       | instalmentNumber | dueDate    | amountDue |
-      | 1                | 2020-08-01 | 11000      |
+      | 1                | 2020-08-01 | 11000     |
       | 2                | 2020-09-01 | 5000      |
       | 3                | 2020-09-01 | 1000      |
       | 4                | 2020-10-01 | 6000      |
@@ -140,3 +140,34 @@ Feature: Instalment calculation for multiple debts - Input 1 & 2
       | 19               | DebtId8  |
       | 20               | DebtId9  |
       | 21               | DebtId10 |
+
+  @DTD-1874
+  Scenario: Multiple Debts can be paid off within the same instalment period
+    Given debt instalment calculation with details
+      | duration | paymentFrequency | instalmentPaymentDate | interestCallDueTotal | numberOfDay | quoteType        | quoteDate  |
+      | 6        | monthly          | 2020-03-14            | 0                    | 1           | instalmentAmount | 2020-03-13 |
+    And the instalment calculation has no postcodes
+    And debt plan details with initial payment
+      | initialPaymentAmount | initialPaymentDate |
+      | 100                  | 2020-03-14         |
+    And the instalment calculation has debt item charges
+      | debtId  | debtAmount | mainTrans | subTrans |
+      | DebtId1 | 100000     | 1525      | 1000     |
+      | DebtId2 | 2000       | 2130      | 1355     |
+      | DebtId3 | 1000       | 4766      | 1090     |
+      | DebtId4 | 700        | 4745      | 1090     |
+      | DebtId5 | 60000      | 4770      | 1090     |
+      | DebtId6 | 30000      | 4700      | 1174     |
+
+    When the instalment calculation detail is sent to the ifs service
+    Then IFS response contains expected values
+      | instalmentNumber | dueDate    | debtId  | interestRate | instalmentInterestAccrued |
+      | 1                | 2020-03-14 | DebtId1 | 3.25         | 17                        |
+      | 4                | 2020-06-14 | DebtId1 | 2.6          | 6                         |
+      | 5                | 2020-06-14 | DebtId2 | 2.6          | 13                        |
+      | 6                | 2020-06-14 | DebtId3 | 2.6          | 5                         |
+      | 7                | 2020-06-14 | DebtId4 | 2.6          | 4                         |
+      | 8                | 2020-06-14 | DebtId5 | 2.6          | 420                       |
+      | 9                | 2020-07-14 | DebtId5 | 2.6          | 73                        |
+      | 10               | 2020-08-14 | DebtId5 | 2.6          | 4                         |
+      | 11               | 2020-08-14 | DebtId6 | 2.6          | 340                       |
