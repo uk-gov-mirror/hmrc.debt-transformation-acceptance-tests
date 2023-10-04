@@ -1,5 +1,10 @@
 {
  			"ruleId": "<REPLACE_ruleId>",
- 			"rule": "<REPLACE_rule> -> suppression = <REPLACE_suppressionIds>",
- 			"enabled": true
+ 			"activeFrom": "<REPLACE_activeFrom>",
+ 			"inputParam": {
+                   <REPLACE_inputParam>
+                },
+            "outputParam": {
+                     "suppressionKeys": ["<REPLACE_suppressionKey>"]
+            }
  		}

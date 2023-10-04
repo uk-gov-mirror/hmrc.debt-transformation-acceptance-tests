@@ -6,8 +6,8 @@ Feature: Suppression by Postcode
       | reason | description | enabled | fromDate   | toDate     |
       | POLICY | COVID       | true    | 2021-04-04 | 2021-05-04 |
     And suppression rules have been created
-      | ruleId | postCode | suppressionIds |
-      | 1      | TW3      | 1              |
+      | ruleId | activeFrom | postCode | suppressionKey |
+      | 1      | 2021-04-04 | TW3      | 1              |
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
@@ -33,10 +33,10 @@ Feature: Suppression by Postcode
   Scenario: Suppression not applied to customers previous postcode
     Given suppression data has been created
       | reason | description | enabled | fromDate   | toDate     |
-      | POLICY |   COVID     | true    | 2021-02-04 | 2021-05-04 |
+      | POLICY | COVID       | true    | 2021-02-04 | 2021-05-04 |
     And suppression rules have been created
-      | ruleId | postCode | suppressionIds |
-      | 1      | TW3      | 1              |
+      | ruleId | activeFrom | postCode | suppressionKey |
+      | 1      | 2021-02-04 | TW3      | 1              |
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
@@ -65,8 +65,8 @@ Feature: Suppression by Postcode
       | reason | description | enabled | fromDate   | toDate     |
       | POLICY | COVID       | true    | 2021-02-04 | 2021-05-04 |
     And suppression rules have been created
-      | ruleId | postCode | suppressionIds |
-      | 1      | TW3      | 1              |
+      | ruleId | activeFrom| postCode | suppressionKey |
+      | 1      | 2021-02-04 | TW3      | 1              |
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
@@ -82,7 +82,7 @@ Feature: Suppression by Postcode
       | 35                   | 5520                 |
     And the 1st debt summary will contain
       | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
-      | 155                   | 35                      | 502314             |
+      | 155                  | 35                      | 502314             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual |
       | 2021-02-01 | 2021-07-06 | 155          | 2.6          | 35                      |
@@ -94,8 +94,8 @@ Feature: Suppression by Postcode
       | reason | description | enabled | fromDate   | toDate     |
       | POLICY | COVID       | true    | 2021-02-04 | 2021-05-04 |
     And suppression rules have been created
-      | ruleId | postCode | suppressionIds |
-      | 1      | TW3      | 1              |
+      | ruleId | activeFrom| postCode | suppressionKey |
+      | 1      | 2021-02-04 | TW3      | 1              |
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
@@ -112,7 +112,7 @@ Feature: Suppression by Postcode
       | 35                   | 5520                 |
     And the 1st debt summary will contain
       | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
-      | 155                   | 35                      | 502314             |
+      | 155                  | 35                      | 502314             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual |
       | 2021-02-01 | 2021-07-06 | 155          | 2.6          | 35                      |
@@ -122,8 +122,8 @@ Feature: Suppression by Postcode
       | reason | description | enabled | fromDate   | toDate     |
       | POLICY | COVID       | true    | 2021-01-04 | 2021-05-04 |
     And suppression rules have been created
-      | ruleId | postCode | suppressionIds |
-      | 1      | TW3      | 1              |
+      | ruleId | activeFrom| postCode | suppressionKey |
+      | 1      | 2021-02-04 | TW3      | 1              |
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
@@ -141,16 +141,16 @@ Feature: Suppression by Postcode
       | 63                   | 35                      | 502243             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual |
-      | 2021-02-01 | 2021-05-04 | 93          | 0.0          | 0                    |
-      | 2021-05-05 | 2021-07-06 | 63          | 2.6          | 35                    |
+      | 2021-02-01 | 2021-05-04 | 93           | 0.0          | 0                       |
+      | 2021-05-05 | 2021-07-06 | 63           | 2.6          | 35                      |
 
   Scenario: Suppression should not be applied where postcode date after suppression period - border case
     Given suppression data has been created
       | reason | description | enabled | fromDate   | toDate     |
       | POLICY | COVID       | true    | 2021-02-04 | 2021-05-04 |
     And suppression rules have been created
-      | ruleId | postCode | suppressionIds |
-      | 1      | TW3      | 1              |
+      | ruleId | activeFrom| postCode | suppressionKey |
+      | 1      | 2021-02-04 | TW3      | 1              |
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
@@ -175,8 +175,8 @@ Feature: Suppression by Postcode
       | reason | description | enabled | fromDate   | toDate     |
       | POLICY | COVID       | true    | 2021-02-04 | 2021-05-04 |
     And suppression rules have been created
-      | ruleId | postCode | suppressionIds |
-      | 1      | TW3      | 1              |
+      | ruleId | activeFrom| postCode | suppressionKey |
+      | 1      | 2021-02-04 | TW3      | 1              |
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
@@ -203,8 +203,8 @@ Feature: Suppression by Postcode
       | reason | description | enabled | fromDate   | toDate     |
       | POLICY | COVID       | true    | 2021-02-04 | 2021-05-04 |
     And suppression rules have been created
-      | ruleId | postCode      | suppressionIds |
-      | 1      | <subDistrict> | 1              |
+      | ruleId | activeFrom | postCode      | suppressionKey |
+      | 1      | 2021-02-04 | <subDistrict> | 1              |
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
@@ -229,8 +229,8 @@ Feature: Suppression by Postcode
       | reason | description | enabled | fromDate   | toDate     |
       | POLICY | COVID       | true    | 2021-02-04 | 2021-05-04 |
     And suppression rules have been created
-      | ruleId | postCode      | suppressionIds |
-      | 1      | <subDistrict> | 1              |
+      | ruleId | activeFrom | postCode      | suppressionKey |
+      | 1      | 2021-02-04 | <subDistrict> | 1              |
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
@@ -245,4 +245,4 @@ Feature: Suppression by Postcode
       | 35                   | 5520                 |
     Examples:
       | subDistrict | postCode |
-      | AA99        | AA9 9AA |
+      | AA99        | AA9 9AA  |

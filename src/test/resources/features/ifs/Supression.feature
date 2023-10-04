@@ -6,10 +6,10 @@ Feature: Suppression
       | reason | description | enabled | fromDate   | toDate     |
       | POLICY | COVID       | true    | 2021-04-04 | 2021-05-04 |
     And suppression rules have been created
-      | ruleId | mainTrans | suppressionIds |
-      | 1      | 1546      | 1              |
-      | 1      | 1535      | 1              |
-      | 1      | 1540      | 1              |
+      | ruleId | activeFrom | mainTrans | suppressionKey |
+      | 1      | 2021-04-04 | 1546      | 1              |
+      | 1      | 2021-04-04 | 1535      | 1              |
+      | 1      | 2021-04-04 | 1540      | 1              |
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
@@ -34,8 +34,8 @@ Feature: Suppression
       | reason      | description | enabled | fromDate   | toDate     |
       | LEGISLATIVE | COVID       | true    | 2021-04-04 | 2021-05-04 |
     And suppression rules have been created
-      | ruleId | postCode | suppressionIds |
-      | 1      | TW3      | 1              |
+      | ruleId | activeFrom | postCode | suppressionKey |
+      | 1      | 2021-04-04 | TW3      | 1              |
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
@@ -67,8 +67,8 @@ Feature: Suppression
       | reason      | description | enabled | fromDate   | toDate     |
       | LEGISLATIVE | COVID       | true    | 2021-04-04 | 2021-05-04 |
     And suppression rules have been created
-      | ruleId | postCode | suppressionIds |
-      | 1      | TW3      | 1              |
+      | ruleId | activeFrom | postCode | suppressionKey |
+      | 1      | 2021-04-04 | TW3      | 1              |
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 400000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
@@ -114,7 +114,7 @@ Feature: Suppression
       | reason | description | enabled | fromDate   | toDate     |
       | POLICY | COVID       | true    | 2021-04-04 | 2021-05-04 |
     And suppression rules have been created
-      | ruleId | periodEnd  | suppressionIds |
+      | ruleId | periodEnd  | suppressionKey |
       | 1      | 2020-12-20 | 1              |
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | periodEnd  |
@@ -147,8 +147,8 @@ Feature: Suppression
       | reason      | description | enabled | fromDate   | toDate     |
       | LEGISLATIVE | COVID       | true    | 2020-04-04 | 9999-12-31 |
     And suppression rules have been created
-      | ruleId | postCode | suppressionIds |
-      | 1      | TW3      | 1              |
+      | ruleId | activeFrom | postCode | suppressionKey |
+      | 1      | 2021-04-04 | TW3      | 1              |
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2020-04-01        | 2020-07-06          | 1535      | 1000     |
@@ -174,8 +174,8 @@ Feature: Suppression
       | reason      | description | enabled | fromDate   | toDate     |
       | LEGISLATIVE | COVID       | true    | 2021-04-04 | 2021-05-04 |
     And suppression rules have been created
-      | ruleId | postCode | suppressionIds |
-      | 1      | TW3      | 1              |
+      | ruleId | activeFrom | postCode | suppressionKey |
+      | 1      | 2021-04-04 | TW3      | 1              |
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
@@ -207,8 +207,8 @@ Feature: Suppression
       | reason      | description | enabled | fromDate   | toDate     |
       | LEGISLATIVE | COVID       | true    | 2021-02-04 | 2021-03-04 |
     And suppression rules have been created
-      | ruleId | postCode | suppressionIds |
-      | 1      | TW3      | 1              |
+      | ruleId | activeFrom | postCode | suppressionKey |
+      | 1      | 2021-04-04 | TW3      | 1              |
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
@@ -241,21 +241,21 @@ Feature: Suppression
       | suppressionId | reason    | description | enabled | fromDate   | toDate     |
       | 1             | MAINTRANS | desc-1      | true    | 2021-04-04 | 2021-05-04 |
     And suppression rules have been created
-      | ruleId | mainTrans | suppressionIds |
-      | 1      | 1546      | 1              |
-      | 2      | 1535      | 1              |
+      | ruleId | activeFrom | mainTrans | suppressionKey |
+      | 1      | 2021-04-04 | 1546      | 1              |
+      | 2      | 2021-04-04 | 1535      | 1              |
     And suppression data has been created
       | suppressionId | reason     | description | enabled | fromDate   | toDate     |
       | 3             | PERIOD-END | desc-3      | true    | 2021-06-01 | 2021-06-20 |
     And suppression rules have been created
-      | ruleId | periodEnd  | suppressionIds |
+      | ruleId | periodEnd  | suppressionKey |
       | 3      | 2019-05-20 | 3              |
     And suppression data has been created
       | suppressionId | reason   | description | enabled | fromDate   | toDate     |
       | 2             | POSTCODE | desc-2      | true    | 2021-04-24 | 2021-06-04 |
     And suppression rules have been created
-      | ruleId | postCode | suppressionIds |
-      | 4      | S9       | 2              |
+      | ruleId | activeFrom | postCode | suppressionKey |
+      | 4      | 2021-04-04 | S9       | 2              |
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | periodEnd  |
       | 500000         | 2021-02-01        | 2021-07-05          | 1535      | 1000     | 2019-05-20 |

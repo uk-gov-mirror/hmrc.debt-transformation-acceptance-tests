@@ -6,8 +6,8 @@ Feature: Suppression - Edge cases
       | reason | description | enabled | fromDate   | toDate     |
       | POLICY |  COVID      | true    | 2020-04-04 | 2020-05-04 |
     And suppression rules have been created
-      | ruleId | postCode | suppressionIds |
-      | 1      | TW3      | 1              |
+      | ruleId |activeFrom| postCode | suppressionKey |
+      | 1      | 2020-04-04|TW3      | 1              |
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2020-04-01        | 2020-07-06          | 1535      | 1000     |
@@ -34,8 +34,8 @@ Feature: Suppression - Edge cases
       | reason | description | enabled | fromDate   | toDate     |
       | POLICY |  COVID      | true    | 2020-04-03 | 2020-04-04 |
     And suppression rules have been created
-      | ruleId | postCode | suppressionIds |
-      | 1      | TW3      | 1              |
+      | ruleId |activeFrom| postCode | suppressionKey |
+      | 1      | 2020-04-04|TW3      | 1              |
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2020-04-01        | 2020-07-06          | 1535      | 1000     |
@@ -63,8 +63,8 @@ Feature: Suppression - Edge cases
       | reason | description | enabled | fromDate   | toDate     |
       | POLICY |  COVID      | true    | 2020-04-02 | 2020-04-04 |
     And suppression rules have been created
-      | ruleId | postCode | suppressionIds |
-      | 1      | TW3      | 1              |
+      | ruleId |activeFrom| postCode | suppressionKey |
+      | 1      | 2020-04-04|TW3      | 1              |
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2020-03-01        | 2020-04-06          | 1535      | 1000     |
@@ -92,8 +92,8 @@ Feature: Suppression - Edge cases
       | reason | description | enabled | fromDate   | toDate     |
       | POLICY |  COVID      | true    | 2020-04-03 | 2020-04-04 |
     And suppression rules have been created
-      | ruleId | postCode | suppressionIds |
-      | 1      | TW3      | 1              |
+      | ruleId |activeFrom| postCode | suppressionKey |
+      | 1      | 2020-04-04|TW3      | 1              |
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2020-03-01        | 2020-04-30          | 1535      | 1000     |
@@ -123,8 +123,8 @@ Feature: Suppression - Edge cases
       | LEGISLATIVE |  COVID      | true    | 2021-04-04 | 2021-05-04 |
       | LEGISLATIVE |  COVID      | true    | 2021-04-04 | 2021-05-20 |
     And suppression rules have been created
-      | ruleId | postCode | suppressionIds |
-      | 1      | TW3      | 1              |
+      | ruleId |activeFrom| postCode | suppressionKey |
+      | 1      | 2020-04-04|TW3      | 1              |
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
@@ -153,8 +153,8 @@ Feature: Suppression - Edge cases
       | LEGISLATIVE |  COVID      | true    | 2021-04-04 | 2021-05-04 |
       | LEGISLATIVE |  COVID      | true    | 2021-04-05 | 2021-05-20 |
     And suppression rules have been created
-      | ruleId | postCode | suppressionIds |
-      | 1      | TW3      | 1              |
+      | ruleId |activeFrom| postCode | suppressionKey |
+      | 1      | 2020-04-04|TW3      | 1              |
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
@@ -184,8 +184,8 @@ Feature: Suppression - Edge cases
       | reason | description | enabled | fromDate   | toDate     |
       | POLICY |  COVID      | true    | 2021-01-31 | 2021-05-04 |
     And suppression rules have been created
-      | ruleId | postCode | suppressionIds |
-      | 1      | TW3      | 1              |
+      | ruleId |activeFrom| postCode | suppressionKey |
+      | 1      | 2020-04-04|TW3      | 1              |
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
@@ -211,8 +211,8 @@ Feature: Suppression - Edge cases
       | reason | description | enabled | fromDate   | toDate     |
       | POLICY |  COVID      | true    | 2021-02-01 | 2021-05-04 |
     And suppression rules have been created
-      | ruleId | postCode | suppressionIds |
-      | 1      | TW3      | 1              |
+      | ruleId |activeFrom| postCode | suppressionKey |
+      | 1      | 2020-04-04|TW3      | 1              |
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
@@ -238,8 +238,8 @@ Feature: Suppression - Edge cases
       | reason | description | enabled | fromDate   | toDate     |
       | POLICY |  COVID      | true    | 2021-01-04 | 2021-05-04 |
     And suppression rules have been created
-      | ruleId | postCode | suppressionIds |
-      | 1      | TW3      | 1              |
+      | ruleId |activeFrom| postCode | suppressionKey |
+      | 1      | 2020-04-04|TW3      | 1              |
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2021-02-01        | 2021-07-06          | 1520      | 1090     |

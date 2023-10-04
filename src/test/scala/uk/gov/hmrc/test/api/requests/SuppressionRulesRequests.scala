@@ -169,13 +169,17 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
 
     if (asMapTransposed.toString.contains("postCode")) {
       asMapTransposed.zipWithIndex.foreach { case (rule, index) =>
-        val postCodeRule =
-          "IF postCode LIKE '<REPLACE_postCode>'".replaceAll("<REPLACE_postCode>", rule.get("postCode").toString)
+        val postCodeRule = {
+          "\"postCode\":\"<REPLACE_postCode>\"".replaceAll("<REPLACE_postCode>", rule.get("postCode").toString)
+
+        }
+        println("postcode jsoon is..." + postCodeRule)
         suppressionRules = suppressionRules.concat(
           getSuppressionBodyAsString("suppressionRule")
             .replaceAll("<REPLACE_ruleId>", rule.get("ruleId").toString)
-            .replaceAll("<REPLACE_rule>", postCodeRule)
-            .replaceAll("<REPLACE_suppressionIds>", rule.get("suppressionIds"))
+            .replaceAll("<REPLACE_activeFrom>", rule.get("activeFrom").toString)
+            .replaceAll("<REPLACE_inputParam>", postCodeRule)
+            .replaceAll("<REPLACE_suppressionKey>", rule.get("suppressionKey"))
         )
         if (index + 1 < asMapTransposed.size) suppressionRules = suppressionRules.concat(",")
       }
@@ -184,13 +188,14 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
 
     if (asMapTransposed.toString.contains("mainTrans")) {
       asMapTransposed.zipWithIndex.foreach { case (rule, index) =>
-        val postCodeRule =
-          "IF mainTrans LIKE '<REPLACE_mainTrans>'".replaceAll("<REPLACE_mainTrans>", rule.get("mainTrans").toString)
+        val mainTrans =
+          "\"mainTrans\":\"<REPLACE_mainTrans>\"".replaceAll("<REPLACE_mainTrans>", rule.get("mainTrans").toString)
         suppressionRules = suppressionRules.concat(
           getSuppressionBodyAsString("suppressionRule")
             .replaceAll("<REPLACE_ruleId>", rule.get("ruleId").toString)
-            .replaceAll("<REPLACE_rule>", postCodeRule)
-            .replaceAll("<REPLACE_suppressionIds>", rule.get("suppressionIds"))
+            .replaceAll("<REPLACE_activeFrom>", rule.get("activeFrom").toString)
+            .replaceAll("<REPLACE_inputParam>", mainTrans)
+            .replaceAll("<REPLACE_suppressionKey>", rule.get("suppressionKey"))
         )
         if (index + 1 < asMapTransposed.size) suppressionRules = suppressionRules.concat(",")
       }
@@ -200,12 +205,13 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
     if (asMapTransposed.toString.contains("periodEnd")) {
       asMapTransposed.zipWithIndex.foreach { case (rule, index) =>
         val periodEndRule =
-          "IF periodEnd LIKE '<REPLACE_periodEnd>'".replaceAll("<REPLACE_periodEnd>", rule.get("periodEnd").toString)
+          "\"periodEnd\":\"<REPLACE_periodEnd>\"".replaceAll("<REPLACE_periodEnd>", rule.get("periodEnd").toString)
         suppressionRules = suppressionRules.concat(
           getSuppressionBodyAsString("suppressionRule")
             .replaceAll("<REPLACE_ruleId>", rule.get("ruleId").toString)
-            .replaceAll("<REPLACE_rule>", periodEndRule)
-            .replaceAll("<REPLACE_suppressionIds>", rule.get("suppressionIds"))
+            .replaceAll("<REPLACE_activeFrom>", rule.get("activeFrom").toString)
+            .replaceAll("<REPLACE_inputParam>", periodEndRule)
+            .replaceAll("<REPLACE_suppressionKey>", rule.get("suppressionKey"))
         )
         if (index + 1 < asMapTransposed.size) suppressionRules = suppressionRules.concat(",")
       }
