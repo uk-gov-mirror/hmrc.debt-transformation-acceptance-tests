@@ -29,7 +29,7 @@ Feature: Multiple Debt Items - Edge Cases
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service wilL return a total debts summary of
+    Then ifs service return a total debt summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
       | 35                   | 4674                 | 900000            | 904674         | 900000              |
     And the 1st debt summary will contain
@@ -60,7 +60,7 @@ Feature: Multiple Debt Items - Edge Cases
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service wilL return a total debts summary of
+    Then ifs service return a total debt summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
       | 35                   | 4674                 | 800000            | 804674         | 800000              |
     And the 1st debt summary will contain
@@ -93,7 +93,7 @@ Feature: Multiple Debt Items - Edge Cases
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service wilL return a total debts summary of
+    Then ifs service return a total debt summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
       | 123                  | 15268                | 1400000           | 1415268        | 1400000             |
     And the 1st debt summary will contain
@@ -122,7 +122,7 @@ Feature: Multiple Debt Items - Edge Cases
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt items is sent to the ifs service
-    Then the ifs service wilL return a total debts summary of
+    Then ifs service return a total debt summary of
       | combinedDailyAccrual | 1388100 | unpaidAmountTotal | amountIntTotal | 151388100 |
       | 13200                | 1398300 | 150000000         | 151396200      | 150000000 |
     And the 300th debt summary will contain
@@ -147,7 +147,7 @@ Feature: Multiple Debt Items - Edge Cases
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service wilL return a total debts summary of
+    Then ifs service return a total debt summary of
       | combinedDailyAccrual | amountIntTotal |
       | 79                   | 912356         |
     And the 1st debt summary will contain
@@ -177,7 +177,7 @@ Feature: Multiple Debt Items - Edge Cases
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service wilL return a total debts summary of
+    Then ifs service return a total debt summary of
       | combinedDailyAccrual | amountIntTotal |
       | 28                   | 404759         |
     And the 1st debt summary will contain
@@ -239,7 +239,7 @@ Feature: Multiple Debt Items - Edge Cases
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service wilL return a total debts summary of
+    Then ifs service return a total debt summary of
       | combinedDailyAccrual | amountIntTotal |
       | 28                   | 404592         |
     And the 1st debt summary will contain

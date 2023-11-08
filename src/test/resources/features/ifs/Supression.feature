@@ -17,7 +17,7 @@ Feature: Suppression
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service wilL return a total debts summary of
+    Then ifs service return a total debt summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
       | 35                   | 4415                 | 500000            | 504415         | 500000              |
     And the 1st debt summary will contain
@@ -48,7 +48,7 @@ Feature: Suppression
       | postCode | postCodeDate |
       | TW3 4QQ  | 2019-07-06   |
     When the debt item is sent to the ifs service
-    Then the ifs service wilL return a total debts summary of
+    Then ifs service return a total debt summary of
       | combinedDailyAccrual | amountIntTotal |
       | 24                   | 353741         |
     And the 1st debt summary will contain
@@ -188,7 +188,7 @@ Feature: Suppression
       | postCode | postCodeDate |
       | TW3 4QQ  | 2019-07-06   |
     When the debt item is sent to the ifs service
-    Then the ifs service wilL return a total debts summary of
+    Then ifs service return a total debt summary of
       | combinedDailyAccrual | amountIntTotal |
       | 24                   | 353520         |
     And the 1st debt summary will contain
@@ -221,7 +221,7 @@ Feature: Suppression
       | postCode | postCodeDate |
       | TW3 4QQ  | 2019-07-06   |
     When the debt item is sent to the ifs service
-    Then the ifs service wilL return a total debts summary of
+    Then ifs service return a total debt summary of
       | combinedDailyAccrual | amountIntTotal |
       | 24                   | 353663         |
     And the 1st debt summary will contain
@@ -265,7 +265,7 @@ Feature: Suppression
       | postCode | postCodeDate |
       | S9 2YR   | 2020-05-04   |
     When the debt item is sent to the ifs service
-    Then the ifs service wilL return a total debts summary of
+    Then ifs service return a total debt summary of
       | combinedDailyAccrual | interestDueCallTotal |
       | 35                   | 2706                 |
     And the 1st debt summary will have calculation windows

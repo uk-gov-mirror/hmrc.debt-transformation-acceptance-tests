@@ -144,7 +144,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
 
   }
 
-  Then("the ifs service wilL return a total debts summary of") { (dataTable: DataTable) =>
+  Then("ifs service return a total debt summary of") { (dataTable: DataTable) =>
     val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[String])
     val response: StandaloneWSResponse = ScenarioContext.get("response")
 

@@ -22,7 +22,7 @@ Feature: Multiple Debt Items
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service wilL return a total debts summary of
+    Then ifs service return a total debt summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
       | 0                    | 0                    | 400000            | 400000         | 400000              |
     And the 1st debt summary will contain
@@ -41,7 +41,7 @@ Feature: Multiple Debt Items
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service wilL return a total debts summary of
+    Then ifs service return a total debt summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal |
       | 35                   | 4674                 | 400000            |
     And the 1st debt summary will contain
@@ -63,7 +63,7 @@ Feature: Multiple Debt Items
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt items is sent to the ifs service
-    Then the ifs service wilL return a total debts summary of
+    Then ifs service return a total debt summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal |
       | 26                   | 4495                 | 300000            | 304495         |
     And the 1st debt summary will contain
@@ -89,7 +89,7 @@ Feature: Multiple Debt Items
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service wilL return a total debts summary of
+    Then ifs service return a total debt summary of
       | combinedDailyAccrual | amountIntTotal |
       | 79                   | 909971         |
     And the 1st debt summary will contain
@@ -115,7 +115,7 @@ Feature: Multiple Debt Items
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service wilL return a total debts summary of
+    Then ifs service return a total debt summary of
       | combinedDailyAccrual | amountIntTotal | amountOnIntDueTotal |
       | 0                    | 1000000        | 1000000             |
     And the 1st debt summary will contain
@@ -131,7 +131,7 @@ Feature: Multiple Debt Items
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service wilL return a total debts summary of
+    Then ifs service return a total debt summary of
       | combinedDailyAccrual | amountIntTotal | amountOnIntDueTotal |
       | 75                   | 1000000        | 1000000             |
     And the 1st debt summary will contain
@@ -152,7 +152,7 @@ Feature: Multiple Debt Items
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service wilL return a total debts summary of
+    Then ifs service return a total debt summary of
       | combinedDailyAccrual | amountIntTotal | amountOnIntDueTotal |
       | 0                    | 900000         | 900000              |
     And the 1st debt summary will contain
@@ -170,7 +170,7 @@ Feature: Multiple Debt Items
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service wilL return a total debts summary of
+    Then ifs service return a total debt summary of
       | combinedDailyAccrual | amountIntTotal | amountOnIntDueTotal |
       | 0                    | 900000         | 900000              |
     And the 1st debt summary will contain
