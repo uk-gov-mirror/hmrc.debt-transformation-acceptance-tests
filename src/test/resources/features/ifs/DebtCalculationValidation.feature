@@ -165,10 +165,11 @@ Feature: Debt Calculation Validation
       | statusCode | reason                      | message                                                   |
       | 400        | Invalid JSON error from IFS | Invalid mainTrans and/or subTrans |
 
-  Scenario: TPSS interestStartDate debt before 2001 jan 01 - Edge Case
+
+  Scenario: TPSS interestStartDate debt before 1999 March 06 - Edge Case
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2000-03-01  | 2000-02-05        | 2001-03-08          | 1525      | 1000     | true            |
+      | 500000         | 1999-04-01  | 1999-03-05        | 2001-03-08          | 1525      | 1000     | true            |
     And the debt item has no payment history
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
