@@ -155,6 +155,28 @@ Feature: Interest Rate Changes - Edge cases
       | 2020-03-29 | 2020-03-29 | 3.25         | 44                      | 0                 | 500000               |
       | 2020-03-30 | 2020-04-05 | 2.75         | 37                      | 262               | 500000               |
 
+
+  Scenario: Interest start date - historic Interest date 1999-03-06
+    Given a debt item
+      | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 1999-04-01  | 1999-03-06        | 2000-03-06          | 1525      | 1000     | true            |
+    And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service wilL return a total debts summary of
+      | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal |
+      | 116                  | 37992                | 500000            |
+    And the 1st debt summary will contain
+      | interestBearing | numberChargeableDays | totalAmountIntDuty |
+      | true            | 366                  | 537992             |
+    And the 1st debt summary will have calculation windows
+      | periodFrom | periodTo   | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow |
+      | 1999-03-06 | 1999-12-31 | 7.5          | 102                     | 30821             | 500000               |
+      | 2000-01-01 | 2000-02-05 | 7.5          | 102                     | 3688              | 500000               |
+      | 2000-02-06 | 2000-03-06 | 8.5          | 116                     | 3483              | 500000               |
+
+
 #  BUG: Test failing due to issue with interest accrued returned
 #  Scenario: Interest rate changes from 0% to 8.5%
 #    Given a debt item
