@@ -8,7 +8,7 @@ Feature: Leap years
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
       | 37                   | 35727                | 500000            | 535727         | 500000              |
     And the 1st debt summary will contain
@@ -30,7 +30,7 @@ Feature: Leap years
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal |
       | 35                   | 12940                | 500000            |
     And the 1st debt summary will contain
@@ -49,7 +49,7 @@ Feature: Leap years
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal |
       | 35                   | 48710                | 500000            |
     And the 1st debt summary will contain
@@ -74,7 +74,7 @@ Feature: Leap years
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
       | 28                   | 5933                 | 400000            | 405933         | 400000              |
     And the 1st debt summary will contain
@@ -99,7 +99,7 @@ Feature: Leap years
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal |
       | 37                   | 91506                | 500000            |
     And the 1st debt summary will contain

@@ -17,7 +17,7 @@ Feature: Suppression by Postcode
       | postCode | postCodeDate |
       | TW3 4QQ  | 2019-07-06   |
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
       | 35                   | 4415                 | 500000            | 504415         | 500000              |
     And the 1st debt summary will contain
@@ -48,7 +48,7 @@ Feature: Suppression by Postcode
       | TW3 4QQ  | 2019-07-06   |
       | TW43 4QR | 2020-07-06   |
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal |
       | 35                   | 5520                 |
     And the 1st debt summary will contain
@@ -77,7 +77,7 @@ Feature: Suppression by Postcode
       | TW3 4QQ  | 2019-07-06   |
       | TW3 4QR  | 2020-07-06   |
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal |
       | 35                   | 5520                 |
     And the 1st debt summary will contain
@@ -107,7 +107,7 @@ Feature: Suppression by Postcode
       | TW2 4QQ  | 2019-07-06   |
       | TW3 4QR  | 2020-07-06   |
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal |
       | 35                   | 5520                 |
     And the 1st debt summary will contain
@@ -133,7 +133,7 @@ Feature: Suppression by Postcode
       | postCode | postCodeDate |
       | TW3 4QQ  | 2019-07-06   |
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal |
       | 35                   | 2243                 |
     And the 1st debt summary will contain
@@ -160,7 +160,7 @@ Feature: Suppression by Postcode
       | postCode | postCodeDate |
       | TW3 4QR  | 2021-05-05   |
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal |
       | 35                   | 5520                 |
     And the 1st debt summary will contain
@@ -186,7 +186,7 @@ Feature: Suppression by Postcode
       | postCode | postCodeDate |
       | TW3 4QR  | 2021-05-04   |
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal |
       | 35                   | 2314                 |
     And the 1st debt summary will contain
@@ -214,7 +214,7 @@ Feature: Suppression by Postcode
       | postCode   | postCodeDate |
       | <postCode> | 2020-07-06   |
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | interestDueCallTotal |
       | 2314                 |
     Examples:
@@ -240,7 +240,7 @@ Feature: Suppression by Postcode
       | postCode   | postCodeDate |
       | <postCode> | 2020-07-06   |
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal |
       | 35                   | 5520                 |
     Examples:

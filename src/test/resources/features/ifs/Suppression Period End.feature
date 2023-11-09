@@ -15,7 +15,7 @@ Feature: Suppression - Period End
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
       | 35                   | 4415                 | 500000            | 504415         | 500000              |
     And the 1st debt summary will contain
@@ -41,7 +41,7 @@ Feature: Suppression - Period End
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal |
       | 35                   | 5520                 |
 
@@ -59,7 +59,7 @@ Feature: Suppression - Period End
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal |
       | 35                   | 5520                 |
     And the 1st debt summary will contain
@@ -83,7 +83,7 @@ Feature: Suppression - Period End
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal |
       | 44                   | 6900                 |
 
@@ -103,7 +103,7 @@ Feature: Suppression - Period End
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | interestDueCallTotal |
       | 4415                 |
     And the 1st debt summary will have calculation windows
@@ -133,7 +133,7 @@ Feature: Suppression - Period End
       | postCode | postCodeDate |
       | TW3 4QQ  | 2019-07-06   |
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | interestDueCallTotal |
       | 4415                 |
     And the 1st debt summary will have calculation windows
@@ -168,7 +168,7 @@ Feature: Suppression - Period End
       | postCode | postCodeDate |
       | TW3 4QQ  | 2019-07-06   |
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | interestDueCallTotal |
       | 4415                 |
     And the 1st debt summary will have calculation windows

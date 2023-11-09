@@ -195,7 +195,7 @@ Feature: Suppression - Edge cases
       | postCode | postCodeDate |
       | TW3 4QQ  | 2019-07-06   |
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal |
       | 35                   | 2243                 |
     And the 1st debt summary will contain
@@ -222,7 +222,7 @@ Feature: Suppression - Edge cases
       | postCode | postCodeDate |
       | TW3 4QQ  | 2019-07-06   |
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal |
       | 35                   | 2243                 |
     And the 1st debt summary will contain
@@ -251,7 +251,7 @@ Feature: Suppression - Edge cases
       | TW3 4QQ  | 2019-07-06   |
       | TW43 4QR | 2020-07-06   |
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal |
       | 0                    | 0                    |
     And the 1st debt summary will contain

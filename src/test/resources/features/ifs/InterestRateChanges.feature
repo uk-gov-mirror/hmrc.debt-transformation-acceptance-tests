@@ -17,7 +17,7 @@ Feature: Interest Rate Changes
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
       | 44                   | 20695                | 500000            | 520695         | 500000              |
     And the 1st debt summary will contain
@@ -39,7 +39,7 @@ Feature: Interest Rate Changes
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
       | 22                   | 19188                | 300000            | 319188         | 300000              |
     And the 1st debt summary will contain
@@ -61,7 +61,7 @@ Feature: Interest Rate Changes
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal |
       | 44                   | 20695                | 500000            | 520695         |
     And the 1st debt summary will contain
@@ -85,7 +85,7 @@ Feature: Interest Rate Changes
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal |
       | 35                   | 16136                | 400000            |
     And the 1st debt summary will contain
@@ -108,7 +108,7 @@ Feature: Interest Rate Changes
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal |
       | 26                   | 15661                | 300000            | 315661         |
     And the 1st debt summary will have calculation windows
@@ -136,7 +136,7 @@ Feature: Interest Rate Changes
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | amountIntTotal | amountOnIntDueTotal |
       | 52                   | 37775                | 637775         | 600000              |
     And the 1st debt summary will contain
@@ -172,7 +172,7 @@ Feature: Interest Rate Changes
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | amountIntTotal | amountOnIntDueTotal |
       | 0                    | 500000         | 500000              |
     And the 1st debt summary will contain
@@ -188,7 +188,7 @@ Feature: Interest Rate Changes
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then ifs service return a total debt summary of
+    Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
       | 41                   | 13363                | 500000            | 513363         | 500000              |
     And the 1st debt summary will contain
