@@ -1,5 +1,61 @@
 Feature: Get Debt For all the SUPPORTED REGIMES
 
+  Scenario Outline: Interest Bearing TPSS MainTrans SubTrans
+    Given a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans   | subTrans   |
+      | 500000         | 2021-03-01        | 2021-03-08          | <mainTrans> | <subTrans> |
+    And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the 1st debt summary will contain
+      | interestBearing | interestDueDailyAccrual | interestDueDutyTotal | intRate | unpaidAmountDuty | totalAmountIntDuty | numberChargeableDays | amountOnIntDueDuty | interestOnlyIndicator |
+      | true            | 35                      | 249                  | 2.6     | 500000           | 500249             | 7                    | 500000             | false                 |
+    Examples:
+      | mainTrans | subTrans |
+      | 1525      | 1000     |
+      | 1530      | 1000     |
+      | 1535      | 1000     |
+      | 1540      | 1000     |
+      | 1545      | 1000     |
+      | 1545      | 1090     |
+      | 1545      | 2000     |
+
+  Scenario Outline: Non Interest Bearing TPSS MainTrans and SubTrans
+    Given the current set of rules
+    And a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans   | subTrans   |
+      | 500000         | 2021-03-01        | 2021-03-08          | <mainTrans> | <subTrans> |
+    And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the 1st debt summary will contain
+      | interestBearing | interestDueDailyAccrual | interestDueDutyTotal | intRate | unpaidAmountDuty | totalAmountIntDuty | numberChargeableDays | amountOnIntDueDuty | interestOnlyIndicator   |
+      | false           | 0                       | 0                    | 0       | 500000           | 500000             | 0                    | 500000             | <interestOnlyIndicator> |
+    Examples:
+      | mainTrans | subTrans | interestOnlyIndicator |
+      | 5330      | 7006     | false                 |
+      | 5330      | 7010     | false                 |
+      | 5330      | 7011     | false                 |
+      | 5350      | 7012     | false                 |
+      | 5350      | 7014     | false                 |
+      | 5350      | 7013     | false                 |
+      | 1085      | 1000     | false                 |
+      | 1085      | 1020     | false                 |
+      | 1085      | 1025     | false                 |
+      | 1085      | 1180     | false                 |
+      | 1511      | 2000     | true                  |
+      | 1515      | 1090     | false                 |
+      | 1520      | 1090     | false                 |
+      | 1526      | 2000     | true                  |
+      | 1531      | 2000     | true                  |
+      | 1536      | 2000     | true                  |
+      | 1541      | 2000     | true                  |
+      | 1546      | 2000     | true                  |
+      | 2421      | 1150     | false                 |
+      | 1441      | 1150     | false                 |
+
   Scenario Outline: Non Interest Bearing PAYE MainTrans and SubTrans
     Given the current set of rules
     And a debt item
