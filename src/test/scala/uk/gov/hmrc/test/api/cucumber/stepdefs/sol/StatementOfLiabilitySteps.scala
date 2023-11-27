@@ -179,7 +179,13 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
 
       asMapTransposed.zipWithIndex.foreach { case (duty, index) =>
         val responseBody = Json.parse(response.body).as[SolCalculationSummaryResponse].debts(0)
-        responseBody.debtId                                     shouldBe duty.get("debtId").toString
+        locally {
+          val fieldName = "debtId"
+          withClue(s"$fieldName: ") {
+            responseBody.debtId.toString shouldBe duty.get(fieldName).toString
+          }
+        }
+        responseBody.debtId shouldBe duty.get("debtId").toString
         responseBody.mainTrans                                  shouldBe duty.get("mainTrans").toString
         responseBody.debtTypeDescription                        shouldBe duty.get("debtTypeDescription").toString
         responseBody.interestDueDebtTotal.toString              shouldBe duty.get("interestDueDebtTotal").toString
