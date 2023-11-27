@@ -111,7 +111,6 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 2120      | 1090     | false                 |
       | 2125      | 1090     | false                 |
 
-  @runMe
   Scenario Outline: Interest Bearing Employer PAYE charges
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans   | subTrans   |
