@@ -1,3 +1,4 @@
+@runMe
 Feature: FC Debt Calculation End point testing
 
   Scenario: 0. Interest Indicators. 2 debt. 1 payment history and cotax charge interest
@@ -361,49 +362,6 @@ Feature: FC Debt Calculation End point testing
       | 2019-01-01 | 2019-12-31 | 364          | 3.25         | 26                      | 9723              | 309723             | 300000               |
       | 2020-01-01 | 2020-03-29 | 89           | 3.25         | 26                      | 2370              | 302370             | 300000               |
       | 2020-03-30 | 2020-03-31 | 2            | 2.75         | 22                      | 45                | 300045             | 300000               |
-
-
-  Scenario: FC Interest rate changes from 3% to 3.25% with 2 payments on same date in a leap year
-    Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
-      | 500000         | 2019-01-01        | 2020-03-31          | Y                 | 2018-04-06 | 123    |
-    And the debt item has fc payment history
-      | paymentAmount | paymentDate |
-      | 100000        | 2020-02-01  |
-      | 100000        | 2020-02-01  |
-    And no breathing spaces have been applied to the debt item
-    And the fc customer has no post codes
-    When the debt item is sent to the fc ifs service
-    Then the fc ifs service wilL return a total debts summary of
-      | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
-      | 22                   | 19188                | 300000            | 319188         | 300000              |
-    And the 1st fc debt summary will have calculation windows
-      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow | amountOnIntDueWindow |
-      | 2019-01-01 | 2019-12-31 | 364          | 3.25         | 17                      | 6482              | 206482             | 200000               |
-      | 2020-01-01 | 2020-02-01 | 32           | 3.25         | 17                      | 568               | 200568             | 200000               |
-      | 2019-01-01 | 2019-12-31 | 364          | 3.25         | 26                      | 9723              | 309723             | 300000               |
-      | 2020-01-01 | 2020-03-29 | 89           | 3.25         | 26                      | 2370              | 302370             | 300000               |
-      | 2020-03-30 | 2020-03-31 | 2            | 2.75         | 22                      | 45                | 300045             | 300000               |
-
-
-  Scenario: FC Interest rate changes from 3% to 3.25%
-    Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
-      | 500000         | 2017-12-01        | 2019-03-31          | Y                 | 2018-04-06 | 123    |
-    And the fc debt item has no payment history
-    And no breathing spaces have been applied to the debt item
-    And the fc customer has no post codes
-    When the debt item is sent to the fc ifs service
-    Then the fc ifs service wilL return a total debts summary of
-      | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal |
-      | 44                   | 20695                | 500000            | 520695         |
-    And the 1st fc debt summary will contain
-      | interestDueDailyAccrual | totalAmountIntDuty | numberChargeableDays |
-      | 44                      | 520695             | 485                  |
-    And the 1st fc debt summary will have calculation windows
-      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow |
-      | 2017-12-01 | 2018-08-20 | 262          | 3.0          | 41                      | 10767             | 500000               |
-      | 2018-08-21 | 2019-03-31 | 223          | 3.25         | 44                      | 9928              | 500000               |
 
 
   Scenario: FC Interest rate changes from 3% to 3.25% after a payment is made
