@@ -119,22 +119,11 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
     paymentPlanSummary.numberOfInstalments.toString shouldBe (asMapTransposed
       .get("numberOfInstalments")
       .toString)
-
-    locally {
-      val fieldName = "totalPlanInt"
-      if (asMapTransposed.containsKey(fieldName)) {
-        withClue(s"$fieldName: ") {
-          paymentPlanSummary.planInterest.toString contains asMapTransposed.get(fieldName).toString
-        }
-      }
+    if (asMapTransposed.containsKey("totalPlanInt")) {
+      paymentPlanSummary.planInterest.toString contains (asMapTransposed.get("totalPlanInt").toString)
     }
-    locally {
-      val fieldName = "interestAccrued"
-      if (asMapTransposed.containsKey("interestCallDueTotal")) {
-        withClue(s"$fieldName: ") {
-          paymentPlanSummary.interestAccrued.toString contains asMapTransposed.get(fieldName).toString
-        }
-      }
+    if (asMapTransposed.containsKey("interestCallDueTotal")) {
+      paymentPlanSummary.interestAccrued.toString contains (asMapTransposed.get("interestAccrued").toString)
     }
   }
 
@@ -798,49 +787,24 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
 
     response.status.shouldBe(200)
 
-    locally {
-      val fieldName = "numberOfInstalments"
-      if (map.containsKey(fieldName)) {
-        withClue(s"$fieldName: ") {
-          responseBody.numberOfInstalments.toString shouldBe map.get(fieldName).toString
-        }
-      }
+    if (map.containsKey("numberOfInstalments")) {
+      responseBody.numberOfInstalments.toString shouldBe map.get("numberOfInstalments").toString
     }
 
-    locally {
-      val fieldName = "interestAccrued"
-      if (map.containsKey(fieldName)) {
-        withClue(s"$fieldName: ") {
-          responseBody.interestAccrued.toString shouldBe map.get(fieldName).toString
-        }
-      }
+    if (map.containsKey("interestAccrued")) {
+      responseBody.interestAccrued.toString shouldBe map.get("interestAccrued").toString
     }
 
-    locally {
-      val fieldName = "planInterest"
-      if (map.containsKey(fieldName)) {
-        withClue(s"$fieldName: ") {
-          responseBody.planInterest.toString shouldBe map.get(fieldName).toString
-        }
-      }
+    if (map.containsKey("planInterest")) {
+      responseBody.planInterest.toString shouldBe map.get("planInterest").toString
     }
 
-    locally {
-      val fieldName = "totalInterest"
-      if (map.containsKey(fieldName)) {
-        withClue(s"$fieldName: ") {
-          responseBody.totalInterest.toString shouldBe map.get(fieldName).toString
-        }
-      }
+    if (map.containsKey("totalInterest")) {
+      responseBody.totalInterest.toString shouldBe map.get("totalInterest").toString
     }
 
-    locally {
-      val fieldName = "duration"
-      if (map.containsKey(fieldName)) {
-        withClue(s"$fieldName: ") {
-          responseBody.duration.toString shouldBe map.get(fieldName).toString
-        }
-      }
+    if (map.containsKey("duration")) {
+      responseBody.duration.toString shouldBe map.get("duration").toString
     }
   }
 

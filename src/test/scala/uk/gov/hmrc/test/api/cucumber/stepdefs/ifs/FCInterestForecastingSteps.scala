@@ -62,48 +62,21 @@ class FCInterestForecastingSteps extends ScalaDsl with EN with Eventually with M
 
     val responseBody = Json.parse(response.body).as[FCDebtCalculationsSummary]
 
-    locally {
-      val fieldName = "combinedDailyAccrual"
-      if (asMapTransposed.containsKey(fieldName)) {
-        withClue(s"$fieldName: ") {
-          responseBody.combinedDailyAccrual.toString shouldBe asMapTransposed.get(fieldName).toString
-        }
-      }
+    if (asMapTransposed.containsKey("combinedDailyAccrual")) {
+      responseBody.combinedDailyAccrual.toString shouldBe asMapTransposed.get("combinedDailyAccrual").toString
+    }
+    if (asMapTransposed.containsKey("unpaidAmountTotal")) {
+      responseBody.unpaidAmountTotal.toString shouldBe asMapTransposed.get("unpaidAmountTotal").toString
     }
 
-    locally {
-      val fieldName = "unpaidAmountTotal"
-      if (asMapTransposed.containsKey(fieldName)) {
-        withClue(s"$fieldName: ") {
-          responseBody.unpaidAmountTotal.toString shouldBe asMapTransposed.get(fieldName).toString
-        }
-      }
+    if (asMapTransposed.containsKey("interestDueCallTotal")) {
+      responseBody.interestDueCallTotal.toString shouldBe asMapTransposed.get("interestDueCallTotal").toString
     }
-
-    locally {
-      val fieldName = "interestDueCallTotal"
-      if (asMapTransposed.containsKey(fieldName)) {
-        withClue(s"$fieldName: ") {
-          responseBody.interestDueCallTotal.toString shouldBe asMapTransposed.get(fieldName).toString
-        }
-      }
+    if (asMapTransposed.containsKey("totalAmountIntTotal")) {
+      responseBody.totalAmountIntTotal.toString shouldBe asMapTransposed.get("totalAmountIntTotal").toString
     }
-
-    locally {
-      val fieldName = "totalAmountIntTotal"
-      if (asMapTransposed.containsKey(fieldName)) {
-        withClue(s"$fieldName: ") {
-          responseBody.totalAmountIntTotal.toString shouldBe asMapTransposed.get(fieldName).toString
-        }
-      }
-    }
-    locally {
-      val fieldName = "amountOnIntDueTotal"
-      if (asMapTransposed.containsKey(fieldName)) {
-        withClue(s"$fieldName: ") {
-          responseBody.amountOnIntDueTotal.toString shouldBe asMapTransposed.get(fieldName).toString
-        }
-      }
+    if (asMapTransposed.containsKey("amountOnIntDueTotal")) {
+      responseBody.amountOnIntDueTotal.toString shouldBe asMapTransposed.get("amountOnIntDueTotal").toString
     }
   }
 
@@ -115,59 +88,24 @@ class FCInterestForecastingSteps extends ScalaDsl with EN with Eventually with M
     val responseBody: FCDebtCalculation =
       Json.parse(response.body).as[FCDebtCalculationsSummary].debtCalculations(index - 1)
 
-
-    locally {
-      val fieldName = "debtItemChargeId"
-      if (asMapTransposed.containsKey(fieldName)) {
-        withClue(s"$fieldName: ") {
-          responseBody.debtItemChargeId shouldBe asMapTransposed.get(fieldName).toString
-        }
-      }
+    if (asMapTransposed.containsKey("debtItemChargeId")) {
+      responseBody.debtItemChargeId.toString shouldBe asMapTransposed.get("debtItemChargeId").toString
     }
 
-    locally {
-      val fieldName = "interestDueDailyAccrual"
-      if (asMapTransposed.containsKey(fieldName)) {
-        withClue(s"$fieldName: ") {
-          responseBody.interestDueDailyAccrual.toString shouldBe asMapTransposed.get(fieldName).toString
-        }
-      }
+    if (asMapTransposed.containsKey("interestDueDailyAccrual")) {
+      responseBody.interestDueDailyAccrual.toString shouldBe asMapTransposed.get("interestDueDailyAccrual").toString
     }
-
-    locally {
-      val fieldName = "interestDueDutyTotal"
-      if (asMapTransposed.containsKey(fieldName)) {
-        withClue(s"$fieldName: ") {
-          responseBody.interestDueDutyTotal.toString shouldBe asMapTransposed.get(fieldName).toString
-        }
-      }
+    if (asMapTransposed.containsKey("interestDueDutyTotal")) {
+      responseBody.interestDueDutyTotal.toString shouldBe asMapTransposed.get("interestDueDutyTotal").toString
     }
-
-    locally {
-      val fieldName = "amountOnIntDueDuty"
-      if (asMapTransposed.containsKey(fieldName)) {
-        withClue(s"$fieldName: ") {
-          responseBody.amountOnIntDueDuty.toString shouldBe asMapTransposed.get(fieldName).toString
-        }
-      }
+    if (asMapTransposed.containsKey("amountOnIntDueDuty")) {
+      responseBody.amountOnIntDueDuty.toString shouldBe asMapTransposed.get("amountOnIntDueDuty").toString
     }
-
-    locally {
-      val fieldName = "totalAmountIntDuty"
-      if (asMapTransposed.containsKey(fieldName)) {
-        withClue(s"$fieldName: ") {
-          responseBody.totalAmountIntDuty.toString shouldBe asMapTransposed.get(fieldName).toString
-        }
-      }
+    if (asMapTransposed.containsKey("totalAmountIntDuty")) {
+      responseBody.totalAmountIntDuty.toString shouldBe asMapTransposed.get("totalAmountIntDuty").toString
     }
-
-    locally {
-      val fieldName = "unpaidAmountDuty"
-      if (asMapTransposed.containsKey(fieldName)) {
-        withClue(s"$fieldName: ") {
-          responseBody.unpaidAmountDuty.toString shouldBe asMapTransposed.get(fieldName).toString
-        }
-      }
+    if (asMapTransposed.containsKey("unpaidAmountDuty")) {
+      responseBody.unpaidAmountDuty.toString shouldBe asMapTransposed.get("unpaidAmountDuty").toString
     }
   }
 
@@ -184,103 +122,35 @@ class FCInterestForecastingSteps extends ScalaDsl with EN with Eventually with M
             .debtCalculations(summaryIndex - 1)
             .calculationWindows(index)
 
-        locally {
-          val fieldName = "periodFrom"
-          if (window.containsKey(fieldName)) {
-            withClue(s"$fieldName: ") {
-              responseBody.periodFrom.toString shouldBe window.get(fieldName).toString
-            }
-          }
+        if (window.containsKey("periodFrom")) {
+          responseBody.periodFrom.toString shouldBe window.get("periodFrom").toString
         }
-
-        locally {
-          val fieldName = "periodTo"
-          if (window.containsKey(fieldName)) {
-            withClue(s"$fieldName: ") {
-              responseBody.periodTo.toString shouldBe window.get(fieldName).toString
-            }
-          }
+        if (window.containsKey("periodTo")) {
+          responseBody.periodTo.toString shouldBe window.get("periodTo").toString
         }
-
-        locally {
-          val fieldName = "numberOfDays"
-          if (window.containsKey(fieldName)) {
-            withClue(s"$fieldName: ") {
-              responseBody.numberOfDays.toString shouldBe window.get(fieldName).toString
-            }
-          }
+        if (window.containsKey("numberOfDays")) {
+          responseBody.numberOfDays.toString shouldBe window.get("numberOfDays").toString
         }
-
-        locally {
-          val fieldName = "interestRate"
-          if (window.containsKey(fieldName)) {
-            withClue(s"$fieldName: ") {
-              responseBody.interestRate.toString shouldBe window.get(fieldName).toString
-            }
-          }
+        if (window.containsKey("interestRate")) {
+          responseBody.interestRate.toString shouldBe window.get("interestRate").toString
         }
-
-        locally {
-          val fieldName = "interestDueDailyAccrual"
-          if (window.containsKey(fieldName)) {
-            withClue(s"$fieldName: ") {
-              responseBody.interestDueDailyAccrual.toString shouldBe window.get(fieldName).toString
-            }
-          }
+        if (window.containsKey("interestDueDailyAccrual")) {
+          responseBody.interestDueDailyAccrual.toString shouldBe window.get("interestDueDailyAccrual").toString
         }
-
-        locally {
-          val fieldName = "interestDueWindow"
-          if (window.containsKey(fieldName)) {
-            withClue(s"$fieldName: ") {
-              responseBody.interestDueWindow.toString shouldBe window.get(fieldName).toString
-            }
-          }
+        if (window.containsKey("interestDueWindow")) {
+          responseBody.interestDueWindow.toString shouldBe window.get("interestDueWindow").toString
         }
-
-        locally {
-          val fieldName = "interestDueWindow"
-          if (window.containsKey(fieldName)) {
-            withClue(s"$fieldName: ") {
-              responseBody.interestDueWindow.toString shouldBe window.get(fieldName).toString
-            }
-          }
+        if (window.containsKey("unpaidAmountWindow")) {
+          responseBody.unpaidAmountWindow.toString shouldBe window.get("unpaidAmountWindow").toString
         }
-
-        locally {
-          val fieldName = "unpaidAmountWindow"
-          if (window.containsKey(fieldName)) {
-            withClue(s"$fieldName: ") {
-              responseBody.unpaidAmountWindow.toString shouldBe window.get(fieldName).toString
-            }
-          }
+        if (window.containsKey("amountOnIntDueWindow")) {
+          responseBody.amountOnIntDueWindow.toString() shouldBe window.get("amountOnIntDueWindow").toString
         }
-
-        locally {
-          val fieldName = "amountOnIntDueWindow"
-          if (window.containsKey(fieldName)) {
-            withClue(s"$fieldName: ") {
-              responseBody.amountOnIntDueWindow.toString shouldBe window.get(fieldName).toString
-            }
-          }
+        if (window.containsKey("reason") && (window.get("reason") != "")) {
+          responseBody.suppressionApplied.head.reason shouldBe window.get("reason").toString
         }
-
-        locally {
-          val fieldName = "reason"
-          if (window.containsKey(fieldName)) {
-            withClue(s"$fieldName: ") {
-              responseBody.suppressionApplied.head.reason shouldBe window.get(fieldName).toString
-            }
-          }
-        }
-
-        locally {
-          val fieldName = "code"
-          if (window.containsKey(fieldName)) {
-            withClue(s"$fieldName: ") {
-              responseBody.suppressionApplied.head.code shouldBe window.get(fieldName).toString
-            }
-          }
+        if (window.containsKey("code") && (window.get("code") != "")) {
+          responseBody.suppressionApplied.head.code shouldBe window.get("code").toString
         }
       }
   }

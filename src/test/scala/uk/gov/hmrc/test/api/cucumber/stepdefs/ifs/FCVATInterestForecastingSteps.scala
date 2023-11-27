@@ -59,22 +59,11 @@ class FCVATInterestForecastingSteps extends ScalaDsl with EN with Eventually wit
     val responseBody = Json.parse(response.body).as[FCVATDebtCalculationsSummary]
 
     responseBody.dateOfCalculation.toString shouldBe toDaysDate
-
-    locally {
-      val fieldName = "combinedDailyAccrual"
-      if (asMapTransposed.containsKey(fieldName)) {
-        withClue(s"$fieldName: ") {
-          responseBody.combinedDailyAccrual.toString shouldBe asMapTransposed.get(fieldName).toString
-        }
-      }
+    if (asMapTransposed.containsKey("combinedDailyAccrual")) {
+      responseBody.combinedDailyAccrual.toString shouldBe asMapTransposed.get("combinedDailyAccrual").toString
     }
-    locally {
-      val fieldName = "unpaidAmountTotal"
-      if (asMapTransposed.containsKey(fieldName)) {
-        withClue(s"$fieldName: ") {
-          responseBody.unpaidAmountTotal.toString shouldBe asMapTransposed.get(fieldName).toString
-        }
-      }
+    if (asMapTransposed.containsKey("unpaidAmountTotal")) {
+      responseBody.unpaidAmountTotal.toString shouldBe asMapTransposed.get("unpaidAmountTotal").toString
     }
   }
 
@@ -87,32 +76,17 @@ class FCVATInterestForecastingSteps extends ScalaDsl with EN with Eventually wit
         .parse(response.body)
         .as[FCVATDebtCalculationsSummary]
         .debtCalculations(index - 1)
-    locally {
-      val fieldName = "interestRate"
-      if (asMapTransposed.containsKey(fieldName)) {
-        withClue(s"$fieldName: ") {
-          responseBody.interestRate.toString shouldBe asMapTransposed.get(fieldName).toString
-        }
-      }
+
+    if (asMapTransposed.containsKey("interestRate")) {
+      responseBody.interestRate.toString shouldBe asMapTransposed.get("interestRate").toString
+    }
+    if (asMapTransposed.containsKey("debtItemChargeId")) {
+      responseBody.debtItemChargeId.toString shouldBe asMapTransposed.get("debtItemChargeId").toString
+    }
+    if (asMapTransposed.containsKey("interestDueDailyAccrual")) {
+      responseBody.interestDueDailyAccrual.toString shouldBe asMapTransposed.get("interestDueDailyAccrual").toString
     }
 
-    locally {
-      val fieldName = "debtItemChargeId"
-      if (asMapTransposed.containsKey(fieldName)) {
-        withClue(s"$fieldName: ") {
-          responseBody.debtItemChargeId.toString shouldBe asMapTransposed.get(fieldName).toString
-        }
-      }
-    }
-
-    locally {
-      val fieldName = "interestDueDailyAccrual"
-      if (asMapTransposed.containsKey(fieldName)) {
-        withClue(s"$fieldName: ") {
-          responseBody.interestDueDailyAccrual.toString shouldBe asMapTransposed.get(fieldName).toString
-        }
-      }
-    }
   }
 
   And("the fc vat customer has breathing spaces applied") { (dataTable: DataTable) =>
