@@ -291,7 +291,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
       val fieldName = "message"
       if (asMapTransposed.containsKey(fieldName)) {
         withClue(s"$fieldName: ") {
-          errorResponse.message contains  asMapTransposed.get(fieldName).toString
+          errorResponse.message contains asMapTransposed.get(fieldName).toString
         }
       }
     }
@@ -386,7 +386,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
 
         locally {
           val fieldName = "reason"
-          if (window.containsKey(fieldName)&& (window.get("reason") != "")) {
+          if (window.containsKey(fieldName) && (window.get("reason") != "")) {
             withClue(s"$fieldName: ") {
               responseBody.suppressionApplied.head.reason shouldBe window.get(fieldName).toString
             }
@@ -399,7 +399,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
             withClue(s"$fieldName: ") {
               responseBody.suppressionApplied.head.code shouldBe window.get(fieldName).toString
             }
-          }
+        }
       }
   }
   Then("Ifs service returns response code (.*)") { (expectedCode: Int) =>

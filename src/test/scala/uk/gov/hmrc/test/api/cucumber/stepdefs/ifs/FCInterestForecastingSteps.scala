@@ -28,15 +28,13 @@ import uk.gov.hmrc.test.api.utils.ScenarioContext
 
 import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
 
-
 class FCInterestForecastingSteps extends ScalaDsl with EN with Eventually with Matchers {
 
   Given("a fc debt item") { (dataTable: DataTable) =>
     createInterestFocastingRequestBodyFC(dataTable)
   }
 
-  Given("fc debt item with cotax charge interest")
-  { (dataTable: DataTable) =>
+  Given("fc debt item with cotax charge interest") { (dataTable: DataTable) =>
     createFcCotaxChargeInterestRequest(dataTable)
   }
 
@@ -114,7 +112,6 @@ class FCInterestForecastingSteps extends ScalaDsl with EN with Eventually with M
 
     val responseBody: FCDebtCalculation =
       Json.parse(response.body).as[FCDebtCalculationsSummary].debtCalculations(index - 1)
-
 
     locally {
       val fieldName = "debtItemChargeId"
