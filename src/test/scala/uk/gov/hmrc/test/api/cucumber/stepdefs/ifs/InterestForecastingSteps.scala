@@ -26,7 +26,6 @@ import uk.gov.hmrc.test.api.models._
 import uk.gov.hmrc.test.api.requests.InterestForecastingRequests.{getBodyAsString, _}
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 
-import java.time.LocalDate
 import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
 
 class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Matchers {
@@ -136,7 +135,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
   }
 
   When("the debt interest type request is sent to the ifs service") { () =>
-    val request = ScenarioContext.get("debtInterestTypes").toString
+    val request  = ScenarioContext.get("debtInterestTypes").toString
     println(s"IFS REQUEST --> $request")
     val response = getDebtInterestTypeRequestBody(request)
     println(s"IFS Service RESPONSE --> ${response.body}")
@@ -150,21 +149,49 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
 
     val responseBody = Json.parse(response.body).as[DebtCalculationsSummary]
 
-    if (asMapTransposed.containsKey("combinedDailyAccrual")) {
-      responseBody.combinedDailyAccrual.toString shouldBe asMapTransposed.get("combinedDailyAccrual").toString
-    }
-    if (asMapTransposed.containsKey("interestDueCallTotal")) {
-      responseBody.interestDueCallTotal.toString shouldBe asMapTransposed.get("interestDueCallTotal").toString
+    locally {
+      val fieldName = "combinedDailyAccrual"
+      if (asMapTransposed.containsKey(fieldName)) {
+        withClue(s"$fieldName: ") {
+          responseBody.combinedDailyAccrual.toString shouldBe asMapTransposed.get(fieldName).toString
+        }
+      }
     }
 
-    if (asMapTransposed.containsKey("unpaidAmountTotal")) {
-      responseBody.unpaidAmountTotal.toString shouldBe asMapTransposed.get("unpaidAmountTotal").toString
+    locally {
+      val fieldName = "interestDueCallTotal"
+      if (asMapTransposed.containsKey(fieldName)) {
+        withClue(s"$fieldName: ") {
+          responseBody.interestDueCallTotal.toString shouldBe asMapTransposed.get(fieldName).toString
+        }
+      }
     }
-    if (asMapTransposed.containsKey("amountOnIntDueTotal")) {
-      responseBody.amountOnIntDueTotal.toString shouldBe asMapTransposed.get("amountOnIntDueTotal").toString
+
+    locally {
+      val fieldName = "unpaidAmountTotal"
+      if (asMapTransposed.containsKey(fieldName)) {
+        withClue(s"$fieldName: ") {
+          responseBody.unpaidAmountTotal.toString shouldBe asMapTransposed.get(fieldName).toString
+        }
+      }
     }
-    if (asMapTransposed.containsKey("amountIntTotal")) {
-      responseBody.amountIntTotal.toString shouldBe asMapTransposed.get("amountIntTotal").toString
+
+    locally {
+      val fieldName = "amountOnIntDueTotal"
+      if (asMapTransposed.containsKey(fieldName)) {
+        withClue(s"$fieldName: ") {
+          responseBody.amountOnIntDueTotal.toString shouldBe asMapTransposed.get(fieldName).toString
+        }
+      }
+    }
+
+    locally {
+      val fieldName = "amountIntTotal"
+      if (asMapTransposed.containsKey(fieldName)) {
+        withClue(s"$fieldName: ") {
+          responseBody.amountIntTotal.toString shouldBe asMapTransposed.get(fieldName).toString
+        }
+      }
     }
   }
 
@@ -176,29 +203,67 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     val responseBody: DebtCalculation =
       Json.parse(response.body).as[DebtCalculationsSummary].debtCalculations(index - 1)
 
-    if (asMapTransposed.containsKey("interestBearing")) {
-      responseBody.interestBearing.toString shouldBe asMapTransposed.get("interestBearing").toString
+    locally {
+      val fieldName = "interestBearing"
+      if (asMapTransposed.containsKey(fieldName)) {
+        withClue(s"$fieldName: ") {
+          responseBody.interestBearing.toString shouldBe asMapTransposed.get(fieldName).toString
+        }
+      }
     }
-    if (asMapTransposed.containsKey("numberChargeableDays")) {
-      responseBody.numberOfChargeableDays.toString shouldBe asMapTransposed.get("numberChargeableDays").toString
+
+    locally {
+      val fieldName = "numberChargeableDays"
+      if (asMapTransposed.containsKey(fieldName)) {
+        withClue(s"$fieldName: ") {
+          responseBody.numberOfChargeableDays.toString shouldBe asMapTransposed.get(fieldName).toString
+        }
+      }
     }
-    if (asMapTransposed.containsKey("interestDueDailyAccrual")) {
-      responseBody.interestDueDailyAccrual.toString shouldBe asMapTransposed.get("interestDueDailyAccrual").toString
+
+    locally {
+      val fieldName = "interestDueDailyAccrual"
+      if (asMapTransposed.containsKey(fieldName)) {
+        withClue(s"$fieldName: ") {
+          responseBody.interestDueDailyAccrual.toString shouldBe asMapTransposed.get(fieldName).toString
+        }
+      }
     }
-    if (asMapTransposed.containsKey("interestDueDutyTotal")) {
-      responseBody.interestDueDutyTotal.toString shouldBe asMapTransposed.get("interestDueDutyTotal").toString
+
+    locally {
+      val fieldName = "amountOnIntDueDuty"
+      if (asMapTransposed.containsKey(fieldName)) {
+        withClue(s"$fieldName: ") {
+          responseBody.amountOnIntDueDuty.toString shouldBe asMapTransposed.get(fieldName).toString
+        }
+      }
     }
-    if (asMapTransposed.containsKey("amountOnIntDueDuty")) {
-      responseBody.amountOnIntDueDuty.toString shouldBe asMapTransposed.get("amountOnIntDueDuty").toString
+
+    locally {
+      val fieldName = "totalAmountIntDuty"
+      if (asMapTransposed.containsKey(fieldName)) {
+        withClue(s"$fieldName: ") {
+          responseBody.totalAmountIntDuty.toString shouldBe asMapTransposed.get(fieldName).toString
+        }
+      }
     }
-    if (asMapTransposed.containsKey("totalAmountIntDuty")) {
-      responseBody.totalAmountIntDuty.toString shouldBe asMapTransposed.get("totalAmountIntDuty").toString
+
+    locally {
+      val fieldName = "unpaidAmountDuty"
+      if (asMapTransposed.containsKey(fieldName)) {
+        withClue(s"$fieldName: ") {
+          responseBody.unpaidAmountDuty.toString shouldBe asMapTransposed.get(fieldName).toString
+        }
+      }
     }
-    if (asMapTransposed.containsKey("unpaidAmountDuty")) {
-      responseBody.unpaidAmountDuty.toString shouldBe asMapTransposed.get("unpaidAmountDuty").toString
-    }
-    if (asMapTransposed.containsKey("interestOnlyIndicator")) {
-      responseBody.interestOnlyIndicator.toString shouldBe asMapTransposed.get("interestOnlyIndicator").toString
+
+    locally {
+      val fieldName = "interestOnlyIndicator"
+      if (asMapTransposed.containsKey(fieldName)) {
+        withClue(s"$fieldName: ") {
+          responseBody.interestOnlyIndicator.toString shouldBe asMapTransposed.get(fieldName).toString
+        }
+      }
     }
   }
 
@@ -213,15 +278,24 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     val errorResponse                  = Json.parse(response.body).as[Errors]
 
-    if (asMapTransposed.containsKey("statusCode")) {
-      errorResponse.statusCode.toString shouldBe asMapTransposed.get("statusCode").toString
+    locally {
+      val fieldName = "statusCode"
+      if (asMapTransposed.containsKey(fieldName)) {
+        withClue(s"$fieldName: ") {
+          errorResponse.statusCode.toString shouldBe asMapTransposed.get(fieldName).toString
+        }
+      }
     }
-    if (asMapTransposed.containsKey("reason")) {
-      errorResponse.reason shouldBe asMapTransposed.get("reason").toString
+
+    locally {
+      val fieldName = "message"
+      if (asMapTransposed.containsKey(fieldName)) {
+        withClue(s"$fieldName: ") {
+          errorResponse.message contains asMapTransposed.get(fieldName).toString
+        }
+      }
     }
-    if (asMapTransposed.containsKey("message")) {
-      errorResponse.message contains asMapTransposed.get("message").toString
-    }
+
     response.status should be(400)
   }
 
@@ -238,35 +312,93 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
             .debtCalculations(summaryIndex - 1)
             .calculationWindows(index)
 
-        if (window.containsKey("periodFrom")) {
-          responseBody.periodFrom.toString shouldBe window.get("periodFrom").toString
+        locally {
+          val fieldName = "periodFrom"
+          if (window.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              responseBody.periodFrom.toString shouldBe window.get(fieldName).toString
+            }
+          }
         }
-        if (window.containsKey("periodTo")) {
-          responseBody.periodTo.toString shouldBe window.get("periodTo").toString
+
+        locally {
+          val fieldName = "periodTo"
+          if (window.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              responseBody.periodTo.toString shouldBe window.get(fieldName).toString
+            }
+          }
         }
-        if (window.containsKey("numberOfDays")) {
-          responseBody.numberOfDays.toString shouldBe window.get("numberOfDays").toString
+
+        locally {
+          val fieldName = "numberOfDays"
+          if (window.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              responseBody.numberOfDays.toString shouldBe window.get(fieldName).toString
+            }
+          }
         }
-        if (window.containsKey("interestRate")) {
-          responseBody.interestRate.toString shouldBe window.get("interestRate").toString
+
+        locally {
+          val fieldName = "interestRate"
+          if (window.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              responseBody.interestRate.toString shouldBe window.get(fieldName).toString
+            }
+          }
         }
-        if (window.containsKey("interestDueDailyAccrual")) {
-          responseBody.interestDueDailyAccrual.toString shouldBe window.get("interestDueDailyAccrual").toString
+
+        locally {
+          val fieldName = "interestDueDailyAccrual"
+          if (window.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              responseBody.interestDueDailyAccrual.toString shouldBe window.get(fieldName).toString
+            }
+          }
         }
-        if (window.containsKey("interestDueWindow")) {
-          responseBody.interestDueWindow.toString shouldBe window.get("interestDueWindow").toString
+
+        locally {
+          val fieldName = "interestDueWindow"
+          if (window.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              responseBody.interestDueWindow.toString shouldBe window.get(fieldName).toString
+            }
+          }
         }
-        if (window.containsKey("unpaidAmountWindow")) {
-          responseBody.unpaidAmountWindow.toString shouldBe window.get("unpaidAmountWindow").toString
+
+        locally {
+          val fieldName = "unpaidAmountWindow"
+          if (window.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              responseBody.unpaidAmountWindow.toString shouldBe window.get(fieldName).toString
+            }
+          }
         }
-        if (window.containsKey("amountOnIntDueWindow")) {
-          responseBody.amountOnIntDueWindow.toString() shouldBe window.get("amountOnIntDueWindow").toString
+
+        locally {
+          val fieldName = "amountOnIntDueWindow"
+          if (window.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              responseBody.amountOnIntDueWindow.toString shouldBe window.get(fieldName).toString
+            }
+          }
         }
-        if (window.containsKey("reason") && (window.get("reason") != "")) {
-          responseBody.suppressionApplied.head.reason shouldBe window.get("reason").toString
+
+        locally {
+          val fieldName = "reason"
+          if (window.containsKey(fieldName) && (window.get("reason") != "")) {
+            withClue(s"$fieldName: ") {
+              responseBody.suppressionApplied.head.reason shouldBe window.get(fieldName).toString
+            }
+          }
         }
-        if (window.containsKey("code") && (window.get("code") != "")) {
-          responseBody.suppressionApplied.head.code shouldBe window.get("code").toString
+
+        locally {
+          val fieldName = "code"
+          if (window.containsKey(fieldName) && (window.get("code") != ""))
+            withClue(s"$fieldName: ") {
+              responseBody.suppressionApplied.head.code shouldBe window.get(fieldName).toString
+            }
         }
       }
   }
@@ -306,32 +438,49 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     createInterestTypeRequestBody(dataTable)
   }
 
+  Then("the ([0-9])(?:st|nd|rd|th) debt interest type response summary will contain") {
+    (index: Int, dataTable: DataTable) =>
+      val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[String])
+      val response: StandaloneWSResponse = ScenarioContext.get("response")
+      response.status should be(200)
 
-  Then("the ([0-9])(?:st|nd|rd|th) debt interest type response summary will contain") { (index: Int, dataTable: DataTable) =>
-    val asMapTransposed = dataTable.transpose().asMap(classOf[String], classOf[String])
-    val response: StandaloneWSResponse = ScenarioContext.get("response")
-    response.status should be(200)
+      val responseBody: DebtInterestType = Json.parse(response.body).as[DebtInterestTypeResponse].debts(index - 1)
 
-    val responseBody: DebtInterestType =Json.parse(response.body).as[DebtInterestTypeResponse].debts(index-1)
-
-    if (asMapTransposed.containsKey("interestBearing")) {
-      responseBody.interestBearing.toString shouldBe asMapTransposed.get("interestBearing").toString
-    }
-
-      if (asMapTransposed.containsKey("mainTrans")) {
-        responseBody.mainTrans.toString shouldBe asMapTransposed.get("mainTrans").toString
+      locally {
+        val fieldName = "interestBearing"
+        if (asMapTransposed.containsKey(fieldName)) {
+          withClue(s"$fieldName: ") {
+            responseBody.interestBearing.toString shouldBe asMapTransposed.get(fieldName).toString
+          }
+        }
+      }
+      locally {
+        val fieldName = "mainTrans"
+        if (asMapTransposed.containsKey(fieldName)) {
+          withClue(s"$fieldName: ") {
+            responseBody.mainTrans shouldBe asMapTransposed.get(fieldName).toString
+          }
+        }
       }
 
-      if (asMapTransposed.containsKey("subTrans")) {
-        responseBody.subTrans.toString shouldBe asMapTransposed.get("subTrans").toString
+      locally {
+        val fieldName = "subTrans"
+        if (asMapTransposed.containsKey(fieldName)) {
+          withClue(s"$fieldName: ") {
+            responseBody.subTrans shouldBe asMapTransposed.get(fieldName).toString
+          }
+        }
       }
 
-      if (asMapTransposed.containsKey("useChargeReference")) {
-        responseBody.useChargeReference.toString shouldBe asMapTransposed.get("useChargeReference").toString
-
-    }
+      locally {
+        val fieldName = "useChargeReference"
+        if (asMapTransposed.containsKey(fieldName)) {
+          withClue(s"$fieldName: ") {
+            responseBody.useChargeReference.toString shouldBe asMapTransposed.get(fieldName).toString
+          }
+        }
+      }
   }
-
 
   def getCountOfCalculationWindows(summaryIndex: Int): Int = {
     val response: StandaloneWSResponse = ScenarioContext.get("response")
