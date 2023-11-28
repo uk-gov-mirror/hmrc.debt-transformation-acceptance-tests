@@ -70,11 +70,6 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | false           | 0                       | 0                    | 0       | 500000           | 500000             | 0                    | 500000             | <interestOnlyIndicator> |
     Examples:
       | mainTrans | subTrans | interestOnlyIndicator |
-      | 1025      | 1090     | false                 |
-      | 1030      | 1090     | false                 |
-      | 1035      | 1090     | false                 |
-      | 1040      | 1090     | false                 |
-      | 1045      | 1090     | false                 |
       | 2005      | 2000     | true                  |
       | 2005      | 2020     | true                  |
       | 2005      | 2023     | true                  |
@@ -95,21 +90,26 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 2105      | 2026     | true                  |
       | 2105      | 2030     | true                  |
       | 2105      | 2100     | true                  |
+      | 2135      | 2355     | true                  |
+      | 2505      | 2090     | true                  |
+      | 2515      | 2090     | true                  |
+      | 2525      | 2090     | true                  |
+      | 2535      | 2090     | true                  |
+      | 2545      | 2090     | true                  |
+      | 2555      | 2090     | true                  |
+      | 2565      | 2090     | true                  |
+      | 2575      | 2090     | true                  |
+      | 2585      | 2090     | true                  |
+      | 2595      | 2090     | true                  |
+      | 1025      | 1090     | false                 |
+      | 1030      | 1090     | false                 |
+      | 1035      | 1090     | false                 |
+      | 1040      | 1090     | false                 |
+      | 1045      | 1090     | false                 |
       | 2110      | 1090     | false                 |
       | 2115      | 1090     | false                 |
       | 2120      | 1090     | false                 |
       | 2125      | 1090     | false                 |
-      | 2135      | 2355     | true                  |
-      | 2505      | 2090     | false                 |
-      | 2515      | 2090     | false                 |
-      | 2525      | 2090     | false                 |
-      | 2535      | 2090     | false                 |
-      | 2545      | 2090     | false                 |
-      | 2555      | 2090     | false                 |
-      | 2565      | 2090     | false                 |
-      | 2575      | 2090     | false                 |
-      | 2585      | 2090     | false                 |
-      | 2595      | 2090     | false                 |
 
   Scenario Outline: Interest Bearing Employer PAYE charges
     Given a debt item
