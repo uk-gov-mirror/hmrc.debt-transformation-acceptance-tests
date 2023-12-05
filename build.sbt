@@ -1,6 +1,6 @@
 name := "debt-transformation-acceptance-tests"
 version := "0.1"
-scalaVersion := "2.13.8"
+scalaVersion := "2.13.12"
 
 val CucumberVersion = "4.7.1"
 
@@ -24,5 +24,6 @@ libraryDependencies ++= Seq(
   "com.google.zxing"            % "javase"                   % "3.4.1",
   "commons-io"                  % "commons-io"               % "2.6",
   "org.julienrf"               %% "play-json-derived-codecs" % "7.0.0",
-  "com.beachape"               %% "enumeratum-play-json"     % "1.6.1"
+  "com.beachape"               %% "enumeratum-play-json"     % "1.6.1",
+  "org.pegdown"                 % "pegdown"                  % "1.6.0"         % "test",
 )
