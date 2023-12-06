@@ -16,8 +16,8 @@
 
 package uk.gov.hmrc.test.api.requests
 
-import cucumber.api.scala.{EN, ScalaDsl}
 import io.cucumber.datatable.DataTable
+import io.cucumber.scala.{EN, ScalaDsl}
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually
 import play.api.libs.json.Json

@@ -16,8 +16,8 @@
 
 package uk.gov.hmrc.test.api.requests
 
-import cucumber.api.scala.{EN, ScalaDsl}
 import io.cucumber.datatable.DataTable
+import io.cucumber.scala.{EN, ScalaDsl}
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually
 import play.api.libs.json.Json
@@ -50,25 +50,33 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
     TestData.loadedFiles(variant)
 
   def createInterestFocastingRequestBodyFC(dataTable: DataTable): Unit = {
-    val asmapTransposed   = dataTable.transpose().asMap(classOf[String], classOf[String])
-    var firstItem         = false
+    val asmapTransposed = dataTable.transpose().asMap(classOf[String], classOf[String])
+    var firstItem = false
     var debtItems: String = null
     try ScenarioContext.get("fcDebtItem")
-    catch { case e: Exception => firstItem = true }
+    catch {
+      case e: Exception => firstItem = true
+    }
 
     var periodEnd = ""
     if (asmapTransposed.toString.contains("periodEnd")) {
       periodEnd = "\"periodEnd\": \"" + asmapTransposed.get("periodEnd") + "\","
-    } else { periodEnd = "" }
+    } else {
+      periodEnd = ""
+    }
 
     var dateCreated = ""
     if (asmapTransposed.toString.contains("dateCreated")) {
       periodEnd = "\"dateCreated\": \"" + asmapTransposed.get("dateCreated") + "\","
-    } else { dateCreated = "" }
+    } else {
+      dateCreated = ""
+    }
     var interestStartDate = ""
     if (asmapTransposed.toString.contains("interestStartDate")) {
       interestStartDate = "\"interestStartDate\": \"" + asmapTransposed.get("interestStartDate") + "\","
-    } else { dateCreated = "" }
+    } else {
+      dateCreated = ""
+    }
 
     val fcDebtItem = getBodyAsString("fcDebtItem")
       .replaceAll("<REPLACE_debtId>", asmapTransposed.get("debtId"))
@@ -79,8 +87,12 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
       .replaceAll("<REPLACE_interestRequestedTo>", asmapTransposed.get("interestRequestedTo"))
       .replaceAll("<REPLACE_periodEnd>", periodEnd)
 
-    if (firstItem == true) { debtItems = fcDebtItem }
-    else { debtItems = ScenarioContext.get("fcDebtItem").toString.concat(",").concat(fcDebtItem) }
+    if (firstItem == true) {
+      debtItems = fcDebtItem
+    }
+    else {
+      debtItems = ScenarioContext.get("fcDebtItem").toString.concat(",").concat(fcDebtItem)
+    }
     ScenarioContext.set(
       "fcDebtItem",
       debtItems

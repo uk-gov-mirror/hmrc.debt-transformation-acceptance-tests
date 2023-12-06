@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.test.api.cucumber.stepdefs.ifs
 
-import cucumber.api.scala.{EN, ScalaDsl}
+import io.cucumber.scala.{EN, ScalaDsl}
 import io.cucumber.datatable.DataTable
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually

@@ -17,18 +17,18 @@
 package uk.gov.hmrc.test.api.cucumber.hooks
 
 import com.typesafe.scalalogging.LazyLogging
-import cucumber.api.scala.ScalaDsl
+import io.cucumber.scala.{ScalaDsl, Scenario}
 import org.scalatest.Matchers.{be, convertToAnyShouldWrapper}
 import uk.gov.hmrc.test.api.requests.SuppressionRulesRequests
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 
 class IfsRuleHook extends ScalaDsl with LazyLogging {
 
-  Before() { _ =>
+  Before{ scenario : Scenario  =>
     ScenarioContext.reset()
   }
 
-  After() { scenario =>
+  After { scenario : Scenario  =>
     val deleteResponse = SuppressionRulesRequests.deleteSuppressionData()
     deleteResponse.status should be(200)
 

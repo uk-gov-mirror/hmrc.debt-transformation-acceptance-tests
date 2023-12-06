@@ -16,15 +16,16 @@
 
 package uk.gov.hmrc.test.api.requests
 
-import cucumber.api.scala.{EN, ScalaDsl}
 import io.cucumber.datatable.DataTable
+import io.cucumber.scala.{EN, ScalaDsl}
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
-import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
 import uk.gov.hmrc.test.api.client.WsClient
 import uk.gov.hmrc.test.api.utils.{BaseRequests, ScenarioContext, TestData}
+
+import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
 
 object InterestForecastingRequests extends ScalaDsl with EN with Eventually with Matchers with BaseRequests {
 
@@ -52,11 +53,11 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
       userType = getRandomAffinityGroup,
       utr = "123456789012"
     )
-    val baseUri = s"$interestForecostingApiUrl/debt-interest-type"
-    val headers = Map(
+    val baseUri     = s"$interestForecostingApiUrl/debt-interest-type"
+    val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
-      "Content-Type" -> "application/json",
-      "Accept" -> "application/vnd.hmrc.1.0+json"
+      "Content-Type"  -> "application/json",
+      "Accept"        -> "application/vnd.hmrc.1.0+json"
     )
     print("IFS debt-interest type baseUri ************************" + baseUri)
     print("IFS debt-interest Type json********************" + Json.parse(json))
@@ -233,8 +234,8 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
   }
 
   def createInterestTypeRequestBody(dataTable: DataTable): Unit = {
-    val asmapTransposed = dataTable.transpose().asMap(classOf[String], classOf[String])
-    var firstItem = false
+    val asmapTransposed           = dataTable.transpose().asMap(classOf[String], classOf[String])
+    var firstItem                 = false
     var debtInterestTypes: String = null
     try ScenarioContext.get("debtInterestTypes")
     catch {
@@ -245,8 +246,7 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
       .replaceAll("<REPLACE_mainTrans>", asmapTransposed.get("mainTrans"))
     if (firstItem == true) {
       debtInterestTypes = debtInterestType
-    }
-    else {
+    } else {
       debtInterestTypes = ScenarioContext.get("debtInterestTypes").toString.concat(",").concat(debtInterestType)
     }
 
