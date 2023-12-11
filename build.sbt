@@ -7,9 +7,10 @@ val CucumberVersion = "4.7.1"
 resolvers += "hmrc-releases" at "https://artefacts.tax.service.gov.uk/artifactory/hmrc-releases/"
 
 libraryDependencies ++= Seq(
-  "com.typesafe.play"          %% "play-ahc-ws-standalone"   % "2.1.0",
-  "com.typesafe.play"          %% "play-ws-standalone-json"  % "2.1.0",
-  "com.typesafe.play"          %% "play-ws-standalone-xml"   % "2.1.0",
+  "org.playframework"          %% "play-json"                % "3.0.1",
+  "com.typesafe.play"          %% "play-ahc-ws-standalone"   % "2.2.5",
+  "com.typesafe.play"          %% "play-ws-standalone-json"  % "2.2.5",
+  "com.typesafe.play"          %% "play-ws-standalone-xml"   % "2.2.5",
   "org.scalatest"              %% "scalatest"                % "3.0.8"         % "test",
   "io.cucumber"                %% "cucumber-scala"           % CucumberVersion % "test",
   "io.cucumber"                 % "cucumber-junit"           % CucumberVersion % "test",
