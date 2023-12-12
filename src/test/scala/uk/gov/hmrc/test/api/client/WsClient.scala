@@ -16,13 +16,16 @@
 
 package uk.gov.hmrc.test.api.client
 
-import akka.actor.ActorSystem
-import akka.stream.ActorMaterializer
-import akka.util.ByteString
+//import akka.stream.ActorMaterializer
+//import akka.util.ByteString
 import com.typesafe.scalalogging.LazyLogging
+import org.apache.pekko.actor.ActorSystem
+import org.apache.pekko.stream.ActorMaterializer
+import org.apache.pekko.util.ByteString
 import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws._
 import play.api.libs.ws.ahc.StandaloneAhcWSClient
+
 import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.language.postfixOps
