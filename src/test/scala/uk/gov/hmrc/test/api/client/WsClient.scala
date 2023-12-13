@@ -16,11 +16,8 @@
 
 package uk.gov.hmrc.test.api.client
 
-//import akka.stream.ActorMaterializer
-//import akka.util.ByteString
 import com.typesafe.scalalogging.LazyLogging
 import org.apache.pekko.actor.ActorSystem
-import org.apache.pekko.stream.ActorMaterializer
 import org.apache.pekko.util.ByteString
 import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws._
@@ -36,8 +33,8 @@ object WsClient extends LazyLogging {
   implicit val bodyWrites: BodyWritable[JsValue] =
     BodyWritable(a => InMemoryBody(ByteString.fromArrayUnsafe(Json.toBytes(a))), "application/json")
   private val asyncClient: StandaloneAhcWSClient = {
-    implicit val system: ActorSystem             = ActorSystem()
-    implicit val materializer: ActorMaterializer = ActorMaterializer()
+    implicit val system: ActorSystem = ActorSystem()
+//    implicit val materializer: ActorMaterializer = ActorMaterializer()
 
     StandaloneAhcWSClient()
   }
@@ -106,7 +103,12 @@ object WsClient extends LazyLogging {
     response
   }
 
-  def postWithQueryParams(uri: String, headers: Map[String, String],  queryParameters: Map[String, String],json: JsValue): StandaloneWSResponse = {
+  def postWithQueryParams(
+    uri: String,
+    headers: Map[String, String],
+    queryParameters: Map[String, String],
+    json: JsValue
+  ): StandaloneWSResponse = {
     println("")
     logger.info(s"POST request URI: $uri")
     logger.debug(s"POST request headers: $headers")

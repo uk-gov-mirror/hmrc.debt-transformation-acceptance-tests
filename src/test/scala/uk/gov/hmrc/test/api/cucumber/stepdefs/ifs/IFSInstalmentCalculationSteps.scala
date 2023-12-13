@@ -329,9 +329,6 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
     (noOfInstalments: Int) =>
       val response: StandaloneWSResponse = ScenarioContext.get("response")
       response.status shouldBe 200
-      val quoteDate             = LocalDate.now
-      val instalmentPaymentDate = quoteDate.plusDays(1)
-      val debtId                = "debtId"
       val responseBody          = Json.parse(response.body).as[InstalmentCalculationSummaryResponse]
 
       responseBody.numberOfInstalments shouldBe noOfInstalments
@@ -868,7 +865,7 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
 
     response.status.shouldBe(200)
 
-    map.zipWithIndex.foreach { case (expectedInstalment, index) =>
+    map.zipWithIndex.foreach { case (expectedInstalment, _) =>
       val responseIndex: Int = expectedInstalment.get("instalmentNumber").toString.toInt - 1
 
       if (map.toString.contains("expectedNumberOfInstalments")) {

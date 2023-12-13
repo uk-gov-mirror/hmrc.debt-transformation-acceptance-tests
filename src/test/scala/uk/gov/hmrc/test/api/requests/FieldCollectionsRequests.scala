@@ -123,12 +123,11 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
       .replaceAll("<REPLACE_periodEnd>", asmapTransposed.get("periodEnd"))
       .replaceAll("<REPLACE_interestStartDate>", asmapTransposed.get("interestStartDate"))
       .replaceAll("<REPLACE_interestRequestedTo>", asmapTransposed.get("interestRequestedTo"))
-      .replaceAll("<REPLACE_chargedInterest>",asmapTransposed.get("chargedInterest"))
+      .replaceAll("<REPLACE_chargedInterest>", asmapTransposed.get("chargedInterest"))
       .replaceAll("<REPLACE_periodEnd>", periodEnd)
 
     if (firstItem == true) { debtItems = fcDebtItem }
     else { debtItems = ScenarioContext.get("fcDebtItem").toString.concat(",").concat(fcDebtItem) }
-
 
     ScenarioContext.set(
       "fcDebtItem",
@@ -235,7 +234,7 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
         .replaceAllLiterally("<REPLACE_chargedInterest>", ScenarioContext.get("fcDebtItem"))
     )
 
-    val asMapTransposed   = dataTable.asMaps(classOf[String], classOf[String])
+    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
     var chargedInterest = ""
 
     asMapTransposed.zipWithIndex.foreach { case (chargedInte, index) =>
@@ -252,7 +251,6 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
       ScenarioContext.get("fcDebtItem").toString.replaceAll("<REPLACE_fcCustomerPostCodes>", chargedInterest)
     ScenarioContext.set("fcDebtItem", jsonWithChargedInterest)
   }
-
 
   def noFCCustomerPostCodes() {
     // Set scenario Context to be all debt items with payments.

@@ -52,11 +52,11 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
       userType = getRandomAffinityGroup,
       utr = "123456789012"
     )
-    val baseUri = s"$interestForecostingApiUrl/debt-interest-type"
-    val headers = Map(
+    val baseUri     = s"$interestForecostingApiUrl/debt-interest-type"
+    val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
-      "Content-Type" -> "application/json",
-      "Accept" -> "application/vnd.hmrc.1.0+json"
+      "Content-Type"  -> "application/json",
+      "Accept"        -> "application/vnd.hmrc.1.0+json"
     )
     print("IFS debt-interest type baseUri ************************" + baseUri)
     print("IFS debt-interest Type json********************" + Json.parse(json))
@@ -233,8 +233,8 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
   }
 
   def createInterestTypeRequestBody(dataTable: DataTable): Unit = {
-    val asmapTransposed = dataTable.transpose().asMap(classOf[String], classOf[String])
-    var firstItem = false
+    val asmapTransposed           = dataTable.transpose().asMap(classOf[String], classOf[String])
+    var firstItem                 = false
     var debtInterestTypes: String = null
     try ScenarioContext.get("debtInterestTypes")
     catch {
@@ -245,8 +245,7 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
       .replaceAll("<REPLACE_mainTrans>", asmapTransposed.get("mainTrans"))
     if (firstItem == true) {
       debtInterestTypes = debtInterestType
-    }
-    else {
+    } else {
       debtInterestTypes = ScenarioContext.get("debtInterestTypes").toString.concat(",").concat(debtInterestType)
     }
 

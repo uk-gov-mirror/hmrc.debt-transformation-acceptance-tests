@@ -26,7 +26,9 @@ import uk.gov.hmrc.test.api.models._
 import uk.gov.hmrc.test.api.requests.InterestForecastingRequests.{getBodyAsString, _}
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 
-import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
+import scala.jdk.CollectionConverters.CollectionHasAsScala
+
+//import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
 
 class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Matchers {
 
@@ -304,7 +306,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
       val asMapTransposed                = dataTable.asMaps(classOf[String], classOf[String])
       val response: StandaloneWSResponse = ScenarioContext.get("response")
 
-      asMapTransposed.zipWithIndex.foreach { case (window, index) =>
+      asMapTransposed.asScala.zipWithIndex.foreach { case (window, index) =>
         val responseBody =
           Json
             .parse(response.body)

@@ -19,18 +19,16 @@ package uk.gov.hmrc.test.api.utils
 object ScenarioContext {
   private var scenarioValues = Map.empty[String, Any]
 
-  def set(key: String, value: Any) {
+  def set(key: String, value: Any): Unit =
     scenarioValues = scenarioValues + (key -> value)
-  }
 
-  def get[T: Manifest](key: String): T =
+  def get[T: Manifest](key: String): T   =
     scenarioValues
       .get(key)
       .fold(throw new Exception(s"Key $key not found in scenario context"))(_.asInstanceOf[T])
 
   def remove(key: String): Unit = scenarioValues = scenarioValues - key
 
-  def reset() {
+  def reset(): Unit =
     scenarioValues = Map.empty[String, Any]
-  }
 }
