@@ -42,7 +42,6 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
 
   When("a rule has been updated") { (dataTable: DataTable) =>
     val asmapTransposed        = dataTable.transpose().asMap(classOf[String], classOf[String])
-    val newRule                = asmapTransposed.get("rule")
     val responseGEtRules       = getAllRules
     val collection             = Json.parse(responseGEtRules.body).as[GetRulesResponse]
     val newRules: List[String] = collection.rules.find(_.enabled) match {
@@ -52,6 +51,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
         )
         rules ++ List(s"IF mainTrans == '${asmapTransposed.get("mainTrans")}' AND subTrans == '${asmapTransposed
           .get("subTrans")}' -> intRate = ${asmapTransposed.get("intRate")} AND interestOnlyDebt = false")
+      case _                 => None.toList
     }
 
     postNewRulesTable(Json.toJson(CreateRuleRequest(newRules)).toString())
@@ -388,16 +388,16 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
 
         locally {
           val fieldName = "reason"
-          if (window.containsKey(fieldName) && (window.get("reason") != "")) {
-            withClue(s"$fieldName: ") {
+          if (window.containsKey(fieldName) && (window.get(fieldName).toString != "")) {
+            withClue(s"$fieldName: ")(
               responseBody.suppressionApplied.head.reason shouldBe window.get(fieldName).toString
-            }
+            )
           }
         }
 
         locally {
           val fieldName = "code"
-          if (window.containsKey(fieldName) && (window.get("code") != ""))
+          if (window.containsKey(fieldName) && (window.get(fieldName).toString != ""))
             withClue(s"$fieldName: ") {
               responseBody.suppressionApplied.head.code shouldBe window.get(fieldName).toString
             }

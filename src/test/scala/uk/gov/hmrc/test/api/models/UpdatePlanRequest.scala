@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.test.api.models
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, OFormat}
 
 case class UpdatePlanRequest(
   customerReference: String,
@@ -31,8 +31,8 @@ case class UpdatePlanRequest(
 final case class PaymentInformation(paymentMethod: String, paymentReference: String)
 
 object PaymentInformation {
-  implicit val formats = Json.format[PaymentInformation]
+  implicit val formats: OFormat[PaymentInformation] = Json.format[PaymentInformation]
 }
 object UpdatePlanRequest {
-  implicit val formats = Json.format[UpdatePlanRequest]
+  implicit val formats: OFormat[UpdatePlanRequest] = Json.format[UpdatePlanRequest]
 }

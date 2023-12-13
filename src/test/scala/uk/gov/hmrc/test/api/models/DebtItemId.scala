@@ -16,9 +16,11 @@
 
 package uk.gov.hmrc.test.api.models
 
+import play.api.libs.json.Format
+
 final case class DebtItemId(value: String) extends AnyVal
 
 object DebtItemId extends ValueTypeFormatter {
-  implicit val format =
+  implicit val format: Format[DebtItemId] =
     valueTypeFormatter(DebtItemId.apply, DebtItemId.unapply)
 }

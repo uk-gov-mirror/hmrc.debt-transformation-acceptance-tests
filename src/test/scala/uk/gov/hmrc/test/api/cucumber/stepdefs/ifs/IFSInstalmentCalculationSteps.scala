@@ -28,7 +28,7 @@ import uk.gov.hmrc.test.api.utils.ScenarioContext
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
+import scala.jdk.CollectionConverters.CollectionHasAsScala
 
 class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually with Matchers {
 
@@ -329,7 +329,7 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
     (noOfInstalments: Int) =>
       val response: StandaloneWSResponse = ScenarioContext.get("response")
       response.status shouldBe 200
-      val responseBody          = Json.parse(response.body).as[InstalmentCalculationSummaryResponse]
+      val responseBody = Json.parse(response.body).as[InstalmentCalculationSummaryResponse]
 
       responseBody.numberOfInstalments shouldBe noOfInstalments
       responseBody.instalments.size    shouldBe noOfInstalments
@@ -858,7 +858,7 @@ class IFSInstalmentCalculationSteps extends ScalaDsl with EN with Eventually wit
   }
 
   Then("IFS response contains expected values") { (dataTable: DataTable) =>
-    val map = dataTable.asMaps(classOf[String], classOf[String])
+    val map = dataTable.asMaps(classOf[String], classOf[String]).asScala
 
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     val responseBody                   = Json.parse(response.body).as[InstalmentCalculationSummaryResponse]

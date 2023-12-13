@@ -2,6 +2,7 @@ name := "debt-transformation-acceptance-tests"
 version := "0.1"
 scalaVersion := "2.13.12"
 
+lazy val root       = (project in file(".")).settings(Test / testOptions := Seq.empty)
 val CucumberVersion = "4.7.1"
 
 resolvers += "hmrc-releases" at "https://artefacts.tax.service.gov.uk/artifactory/hmrc-releases/"

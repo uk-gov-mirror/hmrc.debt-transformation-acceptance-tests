@@ -22,7 +22,7 @@ import play.api.libs.ws.StandaloneWSResponse
 import uk.gov.hmrc.test.api.client.WsClient
 import uk.gov.hmrc.test.api.utils.{BaseRequests, RandomValues, ScenarioContext, TestData}
 
-import scala.collection.convert.ImplicitConversionsToScala.`collection AsScalaIterable`
+import scala.jdk.CollectionConverters.CollectionHasAsScala
 
 object FCStatementOfLiabilityRequests extends BaseRequests with RandomValues {
 
@@ -66,7 +66,7 @@ object FCStatementOfLiabilityRequests extends BaseRequests with RandomValues {
   }
 
   def addFCDebts(dataTable: DataTable): Unit = {
-    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
+    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String]).asScala
     var debtIds         = ""
     asMapTransposed.zipWithIndex.foreach { case (debtId, index) =>
       debtIds = debtIds.concat(
@@ -90,7 +90,7 @@ object FCStatementOfLiabilityRequests extends BaseRequests with RandomValues {
     TestData.loadedFiles(variant)
 
   def fcSolWithCotaxInterestChargeRequest(dataTable: DataTable): Unit = {
-    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
+    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String]).asScala
     var debtIds         = ""
     asMapTransposed.zipWithIndex.foreach { case (debtId, index) =>
       debtIds = debtIds.concat(
@@ -112,7 +112,7 @@ object FCStatementOfLiabilityRequests extends BaseRequests with RandomValues {
   }
 
   def addFCSOLPaymentHistory(dataTable: DataTable): Unit = {
-    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
+    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String]).asScala
     var payments        = ""
 
     asMapTransposed.zipWithIndex.foreach { case (payment, index) =>

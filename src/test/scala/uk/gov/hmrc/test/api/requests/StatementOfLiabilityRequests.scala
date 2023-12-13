@@ -22,7 +22,7 @@ import play.api.libs.ws.StandaloneWSResponse
 import uk.gov.hmrc.test.api.client.WsClient
 import uk.gov.hmrc.test.api.utils.{BaseRequests, RandomValues, ScenarioContext, TestData}
 
-import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
+import scala.jdk.CollectionConverters.CollectionHasAsScala
 
 object StatementOfLiabilityRequests extends BaseRequests with RandomValues {
 
@@ -59,7 +59,7 @@ object StatementOfLiabilityRequests extends BaseRequests with RandomValues {
   }
 
   def addDutyIds(dataTable: DataTable): Unit = {
-    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
+    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String]).asScala
     var dutyIds         = ""
 
     asMapTransposed.zipWithIndex.foreach { case (dutyId, index) =>

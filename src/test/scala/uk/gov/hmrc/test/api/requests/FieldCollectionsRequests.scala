@@ -25,7 +25,7 @@ import play.api.libs.ws.StandaloneWSResponse
 import uk.gov.hmrc.test.api.client.WsClient
 import uk.gov.hmrc.test.api.utils.{BaseRequests, ScenarioContext, TestData}
 
-import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
+import scala.jdk.CollectionConverters.CollectionHasAsScala
 
 object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Matchers with BaseRequests {
 
@@ -61,7 +61,7 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
       periodEnd = "\"periodEnd\": \"" + asmapTransposed.get("periodEnd") + "\","
     } else { periodEnd = "" }
 
-    var dateCreated = ""
+    var dateCreated       = ""
     if (asmapTransposed.toString.contains("dateCreated")) {
       periodEnd = "\"dateCreated\": \"" + asmapTransposed.get("dateCreated") + "\","
     } else { dateCreated = "" }
@@ -144,7 +144,7 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
     )
 
   def addFCPaymentHistory(dataTable: DataTable): Unit = {
-    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
+    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String]).asScala
     var payments        = ""
 
     asMapTransposed.zipWithIndex.foreach { case (payment, index) =>
@@ -166,7 +166,7 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
     ScenarioContext.set("fcDebtItem", ScenarioContext.get("fcDebtItem").toString.replaceAll("<REPLACE_payments>", ""))
 
   def addFCBreathingSpace(dataTable: DataTable): Unit = {
-    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
+    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String]).asScala
     var breathingSpaces = ""
 
     asMapTransposed.zipWithIndex.foreach { case (breathingSpace, index) =>
@@ -193,7 +193,7 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
     ScenarioContext.set("fcDebtItem", jsonWithbreathingSpaces)
   }
 
-  def noFCBreathingSpace() {
+  def noFCBreathingSpace(): Unit = {
     ScenarioContext.set(
       "fcDebtItem",
       ScenarioContext.get("fcDebtItem").toString.replaceAll("<REPLACE_breathingSpaces>", "")
@@ -205,10 +205,10 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
     ScenarioContext.set(
       "fcDebtItem",
       getBodyAsString("fcdebtCalcRequest")
-        .replaceAllLiterally("<REPLACE_fcDebtItem>", ScenarioContext.get("fcDebtItem"))
+        .replaceAll("<REPLACE_fcDebtItem>", ScenarioContext.get("fcDebtItem"))
     )
 
-    val asMapTransposed   = dataTable.asMaps(classOf[String], classOf[String])
+    val asMapTransposed   = dataTable.asMaps(classOf[String], classOf[String]).asScala
     var customerPostCodes = ""
 
     asMapTransposed.zipWithIndex.foreach { case (postCode, index) =>
@@ -231,10 +231,10 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
     ScenarioContext.set(
       "fcDebtItem",
       getBodyAsString("fcChargeInterest")
-        .replaceAllLiterally("<REPLACE_chargedInterest>", ScenarioContext.get("fcDebtItem"))
+        .replaceAll("<REPLACE_chargedInterest>", ScenarioContext.get("fcDebtItem"))
     )
 
-    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
+    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String]).asScala
     var chargedInterest = ""
 
     asMapTransposed.zipWithIndex.foreach { case (chargedInte, index) =>
@@ -252,12 +252,12 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
     ScenarioContext.set("fcDebtItem", jsonWithChargedInterest)
   }
 
-  def noFCCustomerPostCodes() {
+  def noFCCustomerPostCodes() : Unit = {
     // Set scenario Context to be all debt items with payments.
     ScenarioContext.set(
       "fcDebtItem",
       getBodyAsString("fcdebtCalcRequest")
-        .replaceAllLiterally("<REPLACE_fcDebtItem>", ScenarioContext.get("fcDebtItem"))
+        .replaceAll("<REPLACE_fcDebtItem>", ScenarioContext.get("fcDebtItem"))
     )
 
     ScenarioContext.set(

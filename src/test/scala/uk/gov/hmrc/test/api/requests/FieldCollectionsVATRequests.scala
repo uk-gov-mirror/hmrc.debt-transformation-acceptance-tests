@@ -25,7 +25,8 @@ import play.api.libs.ws.StandaloneWSResponse
 import uk.gov.hmrc.test.api.client.WsClient
 import uk.gov.hmrc.test.api.utils.{BaseRequests, ScenarioContext, TestData}
 
-import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
+import scala.jdk.CollectionConverters.CollectionHasAsScala
+
 
 object FieldCollectionsVATRequests extends ScalaDsl with EN with Eventually with Matchers with BaseRequests {
 
@@ -96,7 +97,7 @@ object FieldCollectionsVATRequests extends ScalaDsl with EN with Eventually with
     val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
     var payments        = ""
 
-    asMapTransposed.zipWithIndex.foreach { case (payment, index) =>
+    asMapTransposed.asScala.zipWithIndex.foreach { case (payment, index) =>
       payments = payments.concat(
         getBodyAsString("payment")
           .replaceAll("<REPLACE_paymentAmount>", payment.get("paymentAmount"))
@@ -121,7 +122,7 @@ object FieldCollectionsVATRequests extends ScalaDsl with EN with Eventually with
     val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
     var breathingSpaces = ""
 
-    asMapTransposed.zipWithIndex.foreach { case (breathingSpace, index) =>
+    asMapTransposed.asScala.zipWithIndex.foreach { case (breathingSpace, index) =>
       if (breathingSpace.get("debtRespiteTo").toString.contains("-")) {
         breathingSpaces = breathingSpaces.concat(
           getBodyAsString("breathingSpace")
@@ -145,7 +146,7 @@ object FieldCollectionsVATRequests extends ScalaDsl with EN with Eventually with
     ScenarioContext.set("fcVatDebtItem", jsonWithbreathingSpaces)
   }
 
-  def noFCVatBreathingSpace() {
+  def noFCVatBreathingSpace() : Unit = {
     ScenarioContext.set(
       "fcVatDebtItem",
       ScenarioContext.get("fcVatDebtItem").toString.replaceAll("<REPLACE_breathingSpaces>", "")
@@ -156,7 +157,7 @@ object FieldCollectionsVATRequests extends ScalaDsl with EN with Eventually with
     ScenarioContext.set(
       "fcVatDebtItem",
       getBodyAsString("fcVatDebtCalcRequest")
-        .replaceAllLiterally("<REPLACE_fcVatDebtItem>", ScenarioContext.get("fcVatDebtItem"))
+        .replaceAll("<REPLACE_fcVatDebtItem>", ScenarioContext.get("fcVatDebtItem"))
     )
 
 }

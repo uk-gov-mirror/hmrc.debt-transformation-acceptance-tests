@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.test.api.models.sol
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Format, Json}
 
 case class SolDuty(
   dutyId: String,
@@ -29,5 +29,5 @@ case class SolDuty(
 )
 
 object SolDuty {
-  implicit val format = Json.format[SolDuty]
+  implicit val format: Format[SolDuty] = Json.format[SolDuty]
 }

@@ -26,7 +26,7 @@ import uk.gov.hmrc.test.api.models.sol.{HelloWorld, SolCalculation, SolCalculati
 import uk.gov.hmrc.test.api.requests.StatementOfLiabilityRequests
 import uk.gov.hmrc.test.api.utils.{ScenarioContext, TestData}
 
-import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
+import scala.jdk.CollectionConverters.CollectionHasAsScala
 class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Matchers {
 
   When("a request is made to get response from sol hello world endpoint") { () =>
@@ -152,7 +152,7 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
   }
 
   Then("the ([0-9])(?:st|nd|rd|th) sol debt summary will contain duties") { (debtIndex: Int, dataTable: DataTable) =>
-    val asMapTransposed                = dataTable.asMaps(classOf[String], classOf[String])
+    val asMapTransposed                = dataTable.asMaps(classOf[String], classOf[String]).asScala
     val response: StandaloneWSResponse = ScenarioContext.get("response")
 
     asMapTransposed.zipWithIndex.foreach { case (duty, index) =>
@@ -174,7 +174,7 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
 
   Then("the ([0-9]\\d*)(?:st|nd|rd|th) multiple statement of liability debt summary will contain duties") {
     (debtIndex: Int, dataTable: DataTable) =>
-      val asMapTransposed                = dataTable.asMaps(classOf[String], classOf[String])
+      val asMapTransposed                = dataTable.asMaps(classOf[String], classOf[String]).asScala
       val response: StandaloneWSResponse = ScenarioContext.get("response")
 
       asMapTransposed.zipWithIndex.foreach { case (duty, index) =>
@@ -198,7 +198,7 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
   }
 
   Then("""the statement of liability debt summary response""") { (dataTable: DataTable) =>
-    val asMapTransposed                = dataTable.asMaps(classOf[String], classOf[String])
+    val asMapTransposed                = dataTable.asMaps(classOf[String], classOf[String]).asScala
     val response: StandaloneWSResponse = ScenarioContext.get("response")
 
     asMapTransposed.zipWithIndex.foreach { case (debt, index) =>

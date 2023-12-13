@@ -17,9 +17,11 @@
 package uk.gov.hmrc.test.api.utils
 
 import com.typesafe.scalalogging.LazyLogging
+
 import java.io.File
 import org.apache.commons.io.FileUtils
-import scala.collection.JavaConverters.collectionAsScalaIterableConverter
+
+import scala.jdk.CollectionConverters.CollectionHasAsScala
 import scala.io.Source
 
 object TestData extends LazyLogging {
