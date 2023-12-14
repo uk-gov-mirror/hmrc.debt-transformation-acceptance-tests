@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import uk.gov.hmrc.test.api.requests.FCStatementOfLiabilityRequests
 import uk.gov.hmrc.test.api.requests.FCStatementOfLiabilityRequests._
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 
-import scala.collection.convert.ImplicitConversionsToScala.`collection AsScalaIterable`
+import scala.jdk.CollectionConverters.CollectionHasAsScala
 
 class FCStatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Matchers {
 
@@ -76,7 +76,7 @@ class FCStatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with 
 
   Then("the ([0-9]\\d*)(?:st|nd|rd|th) multiple fc statement of liability debt summary will contain duties") {
     (debtIndex: Int, dataTable: DataTable) =>
-      val asMapTransposed                = dataTable.asMaps(classOf[String], classOf[String])
+      val asMapTransposed                = dataTable.asMaps(classOf[String], classOf[String]).asScala
       val response: StandaloneWSResponse = ScenarioContext.get("response")
 
       asMapTransposed.zipWithIndex.foreach { case (duty, index) =>

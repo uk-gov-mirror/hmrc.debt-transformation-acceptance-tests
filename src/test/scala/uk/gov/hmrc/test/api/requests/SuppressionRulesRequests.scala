@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,8 +26,7 @@ import uk.gov.hmrc.test.api.client.WsClient
 import uk.gov.hmrc.test.api.utils.{BaseRequests, TestData}
 
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
+import scala.jdk.CollectionConverters.CollectionHasAsScala
 
 object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Matchers with BaseRequests {
 
@@ -121,20 +120,19 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
   }
 
   def addSuppressions(dataTable: DataTable): Unit = {
-    val asMapTransposed = dataTable.asMaps[String, String](classOf[String], classOf[String])
+    val asMapTransposed = dataTable.asMaps[String, String](classOf[String], classOf[String]).asScala
     var suppressions    = ""
     var id: String      = null
 
-
     asMapTransposed.zipWithIndex.foreach { case (suppression, index) =>
       val parsedFromDate = suppression.get("fromDate").toString match {
-        case "yesterday"         =>  LocalDate.now().minusDays(1).toString()
+        case "yesterday"         => LocalDate.now().minusDays(1).toString()
         case "2 months from now" => LocalDate.now().plusMonths(2).toString()
         case other               => other
       }
 
       val parsedToDate = suppression.get("toDate").toString match {
-        case "2 months from now" => LocalDate.now().plusMonths(2).toString()
+        case "2 months from now" => LocalDate.now().plusMonths(2).toString
         case "4 months from now" => LocalDate.now().plusMonths(4).toString()
         case other               => other
       }
@@ -163,7 +161,7 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
   }
 
   def addSuppressionRules(dataTable: DataTable): Unit = {
-    val asMapTransposed  = dataTable.asMaps(classOf[String], classOf[String])
+    val asMapTransposed  = dataTable.asMaps(classOf[String], classOf[String]).asScala
     var suppressionRules = ""
     var rulesID          = ""
 

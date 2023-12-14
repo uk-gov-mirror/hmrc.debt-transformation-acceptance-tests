@@ -1,3 +1,19 @@
+/*
+ * Copyright 2023 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package uk.gov.hmrc.test.api.requests
 
 import cucumber.api.scala.{EN, ScalaDsl}
@@ -12,7 +28,8 @@ import uk.gov.hmrc.test.api.utils.{BaseRequests, ScenarioContext, TestData}
 
 import java.time.format.DateTimeFormatter
 import java.time.{LocalDate, LocalDateTime}
-import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
+import scala.jdk.CollectionConverters.CollectionHasAsScala
+//import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
 
 object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually with Matchers with BaseRequests {
 
@@ -34,7 +51,7 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
   }
 
   def addDebtItemChargesToInstalmentCalculation(dataTable: DataTable): Unit = {
-    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
+    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String]).asScala
     var debtItemCharges = ""
 
     asMapTransposed.zipWithIndex.foreach { case (debtItemCharge, index) =>
@@ -66,7 +83,7 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
     var paymentPlan: String = null
     try ScenarioContext.get("paymentPlan")
     catch {
-      case e: Exception => firstItem = true
+      case _: Exception => firstItem = true
     }
 
     val dateTime                = LocalDateTime.now()
@@ -107,7 +124,7 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
       .replaceAll("<REPLACE_paymentFrequency>", asmapTransposed.get("paymentFrequency"))
       .replaceAll("<REPLACE_interestCallDueTotal>", asmapTransposed.get("interestCallDueTotal"))
 
-    if (firstItem == true) {
+    if (firstItem) {
       paymentPlan = paymentPlan
     } else {
       paymentPlan = ScenarioContext.get("paymentPlan").toString.concat(",").concat(paymentPlan)
@@ -124,12 +141,11 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
     var paymentPlan: String = null
     try ScenarioContext.get("paymentPlan")
     catch {
-      case e: Exception => firstItem = true
+      case _: Exception => firstItem = true
     }
     val dateTime              = LocalDateTime.now()
     val formatter             = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-    //val dateTime              = new DateTime(new Date()).withZone(DateTimeZone.UTC)
-    var quoteDate             = dateTime.format(formatter)
+    val quoteDate             = dateTime.format(formatter)
     val instalmentPaymentDate = dateTime.plusDays(129).format(formatter)
     val initialPaymentDate    = dateTime.plusDays(129).format(formatter)
 
@@ -142,7 +158,7 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
       .replaceAll("<REPLACE_initialPaymentDate>", initialPaymentDate)
       .replaceAll("<REPLACE_initialPaymentAmount>", asmapTransposed.get("initialPaymentAmount"))
 
-    if (firstItem == true) {
+    if (firstItem) {
       paymentPlan = paymentPlan
     } else {
       paymentPlan = ScenarioContext.get("paymentPlan").toString.concat(",").concat(paymentPlan)
@@ -166,15 +182,14 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
       case Frequency.Quarterly.entryName  => paymentPlan.instalmentPaymentDate.plusMonths(iterateVal * 3)
       case Frequency.HalfYearly.entryName => paymentPlan.instalmentPaymentDate.plusMonths(iterateVal * 6)
       case Frequency.Annually.entryName   => paymentPlan.instalmentPaymentDate.plusYears(iterateVal)
+      case _ => paymentPlan.instalmentPaymentDate
     }
   }
 
   def getInstalmentCalculation(json: String): StandaloneWSResponse = {
     val bearerToken = createBearerToken(
       enrolments = Seq("read:interest-forecasting"),
-      userType = getRandomAffinityGroup,
-      utr = "123456789012"
-    )
+      userType = getRandomAffinityGroup)
     val baseUri     = s"$interestForecostingApiUrl/instalment-calculation"
 
     val headers = Map(
@@ -209,7 +224,7 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
     WsClient.postWithQueryParams(baseUri, headers = headers, queryParameters = queryParameters, Json.parse(json))
   }
 
-  def noInitialPayment() {
+  def noInitialPayment(): Unit =  {
     ScenarioContext.set(
       "paymentPlan",
       ScenarioContext.get("paymentPlan").toString.replaceAll("<REPLACE_initialPayment>", "")

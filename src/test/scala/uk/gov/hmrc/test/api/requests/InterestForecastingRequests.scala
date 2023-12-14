@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,9 +22,10 @@ import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
-import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
 import uk.gov.hmrc.test.api.client.WsClient
 import uk.gov.hmrc.test.api.utils.{BaseRequests, ScenarioContext, TestData}
+
+import scala.jdk.CollectionConverters.CollectionHasAsScala
 
 object InterestForecastingRequests extends ScalaDsl with EN with Eventually with Matchers with BaseRequests {
 
@@ -52,11 +53,11 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
       userType = getRandomAffinityGroup,
       utr = "123456789012"
     )
-    val baseUri = s"$interestForecostingApiUrl/debt-interest-type"
-    val headers = Map(
+    val baseUri     = s"$interestForecostingApiUrl/debt-interest-type"
+    val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
-      "Content-Type" -> "application/json",
-      "Accept" -> "application/vnd.hmrc.1.0+json"
+      "Content-Type"  -> "application/json",
+      "Accept"        -> "application/vnd.hmrc.1.0+json"
     )
     print("IFS debt-interest type baseUri ************************" + baseUri)
     print("IFS debt-interest Type json********************" + Json.parse(json))
@@ -120,7 +121,7 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
       .replaceAll("<REPLACE_interestRequestedTo>", asmapTransposed.get("interestRequestedTo"))
       .replaceAll("<REPLACE_periodEnd>", periodEnd)
 
-    if (firstItem == true) { debtItems = debtItem }
+    if (firstItem) { debtItems = debtItem }
     else { debtItems = ScenarioContext.get("debtItems").toString.concat(",").concat(debtItem) }
 
     ScenarioContext.set(
@@ -137,7 +138,7 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
     )
 
   def addPaymentHistory(dataTable: DataTable): Unit = {
-    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
+    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String]).asScala
     var payments        = ""
 
     asMapTransposed.zipWithIndex.foreach { case (payment, index) =>
@@ -163,10 +164,10 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
     ScenarioContext.set(
       "debtItems",
       getBodyAsString("debtCalcRequest")
-        .replaceAllLiterally("<REPLACE_debtItems>", ScenarioContext.get("debtItems"))
+        .replaceAll("<REPLACE_debtItems>", ScenarioContext.get("debtItems"))
     )
 
-    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
+    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String]).asScala
     var breathingSpaces = ""
 
     asMapTransposed.zipWithIndex.foreach { case (breathingSpace, index) =>
@@ -193,11 +194,11 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
     ScenarioContext.set("debtItems", jsonWithbreathingSpaces)
   }
 
-  def noBreathingSpace() {
+  def noBreathingSpace(): Unit = {
     // Set scenario Context to be all debt items with payments.
     ScenarioContext.set(
       "debtItems",
-      getBodyAsString("debtCalcRequest").replaceAllLiterally("<REPLACE_debtItems>", ScenarioContext.get("debtItems"))
+      getBodyAsString("debtCalcRequest").replaceAll("<REPLACE_debtItems>", ScenarioContext.get("debtItems"))
     )
     ScenarioContext.set(
       "debtItems",
@@ -206,7 +207,7 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
   }
 
   def addCustomerPostCodes(dataTable: DataTable): Unit = {
-    val asMapTransposed   = dataTable.asMaps(classOf[String], classOf[String])
+    val asMapTransposed   = dataTable.asMaps(classOf[String], classOf[String]).asScala
     var customerPostCodes = ""
 
     asMapTransposed.zipWithIndex.foreach { case (postCode, index) =>
@@ -225,16 +226,15 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
     ScenarioContext.set("debtItems", jsonWithCustomerPostCodes)
   }
 
-  def noCustomerPostCodes() {
+  def noCustomerPostCodes(): Unit =
     ScenarioContext.set(
       "debtItems",
       ScenarioContext.get("debtItems").toString.replaceAll("<REPLACE_customerPostCodes>", "")
     )
-  }
 
   def createInterestTypeRequestBody(dataTable: DataTable): Unit = {
-    val asmapTransposed = dataTable.transpose().asMap(classOf[String], classOf[String])
-    var firstItem = false
+    val asmapTransposed           = dataTable.transpose().asMap(classOf[String], classOf[String])
+    var firstItem                 = false
     var debtInterestTypes: String = null
     try ScenarioContext.get("debtInterestTypes")
     catch {
@@ -245,8 +245,7 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
       .replaceAll("<REPLACE_mainTrans>", asmapTransposed.get("mainTrans"))
     if (firstItem == true) {
       debtInterestTypes = debtInterestType
-    }
-    else {
+    } else {
       debtInterestTypes = ScenarioContext.get("debtInterestTypes").toString.concat(",").concat(debtInterestType)
     }
 

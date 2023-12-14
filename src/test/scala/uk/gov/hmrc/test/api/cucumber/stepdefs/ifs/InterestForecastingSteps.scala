@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,9 @@ import uk.gov.hmrc.test.api.models._
 import uk.gov.hmrc.test.api.requests.InterestForecastingRequests.{getBodyAsString, _}
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 
-import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
+import scala.jdk.CollectionConverters.CollectionHasAsScala
+
+//import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
 
 class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Matchers {
 
@@ -40,7 +42,6 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
 
   When("a rule has been updated") { (dataTable: DataTable) =>
     val asmapTransposed        = dataTable.transpose().asMap(classOf[String], classOf[String])
-    val newRule                = asmapTransposed.get("rule")
     val responseGEtRules       = getAllRules
     val collection             = Json.parse(responseGEtRules.body).as[GetRulesResponse]
     val newRules: List[String] = collection.rules.find(_.enabled) match {
@@ -50,6 +51,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
         )
         rules ++ List(s"IF mainTrans == '${asmapTransposed.get("mainTrans")}' AND subTrans == '${asmapTransposed
           .get("subTrans")}' -> intRate = ${asmapTransposed.get("intRate")} AND interestOnlyDebt = false")
+      case _                 => None.toList
     }
 
     postNewRulesTable(Json.toJson(CreateRuleRequest(newRules)).toString())
@@ -304,7 +306,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
       val asMapTransposed                = dataTable.asMaps(classOf[String], classOf[String])
       val response: StandaloneWSResponse = ScenarioContext.get("response")
 
-      asMapTransposed.zipWithIndex.foreach { case (window, index) =>
+      asMapTransposed.asScala.zipWithIndex.foreach { case (window, index) =>
         val responseBody =
           Json
             .parse(response.body)
@@ -386,16 +388,16 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
 
         locally {
           val fieldName = "reason"
-          if (window.containsKey(fieldName) && (window.get("reason") != "")) {
-            withClue(s"$fieldName: ") {
+          if (window.containsKey(fieldName) && (window.get(fieldName).toString != "")) {
+            withClue(s"$fieldName: ")(
               responseBody.suppressionApplied.head.reason shouldBe window.get(fieldName).toString
-            }
+            )
           }
         }
 
         locally {
           val fieldName = "code"
-          if (window.containsKey(fieldName) && (window.get("code") != ""))
+          if (window.containsKey(fieldName) && (window.get(fieldName).toString != ""))
             withClue(s"$fieldName: ") {
               responseBody.suppressionApplied.head.code shouldBe window.get(fieldName).toString
             }

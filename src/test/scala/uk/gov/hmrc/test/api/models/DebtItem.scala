@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,14 +16,14 @@
 
 package uk.gov.hmrc.test.api.models
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Format, Json, OFormat}
 
 import java.time.LocalDate
 
 final case class DebtItemChargeId(value: String) extends AnyVal
 
 object DebtItemChargeId extends ValueTypeFormatter {
-  implicit val format =
+  implicit val format: Format[DebtItemChargeId] =
     valueTypeFormatter(DebtItemChargeId.apply, DebtItemChargeId.unapply)
 }
 
@@ -38,5 +38,5 @@ final case class DebtItem(
 )
 
 object DebtItem {
-  implicit val format = Json.format[DebtItem]
+  implicit val format: OFormat[DebtItem] = Json.format[DebtItem]
 }

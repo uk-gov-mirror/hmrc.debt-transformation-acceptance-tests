@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import uk.gov.hmrc.test.api.models._
 import uk.gov.hmrc.test.api.requests.FieldCollectionsRequests._
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 
-import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
+import scala.jdk.CollectionConverters.CollectionHasAsScala
 
 class FCInterestForecastingSteps extends ScalaDsl with EN with Eventually with Matchers {
 
@@ -170,7 +170,7 @@ class FCInterestForecastingSteps extends ScalaDsl with EN with Eventually with M
 
   Then("the ([0-9])(?:st|nd|rd|th) fc debt summary will have calculation windows") {
     (summaryIndex: Int, dataTable: DataTable) =>
-      val asMapTransposed                = dataTable.asMaps(classOf[String], classOf[String])
+      val asMapTransposed                = dataTable.asMaps(classOf[String], classOf[String]).asScala
       val response: StandaloneWSResponse = ScenarioContext.get("response")
 
       asMapTransposed.zipWithIndex.foreach { case (window, index) =>

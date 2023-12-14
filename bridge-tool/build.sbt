@@ -5,9 +5,9 @@ version := "1.0"
 lazy val compileDependencies = List(
   "com.lihaoyi" %% "requests" % "0.7.0",
   "com.lihaoyi" %% "pprint" % "0.7.0",
-  "io.circe" %% "circe-core" % "0.14.1",
-  "io.circe" %% "circe-generic" % "0.14.1",
-  "io.circe" %% "circe-parser" % "0.14.1",
+  "io.circe" %% "circe-core" % "0.14.5",
+  "io.circe" %% "circe-generic" % "0.14.5",
+  "io.circe" %% "circe-parser" % "0.14.5",
 )
 
 lazy val testDependencies = List(
