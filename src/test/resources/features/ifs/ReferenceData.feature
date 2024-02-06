@@ -268,3 +268,99 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 4771      | 1175     | true                  |
       | 4618      | 1090     | false                 |
       | 3997      | 2091     | true                  |
+      | 4763      | 1090     | false                 |
+      | 4796      | 1090     | false                 |
+      | 4799      | 1090     | false                 |
+      | 4747      | 1090     | false                 |
+      | 4711      | 1174     | false                 |
+      | 4786      | 1090     | false                 |
+
+  Scenario Outline: Interest Bearing SA charges
+    Given a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans   | subTrans   |
+      | 500000         | 2021-03-01        | 2021-03-08          | <mainTrans> | <subTrans> |
+    And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the 1st debt summary will contain
+      | interestBearing | interestDueDailyAccrual | totalAmountIntDuty | interestOnlyIndicator   |
+      | true            | 35                      | 500249             | <interestOnlyIndicator> |
+    Examples:
+      | mainTrans | subTrans | interestOnlyIndicator |
+      | 4920      | 1553     | false                 |
+      | 4930      | 1553     | false                 |
+      | 4910      | 1553     | false                 |
+      | 4940      | 1090     | false                 |
+      | 4950      | 1090     | false                 |
+      | 4960      | 1090     | false                 |
+      | 4970      | 1090     | false                 |
+      | 4980      | 1090     | false                 |
+      | 4990      | 1090     | false                 |
+      | 5010      | 1090     | false                 |
+      | 5020      | 1090     | false                 |
+      | 5030      | 1090     | false                 |
+      | 5040      | 1090     | false                 |
+      | 5050      | 1553     | false                 |
+      | 5060      | 1553     | false                 |
+      | 5070      | 1553     | false                 |
+      | 5080      | 1090     | false                 |
+      | 5090      | 1553     | false                 |
+      | 5100      | 1553     | false                 |
+      | 5110      | 1090     | false                 |
+      | 5120      | 1090     | false                 |
+      | 5130      | 1090     | false                 |
+      | 5140      | 1090     | false                 |
+      | 5150      | 1090     | false                 |
+      | 5160      | 1090     | false                 |
+      | 5170      | 1090     | false                 |
+      | 5180      | 1553     | false                 |
+      | 5190      | 1553     | false                 |
+      | 5200      | 1553     | false                 |
+      | 5210      | 1553     | false                 |
+    
+  Scenario Outline: Non Interest Bearing SA Charges
+    Given the current set of rules
+    And a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans   | subTrans   |
+      | 500000         | 2021-03-01        | 2021-03-08          | <mainTrans> | <subTrans> |
+    And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the 1st debt summary will contain
+      | interestBearing | interestDueDailyAccrual | interestDueDutyTotal | intRate | unpaidAmountDuty | totalAmountIntDuty | numberChargeableDays | amountOnIntDueDuty | interestOnlyIndicator   |
+      | false           | 0                       | 0                    | 0       | 500000           | 500000             | 0                    | 500000             | <interestOnlyIndicator> |
+    Examples:
+      | mainTrans | subTrans | interestOnlyIndicator |
+      | 6010      | 1554     | true                  |
+      | 6010      | 1554     | true                  |
+      | 6010      | 1554     | true                  |
+      | 4955      | 2090     | true                  |
+      | 4965      | 2090     | true                  |
+      | 4975      | 2090     | true                  |
+      | 4985      | 2090     | true                  |
+      | 4995      | 2090     | true                  |
+      | 5015      | 2090     | true                  |
+      | 5025      | 2090     | true                  |
+      | 5035      | 2090     | true                  |
+      | 5045      | 2090     | true                  |
+      | 5055      | 1554     | true                  |
+      | 5065      | 1554     | true                  |
+      | 5075      | 1554     | true                  |
+      | 5085      | 2090     | true                  |
+      | 5095      | 1554     | true                  |
+      | 5105      | 1554     | true                  |
+      | 5115      | 2090     | true                  |
+      | 5125      | 2090     | true                  |
+      | 5135      | 2090     | true                  |
+      | 5145      | 2090     | true                  |
+      | 5155      | 2090     | true                  |
+      | 5165      | 2090     | true                  |
+      | 5175      | 2090     | true                  |
+      | 5185      | 1554     | true                  |
+      | 5195      | 1554     | true                  |
+      | 5205      | 1554     | true                  |
+      | 5215      | 1554     | true                  |
+      | 5071      | 1553     | false                 |
+      | 5073      | 1553     | false                 |
