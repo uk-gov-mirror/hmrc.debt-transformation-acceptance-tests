@@ -21,7 +21,7 @@ import play.api.libs.json.{Format, Json}
 case class SolDuty(
   dutyId: String,
   subTrans: String,
-  dutyTypeDescription: String,
+  dutyTypeDescription:Option[String],
   unpaidAmountDuty: BigInt,
   combinedDailyAccrual: BigInt,
   interestBearing: Boolean,
