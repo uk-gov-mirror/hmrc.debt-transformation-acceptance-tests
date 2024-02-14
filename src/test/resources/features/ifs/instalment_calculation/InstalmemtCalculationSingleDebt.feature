@@ -36,6 +36,7 @@ Feature: Instalment calculation for single debt - Input 2
       | 6                | 2023-09-20 | 17029     | 92                        |
 
 #  DTD-1730
+
   Scenario: Plans with initial payment and isQuoteDateNonInclusive flag should not include quote date
     Given debt instalment calculation with details
       | duration | instalmentPaymentDate | paymentFrequency | interestCallDueTotal | quoteType        | quoteDate  | isQuoteDateNonInclusive |

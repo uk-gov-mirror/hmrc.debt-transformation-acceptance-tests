@@ -68,7 +68,7 @@ Feature: Sol With Suppression
     And the 1st sol debt summary will contain duties
       | dutyId | subTrans | dutyTypeDescription | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
       | duty01 | 1090     | CO: TGPEN           | 500000           | 35                   | true            | false                 |
-
+@runMe
   Scenario: Customer Outputs SoL where suppression is applied by Main Trans
     Given suppression data has been created
       | reason      | description | enabled | fromDate   | toDate     |

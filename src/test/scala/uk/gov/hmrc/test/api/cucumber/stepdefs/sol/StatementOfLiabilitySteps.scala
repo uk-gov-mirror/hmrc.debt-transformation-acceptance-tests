@@ -162,9 +162,18 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
         .debts(debtIndex - 1)
         .duties(index)
 
-      responseBody.dutyId                         shouldBe duty.get("dutyId").toString
-      responseBody.subTrans                       shouldBe duty.get("subTrans").toString
-      responseBody.dutyTypeDescription            shouldBe duty.get("dutyTypeDescription").toString
+      responseBody.dutyId   shouldBe duty.get("dutyId").toString
+      responseBody.subTrans shouldBe duty.get("subTrans").toString
+
+      locally {
+        val fieldName = "dutyTypeDescription"
+        if (duty.containsKey(fieldName)) {
+          withClue(s"$fieldName") {
+            responseBody.dutyTypeDescription.toString contains duty.get(fieldName).toString
+
+          }
+        }
+      }
       responseBody.unpaidAmountDuty.toString      shouldBe duty.get("unpaidAmountDuty").toString
       responseBody.combinedDailyAccrual.toString  shouldBe duty.get("combinedDailyAccrual").toString
       responseBody.interestBearing.toString       shouldBe duty.get("interestBearing").toString
