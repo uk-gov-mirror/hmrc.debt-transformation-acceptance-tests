@@ -318,7 +318,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 5190      | 1553     | false                 |
       | 5200      | 1553     | false                 |
       | 5210      | 1553     | false                 |
-    
+
   Scenario Outline: Non Interest Bearing SA Charges
     Given the current set of rules
     And a debt item
