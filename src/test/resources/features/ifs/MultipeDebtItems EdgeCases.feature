@@ -204,7 +204,7 @@ Feature: Multiple Debt Items - Edge Cases
     When the debt item is sent to the ifs service
     Then the ifs service will respond with Could not parse body due to requirement failed: Amount paid in payments cannot be greater than Original Amount
 
-  Scenario: 6. 1 debts, 1 payment amount paid less than zero
+  Scenario: 6. 1 debt, 1 payment amount paid less than zero
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 50             | 2019-12-16        | 2020-05-05          | 1525      | 1000     |
@@ -214,9 +214,9 @@ Feature: Multiple Debt Items - Edge Cases
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service will respond with Could not parse body due to requirement failed: Amount paid in payments cannot be negative values
-
-  Scenario: 7. 1 debts, 2 payment amount paid less than zero
+    Then the ifs service will respond with Could not parse body due to requirement failed: paymentAmount can be zero or greater, negative values are not accepted
+    
+  Scenario: 7. 1 debt, 2 payment amounts with one less than zero
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 50000          | 2019-12-16        | 2020-05-05          | 1525      | 1000     |
@@ -227,7 +227,47 @@ Feature: Multiple Debt Items - Edge Cases
     And no breathing spaces have been applied to the customer
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service will respond with Could not parse body due to requirement failed: Amount paid in payments cannot be negative values
+    Then the ifs service will respond with Could not parse body due to requirement failed: paymentAmount can be zero or greater, negative values are not accepted
+
+  Scenario: 9. Original amount and payment amount less than zero
+    Given a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | -50000         | 2019-12-16        | 2020-05-05          | 1525      | 1000     |
+    And the debt item has payment history
+      | paymentAmount | paymentDate |
+      | -1000         | 2019-02-03  |
+    And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service will respond with originalAmount can be zero or greater, negative values are not accepted; paymentAmount can be zero or greater, negative values are not accepted
+
+  Scenario: 10. Original amount less than zero
+    Given a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | -50000         | 2019-12-16        | 2020-05-05          | 1525      | 1000     |
+    And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service will respond with Could not parse body due to requirement failed: originalAmount can be zero or greater, negative values are not accepted
+
+  Scenario: 10. Original and payment amounts can be equal to zero
+    Given a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 0              | 2019-12-16        | 2020-05-05          | 1525      | 1000     |
+    And the debt item has payment history
+      | paymentAmount | paymentDate |
+      | 0            | 2019-02-03  |
+    And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service wilL return a total debts summary of
+      | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
+      | 0                    | 0                    | 0                 | 0              | 0                   |
+    And the 1st debt summary will contain
+      | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty | interestOnlyIndicator |
+      | true            | 0                    | 0                       | 0                    | 0           | 0                  | 0                  | false                 |
+
 
   Scenario: 8. 1 debt, 1 payment, interest start date is before the debt created
     Given a debt item
