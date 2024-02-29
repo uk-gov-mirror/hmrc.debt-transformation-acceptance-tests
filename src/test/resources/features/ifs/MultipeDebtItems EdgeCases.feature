@@ -227,3 +227,18 @@ Feature: Multiple Debt Items - Edge Cases
       | 2020-10-16 | 2020-12-31 | 76           | 2.6          | 28                      | 402159             |
       | 2021-01-01 | 2021-02-22 | 53           | 2.6          | 28                      | 401510             |
 
+  Scenario: 2 debt items where one has an original amount less than zero
+    Given a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 50000          | 2019-12-16        | 2020-05-05          | 1525      | 1000     |
+    And the debt item has no payment history
+    Given a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | -1             | 2019-12-16        | 2020-05-05          | 1525      | 1000     |
+    And the debt item has payment history
+      | paymentAmount | paymentDate |
+      | 2             | 2019-12-16  |
+    And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service will respond with Could not parse body due to requirement failed: originalAmount can be zero or greater, negative values are not accepted
