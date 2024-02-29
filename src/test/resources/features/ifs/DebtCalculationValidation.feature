@@ -176,3 +176,85 @@ Feature: Debt Calculation Validation
     Then the ifs service will respond with
       | statusCode | reason                      | message                                                                              |
       | 400        | Invalid JSON error from IFS | Invalid Interest Start Date. IFS does not store or calculate historic interest rates |
+
+  @DTD-2216
+  Scenario: 1 SA debt with a payment amount greater than original debt amount
+    Given a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 50             | 2019-12-16        | 2020-05-05          | 4990      | 1090     |
+    And the debt item has payment history
+      | paymentAmount | paymentDate |
+      | 1000          | 2019-02-03  |
+    And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service will respond with Could not parse body due to requirement failed: Amount paid in payments cannot be greater than Original Amount
+
+  @DTD-2216
+  Scenario: 1 SA debt with a payment amount less than zero
+    Given a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 50             | 2019-12-16        | 2020-05-05          | 4990      | 1090     |
+    And the debt item has payment history
+      | paymentAmount | paymentDate |
+      | -1000         | 2019-02-03  |
+    And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service will respond with Could not parse body due to requirement failed: paymentAmount can be zero or greater, negative values are not accepted
+
+  @DTD-2216
+  Scenario: 1 SA debt - 2 payment amounts with one of them less than zero
+    Given a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 50000          | 2019-12-16        | 2020-05-05          | 4990      | 1090     |
+    And the debt item has payment history
+      | paymentAmount | paymentDate |
+      | 1000          | 2019-02-03  |
+      | -1000         | 2019-03-03  |
+    And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service will respond with Could not parse body due to requirement failed: paymentAmount can be zero or greater, negative values are not accepted
+
+  @DTD-2216
+  Scenario: SA original amount and payment amount less than zero
+    Given a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | -50000         | 2019-12-16        | 2020-05-05          | 4990      | 1090     |
+    And the debt item has payment history
+      | paymentAmount | paymentDate |
+      | -1000         | 2019-02-03  |
+    And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service will respond with originalAmount can be zero or greater, negative values are not accepted; paymentAmount can be zero or greater, negative values are not accepted
+
+  @DTD-2216
+  Scenario: SA original amount less than zero
+    Given a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | -50000         | 2019-12-16        | 2020-05-05          | 5200      | 1553     |
+    And the debt item has no payment history
+    And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service will respond with Could not parse body due to requirement failed: originalAmount can be zero or greater, negative values are not accepted
+
+  @DTD-2216
+  Scenario: SA Original and payment amounts can be equal to zero
+    Given a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 0              | 2019-12-16        | 2020-05-05          | 5200      | 1553     |
+    And the debt item has payment history
+      | paymentAmount | paymentDate |
+      | 0            | 2019-02-03  |
+    And no breathing spaces have been applied to the customer
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service wilL return a total debts summary of
+      | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal | amountIntTotal | amountOnIntDueTotal |
+      | 0                    | 0                    | 0                 | 0              | 0                   |
+    And the 1st debt summary will contain
+      | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty | interestOnlyIndicator |
+      | true            | 0                    | 0                       | 0                    | 0           | 0                  | 0                  | false                 |
