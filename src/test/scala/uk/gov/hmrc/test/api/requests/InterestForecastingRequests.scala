@@ -197,8 +197,6 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
   }
 
   def addDebtBreathingSpace(dataTable: DataTable): Unit = {
-    //ScenarioContext.set("debtItems",getBodyAsString("debtCalcRequest").replaceAll("<REPLACE_debtItems>", ScenarioContext.get("debtItems")))
-
     val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String]).asScala
     var breathingSpaces = ""
 
