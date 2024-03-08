@@ -185,7 +185,7 @@ Feature: Debt Calculation Validation
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 1000          | 2019-02-03  |
-    And no breathing spaces have been applied to the customer
+    And no breathing spaces have been applied to the debt item
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with Could not parse body due to requirement failed: Amount paid in payments cannot be greater than Original Amount
@@ -198,7 +198,7 @@ Feature: Debt Calculation Validation
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | -1000         | 2019-02-03  |
-    And no breathing spaces have been applied to the customer
+    And no breathing spaces have been applied to the debt item
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with Could not parse body due to requirement failed: paymentAmount can be zero or greater, negative values are not accepted
@@ -212,7 +212,7 @@ Feature: Debt Calculation Validation
       | paymentAmount | paymentDate |
       | 1000          | 2019-02-03  |
       | -1000         | 2019-03-03  |
-    And no breathing spaces have been applied to the customer
+    And no breathing spaces have been applied to the debt item
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with Could not parse body due to requirement failed: paymentAmount can be zero or greater, negative values are not accepted
@@ -225,7 +225,7 @@ Feature: Debt Calculation Validation
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | -1000         | 2019-02-03  |
-    And no breathing spaces have been applied to the customer
+    And no breathing spaces have been applied to the debt item
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with originalAmount can be zero or greater, negative values are not accepted; paymentAmount can be zero or greater, negative values are not accepted
@@ -236,7 +236,7 @@ Feature: Debt Calculation Validation
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | -50000         | 2019-12-16        | 2020-05-05          | 5200      | 1553     |
     And the debt item has no payment history
-    And no breathing spaces have been applied to the customer
+    And no breathing spaces have been applied to the debt item
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with Could not parse body due to requirement failed: originalAmount can be zero or greater, negative values are not accepted
@@ -249,7 +249,7 @@ Feature: Debt Calculation Validation
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 0            | 2019-02-03  |
-    And no breathing spaces have been applied to the customer
+    And no breathing spaces have been applied to the debt item
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of

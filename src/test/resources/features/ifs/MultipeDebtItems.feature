@@ -347,4 +347,3 @@ Feature: Multiple Debt Items
     And the 2nd debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow | breathingSpaceApplied |
       | 2022-07-31 | 2022-08-22 | 22           | 3.75         | 10                      | 100226             | false                 |
-
