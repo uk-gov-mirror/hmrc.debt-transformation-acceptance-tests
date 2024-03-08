@@ -251,20 +251,21 @@ Feature: Multiple Debt Items
   A part payment is received post BS period & a further Interest Charge is raised.
   IFS is called during BS period, after BS period for issue of an SOL and clerically following receipt of a payment.
   Breathing space for interest bearing debt with payments.
-    Given a fc vat debt item
-      | debtItemChargeId | originalAmount | periodEnd  | interestRequestedTo | interestIndicator |
-      | 123              | 500000         | 2022-04-01 | 2021-11-15          | Y                 |
-    And the fc vat debt item has payment history
+    Given a debt item
+      | debtItemChargeId | originalAmount | periodEnd  | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 123              | 500000         | 2022-04-01 | 2021-02-01        | 2021-11-15          | 1525      | 1000     |
+    And the debt item has payment history
       | paymentAmount | paymentDate |
       | 100000        | 2021-06-01  |
-    And the fc vat customer has breathing spaces applied
+    And the debt item has breathing spaces applied
       | debtRespiteFrom | debtRespiteTo |
       | 2021-11-01      | 2021-12-01    |
-    When the debt item is sent to the fc vat ifs service
-    Then the fc vat ifs service wilL return a total debts summary of
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | unpaidAmountTotal |
       | 0                    | 400000            |
-    And the 1st fc vat debt summary will contain
+    And the 1st debt summary will contain
       | debtItemChargeId | interestDueDailyAccrual | interestRate |
       | 123              | 0                       | 0.0          |
 
