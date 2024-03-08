@@ -12,6 +12,7 @@
 #3. 2 payments of 1 debt with interest
 #4. 2 debts, 1 debt with a payment, the second debt with no payment
 Feature: Multiple Debt Items
+
   Scenario: 1. Non Interest Bearing. 1 Payment of 1 debt.
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
@@ -202,7 +203,7 @@ Feature: Multiple Debt Items
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | amountOnIntDueWindow | breathingSpaceApplied |
       | 2018-12-16 | 2019-01-23 | 38           | 3.25         | 8                       | 338               | 100000               | false                 |
       | 2018-12-16 | 2019-01-02 | 17           | 3.25         | 35                      | 605               | 400000               | false                 |
-      | 2019-01-03 | 2019-02-03 | 31           | 0.0            | 0                       | 0                 | 400000               | true                 |
+      | 2019-01-03 | 2019-02-03 | 31           | 0.0          | 0                       | 0                 | 400000               | true                  |
       | 2019-02-03 | 2019-04-14 | 71           | 3.25         | 35                      | 2528              | 400000               | false                 |
 
   @wip
@@ -245,7 +246,7 @@ Feature: Multiple Debt Items
       | 2018-12-16 | 2019-04-14 | 119          | 3.25         | 44                      | 505297             |
 
 
-@wip
+  @wip
   Scenario: Scenario 1 - Customer has 2 debts which are eligible for the Breathing Space protections.
   A part payment is received post BS period & a further Interest Charge is raised.
   IFS is called during BS period, after BS period for issue of an SOL and clerically following receipt of a payment.
@@ -291,7 +292,7 @@ Feature: Multiple Debt Items
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | amountIntTotal | amountOnIntDueTotal | interestOnlyIndicator |
-      | 8                  | 4890593        | 4840000             | false                 |
+      | 8                    | 4890593        | 4840000             | false                 |
     And the 1st debt summary will contain
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
       | true            | 241                  | 455                     | 4800546            |

@@ -13,10 +13,10 @@ Feature: FC VAT Debt Calculation with Breathing Space
     When the debt item is sent to the fc vat ifs service
     Then the fc vat ifs service wilL return a total debts summary of
       | combinedDailyAccrual | unpaidAmountTotal |
-      | 0                  | 400000            |
+      | 0                    | 400000            |
     And the 1st fc vat debt summary will contain
       | debtItemChargeId | interestDueDailyAccrual | interestRate |
-      | 123              | 0                      | 0.0          |
+      | 123              | 0                       | 0.0          |
 
 
   Scenario: Breathing space for interest bearing debt with no payments.
@@ -30,10 +30,10 @@ Feature: FC VAT Debt Calculation with Breathing Space
     When the debt item is sent to the fc vat ifs service
     Then the fc vat ifs service wilL return a total debts summary of
       | combinedDailyAccrual | unpaidAmountTotal |
-      | 0                   | 500000            |
+      | 0                    | 500000            |
     And the 1st fc vat debt summary will contain
       | debtItemChargeId | interestDueDailyAccrual | interestRate |
-      | 123              | 0                       | 0.0         |
+      | 123              | 0                       | 0.0          |
 
 
   Scenario: Non interest bearing debt should not have breathing space applied
@@ -53,18 +53,16 @@ Feature: FC VAT Debt Calculation with Breathing Space
       | 123              | 0                       | 0.0          |
 
 
-
-
   Scenario: Multiple debts with multiple breathing Spaces
     Given a fc vat debt item
       | debtItemChargeId | originalAmount | periodEnd  | interestRequestedTo | interestIndicator |
-      | 123              | 500000         | 2022-04-01 | 2022-02-07        | Y                 |
+      | 123              | 500000         | 2022-04-01 | 2022-02-07          | Y                 |
     And the fc vat debt item has payment history
       | paymentAmount | paymentDate |
       | 100000        | 2021-06-01  |
     And the fc vat customer has breathing spaces applied
       | debtRespiteFrom | debtRespiteTo |
-      | 2022-01-30      | 2022-02-28   |
+      | 2022-01-30      | 2022-02-28    |
       | 2021-08-16      | 2021-08-18    |
     Given a fc vat debt item
       | debtItemChargeId  | originalAmount | periodEnd  | interestRequestedTo | interestIndicator |
@@ -81,11 +79,10 @@ Feature: FC VAT Debt Calculation with Breathing Space
       | 32                   | 850000            |
     And the 1st fc vat debt summary will contain
       | debtItemChargeId | interestDueDailyAccrual | interestRate |
-      | 123              | 0                      | 0.0         |
+      | 123              | 0                       | 0.0          |
     And the 2nd fc vat debt summary will contain
       | debtItemChargeId  | interestDueDailyAccrual | interestRate |
-      | debtItemChargeId1 | 32                       | 2.6         |
-
+      | debtItemChargeId1 | 32                      | 2.6          |
 
   Scenario: Multiple debts, 1 with a breathing Space, 1 without
     Given a fc vat debt item
@@ -108,19 +105,19 @@ Feature: FC VAT Debt Calculation with Breathing Space
     When the debt item is sent to the fc vat ifs service
     Then the fc vat ifs service wilL return a total debts summary of
       | combinedDailyAccrual | unpaidAmountTotal |
-      | 39                   | 1250000            |
+      | 39                   | 1250000           |
     And the 1st fc vat debt summary will contain
       | debtItemChargeId | interestDueDailyAccrual | interestRate |
-      | 123              | 0                      | 0.0          |
+      | 123              | 0                       | 0.0          |
     And the 2nd fc vat debt summary will contain
       | debtItemChargeId  | interestDueDailyAccrual | interestRate |
-      | debtItemChargeId1 | 39                      | 2.6         |
+      | debtItemChargeId1 | 39                      | 2.6          |
 
 
   Scenario: Breathing space for  interest bearing debt with payments -no debtRespiteFrom
     Given a fc vat debt item
       | debtItemChargeId | originalAmount | periodEnd  | interestRequestedTo | interestIndicator |
-      | 123              | 500000         | 2022-04-01 | 2020-08-02           | Y                 |
+      | 123              | 500000         | 2022-04-01 | 2020-08-02          | Y                 |
     And the fc vat debt item has payment history
       | paymentAmount | paymentDate |
       | 100000        | 2021-06-01  |

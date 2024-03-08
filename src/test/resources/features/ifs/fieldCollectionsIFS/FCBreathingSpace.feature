@@ -108,7 +108,7 @@ Feature: FC Debt Calculation Breathing Space
       | 2021-08-16 | 2021-08-18 | 2            | 0.0          | 0                       | 0                 | 500000             |
       | 2021-08-18 | 2021-11-30 | 105          | 2.6          | 35                      | 3739              | 503739             |
 
-    @wip
+  @wip
   Scenario: Multiple debts, 1 with a breathing Space, 1 without
     Given a fc debt item
       | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
