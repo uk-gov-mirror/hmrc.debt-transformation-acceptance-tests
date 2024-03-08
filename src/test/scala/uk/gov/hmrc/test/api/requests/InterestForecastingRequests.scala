@@ -168,7 +168,6 @@ object InterestForecastingRequests extends ScalaDsl with EN with Eventually with
       "debtItems",
       getBodyAsString("debtCalcRequest").replaceAll("<REPLACE_debtItems>", ScenarioContext.get("debtItems"))
     )
-    //    ScenarioContext.set("debtItems",getBodyAsString("debtCalcRequest").replaceAll("<REPLACE_debtItems>", ScenarioContext.get("debtItems")))
     val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String]).asScala
     var breathingSpaces = ""
 
