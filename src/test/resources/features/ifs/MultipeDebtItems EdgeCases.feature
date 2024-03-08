@@ -15,7 +15,7 @@
 
 Feature: Multiple Debt Items - Edge Cases
 
-  Scenario: 2 debts. 1 interest bearing and 1 non interest bearing
+  Scenario: 1. 2 debts. 1 interest bearing and 1 non interest bearing
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2018-12-16        | 2019-04-14          | 1525      | 1000     |
@@ -26,7 +26,7 @@ Feature: Multiple Debt Items - Edge Cases
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2018-12-16        | 2019-04-14          | 1520      | 1090     |
     And the debt item has no payment history
-    And no breathing spaces have been applied to the customer
+    And no breathing spaces have been applied to the debt item
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
@@ -44,7 +44,7 @@ Feature: Multiple Debt Items - Edge Cases
       | false           | 0                    | 0                       | 0                    | 500000           | 500000             | 500000             | false                 |
     And the 2nd debt summary will not have any calculation windows
 
-  Scenario: 2 debts each with 1 payment of different amounts
+  Scenario: 2. 2 debts each with 1 payment of different amounts
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2018-12-16        | 2019-04-14          | 1525      | 1000     |
@@ -57,7 +57,7 @@ Feature: Multiple Debt Items - Edge Cases
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 100000        | 2019-02-03  |
-    And no breathing spaces have been applied to the customer
+    And no breathing spaces have been applied to the debt item
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
@@ -75,7 +75,7 @@ Feature: Multiple Debt Items - Edge Cases
       | false           | 0                    | 0                       | 400000             |
     And the 2nd debt summary will not have any calculation windows
 
-  Scenario: 3 debts, 1 with a payment
+  Scenario: 3. 3 debts, 1 with a payment
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2018-12-16        | 2019-04-14          | 1525      | 1000     |
@@ -90,7 +90,7 @@ Feature: Multiple Debt Items - Edge Cases
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2018-12-16        | 2019-04-14          | 1525      | 1000     |
     And the debt item has no payment history
-    And no breathing spaces have been applied to the customer
+    And no breathing spaces have been applied to the debt item
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
@@ -117,9 +117,9 @@ Feature: Multiple Debt Items - Edge Cases
       | 2018-12-16 | 2019-04-14 | 119          | 3.25         | 44                      | 505297             |
 
 #    300 debts items is the max says Helen
-  Scenario: 300 debt items
+  Scenario: 4. 300 debt items
     Given 300 debt items
-    And no breathing spaces have been applied to the customer
+    And no breathing spaces have been applied to the debt item
     And no post codes have been provided for the customer
     When the debt items is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
@@ -129,7 +129,7 @@ Feature: Multiple Debt Items - Edge Cases
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
       | true            | 119                  | 44                      | 504654             |
 
-  Scenario: 2 debts, 5 payments on one of the debts
+  Scenario: 5. 2 debts, 5 payments on one of the debts
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 1000000        | 2018-12-16        | 2019-04-14          | 1525      | 1000     |
@@ -144,7 +144,7 @@ Feature: Multiple Debt Items - Edge Cases
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2018-12-16        | 2019-04-14          | 1525      | 1000     |
     And the debt item has no payment history
-    And no breathing spaces have been applied to the customer
+    And no breathing spaces have been applied to the debt item
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
@@ -166,14 +166,14 @@ Feature: Multiple Debt Items - Edge Cases
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow |
       | 2018-12-16 | 2019-04-14 | 119          | 3.25         | 44                      | 505297             |
 
-  Scenario: 1 debt with payment where payment date before date created
+  Scenario: 6. 1 debt with payment where payment date before date created
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2019-12-16        | 2020-05-05          | 1525      | 1000     |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 100000        | 2019-02-03  |
-    And no breathing spaces have been applied to the customer
+    And no breathing spaces have been applied to the debt item
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
@@ -190,26 +190,27 @@ Feature: Multiple Debt Items - Edge Cases
       | 2020-03-30 | 2020-04-06 | 8            | 2.75         | 30                      | 400240             |
       | 2020-04-07 | 2020-05-05 | 29           | 2.6          | 28                      | 400824             |
 
-  Scenario: 1 debt with a payment amount greater than original debt amount
+
+  Scenario: 7. 1 debt with a payment amount greater than original debt amount
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 50             | 2019-12-16        | 2020-05-05          | 1525      | 1000     |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 1000          | 2019-02-03  |
-    And no breathing spaces have been applied to the customer
+    And no breathing spaces have been applied to the debt item
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with Could not parse body due to requirement failed: Amount paid in payments cannot be greater than Original Amount
 
-  Scenario: 1 debt with an interest start date before the debt created
+  Scenario: 8. 1 debt with an interest start date before the debt created
     Given a debt item
       | originalAmount | dateCreated | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2020-12-22  | 2020-10-16        | 2021-02-22          | 1525      | 1000     |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 100000        | 2021-02-23  |
-    And no breathing spaces have been applied to the customer
+    And no breathing spaces have been applied to the debt item
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
@@ -226,7 +227,7 @@ Feature: Multiple Debt Items - Edge Cases
       | 2021-01-01 | 2021-02-22 | 53           | 2.6          | 28                      | 401510             |
 
   @DTD-2216
-  Scenario: 2 SA debts where one has an original amount less than zero
+  Scenario: 9. 2 SA debts where one has an original amount less than zero
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 50000          | 2019-12-16        | 2020-05-05          | 6010      | 1554     |
@@ -237,7 +238,7 @@ Feature: Multiple Debt Items - Edge Cases
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 2             | 2019-12-16  |
-    And no breathing spaces have been applied to the customer
+    And no breathing spaces have been applied to the debt item
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with Could not parse body due to requirement failed: originalAmount can be zero or greater, negative values are not accepted
