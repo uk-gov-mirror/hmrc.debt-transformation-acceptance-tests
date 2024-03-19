@@ -402,6 +402,14 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
               responseBody.suppressionApplied.head.code shouldBe window.get(fieldName).toString
             }
         }
+
+        locally {
+          val fieldName = "breathingSpaceApplied"
+          if (window.containsKey(fieldName) && (window.get(fieldName).toString != ""))
+            withClue(s"$fieldName: ") {
+              responseBody.breathingSpaceApplied.toString shouldBe window.get(fieldName).toString
+            }
+        }
       }
   }
   Then("Ifs service returns response code (.*)") { (expectedCode: Int) =>
