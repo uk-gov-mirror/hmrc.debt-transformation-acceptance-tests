@@ -11,7 +11,6 @@
 # Breathing space applied where payments are made
 # More than one breathing space not overlapping
 # Payments being made or interest rate change while breathing space is applied
-@runMe
 Feature: Breathing Space
 
   @wip @DTD-2244 @DTD-2273 @DTD-2274
@@ -57,15 +56,15 @@ Feature: Breathing Space
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | amountIntTotal |
-      | 8                    | 100364         |
+      | 8                    | 100356         |
     And the 1st debt summary will contain
       | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
-      | 44                   | 4                       | 50182              |
+      | 44                   | 4                       | 50178              |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow | breathingSpaceApplied |
       | 2022-01-31 | 2022-02-20 | 20           | 2.75         | 3                       | 50075              | false                 |
       | 2022-02-21 | 2022-02-28 | 8            | 3.0          | 4                       | 50032              | false                 |
-      | 2022-03-01 | 2022-04-05 | 35           | 0.0          | 0                       | 50000              | true                  |
+      | 2022-03-01 | 2022-04-04 | 35           | 0.0          | 0                       | 50000              | true                  |
       | 2022-04-05 | 2022-04-29 | 25           | 0.0          | 0                       | 50000              | true                  |
       | 2022-04-30 | 2022-05-15 | 16           | 3.25         | 4                       | 50071              | false                 |
     And the 2nd debt summary will contain
@@ -96,16 +95,16 @@ Feature: Breathing Space
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | amountIntTotal |
-      | 4                    | 30042          |
+      | 2                    | 30042          |
     And the 1st debt summary will contain
       | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
-      | 16                   | 4                       | 30042              |
+      | 16                   | 2                       | 30042              |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow | breathingSpaceApplied |
       | 2022-04-06 | 2022-04-09 | 3            | 3.25         | 4                       | 50013              | false                 |
       | 2022-04-10 | 2022-04-20 | 10           | 0.0          | 0                       | 50000              | true                  |
       | 2022-04-21 | 2022-04-24 | 4            | 3.25         | 1                       | 20005              | false                 |
-      | 2022-04-21 | 2022-04-29 | 9            | 3.25         | 4                       | 30024              | false                 |
+      | 2022-04-21 | 2022-04-29 | 9            | 3.25         | 2                       | 30024              | false                 |
 
   @wip @DTD-2140 @DTD-2243
   Scenario: 2 debts one with a breathing space and payment history plus a late payment debt (Scenario 1, Step 7)
