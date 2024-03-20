@@ -217,3 +217,47 @@ Feature: Breathing Space
       | 2023-02-21 | 2023-03-31 | 39           | 6.50         | 2                       | 50173              |
       | 2023-04-01 | 2023-04-12 | 12           | 0.0          | 0                       | 50000              |
       | 2023-04-13 | 2023-06-17 | 66           | 0.0          | 0                       | 50000              |
+
+  @wip @DTD-2140
+  Scenario: Customer makes payment whilst in an active Breathing Space period (Scenario 4)
+    Given a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
+      | 25000          | 2022-01-31        | 2022-08-01          | 1525      | 1000     | true            |
+    And the debt item has payment history
+      | paymentAmount | paymentDate |
+      | 10000         | 2022-07-01  |
+    And the debt item has breathing spaces applied
+      | debtRespiteFrom | debtRespiteTo |
+      | 2022-06-01      | 2022-07-30    |
+    And a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
+      | 15000          | 2022-05-30        | 2022-08-01          | 1525      | 1000     | true            |
+    And no breathing spaces have been applied to the debt item
+    And the debt item has no payment history
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service wilL return a total debts summary of
+      | combinedDailyAccrual | amountIntTotal |
+      | 2                    | 30377          |
+    And the 1st debt summary will contain
+      | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
+      | 273                  | 1                       | 15284              |
+    And the 1st debt summary will have calculation windows
+      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow | breathingSpaceApplied |
+      | 2022-01-31 | 2022-02-20 | 20           | 2.75         | 0                       | 25037              | false                 |
+      | 2022-02-21 | 2022-04-04 | 43           | 3.0          | 0                       | 25088              | false                 |
+      | 2022-04-05 | 2022-05-23 | 49           | 3.25         | 0                       | 25109              | false                 |
+      | 2022-05-24 | 2022-05-31 | 8            | 3.5          | 0                       | 25019              | false                 |
+      | 2022-06-05 | 2022-07-01 | 31           | 0.0          | 0                       | 25000              | true                  |
+      | 2022-07-02 | 2022-07-04 | 3            | 0.0          | 0                       | 25000              | true                  |
+      | 2022-07-05 | 2022-07-30 | 26           | 0.0          | 0                       | 25000              | true                  |
+      | 2022-07-31 | 2022-08-01 | 2            | 3.75         | 1                       | 25002              | false                 |
+    And the 2nd debt summary will contain
+      | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
+      | 273                  | 1                       | 15284              |
+    And the 2nd debt summary will have calculation windows
+      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow | breathingSpaceApplied |
+      | 2022-05-30 | 2022-05-31 | 1            | 3.5          | 0                       | 10001              | false                 |
+      | 2022-06-01 | 2022-07-04 | 34           | 0.0          | 0                       | 10000              | false                 |
+      | 2022-07-05 | 2022-07-30 | 26           | 0.0          | 0                       | 25000              | false                 |
+      | 2022-07-31 | 2022-08-01 | 2            | 3.75         | 0                       | 25002              | false                 |
