@@ -1,23 +1,11 @@
-#  Assumptions
-#  NO suppression period
-
-# DTD-185. Breathing Space
-
-# Scenario 1. Breathing Space applied to 1 debt
-# Scenario 2. Breathing Space - open ended
-
-#  Scenarios TBC and will be added below
-# Breathing space applied to more than 1 debt
-# Breathing space applied where payments are made
-# More than one breathing space not overlapping
-# Payments being made or interest rate change while breathing space is applied
+@DTD-2140 @DTD-2244 @DTD-2273 @DTD-2274
 Feature: Breathing Space
 
-  @wip @DTD-2244 @DTD-2273 @DTD-2274
+  @DTD-2244 @DTD-2273 @DTD-2274
   Scenario: Interest Bearing. Single debt with breathing space and no payment history
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2018-12-16        | 2019-04-14          | 1525      | 1000     | true            |
+      | 500000         | 2018-12-16        | 2019-04-14          | 4920      | 1553     | true            |
     And the debt item has no payment history
     And the debt item has breathing spaces applied
       | debtRespiteFrom | debtRespiteTo |
@@ -40,14 +28,14 @@ Feature: Breathing Space
   Scenario: 2 debts with breathing space. No payment history (Scenario 1 - step 6)
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 50000          | 2022-01-31        | 2022-05-15          | 1525      | 1000     | true            |
+      | 50000          | 2022-01-31        | 2022-05-15          | 4920      | 1553     | true            |
     And the debt item has no payment history
     And the debt item has breathing spaces applied
       | debtRespiteFrom | debtRespiteTo |
       | 2022-03-01      | 2022-04-29    |
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 50000          | 2022-01-31        | 2022-05-15          | 1525      | 1000     | true            |
+      | 50000          | 2022-01-31        | 2022-05-15          | 4920      | 1553     | true            |
     And the debt item has no payment history
     And the debt item has breathing spaces applied
       | debtRespiteFrom | debtRespiteTo |
@@ -82,7 +70,7 @@ Feature: Breathing Space
   Scenario: Single debt with breathing space AND payment history
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 50000          | 2022-04-06        | 2022-04-29          | 1525      | 1000     | true            |
+      | 50000          | 2022-04-06        | 2022-04-29          | 4920      | 1553     | true            |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 20000         | 2022-04-24  |
@@ -95,10 +83,10 @@ Feature: Breathing Space
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | amountIntTotal |
-      | 2                    | 30042          |
+      | 2                    | 30066          |
     And the 1st debt summary will contain
       | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
-      | 16                   | 2                       | 30042              |
+      | 16                   | 2                       | 30066              |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow | breathingSpaceApplied |
       | 2022-04-06 | 2022-04-09 | 3            | 3.25         | 4                       | 50013              | false                 |
@@ -110,7 +98,7 @@ Feature: Breathing Space
   Scenario: 2 debts one with a breathing space and payment history plus a late payment debt (Scenario 1, Step 7)
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 50000          | 2022-01-31        | 2022-06-10          | 1525      | 1000     | true            |
+      | 50000          | 2022-01-31        | 2022-06-10          | 4920      | 1553     | true            |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 25000         | 2022-05-30  |
@@ -147,7 +135,7 @@ Feature: Breathing Space
   Scenario: 1 debt with a payment and 2 breathing spaces (incl an open ended BS), 1 late payment debt, 3rd debt with BS (Scenario 2, Step 4)
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 50000          | 2022-01-31        | 2022-06-17          | 1525      | 1000     | true            |
+      | 50000          | 2022-01-31        | 2022-06-17          | 4920      | 1553     | true            |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 25000         | 2022-05-30  |
@@ -162,7 +150,7 @@ Feature: Breathing Space
     And the debt item has no payment history
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 50000          | 2022-07-30        | 2023-06-17          | 1525      | 1000     | true            |
+      | 50000          | 2022-07-30        | 2023-06-17          | 4920      | 1553     | true            |
     And the debt item has breathing spaces applied
       | debtRespiteFrom | debtRespiteTo |
       | 2023-04-01      | 2023-06-17    |
@@ -222,16 +210,16 @@ Feature: Breathing Space
   Scenario: Customer makes payment whilst in an active Breathing Space period (Scenario 4)
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 25000          | 2022-01-31        | 2022-08-01          | 1525      | 1000     | true            |
+      | 25000          | 2022-01-31        | 2022-08-01          | 4920      | 1553     | true            |
     And the debt item has payment history
       | paymentAmount | paymentDate |
-      | 10000         | 2022-07-01  |
+      | 15530         | 2022-07-01  |
     And the debt item has breathing spaces applied
       | debtRespiteFrom | debtRespiteTo |
       | 2022-06-01      | 2022-07-30    |
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 15000          | 2022-05-30        | 2022-08-01          | 1525      | 1000     | true            |
+      | 15000          | 2022-05-30        | 2022-08-01          | 4920      | 1553     | true            |
     And no breathing spaces have been applied to the debt item
     And the debt item has no payment history
     And no post codes have been provided for the customer
@@ -257,7 +245,7 @@ Feature: Breathing Space
       | 273                  | 1                       | 15284              |
     And the 2nd debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow | breathingSpaceApplied |
-      | 2022-05-30 | 2022-05-31 | 1            | 3.5          | 0                       | 10001              | false                 |
-      | 2022-06-01 | 2022-07-04 | 34           | 0.0          | 0                       | 10000              | false                 |
+      | 2022-05-30 | 2022-05-31 | 1            | 3.5          | 0                       | 15531              | false                 |
+      | 2022-06-01 | 2022-07-04 | 34           | 0.0          | 0                       | 15530              | false                 |
       | 2022-07-05 | 2022-07-30 | 26           | 0.0          | 0                       | 25000              | false                 |
       | 2022-07-31 | 2022-08-01 | 2            | 3.75         | 0                       | 25002              | false                 |
