@@ -12,15 +12,15 @@ Feature: FC Debt Calculation Breathing Space
     When the debt item is sent to the fc ifs service
     Then the fc ifs service wilL return a total debts summary of
       | combinedDailyAccrual | unpaidAmountTotal | interestDueCallTotal | totalAmountIntTotal | amountOnIntDueTotal |
-      | 35                   | 500000            | 8618                 | 508618              | 500000              |
+      | 35                   | 500000            | 8582                 | 508582              | 500000              |
     And the 1st fc debt summary will contain
       | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
-      | 35                      | 8618                 | 500000           | 508618             | 500000             |
+      | 35                      | 8582                 | 500000           | 508582             | 500000             |
     And the 1st fc debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow |
       | 2021-02-01 | 2021-06-14 | 133          | 2.6          | 35                      | 4736              | 504736             |
       | 2021-06-15 | 2021-08-14 | 60           | 0.0          | 0                       | 0                 | 500000             |
-      | 2021-08-14 | 2021-11-30 | 109          | 2.6          | 35                      | 3882              | 503882             |
+      | 2021-08-15 | 2021-11-30 | 108          | 2.6          | 35                      | 3846              | 503846             |
 
   Scenario: Breathing space for interest bearing debt with payments.
     Given a fc debt item
@@ -38,16 +38,16 @@ Feature: FC Debt Calculation Breathing Space
     When the debt item is sent to the fc ifs service
     Then the fc ifs service wilL return a total debts summary of
       | combinedDailyAccrual | unpaidAmountTotal | interestDueCallTotal |
-      | 28                   | 400000            | 6908                 |
+      | 28                   | 400000            | 6880                 |
     And the 1st fc debt summary will contain
       | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty |
-      | 28                      | 6908                 | 400000           |
+      | 28                      | 6880                 | 400000           |
     And the 1st fc debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow |
       | 2021-02-01 | 2021-02-03 | 2            | 2.6          | 7                       | 14                | 100014             |
       | 2021-02-01 | 2021-06-14 | 133          | 2.6          | 28                      | 3789              | 403789             |
       | 2021-06-15 | 2021-08-14 | 60           | 0.0          | 0                       | 0                 | 400000             |
-      | 2021-08-14 | 2021-11-30 | 109          | 2.6          | 28                      | 3105              | 403105             |
+      | 2021-08-15 | 2021-11-30 | 108          | 2.6          | 28                      | 3077              | 403077             |
 
   Scenario: Non interest bearing debt should not have breathing space applied
     Given a fc debt item
@@ -87,25 +87,25 @@ Feature: FC Debt Calculation Breathing Space
     When the debt item is sent to the fc ifs service
     Then the fc ifs service wilL return a total debts summary of
       | combinedDailyAccrual | totalAmountIntTotal |
-      | 70                   | 1017164             |
+      | 70                   | 1017057             |
     And the 1st fc debt summary will contain
       | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
-      | 0                    | 35                      | 508618             |
+      | 0                    | 35                      | 508582            |
     And the 1st fc debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow |
       | 2021-02-01 | 2021-06-14 | 133          | 2.6          | 35                      | 4736              | 504736             |
       | 2021-06-15 | 2021-08-14 | 60           | 0.0          | 0                       | 0                 | 500000             |
-      | 2021-08-14 | 2021-11-30 | 109          | 2.6          | 35                      | 3882              | 503882             |
+      | 2021-08-15 | 2021-11-30 | 108          | 2.6          | 35                      | 3846              | 503846             |
     And the 2nd fc debt summary will contain
       | interestDueDailyAccrual | totalAmountIntDuty |
-      | 35                      | 508546             |
+      | 35                      | 508475             |
     And the 2nd fc debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow |
       | 2021-02-01 | 2021-06-14 | 133          | 2.6          | 35                      | 4736              | 504736             |
       | 2021-06-15 | 2021-08-14 | 60           | 0.0          | 0                       | 0                 | 500000             |
-      | 2021-08-14 | 2021-08-15 | 2            | 2.6          | 35                      | 71                | 500071             |
+      | 2021-08-15 | 2021-08-15 | 1            | 2.6          | 35                      | 35                | 500035             |
       | 2021-08-16 | 2021-08-18 | 2            | 0.0          | 0                       | 0                 | 500000             |
-      | 2021-08-18 | 2021-11-30 | 105          | 2.6          | 35                      | 3739              | 503739             |
+      | 2021-08-19 | 2021-11-30 | 104          | 2.6          | 35                      | 3704              | 503704             |
 
   @wip
   Scenario: Multiple debts, 1 with a breathing Space, 1 without
