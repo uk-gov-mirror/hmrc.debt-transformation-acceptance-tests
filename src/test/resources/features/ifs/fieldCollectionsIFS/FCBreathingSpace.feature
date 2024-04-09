@@ -19,7 +19,7 @@ Feature: FC Debt Calculation Breathing Space
     And the 1st fc debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow |
       | 2021-02-01 | 2021-06-14 | 133          | 2.6          | 35                      | 4736              | 504736             |
-      | 2021-06-15 | 2021-08-14 | 60           | 0.0          | 0                       | 0                 | 500000             |
+      | 2021-06-15 | 2021-08-14 | 61           | 0.0          | 0                       | 0                 | 500000             |
       | 2021-08-15 | 2021-11-30 | 108          | 2.6          | 35                      | 3846              | 503846             |
 
   Scenario: Breathing space for interest bearing debt with payments.
@@ -46,7 +46,7 @@ Feature: FC Debt Calculation Breathing Space
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow |
       | 2021-02-01 | 2021-02-03 | 2            | 2.6          | 7                       | 14                | 100014             |
       | 2021-02-01 | 2021-06-14 | 133          | 2.6          | 28                      | 3789              | 403789             |
-      | 2021-06-15 | 2021-08-14 | 60           | 0.0          | 0                       | 0                 | 400000             |
+      | 2021-06-15 | 2021-08-14 | 61           | 0.0          | 0                       | 0                 | 400000             |
       | 2021-08-15 | 2021-11-30 | 108          | 2.6          | 28                      | 3077              | 403077             |
 
   Scenario: Non interest bearing debt should not have breathing space applied
@@ -94,7 +94,7 @@ Feature: FC Debt Calculation Breathing Space
     And the 1st fc debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow |
       | 2021-02-01 | 2021-06-14 | 133          | 2.6          | 35                      | 4736              | 504736             |
-      | 2021-06-15 | 2021-08-14 | 60           | 0.0          | 0                       | 0                 | 500000             |
+      | 2021-06-15 | 2021-08-14 | 61           | 0.0          | 0                       | 0                 | 500000             |
       | 2021-08-15 | 2021-11-30 | 108          | 2.6          | 35                      | 3846              | 503846             |
     And the 2nd fc debt summary will contain
       | interestDueDailyAccrual | totalAmountIntDuty |
@@ -102,9 +102,9 @@ Feature: FC Debt Calculation Breathing Space
     And the 2nd fc debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow |
       | 2021-02-01 | 2021-06-14 | 133          | 2.6          | 35                      | 4736              | 504736             |
-      | 2021-06-15 | 2021-08-14 | 60           | 0.0          | 0                       | 0                 | 500000             |
+      | 2021-06-15 | 2021-08-14 | 61           | 0.0          | 0                       | 0                 | 500000             |
       | 2021-08-15 | 2021-08-15 | 1            | 2.6          | 35                      | 35                | 500035             |
-      | 2021-08-16 | 2021-08-18 | 2            | 0.0          | 0                       | 0                 | 500000             |
+      | 2021-08-16 | 2021-08-18 | 3            | 0.0          | 0                       | 0                 | 500000             |
       | 2021-08-19 | 2021-11-30 | 104          | 2.6          | 35                      | 3704              | 503704             |
 
   @wip
@@ -138,5 +138,5 @@ Feature: FC Debt Calculation Breathing Space
     And the 2nd fc debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow |
       | 2021-02-01 | 2021-06-14 | 133          | 2.6          | 35                      | 4736              | 504736             |
-      | 2021-06-15 | 2021-08-14 | 60           | 0.0          | 0                       | 0                 | 500000             |
+      | 2021-06-15 | 2021-08-14 | 61           | 0.0          | 0                       | 0                 | 500000             |
       | 2021-08-14 | 2021-11-30 | 109          | 2.6          | 35                      | 3882              | 503882             |
