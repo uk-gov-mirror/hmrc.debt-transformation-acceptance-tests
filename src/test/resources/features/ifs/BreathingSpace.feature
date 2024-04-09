@@ -1,4 +1,4 @@
-@DTD-2140 @DTD-2244 @DTD-2273 @DTD-2274
+@DTD-2140 @DTD-2244 @DTD-2273 @DTD-2274 @runMe
 Feature: Breathing Space
 
   @DTD-2244 @DTD-2273 @DTD-2274
@@ -121,7 +121,7 @@ Feature: Breathing Space
       | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
       | 129                  | 2                       | 25271              |
     And the 1st debt summary will have calculation windows
-      | periodFrom | periodTo   | WIPnumberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow | breathingSpaceApplied |
+      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow | breathingSpaceApplied |
       | 2022-01-31 | 2022-02-20 | 20              | 2.75         | 1                       | 25037              | false                 |
       | 2022-02-21 | 2022-02-28 | 8               | 3.0          | 2                       | 25016              | false                 |
       | 2022-03-01 | 2022-04-04 | 35              | 0.0          | 0                       | 25000              | true                  |
