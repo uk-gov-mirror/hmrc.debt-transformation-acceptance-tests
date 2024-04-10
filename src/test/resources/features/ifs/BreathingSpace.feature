@@ -1,4 +1,4 @@
-@DTD-2140 @DTD-2244 @DTD-2273 @DTD-2274
+@DTD-2140 @DTD-2244 @DTD-2273 @DTD-2274 @runMe
 Feature: Breathing Space
 
   @DTD-2244 @DTD-2273 @DTD-2274
@@ -264,7 +264,7 @@ Feature: Breathing Space
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty |
       | true            | 70                   | 44                      | 3872                 | 500000           |
     And the 1st debt summary will have calculation windows
-      | periodFrom | periodTo   | wipnumberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow | breathingSpaceApplied |
+      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow | breathingSpaceApplied |
       | 2018-12-16 | 2019-02-03 | 50              | 0.0          | 0                       | 500000             | true                  |
       | 2019-02-04 | 2019-04-14 | 70              | 3.25         | 44                      | 503116             | false                 |
 
@@ -286,5 +286,5 @@ Feature: Breathing Space
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty |
       | true            | 0                  | 0                       | 3872                 | 500000           |
     And the 1st debt summary will have calculation windows
-      | periodFrom | periodTo   | wipnumberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow | breathingSpaceApplied |
+      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow | breathingSpaceApplied |
       | 2018-12-16 | 2019-04-14 | 120             | 0.0          | 0                       | 500000             | true                  |
