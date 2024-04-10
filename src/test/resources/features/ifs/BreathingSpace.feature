@@ -245,3 +245,46 @@ Feature: Breathing Space
       | 2022-06-01 | 2022-07-04 | 34           | 0.0          | 0                       | 15000              | true                  |
       | 2022-07-05 | 2022-07-30 | 26           | 0.0          | 0                       | 15000              | true                  |
       | 2022-07-31 | 2022-08-01 | 2            | 3.75         | 1                       | 15003              | false                 |
+
+  @DTD-2167 @DTD-2244
+  Scenario: Interest Bearing. Breathing space that starts before the interest start date
+    Given a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2018-12-16        | 2019-04-14          | 4920      | 1553     | true            |
+    And the debt item has no payment history
+    And the debt item has breathing spaces applied
+      | debtRespiteFrom | debtRespiteTo |
+      | 2017-01-03      | 2019-02-03    |
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service wilL return a total debts summary of
+      | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal |
+      | 44                   | 3116                 | 500000            |
+    And the 1st debt summary will contain
+      | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty |
+      | true            | 70                   | 44                      | 3872                 | 500000           |
+    And the 1st debt summary will have calculation windows
+      | periodFrom | periodTo   | wipnumberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow | breathingSpaceApplied |
+      | 2018-12-16 | 2019-02-03 | 50              | 0.0          | 0                       | 500000             | true                  |
+      | 2019-02-04 | 2019-04-14 | 70              | 3.25         | 44                      | 503116             | false                 |
+
+  @DTD-2167 @DTD-2244
+  Scenario: Interest Bearing. Breathing space that starts before the interest start date and ends after the interest end date
+    Given a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2018-12-16        | 2019-04-14          | 4920      | 1553     | true            |
+    And the debt item has no payment history
+    And the debt item has breathing spaces applied
+      | debtRespiteFrom | debtRespiteTo |
+      | 2017-01-03      | 2019-05-03    |
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service wilL return a total debts summary of
+      | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal |
+      | 0                    | 0                    | 500000            |
+    And the 1st debt summary will contain
+      | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty |
+      | true            | 0                  | 0                       | 3872                 | 500000           |
+    And the 1st debt summary will have calculation windows
+      | periodFrom | periodTo   | wipnumberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow | breathingSpaceApplied |
+      | 2018-12-16 | 2019-04-14 | 120             | 0.0          | 0                       | 500000             | true                  |
