@@ -2,7 +2,7 @@
 Feature: Breathing Space
 
   @DTD-2244 @DTD-2273 @DTD-2274
-  Scenario: Interest Bearing. Single debt with breathing space and no payment history
+  Scenario: Interest Bearing. Single debt with breathing space and no payment history (SA)
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2018-12-16        | 2019-04-14          | 4920      | 1553     | true            |
@@ -25,7 +25,7 @@ Feature: Breathing Space
       | 2019-02-04 | 2019-04-14 | 70           | 3.25         | 44                      | 503116             | false                 |
 
   @DTD-2244
-  Scenario: 2 debts with breathing space. No payment history (Scenario 1 - step 6)
+  Scenario: 2 debts with breathing space. No payment history (Scenario 1 - step 6) (SA)
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
       | 50000          | 2022-01-31        | 2022-05-15          | 4920      | 1553     | true            |
@@ -67,7 +67,7 @@ Feature: Breathing Space
       | 2022-04-30 | 2022-05-15 | 16           | 3.25         | 4                       | 50071              | false                 |
 
   @DTD-2140 @DTD-2243
-  Scenario: Single debt with breathing space AND payment history
+  Scenario: Single debt with breathing space AND payment history (SA)
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
       | 50000          | 2022-04-06        | 2022-04-29          | 4920      | 1553     | true            |
@@ -97,7 +97,7 @@ Feature: Breathing Space
       | 2022-04-21 | 2022-04-29 | 9            | 3.25         | 2                       | 30024              | false                 |
 
   @DTD-2140 @DTD-2243
-  Scenario: 2 debts one with a breathing space and payment history plus a late payment debt (Scenario 1, Step 7)
+  Scenario: 2 debts one with a breathing space and payment history plus a late payment debt (Scenario 1, Step 7) (SA)
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
       | 50000          | 2022-01-31        | 2022-06-10          | 4920      | 1553     | true            |
@@ -122,24 +122,24 @@ Feature: Breathing Space
       | 129                  | 2                       | 25271              |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow | breathingSpaceApplied |
-      | 2022-01-31 | 2022-02-20 | 20              | 2.75         | 1                       | 25037              | false                 |
-      | 2022-02-21 | 2022-02-28 | 8               | 3.0          | 2                       | 25016              | false                 |
-      | 2022-03-01 | 2022-04-04 | 35              | 0.0          | 0                       | 25000              | true                  |
-      | 2022-04-05 | 2022-04-29 | 25              | 0.0          | 0                       | 25000              | true                  |
-      | 2022-04-30 | 2022-05-23 | 24              | 3.25         | 2                       | 25053              | false                 |
-      | 2022-05-24 | 2022-05-30 | 7               | 3.5          | 2                       | 25016              | false                 |
-      | 2022-01-31 | 2022-02-20 | 20              | 2.75         | 1                       | 25037              | false                 |
-      | 2022-02-21 | 2022-02-28 | 8               | 3.0          | 2                       | 25016              | false                 |
-      | 2022-03-01 | 2022-04-04 | 35              | 0.0          | 0                       | 25000              | true                  |
-      | 2022-04-05 | 2022-04-29 | 25              | 0.0          | 0                       | 25000              | true                  |
-      | 2022-04-30 | 2022-05-23 | 24              | 3.25         | 2                       | 25053              | false                 |
-      | 2022-05-24 | 2022-06-10 | 18              | 3.5          | 2                       | 25043              | false                 |
+      | 2022-01-31 | 2022-02-20 | 20           | 2.75         | 1                       | 25037              | false                 |
+      | 2022-02-21 | 2022-02-28 | 8            | 3.0          | 2                       | 25016              | false                 |
+      | 2022-03-01 | 2022-04-04 | 35           | 0.0          | 0                       | 25000              | true                  |
+      | 2022-04-05 | 2022-04-29 | 25           | 0.0          | 0                       | 25000              | true                  |
+      | 2022-04-30 | 2022-05-23 | 24           | 3.25         | 2                       | 25053              | false                 |
+      | 2022-05-24 | 2022-05-30 | 7            | 3.5          | 2                       | 25016              | false                 |
+      | 2022-01-31 | 2022-02-20 | 20           | 2.75         | 1                       | 25037              | false                 |
+      | 2022-02-21 | 2022-02-28 | 8            | 3.0          | 2                       | 25016              | false                 |
+      | 2022-03-01 | 2022-04-04 | 35           | 0.0          | 0                       | 25000              | true                  |
+      | 2022-04-05 | 2022-04-29 | 25           | 0.0          | 0                       | 25000              | true                  |
+      | 2022-04-30 | 2022-05-23 | 24           | 3.25         | 2                       | 25053              | false                 |
+      | 2022-05-24 | 2022-06-10 | 18           | 3.5          | 2                       | 25043              | false                 |
     And the 2nd debt summary will contain
       | numberChargeableDays | interestDueDailyAccrual | totalAmountIntDuty |
       | 0                    | 0                       | 1500               |
 
   @DTD-2140 @DTD-2243
-  Scenario: 1 debt with a payment and 2 breathing spaces (incl an open ended BS), 1 late payment debt, 3rd debt with BS (Scenario 2, Step 4)
+  Scenario: 1 debt with a payment and 2 breathing spaces (incl an open ended BS), 1 late payment debt, 3rd debt with BS (Scenario 2, Step 4) (SA)
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
       | 50000          | 2022-01-31        | 2022-06-19          | 4920      | 1553     | true            |
@@ -160,7 +160,7 @@ Feature: Breathing Space
       | 50000          | 2022-07-30        | 2022-08-10          | 4920      | 1553     | true            |
     And the debt item has breathing spaces applied
       | debtRespiteFrom | debtRespiteTo |
-      | 2022-08-01      | 2022-08-17    |
+      | 2022-08-01      | 2034-06-17    |
     And the debt item has no payment history
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
@@ -197,7 +197,7 @@ Feature: Breathing Space
       | 2022-08-01 | 2022-08-10 | 10           | 0.0          | 0                       | 50000              | true                  |
 
   @DTD-2140
-  Scenario: Customer makes payment whilst in an active Breathing Space period (Scenario 4)
+  Scenario: Customer makes payment whilst in an active Breathing Space period (Scenario 4) (SA)
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
       | 25000          | 2022-01-31        | 2022-08-01          | 4920      | 1553     | true            |
@@ -247,7 +247,7 @@ Feature: Breathing Space
       | 2022-07-31 | 2022-08-01 | 2            | 3.75         | 1                       | 15003              | false                 |
 
   @DTD-2167 @DTD-2244
-  Scenario: Interest Bearing. Breathing space that starts before the interest start date
+  Scenario: Interest Bearing. Breathing space that starts before the interest start date (SA)
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2018-12-16        | 2019-04-14          | 4920      | 1553     | true            |
@@ -265,14 +265,14 @@ Feature: Breathing Space
       | true            | 70                   | 44                      | 3872                 | 500000           |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow | breathingSpaceApplied |
-      | 2018-12-16 | 2019-02-03 | 50              | 0.0          | 0                       | 500000             | true                  |
-      | 2019-02-04 | 2019-04-14 | 70              | 3.25         | 44                      | 503116             | false                 |
+      | 2018-12-16 | 2019-02-03 | 50           | 0.0          | 0                       | 500000             | true                  |
+      | 2019-02-04 | 2019-04-14 | 70           | 3.25         | 44                      | 503116             | false                 |
 
   @DTD-2167 @DTD-2244
-  Scenario: Interest Bearing. Breathing space that starts before the interest start date and ends after the interest end date
+  Scenario: Interest Bearing. Breathing space that starts before the interest start date and ends after the interest end date (VAT)
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
-      | 500000         | 2018-12-16        | 2019-04-14          | 4920      | 1553     | true            |
+      | 500000         | 2018-12-16        | 2019-04-14          | 4766      | 1090     | true            |
     And the debt item has no payment history
     And the debt item has breathing spaces applied
       | debtRespiteFrom | debtRespiteTo |
@@ -284,7 +284,47 @@ Feature: Breathing Space
       | 0                    | 0                    | 500000            |
     And the 1st debt summary will contain
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty |
-      | true            | 0                  | 0                       | 3872                 | 500000           |
+      | true            | 0                    | 0                       | 3872                 | 500000           |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow | breathingSpaceApplied |
-      | 2018-12-16 | 2019-04-14 | 120             | 0.0          | 0                       | 500000             | true                  |
+      | 2018-12-16 | 2019-04-14 | 120          | 0.0          | 0                       | 500000             | true                  |
+
+  @DTD-2168 @DTD-2244
+  Scenario: Interest Bearing. Breathing space that starts same day as interest start date (SA)
+    Given a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2018-12-16        | 2019-04-14          | 4920      | 1553     | true            |
+    And the debt item has no payment history
+    And the debt item has breathing spaces applied
+      | debtRespiteFrom | debtRespiteTo |
+      | 2018-12-16      | 2019-02-03    |
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service wilL return a total debts summary of
+      | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal |
+      | 44                   | 3116                 | 500000            |
+    And the 1st debt summary will contain
+      | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty |
+      | true            | 70                   | 44                      | 3872                 | 500000           |
+    And the 1st debt summary will have calculation windows
+      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow | breathingSpaceApplied |
+      | 2018-12-16 | 2019-02-03 | 50           | 0.0          | 0                       | 500000             | true                  |
+      | 2019-02-04 | 2019-04-14 | 70           | 3.25         | 44                      | 503116             | false                 |
+
+  @DTD-2168 @DTD-2244
+  Scenario: Non Interest Bearing. Breathing space that starts same day as interest start date (SA)
+    Given a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2018-12-16        | 2019-04-14          | 5071      | 1553     | true            |
+    And the debt item has no payment history
+    And the debt item has breathing spaces applied
+      | debtRespiteFrom | debtRespiteTo |
+      | 2018-12-16      | 2019-02-03    |
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service wilL return a total debts summary of
+      | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal |
+      | 0                    | 0                    | 500000            |
+    And the 1st debt summary will contain
+      | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty |
+      | false           | 0                    | 0                       | 0                    | 500000           |
