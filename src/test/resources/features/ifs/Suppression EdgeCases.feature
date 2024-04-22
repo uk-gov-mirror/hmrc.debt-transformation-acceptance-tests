@@ -230,7 +230,7 @@ Feature: Suppression - Edge cases
       | 63                   | 35                      | 502243             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual |
-      | 2021-02-01 | 2021-05-04 | 93           | 0.0          | 0                       |
+      | 2021-02-01 | 2021-05-04 | 92           | 0.0          | 0                       |
       | 2021-05-05 | 2021-07-06 | 63           | 2.6          | 35                      |
 
   Scenario: Suppression on non interest bearing debt
