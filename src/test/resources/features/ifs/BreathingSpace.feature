@@ -328,3 +328,48 @@ Feature: Breathing Space
     And the 1st debt summary will contain
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty |
       | false           | 0                    | 0                       | 0                    | 500000           |
+
+  @DTD-2371
+  Scenario: Interest Bearing. Breathing space that ends same day as interest requested to on a leap year (SA)
+    Given  a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2022-01-01        | 2022-01-10          | 4920      | 1553     | true            |
+    And the debt item has no payment history
+    And the debt item has breathing spaces applied
+      | debtRespiteFrom | debtRespiteTo |
+      | 2022-01-04      | 2022-01-10    |
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service wilL return a total debts summary of
+      | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal |
+      | 0                    | 71                   | 500000            |
+    And the 1st debt summary will contain
+      | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty |
+      | true            | 2                    | 0                       | 72                   | 500000           |
+    And the 1st debt summary will have calculation windows
+      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow | breathingSpaceApplied |
+      | 2022-01-01 | 2022-01-03 | 2            | 2.6          | 35                      | 500071             | false                 |
+      | 2022-01-04 | 2022-01-10 | 7            | 0.0          | 0                       | 500000             | true                  |
+
+  @DTD-2371
+  Scenario: Interest Bearing. 2 breathing spaces. First ends same day as interest requested to (SA)
+    Given a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2021-01-01        | 2021-01-10          | 4920      | 1553     | true            |
+    And the debt item has no payment history
+    And the debt item has breathing spaces applied
+      | debtRespiteFrom | debtRespiteTo |
+      | 2021-01-01      | 2021-01-10    |
+      | 2021-03-01      | 2021-03-10    |
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service wilL return a total debts summary of
+      | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal |
+      | 0                    | 71                   | 500000            |
+    And the 1st debt summary will contain
+      | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty |
+      | true            | 2                    | 0                       | 72                   | 500000           |
+    And the 1st debt summary will have calculation windows
+      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow | breathingSpaceApplied |
+      | 2021-01-01 | 2021-01-03 | 2            | 2.6          | 35                      | 500071             | false                 |
+      | 2021-01-04 | 2021-01-10 | 7            | 0.0          | 0                       | 500000             | true                  |
