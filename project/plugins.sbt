@@ -5,6 +5,6 @@ resolvers += Resolver.url("HMRC-open-artefacts-ivy2", url("https://open.artefact
 resolvers += Resolver.bintrayIvyRepo("hmrc", "sbt-plugin-releases")
 resolvers += Resolver.bintrayRepo("hmrc", "releases")
 resolvers += Resolver.typesafeRepo("releases")
-addSbtPlugin("uk.gov.hmrc"   % "sbt-auto-build" % "3.20.0")
+addSbtPlugin("uk.gov.hmrc"   % "sbt-auto-build" % "3.21.0")
 addSbtPlugin("org.scalameta" % "sbt-scalafmt"   % "2.4.0")
 
