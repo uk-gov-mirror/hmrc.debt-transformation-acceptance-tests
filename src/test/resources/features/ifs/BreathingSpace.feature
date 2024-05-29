@@ -330,6 +330,60 @@ Feature: Breathing Space
       | false           | 0                    | 0                       | 0                    | 500000           |
 
   @DTD-2371
+  Scenario: Breathing space that ends same day as interest requested
+    Given a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2024-01-01        | 2024-01-10          | 4920      | 1553     | true            |
+    And the debt item has no payment history
+    And the debt item has breathing spaces applied
+      | debtRespiteFrom | debtRespiteTo |
+      | 2024-01-04      | 2024-01-10    |
+    And the customer has post codes
+      | postCode | postCodeDate |
+      | TW3 4QQ  | 2019-07-06   |
+    When the debt item is sent to the ifs service
+    Then the ifs service wilL return a total debts summary of
+      | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal |
+      | 0                   | 177                 | 500000            |
+    And the 1st debt summary will contain
+      | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty |
+      | true            | 2                    | 0                       | 177                   | 500000           |
+    And the 1st debt summary will have calculation windows
+      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow | breathingSpaceApplied |
+      | 2024-01-01 | 2024-01-03 | 2            | 6.5          | 88                      | 500177             | false                 |
+      | 2024-01-04 | 2024-01-10 | 7            | 0.0          | 0                       | 500000             | true                  |
+
+  @DTD-2371
+  Scenario: Breathing space that ends same day as interest requested to with a suppression(SA)
+    Given suppression data has been created
+      | reason | description | enabled | fromDate   | toDate     |
+      | POLICY | COVID       | true    | 2024-02-01 | 2024-05-04 |
+    And suppression rules have been created
+      | ruleId | postCode | suppressionIds |
+      | 1      | TW3      | 1              |
+    And a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2024-01-01        | 2024-01-10          | 4920      | 1553     | true            |
+    And the debt item has no payment history
+    And the debt item has breathing spaces applied
+      | debtRespiteFrom | debtRespiteTo |
+      | 2024-01-04      | 2024-01-10    |
+    And the customer has post codes
+      | postCode | postCodeDate |
+      | TW3 4QQ  | 2019-07-06   |
+    When the debt item is sent to the ifs service
+    Then the ifs service wilL return a total debts summary of
+      | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal |
+      | 0                   | 177                 | 500000            |
+    And the 1st debt summary will contain
+      | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty |
+      | true            | 2                    | 0                       | 177                   | 500000           |
+    And the 1st debt summary will have calculation windows
+      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow | breathingSpaceApplied |
+      | 2024-01-01 | 2024-01-03 | 2            | 6.5          | 88                      | 500177             | false                 |
+      | 2024-01-04 | 2024-01-10 | 7            | 0.0          | 0                       | 500000             | true                  |
+
+  @DTD-2371
   Scenario: Interest Bearing. Breathing space that ends same day as interest requested to on a leap year (SA)
     Given  a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
@@ -359,7 +413,7 @@ Feature: Breathing Space
     And the debt item has no payment history
     And the debt item has breathing spaces applied
       | debtRespiteFrom | debtRespiteTo |
-      | 2021-01-01      | 2021-01-10    |
+      | 2021-01-04      | 2021-01-10    |
       | 2021-03-01      | 2021-03-10    |
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
