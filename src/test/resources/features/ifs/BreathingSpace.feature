@@ -384,7 +384,7 @@ Feature: Breathing Space
       | 2024-01-04 | 2024-01-10 | 7            | 0.0          | 0                       | 500000             | true                  |
 
   @DTD-2371
-  Scenario: Interest Bearing. Breathing space that ends same day as interest requested to on a leap year (SA)
+  Scenario: Interest Bearing. Breathing space that ends same day as interest requested to on a leap year. Breathing space includes interest rate change(SA)
     Given  a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2022-01-01        | 2022-01-10          | 4920      | 1553     | true            |
@@ -403,7 +403,8 @@ Feature: Breathing Space
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow | breathingSpaceApplied |
       | 2022-01-01 | 2022-01-03 | 2            | 2.6          | 35                      | 500071             | false                 |
-      | 2022-01-04 | 2022-01-10 | 7            | 0.0          | 0                       | 500000             | true                  |
+      | 2022-01-04 | 2022-01-06 | 3            | 0.0          | 0                       | 500000             | true                  |
+      | 2022-01-07 | 2022-01-10 | 4            | 0.0          | 0                       | 500000             | true                  |
 
   @DTD-2371
   Scenario: Interest Bearing. 2 breathing spaces. First ends same day as interest requested to (SA)
