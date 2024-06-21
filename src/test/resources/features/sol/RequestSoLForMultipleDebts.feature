@@ -1,31 +1,27 @@
-#Debt 1 dateCreated  = 01/01/2019
-#Debt 1 SubTran 1 originalAmount= 250,000
-#Debt 1 SubTran 2 originalAmount= 250,000
-#Debt 1 mainTrans  = 1545
-#Debt 1 subTrans = 1000 and 1090
-#Debt 1 periodEnd = 31/03/2021 (Provided by Pega)
-#Debt 1 interestStartDate = 01/01/2020
-#Debt 1 = interest bearing
-#Debt 1 dateCreated  = 01/01/2019
-#Debt 2 SubTran 1 originalAmount= 1,000
-#Debt 2 SubTran 2 originalAmount= 1,000
-#Debt 2 mainTrans = 1085
-#Debt 2 subTrans = 1000 and 1025
-#Debt 2 periodEnd = 31/03/2021 (Provided by Pega)
-#Debt 2 interestStartDate = 01/06/2020
-#Debt 2 = not interest bearing
-#Debt 1 and Debt 2 interestRequestedTo = 31/07/2021
-#Debt 1 and Debt 2  solRequestedDate = 31/07/2021
-#Debt 1 and Debt 2  No repayments
-#Debt 1 and Debt 2  No suppression
-#Debt 1 and Debt 2  No breathing space
+###Debt 1. 2 duties. Interest bearing with no Payment history
+
+#Debt 1 Duty 1 originalAmount= 500,000
+#Debt 1 Duty 1 interestStartDate = 20/12/2020
+#Debt 1 Duty 1 interestRequestedTo = 10/08/2021
+#Debt 1 Duty 1 With Breathing spaces
+
+#Debt 1 Duty 2 originalAmount= 400,000
+#Debt 1 Duty 2 interestStartDate = 04/02/2021
+#Debt 1 Duty 2 interestRequestedTo = 10/08/2021
+#Debt 1 Duty 2 With Breathing spaces
+
+
+###Debt 2. 1 duty, Non-interest bearing with Payment history
+
+#Debt 2 Duty 1 originalAmount= 100,000
+#Debt 2 Duty 1 With Breathing spaces
 
 Feature: statement of liability multiple debts
-
-  Scenario: 1. TPSS Account Tax Assessment debt statement of liability, 2 duties, no payment history.
+  
+  Scenario: 1. TPSS Account Tax Assessment debt statement of liability, 2 debts with breathing spaces
     Given statement of liability multiple debt requests
-      | solType | solRequestedDate | debtId  | debtId2 | interestRequestedTo | interestRequestedTo2 |
-      | UI      | 2021-05-13       | debt001 | debt004 | 2021-08-10          | 2021-08-10           |
+      | solType | solRequestedDate | debtId  | debtId2 | interestRequestedTo |
+      | UI      | 2021-05-13       | debt001 | debt004 | 2021-08-10          |
     And add debt item chargeIDs to the debt
       | dutyId |
       | duty01 |

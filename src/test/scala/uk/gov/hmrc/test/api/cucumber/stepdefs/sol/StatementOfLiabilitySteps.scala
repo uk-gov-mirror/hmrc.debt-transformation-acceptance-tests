@@ -103,7 +103,6 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
       .replaceAll("REPLACE_debtId", asMapTransposed.get("debtId"))
       .replaceAll("REPLACE_ID", asMapTransposed.get("debtId2"))
       .replaceAll("REPLACE_interestRequestedTo", asMapTransposed.get("interestRequestedTo"))
-      .replaceAll("REPLACE_interestRequestedTo2", asMapTransposed.get("interestRequestedTo"))
 
     if (firstItem == true) { multipleDebtDetails = SolMultipleDebts }
     else { multipleDebtDetails = ScenarioContext.get("debtDetails").toString.concat(",").concat(SolMultipleDebts) }
