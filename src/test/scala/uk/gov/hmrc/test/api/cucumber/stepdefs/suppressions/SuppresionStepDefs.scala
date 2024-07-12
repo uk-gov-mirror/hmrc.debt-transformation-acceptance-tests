@@ -39,7 +39,7 @@ class SuppresionStepDefs extends ScalaDsl with EN with Eventually with Matchers{
     ScenarioContext.set("response", response)
   }
 
-  When("a request is sent to ifs service to get suppression") {()
+  And("a request is sent to ifs service to get suppression") {()
     val response = getSuppressionData()
     response.status should be(200)
     ScenarioContext.set("response", response)
