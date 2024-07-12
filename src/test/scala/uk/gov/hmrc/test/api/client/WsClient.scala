@@ -34,7 +34,6 @@ object WsClient extends LazyLogging {
     BodyWritable(a => InMemoryBody(ByteString.fromArrayUnsafe(Json.toBytes(a))), "application/json")
   private val asyncClient: StandaloneAhcWSClient = {
     implicit val system: ActorSystem = ActorSystem()
-//    implicit val materializer: ActorMaterializer = ActorMaterializer()
 
     StandaloneAhcWSClient()
   }

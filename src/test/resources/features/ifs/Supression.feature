@@ -275,3 +275,11 @@ Feature: Suppression
       | 2021-05-05 | 2021-06-04 | 31           | 0.0          | 0                       | 500000             | POSTCODE   | desc-2      |
       | 2021-06-05 | 2021-06-20 | 16           | 0.0          | 0                       | 500000             | PERIOD-END | desc-3      |
       | 2021-06-21 | 2021-07-05 | 15           | 2.6          | 35                      | 500534             |            |             |
+
+
+  Scenario: Validate test only Suppression endPoints
+    Given suppression configuration data is created
+      |  suppressionDateFrom   | suppressionDateTo     |suppressionReason|suppressionReasonDesc|suppressionChargeDescription|mainTrans|subTrans|postcode|
+      | 2021-02-01             | 2021-04-01           | LEGISLATIVE      |COVID                | SA-Suppression             | 1535    | 1000   |EC2M 2LS |
+    When suppression configuration is sent to ifs service
+    And a request is sent to ifs service to get suppression
