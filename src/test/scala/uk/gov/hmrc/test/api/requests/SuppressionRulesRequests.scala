@@ -23,7 +23,8 @@ import org.scalatest.concurrent.Eventually
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import uk.gov.hmrc.test.api.client.WsClient
-import uk.gov.hmrc.test.api.utils.{BaseRequests, TestData}
+import uk.gov.hmrc.test.api.models.{SuppressionInformation, SuppressionRequest}
+import uk.gov.hmrc.test.api.utils.{BaseRequests, ScenarioContext, TestData}
 
 import java.time.LocalDate
 import scala.jdk.CollectionConverters.CollectionHasAsScala
@@ -36,7 +37,7 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
       userType = getRandomAffinityGroup,
       utr = "123456789012"
     )
-    val baseUri     = s"$interestForecostingApiUrl/test-only/suppressions/$id"
+    val baseUri     = s"$interestForecostingApiUrl/test-only/suppressions/old/$id"
     val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
       "Content-Type"  -> "application/json",
@@ -46,13 +47,30 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
     WsClient.post(baseUri, headers = headers, Json.parse(json))
   }
 
+  def deleteNewSuppressionData(): StandaloneWSResponse = {
+    val bearerToken = createBearerToken(
+      enrolments = Seq("read:interest-forecasting"),
+      userType = getRandomAffinityGroup,
+      utr = "123456789012"
+    )
+    val baseUri = s"$interestForecostingApiUrl/test-only/suppressions/overrides"
+    val headers = Map(
+      "Authorization" -> s"Bearer $bearerToken",
+      "Content-Type" -> "application/json",
+      "Accept" -> "application/vnd.hmrc.1.0+json"
+    )
+    print(s"Suppression bearer token ************************  $bearerToken")
+    print(s"url ************************  $baseUri")
+    WsClient.delete(baseUri, headers = headers)
+  }
+
   def deleteSuppressionData(): StandaloneWSResponse = {
     val bearerToken = createBearerToken(
       enrolments = Seq("read:interest-forecasting"),
       userType = getRandomAffinityGroup,
       utr = "123456789012"
     )
-    val baseUri     = s"$interestForecostingApiUrl/test-only/suppressions"
+    val baseUri     = s"$interestForecostingApiUrl/test-only/suppressions/old"
     val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
       "Content-Type"  -> "application/json",
@@ -69,7 +87,7 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
       userType = getRandomAffinityGroup,
       utr = "123456789012"
     )
-    val baseUri     = s"$interestForecostingApiUrl/test-only/suppression-rules"
+    val baseUri     = s"$interestForecostingApiUrl/test-only/suppression-rules/old"
     val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
       "Content-Type"  -> "application/json",
@@ -78,14 +96,13 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
     print("url ************************" + baseUri)
     WsClient.post(baseUri, headers = headers, Json.parse(json))
   }
-
   def deleteSuppressionRules(): StandaloneWSResponse = {
     val bearerToken = createBearerToken(
       enrolments = Seq("read:suppression-rule"),
       userType = getRandomAffinityGroup,
       utr = "123456789012"
     )
-    val baseUri     = s"$interestForecostingApiUrl/test-only/suppression-rules"
+    val baseUri     = s"$interestForecostingApiUrl/test-only/suppression-rules/old"
     val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
       "Content-Type"  -> "application/json",
@@ -94,6 +111,40 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
     print("url ************************" + baseUri)
     WsClient.delete(baseUri, headers = headers)
   }
+
+  def updateSuppressionData(json: String): StandaloneWSResponse = {
+    val bearerToken = createBearerToken(
+      enrolments = Seq("read:suppression-data"),
+      userType = getRandomAffinityGroup,
+      utr = "123456789012"
+    )
+    val baseUri = s"$interestForecostingApiUrl/test-only/suppressions/overrides"
+    val headers = Map(
+      "Authorization" -> s"Bearer $bearerToken",
+      "Content-Type" -> "application/json",
+      "Accept" -> "application/vnd.hmrc.1.0+json"
+    )
+    print("url ************************" + baseUri)
+    WsClient.put(baseUri, headers = headers, Json.parse(json))
+  }
+
+  def getSuppressionData(): StandaloneWSResponse = {
+    val bearerToken = createBearerToken(
+      enrolments = Seq("read:interest-forecasting"),
+      userType = getRandomAffinityGroup,
+      utr = "123456789012"
+    )
+    val baseUri = s"$interestForecostingApiUrl/test-only/suppressions"
+    val headers = Map(
+      "Authorization" -> s"Bearer $bearerToken",
+      "Content-Type" -> "application/json",
+      "Accept" -> "application/vnd.hmrc.1.0+json"
+    )
+    print(s"Suppression bearer token ************************  $bearerToken")
+    print(s"url ************************  $baseUri")
+    WsClient.get(baseUri, headers = headers)
+  }
+
 
   def getSuppressionBodyAsString(variant: String): String =
     TestData.loadedSuppressionFiles(variant)
@@ -218,5 +269,40 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
     val response = SuppressionRulesRequests.postSuppressionRules(request, rulesID)
     println(response.body)
     response.status should be(200)
+  }
+
+  def addSuppressionCriteria(dataTable: DataTable): Unit = {
+    val map = dataTable.asMaps(classOf[String], classOf[String]).asScala
+    var suppressionInfo = List[SuppressionInformation]()
+
+    map.foreach { supInfo =>
+      val suppressionDateFrom = if (supInfo.containsKey("suppressionDateFrom")) supInfo.get("suppressionDateFrom") else "2021-01-01"
+      val suppressionDateTo = if (supInfo.containsKey("suppressionDateTo")) supInfo.get("suppressionDateTo") else "2021-01-01"
+      val suppressionReason = if (supInfo.containsKey("suppressionReason")) supInfo.get("suppressionReason") else ""
+      val suppressionReasonDesc = if (supInfo.containsKey("suppressionReasonDesc")) supInfo.get("suppressionReasonDesc") else "None"
+      val suppressionChargeDescription = if (supInfo.containsKey("suppressionChargeDescription")) supInfo.get("suppressionChargeDescription") else "None"
+      val mainTrans = if (supInfo.containsKey("mainTrans")) Some(supInfo.get("mainTrans")) else Some("1535")
+      val subTrans = if (supInfo.containsKey("subTrans")) Some(supInfo.get("subTrans")) else Some("1000")
+      val postcode = if (supInfo.containsKey("postcode")) Some(supInfo.get("postcode")) else Some("EC2M 2LS")
+
+      val suppressionApplied = SuppressionInformation(
+        suppressionDateFrom,
+        suppressionDateTo,
+        suppressionReason,
+        suppressionReasonDesc,
+        suppressionChargeDescription,
+        mainTrans,
+        subTrans,
+        postcode
+      )
+
+      suppressionInfo ::= suppressionApplied
+    }
+
+    val suppressionRequest = SuppressionRequest(suppressions = suppressionInfo)
+    val suppressionRequestJson = Json.toJson(suppressionRequest)
+    ScenarioContext.setSuppression("suppressionsData", suppressionInfo)
+    ScenarioContext.set("suppressionsJson", Json.stringify(suppressionRequestJson))
+    println(s"suppression request json body ************************ $suppressionRequestJson")
   }
 }
