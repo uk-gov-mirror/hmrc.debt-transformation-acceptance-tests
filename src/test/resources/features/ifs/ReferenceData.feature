@@ -485,7 +485,6 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 4003      | 1060     | false                 |
       | 4003      | 1100     | false                 |
 
-
   Scenario Outline: SA SSTTP Debts - Non Interest bearing
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans   | subTrans   |
@@ -518,3 +517,15 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 4026      | 2095     | true                  |
       | 4026      | 2096     | true                  |
       | 6010      | 1554     | true                  |
+
+  Scenario: Simple assessment (SIA) SSTTP Debts - Non Interest bearing
+    Given a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2021-03-01        | 2021-03-08          | 4530      | 1000     |
+    And the debt item has no payment history
+    And no breathing spaces have been applied to the debt item
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the 1st debt summary will contain
+      | interestBearing | interestDueDailyAccrual | totalAmountIntDuty | interestOnlyIndicator |
+      | false           | 0                       | 500000             | false                 |
