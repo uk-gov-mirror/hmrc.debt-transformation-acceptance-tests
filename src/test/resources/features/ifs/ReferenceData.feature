@@ -364,6 +364,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 5215      | 1554     | true                  |
       | 5071      | 1553     | false                 |
       | 5073      | 1553     | false                 |
+      | 6010      | 1555     | true                  |
 
   Scenario Outline: SA SSTTP Debts
     Given a debt item
@@ -442,7 +443,6 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 4930      | 1011     | false                 |
       | 4930      | 1012     | false                 |
       | 4930      | 1015     | false                 |
-      | 6010      | 1555     | false                 |
       | 4000      | 1005     | false                 |
       | 4000      | 1007     | false                 |
       | 4000      | 1008     | false                 |
