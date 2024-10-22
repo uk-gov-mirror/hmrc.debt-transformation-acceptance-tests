@@ -364,7 +364,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 5073      | 1553     | false                 |
       | 6010      | 1555     | true                  |
 
-    @wip4
+
   Scenario Outline: SA SSTTP Debts
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans   | subTrans   |
