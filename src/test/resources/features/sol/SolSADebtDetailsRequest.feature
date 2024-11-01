@@ -62,3 +62,65 @@ Feature: Statement of liability Debt details for Self Assessment Debts
       | dutyId | subTrans | dutyTypeDescription          | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
       | duty01 | 1553     | SA 1st Payment on Account    | 350000           | 24                   | true            | false                 |
       | duty02 | 1090     | SA Pship Late Filing Penalty | 250000           | 17                   | true            | false                 |
+
+
+  @DTD-2714
+  Scenario: 1. SA debt statement of liability - 2 duties Multiple breathing space and payment history.
+    Given debt details
+      | solType | debtId    | mainTrans | subTrans | interestRequestedTo | solRequestedDate |
+      | UI      | debtSA004 | 4003      | 1015     | 2021-08-10          | 2021-05-13       |
+    And add debt item chargeIDs to the debt
+      | dutyId |
+      | duty01 |
+      | duty02 |
+    When a debt statement of liability is requested
+    Then service returns debt statement of liability data
+      | amountIntTotal | combinedDailyAccrual |
+      | 605264         | 41                   |
+    And the 1st sol debt summary will contain
+      | debtId    | mainTrans | debtTypeDescription | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
+      | debtSA004 | 4003      | ITSA Misc Charge    | 5264                 | 605264             | 41                   |
+    And the 1st sol debt summary will contain duties
+      | dutyId | subTrans | dutyTypeDescription       | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
+      | duty01 | 1015     | ITSA Misc Charge          | 350000           | 24                   | true            | false                 |
+      | duty02 | 1046     | SA 1st Payment on Account | 250000           | 17                   | true            | false                 |
+
+
+  @DTD-2714
+  Scenario: 1. SA debt statement of liability - Single duty interest bearing ETMP debt .
+    Given debt details
+      | solType | debtId    | mainTrans | subTrans | interestRequestedTo | solRequestedDate |
+      | UI      | debtSA005 | 4930      | 1011     | 2021-08-10          | 2021-05-13       |
+    And add debt item chargeIDs to the debt
+      | dutyId |
+      | duty01 |
+    When a debt statement of liability is requested
+    Then service returns debt statement of liability data
+      | amountIntTotal | combinedDailyAccrual |
+      | 504629         | 35                   |
+    And the 1st sol debt summary will contain
+      | debtId    | mainTrans | debtTypeDescription     | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
+      | debtSA005 | 4930      | SA Payment on Account 2 | 4629                 | 504629             | 35                   |
+    And the 1st sol debt summary will contain duties
+      | dutyId | subTrans | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
+      | duty01 | 1011     | 500000           | 35                   | true            | false                 |
+
+
+  @DTD-2714
+  Scenario: 1. SA customer statement of liability - with Single duty non interest bearing ETMP debt .
+    Given debt details
+      | solType | debtId    | mainTrans | subTrans | interestRequestedTo | solRequestedDate |
+      | UI      | debtSA006 | 6010      | 1575     | 2021-08-10          | 2021-05-13       |
+    And add debt item chargeIDs to the debt
+      | dutyId |
+      | duty01 |
+    When a debt statement of liability is requested
+    Then service returns debt statement of liability data
+      | amountIntTotal | combinedDailyAccrual |
+      | 500000         | 0                    |
+    And the 1st sol debt summary will contain
+      | debtId    | mainTrans | debtTypeDescription      | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
+      | debtSA006 | 6010      | SA Late Payment Interest | 0                    | 500000             | 0                    |
+    And the 1st sol debt summary will contain duties
+      | dutyId | subTrans | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
+      | duty01 | 1575     | 500000           | 0                    | false           | true                  |
