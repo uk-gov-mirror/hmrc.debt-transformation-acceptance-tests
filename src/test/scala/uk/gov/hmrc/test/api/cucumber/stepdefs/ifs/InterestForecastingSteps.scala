@@ -290,6 +290,15 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     }
 
     locally {
+      val fieldName = "reason"
+      if (asMapTransposed.containsKey(fieldName)) {
+        withClue(s"$fieldName: ") {
+          errorResponse.reason.toString shouldBe asMapTransposed.get(fieldName).toString
+        }
+      }
+    }
+
+    locally {
       val fieldName = "message"
       if (asMapTransposed.containsKey(fieldName)) {
         withClue(s"$fieldName: ") {

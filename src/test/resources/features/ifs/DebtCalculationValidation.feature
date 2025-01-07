@@ -4,8 +4,8 @@ Feature: Debt Calculation Validation
     Given no debt item
     When the debt item is sent to the ifs service
     Then the ifs service will respond with
-      | statusCode | reason                      | message                                                                                            |
-      | 400        | Invalid JSON error from IFS | Could not parse body due to requirement failed: Debt item charges which are mandatory, are missing |
+      | statusCode | reason                          | message                                                                                            |
+      | 400        | Could not validate Json request | Could not parse body due to requirement failed: Debt item charges which are mandatory, are missing |
 
   Scenario: TPSS MainTrans 1525 debt Amount is negative - Edge Case
     Given a debt item
@@ -16,8 +16,8 @@ Feature: Debt Calculation Validation
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with
-      | statusCode | reason                      | message                                                                                                                                                                                  |
-      | 400        | Invalid JSON error from IFS | Could not parse body due to requirement failed: Original Amount can be zero or greater, negative values are not accepted; Amount paid in payments cannot be greater than Original Amount |
+      | statusCode | reason                          | message                                                                                                                                                                                  |
+      | 400        | Could not validate Json request | Could not parse body due to requirement failed: Original Amount can be zero or greater, negative values are not accepted; Amount paid in payments cannot be greater than Original Amount |
 
   Scenario: TPSS MainTrans (1525) debt Amount non integer - Edge Case
     Given a debt item
@@ -90,8 +90,8 @@ Feature: Debt Calculation Validation
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with
-      | statusCode | reason                      | message                                                                   |
-      | 400        | Invalid JSON error from IFS | Interest Start Date missing. This is mandatory for interest bearing debts |
+      | statusCode | reason                       | message                                                                   |
+      | 400        | Missing Interest Start Date. | Interest Start Date missing. This is mandatory for interest bearing debts |
 
   Scenario: TPSS MainTrans (1525) debt empty interestRequestedTo - Edge Case
     Given a debt item
@@ -126,8 +126,8 @@ Feature: Debt Calculation Validation
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with
-      | statusCode | reason                      | message                           |
-      | 400        | Invalid JSON error from IFS | Invalid mainTrans and/or subTrans |
+      | statusCode | reason                            | message                                                                                                          |
+      | 400        | Invalid mainTrans and/or subTrans | Invalid mainTrans and/or subTrans. The mainTrans:  and subTrans: invalid values are not found in any stored rule |
 
   Scenario: TPSS debt empty mainTrans - Edge Case
     Given a debt item
@@ -138,8 +138,8 @@ Feature: Debt Calculation Validation
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with
-      | statusCode | reason                      | message                           |
-      | 400        | Invalid JSON error from IFS | Invalid mainTrans and/or subTrans |
+      | statusCode | reason                            | message                                                                                                          |
+      | 400        | Invalid mainTrans and/or subTrans | Invalid mainTrans and/or subTrans. The mainTrans:  and subTrans: invalid values are not found in any stored rule |
 
   Scenario: TPSS MainTrans (1525) debt invalid subTrans - Edge Case
     Given a debt item
@@ -150,8 +150,8 @@ Feature: Debt Calculation Validation
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with
-      | statusCode | reason                      | message                           |
-      | 400        | Invalid JSON error from IFS | Invalid mainTrans and/or subTrans |
+      | statusCode | reason                            | message                                                                                                          |
+      | 400        | Invalid mainTrans and/or subTrans | Invalid mainTrans and/or subTrans. The mainTrans:  and subTrans: invalid values are not found in any stored rule |
 
   Scenario: TPSS MainTrans (1525) debt empty subTrans - Edge Case
     Given a debt item
@@ -162,8 +162,8 @@ Feature: Debt Calculation Validation
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with
-      | statusCode | reason                      | message                           |
-      | 400        | Invalid JSON error from IFS | Invalid mainTrans and/or subTrans |
+      | statusCode | reason                            | message                                                                                                          |
+      | 400        | Invalid mainTrans and/or subTrans | Invalid mainTrans and/or subTrans. The mainTrans:  and subTrans: invalid values are not found in any stored rule |
 
   Scenario: TPSS interestStartDate debt before 1999-03-06 - Edge Case
     Given a debt item
@@ -174,8 +174,8 @@ Feature: Debt Calculation Validation
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
     Then the ifs service will respond with
-      | statusCode | reason                      | message                                                                              |
-      | 400        | Invalid JSON error from IFS | Invalid Interest Start Date. IFS does not store or calculate historic interest rates |
+      | statusCode | reason                            | message                                                                              |
+      | 400        | Invalid Interest Start Date. | Invalid Interest Start Date. IFS does not store or calculate historic interest rates |
 
   @DTD-2216
   Scenario: 1 SA debt with a payment amount greater than original debt amount
@@ -188,7 +188,9 @@ Feature: Debt Calculation Validation
     And no breathing spaces have been applied to the debt item
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service will respond with Could not parse body due to requirement failed: Amount paid in payments cannot be greater than Original Amount
+    Then the ifs service will respond with
+      | statusCode | reason                          | message                                                                                                        |
+      | 400        | Could not validate Json request | Could not parse body due to requirement failed: Amount paid in payments cannot be greater than Original Amount |
 
   @DTD-2216
   Scenario: 1 SA debt with a payment amount less than zero
@@ -201,7 +203,9 @@ Feature: Debt Calculation Validation
     And no breathing spaces have been applied to the debt item
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service will respond with Could not parse body due to requirement failed: paymentAmount can be zero or greater, negative values are not accepted
+    Then the ifs service will respond with
+      | statusCode | reason                          | message                                                                                                        |
+      | 400        | Could not validate Json request | Could not parse body due to requirement failed: paymentAmount can be zero or greater, negative values are not accepted |
 
   @DTD-2216
   Scenario: 1 SA debt - 2 payment amounts with one of them less than zero
@@ -215,7 +219,9 @@ Feature: Debt Calculation Validation
     And no breathing spaces have been applied to the debt item
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service will respond with Could not parse body due to requirement failed: paymentAmount can be zero or greater, negative values are not accepted
+    Then the ifs service will respond with
+      | statusCode | reason                          | message                                                                                                        |
+      | 400        | Could not validate Json request | Could not parse body due to requirement failed: paymentAmount can be zero or greater, negative values are not accepted |
 
   @DTD-2216
   Scenario: SA original amount and payment amount less than zero
@@ -228,7 +234,9 @@ Feature: Debt Calculation Validation
     And no breathing spaces have been applied to the debt item
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service will respond with originalAmount can be zero or greater, negative values are not accepted; paymentAmount can be zero or greater, negative values are not accepted
+    Then the ifs service will respond with
+      | statusCode | reason                          | message                                                                                                        |
+      | 400        | Could not validate Json request | Could not parse body due to requirement failed: originalAmount can be zero or greater, negative values are not accepted |
 
   @DTD-2216
   Scenario: SA original amount less than zero
@@ -239,7 +247,9 @@ Feature: Debt Calculation Validation
     And no breathing spaces have been applied to the debt item
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
-    Then the ifs service will respond with Could not parse body due to requirement failed: originalAmount can be zero or greater, negative values are not accepted
+    Then the ifs service will respond with
+      | statusCode | reason                          | message                                                                                                        |
+      | 400        | Could not validate Json request | Could not parse body due to requirement failed: originalAmount can be zero or greater, negative values are not accepted |
 
   @DTD-2216
   Scenario: SA Original and payment amounts can be equal to zero
@@ -248,7 +258,7 @@ Feature: Debt Calculation Validation
       | 0              | 2019-12-16        | 2020-05-05          | 5200      | 1553     |
     And the debt item has payment history
       | paymentAmount | paymentDate |
-      | 0            | 2019-02-03  |
+      | 0             | 2019-02-03  |
     And no breathing spaces have been applied to the debt item
     And no post codes have been provided for the customer
     When the debt item is sent to the ifs service
@@ -257,4 +267,4 @@ Feature: Debt Calculation Validation
       | 0                    | 0                    | 0                 | 0              | 0                   |
     And the 1st debt summary will contain
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty | interestOnlyIndicator |
-      | true            | 0                    | 0                       | 0                    | 0           | 0                  | 0                  | false                 |
+      | true            | 0                    | 0                       | 0                    | 0                | 0                  | 0                  | false                 |

@@ -210,7 +210,7 @@ Feature: Instalment calculation for 1 debt 1 duty
       | debtId | 100000     | 1530      | 1000     |
     When the instalment calculation detail is sent to the ifs service
     Then Ifs service returns response code 400
-    And Ifs service returns error message {"statusCode":400,"reason":"Invalid JSON error from IFS","message":"The Initial Payment Date should be on or after quoteDate"}
+    And Ifs service returns error message {"statusCode":400,"reason":"Invalid Initial Payment Date","message":"The Initial Payment Date should be on or after quoteDate"}
 
   Scenario: Payment plan calculation request -initialPaymentDate can be today
     Given debt instalment calculation with details
@@ -253,7 +253,7 @@ Feature: Instalment calculation for 1 debt 1 duty
       | debtId | 100000     | 1530      | 1000     |
     When the instalment calculation detail is sent to the ifs service
     Then Ifs service returns response code 400
-    And Ifs service returns error message {"statusCode":400,"reason":"Invalid JSON error from IFS","message":"The Initial Payment Date should be on or before Instalment Payment Date"}
+    And Ifs service returns error message {"statusCode":400,"reason":"Invalid Initial Payment Date","message":"The Initial Payment Date should be on or before Instalment Payment Date"}
 
   Scenario: Payment plan calculation request error  - instalmentPaymentDate missing
     Given debt instalment calculation with details
