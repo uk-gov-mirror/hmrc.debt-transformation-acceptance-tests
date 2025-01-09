@@ -70,7 +70,7 @@ Feature: Instalment calculation for single debt - Input 2
       | 1234   | 100000     | 1545      | 1000     |
     When the instalment calculation detail is sent to the ifs service
     Then Ifs service returns response code 400
-    And Ifs service returns error message {"statusCode":400,"reason":"Invalid JSON error from IFS","message":"For a quote type of `duration`, the instalmentPaymentAmount is required"}
+    And Ifs service returns error message {"statusCode":400,"reason":"Missing instalment amount","message":"For a quote type of `duration`, the instalmentPaymentAmount is required"}
 
   Scenario: Should return an error from IFS if quote type is instalment amount and instalment payment amount is provided
     Given debt instalment calculation with details
@@ -83,4 +83,4 @@ Feature: Instalment calculation for single debt - Input 2
       | 1234   | 100000     | 1545      | 1000     |
     When the instalment calculation detail is sent to the ifs service
     Then Ifs service returns response code 400
-    And Ifs service returns error message {"statusCode":400,"reason":"Invalid JSON error from IFS","message":"For a quote type of `instalmentAmount`, the duration field is required"}
+    And Ifs service returns error message {"statusCode":400,"reason":"Missing duration","message":"For a quote type of `instalmentAmount`, the duration field is required"}
