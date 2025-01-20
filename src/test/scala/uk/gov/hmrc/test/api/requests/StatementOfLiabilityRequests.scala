@@ -26,7 +26,7 @@ import scala.jdk.CollectionConverters.CollectionHasAsScala
 
 object StatementOfLiabilityRequests extends BaseRequests with RandomValues {
 
-  val bearerToken = createBearerToken(
+  val bearerToken: String = createBearerToken(
     enrolments = Seq("read:statement-of-liability"),
     userType = getRandomAffinityGroup,
     utr = "123456789012"
@@ -56,6 +56,26 @@ object StatementOfLiabilityRequests extends BaseRequests with RandomValues {
       "Accept"        -> "application/vnd.hmrc.1.0+json"
     )
     WsClient.get(baseUri, headers = headers)
+  }
+
+  def addDutyIds(dataTable: DataTable): Unit = {
+    val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String]).asScala
+    var dutyIds         = ""
+
+    asMapTransposed.zipWithIndex.foreach { case (dutyId, index) =>
+      dutyIds = dutyIds.concat(
+        getBodyAsString("dutyItemChargeId")
+          .replaceAll("<REPLACE_dutyId>", dutyId.get("dutyId"))
+      )
+
+      if (index + 1 < asMapTransposed.size) dutyIds = dutyIds.concat(",")
+
+    }
+
+    val jsonWithCustomerPostCodes =
+      ScenarioContext.get("debtDetails").toString
+    ScenarioContext.set("debtDetails", jsonWithCustomerPostCodes)
+    print(jsonWithCustomerPostCodes)
   }
 
   def getBodyAsString(variant: String): String =

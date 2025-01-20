@@ -1,5 +1,6 @@
 {
   "customerUniqueRef": "REPLACE_customerUniqueRef",
+  "solRequestedDate": "REPLACE_solRequestedDate",
   "debts" : [<REPLACE_debtId>]
 
 }

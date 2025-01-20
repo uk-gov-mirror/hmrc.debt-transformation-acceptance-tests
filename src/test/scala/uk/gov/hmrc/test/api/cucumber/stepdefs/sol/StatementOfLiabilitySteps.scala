@@ -195,7 +195,6 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
         responseBody.duties.head.interestBearing.toString       shouldBe duty.get("interestBearing").toString
         responseBody.duties.head.interestOnlyIndicator.toString shouldBe duty.get("interestOnlyIndicator").toString
 
-
       }
   }
 
@@ -216,7 +215,6 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
       responseBody.duties.head.combinedDailyAccrual.toString  shouldBe debt.get("combinedDailyAccrual").toString
       responseBody.duties.head.interestBearing.toString       shouldBe debt.get("interestBearing").toString
       responseBody.duties.head.interestOnlyIndicator.toString shouldBe debt.get("interestOnlyIndicator").toString
-
 
     }
   }
