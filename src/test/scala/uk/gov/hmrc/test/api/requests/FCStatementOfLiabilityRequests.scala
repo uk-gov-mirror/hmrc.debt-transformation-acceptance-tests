@@ -54,7 +54,6 @@ object FCStatementOfLiabilityRequests extends BaseRequests with RandomValues {
 
     val FCSolMultipleDebts = getBodyAsString("FCSolDebt")
       .replaceAll("REPLACE_customerUniqueRef", asMapTransposed.get("customerUniqueRef"))
-      .replaceAll("REPLACE_solRequestedDate", asMapTransposed.get("solRequestedDate"))
     if (firstItem == true) {
       debtDetails = FCSolMultipleDebts
     } else {

@@ -19,11 +19,8 @@ package uk.gov.hmrc.test.api.models
 import play.api.libs.json.{Json, OFormat}
 
 case class SuppressionRequest(
-
-                               suppressions: Seq[SuppressionInformation]
-
-                             )
-
+  suppressions: Seq[SuppressionInformation]
+)
 
 object SuppressionRequest {
   implicit val format: OFormat[SuppressionRequest] = Json.format[SuppressionRequest]

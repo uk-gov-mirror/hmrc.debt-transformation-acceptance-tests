@@ -19,9 +19,8 @@ package uk.gov.hmrc.test.api.models.sol
 import play.api.libs.json.{Format, Json}
 
 case class SolDuty(
-  dutyId: String,
   subTrans: String,
-  dutyTypeDescription:Option[String],
+  dutyTypeDescription: Option[String],
   unpaidAmountDuty: BigInt,
   combinedDailyAccrual: BigInt,
   interestBearing: Boolean,

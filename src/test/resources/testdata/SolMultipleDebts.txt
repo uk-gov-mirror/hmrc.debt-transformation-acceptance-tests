@@ -1,15 +1,12 @@
 {
   "solType" : "<REPLACE_solType>",
   "customerUniqueRef": "customer-1",
-  "solRequestedDate": "REPLACE_solRequestedDate",
   "debts" : [ {
     "debtId" : "REPLACE_debtId",
-    "dutyIds" : [<REPLACE_dutyItemChargeId>],
     "interestRequestedTo": "REPLACE_interestRequestedTo"
   },
   {
     "debtId" : "REPLACE_ID",
-    "dutyIds" : [<REPLACE_dutyItemChargeId>],
     "interestRequestedTo": "REPLACE_interestRequestedTo"
 
   }

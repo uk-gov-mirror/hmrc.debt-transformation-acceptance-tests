@@ -55,7 +55,6 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
     ScenarioContext.set(
       "debtDetails",
       "{" + "\"solType\":\"UI\"," +
-        "\"solRequestedDate\":\"2021-05-13\"," +
         "\"customerUniqueRef\":\"XZ0000100351724\"," +
         "\"debts\":[ ]}"
     )
@@ -77,7 +76,6 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
     val debtDetailsTestfile = getBodyAsString("debtDetailsTestfile")
       .replaceAll("<REPLACE_solType>", asMapTransposed.get("solType"))
       .replaceAll("<REPLACE_debtId>", asMapTransposed.get("debtId"))
-      .replaceAll("<REPLACE_solRequestedDate>", asMapTransposed.get("solRequestedDate"))
       .replaceAll("<REPLACE_customerReference>", asMapTransposed.get("customerUniqueRef"))
       .replaceAll("REPLACE_interestRequestedTo", asMapTransposed.get("interestRequestedTo"))
       .replaceAll("<REPLACE_mainTrans>", asMapTransposed.get("mainTrans"))
@@ -99,7 +97,6 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
 
     val SolMultipleDebts = getBodyAsString("SolMultipleDebts")
       .replaceAll("<REPLACE_solType>", asMapTransposed.get("solType"))
-      .replaceAll("REPLACE_solRequestedDate", asMapTransposed.get("solRequestedDate"))
       .replaceAll("REPLACE_debtId", asMapTransposed.get("debtId"))
       .replaceAll("REPLACE_ID", asMapTransposed.get("debtId2"))
       .replaceAll("REPLACE_interestRequestedTo", asMapTransposed.get("interestRequestedTo"))
@@ -114,7 +111,7 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
     TestData.loadedFiles(variant)
 
   And("""add debt item chargeIDs to the debt""") { (dataTable: DataTable) =>
-    StatementOfLiabilityRequests.addDutyIds(dataTable)
+    StatementOfLiabilityRequests
   }
 
   When("""a debt statement of liability is requested""") {
@@ -161,7 +158,6 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
         .debts(debtIndex - 1)
         .duties(index)
 
-      responseBody.dutyId   shouldBe duty.get("dutyId").toString
       responseBody.subTrans shouldBe duty.get("subTrans").toString
 
       locally {
@@ -186,21 +182,19 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
       val response: StandaloneWSResponse = ScenarioContext.get("response")
 
       asMapTransposed.zipWithIndex.foreach { case (duty, index) =>
-        val responseBody = Json.parse(response.body).as[SolCalculationSummaryResponse].debts(0)
+        val responseBody = Json.parse(response.body).as[SolCalculationSummaryResponse].debts.head
         responseBody.debtId                                     shouldBe duty.get("debtId").toString
         responseBody.mainTrans                                  shouldBe duty.get("mainTrans").toString
         responseBody.debtTypeDescription                        shouldBe duty.get("debtTypeDescription").toString
         responseBody.interestDueDebtTotal.toString              shouldBe duty.get("interestDueDebtTotal").toString
         responseBody.totalAmountIntDebt.toString                shouldBe duty.get("totalAmountIntDebt").toString
         responseBody.combinedDailyAccrual.toString              shouldBe duty.get("combinedDailyAccrualDebt").toString
-        responseBody.duties.head.dutyId                         shouldBe duty.get("dutyId").toString
         responseBody.duties.head.subTrans                       shouldBe duty.get("subTrans").toString
         responseBody.duties.head.unpaidAmountDuty.toString      shouldBe duty.get("unpaidAmountDuty").toString
         responseBody.duties.head.combinedDailyAccrual.toString  shouldBe duty.get("combinedDailyAccrual").toString
         responseBody.duties.head.interestBearing.toString       shouldBe duty.get("interestBearing").toString
         responseBody.duties.head.interestOnlyIndicator.toString shouldBe duty.get("interestOnlyIndicator").toString
 
-        print(" new array duty id **********  " + responseBody)
 
       }
   }
@@ -217,14 +211,12 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
       responseBody.interestDueDebtTotal.toString              shouldBe debt.get("interestDueDebtTotal").toString
       responseBody.totalAmountIntDebt.toString                shouldBe debt.get("totalAmountIntDebt").toString
       responseBody.combinedDailyAccrual.toString              shouldBe debt.get("combinedDailyAccrualDebt").toString
-      responseBody.duties.head.dutyId                         shouldBe debt.get("dutyId").toString
       responseBody.duties.head.subTrans                       shouldBe debt.get("subTrans").toString
       responseBody.duties.head.unpaidAmountDuty.toString      shouldBe debt.get("unpaidAmountDuty").toString
       responseBody.duties.head.combinedDailyAccrual.toString  shouldBe debt.get("combinedDailyAccrual").toString
       responseBody.duties.head.interestBearing.toString       shouldBe debt.get("interestBearing").toString
       responseBody.duties.head.interestOnlyIndicator.toString shouldBe debt.get("interestOnlyIndicator").toString
 
-      print(" new array duty id **********  " + responseBody)
 
     }
   }

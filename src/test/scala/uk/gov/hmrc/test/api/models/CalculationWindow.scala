@@ -27,7 +27,7 @@ case class CalculationWindow(
   interestDueWindow: BigDecimal,
   interestDueDailyAccrual: BigDecimal,
   amountOnIntDueWindow: BigDecimal,
-  breathingSpaceApplied:Boolean,
+  breathingSpaceApplied: Boolean,
   unpaidAmountWindow: BigDecimal,
   suppressionApplied: Option[SuppressionApplied]
 )

@@ -53,11 +53,11 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
       userType = getRandomAffinityGroup,
       utr = "123456789012"
     )
-    val baseUri = s"$interestForecostingApiUrl/test-only/suppressions/overrides"
-    val headers = Map(
+    val baseUri     = s"$interestForecostingApiUrl/test-only/suppressions/overrides"
+    val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
-      "Content-Type" -> "application/json",
-      "Accept" -> "application/vnd.hmrc.1.0+json"
+      "Content-Type"  -> "application/json",
+      "Accept"        -> "application/vnd.hmrc.1.0+json"
     )
     print(s"Suppression bearer token ************************  $bearerToken")
     print(s"url ************************  $baseUri")
@@ -118,11 +118,11 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
       userType = getRandomAffinityGroup,
       utr = "123456789012"
     )
-    val baseUri = s"$interestForecostingApiUrl/test-only/suppressions/overrides"
-    val headers = Map(
+    val baseUri     = s"$interestForecostingApiUrl/test-only/suppressions/overrides"
+    val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
-      "Content-Type" -> "application/json",
-      "Accept" -> "application/vnd.hmrc.1.0+json"
+      "Content-Type"  -> "application/json",
+      "Accept"        -> "application/vnd.hmrc.1.0+json"
     )
     print("url ************************" + baseUri)
     WsClient.put(baseUri, headers = headers, Json.parse(json))
@@ -134,17 +134,16 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
       userType = getRandomAffinityGroup,
       utr = "123456789012"
     )
-    val baseUri = s"$interestForecostingApiUrl/test-only/suppressions"
-    val headers = Map(
+    val baseUri     = s"$interestForecostingApiUrl/test-only/suppressions"
+    val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
-      "Content-Type" -> "application/json",
-      "Accept" -> "application/vnd.hmrc.1.0+json"
+      "Content-Type"  -> "application/json",
+      "Accept"        -> "application/vnd.hmrc.1.0+json"
     )
     print(s"Suppression bearer token ************************  $bearerToken")
     print(s"url ************************  $baseUri")
     WsClient.get(baseUri, headers = headers)
   }
-
 
   def getSuppressionBodyAsString(variant: String): String =
     TestData.loadedSuppressionFiles(variant)
@@ -272,18 +271,22 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
   }
 
   def addSuppressionCriteria(dataTable: DataTable): Unit = {
-    val map = dataTable.asMaps(classOf[String], classOf[String]).asScala
+    val map             = dataTable.asMaps(classOf[String], classOf[String]).asScala
     var suppressionInfo = List[SuppressionInformation]()
 
     map.foreach { supInfo =>
-      val suppressionDateFrom = if (supInfo.containsKey("suppressionDateFrom")) supInfo.get("suppressionDateFrom") else "2021-01-01"
-      val suppressionDateTo = if (supInfo.containsKey("suppressionDateTo")) supInfo.get("suppressionDateTo") else "2021-01-01"
-      val suppressionReason = if (supInfo.containsKey("suppressionReason")) supInfo.get("suppressionReason") else ""
-      val suppressionReasonDesc = if (supInfo.containsKey("suppressionReasonDesc")) supInfo.get("suppressionReasonDesc") else "None"
-      val suppressionChargeDescription = if (supInfo.containsKey("suppressionChargeDescription")) supInfo.get("suppressionChargeDescription") else "None"
-      val mainTrans = if (supInfo.containsKey("mainTrans")) Some(supInfo.get("mainTrans")) else Some("1535")
-      val subTrans = if (supInfo.containsKey("subTrans")) Some(supInfo.get("subTrans")) else Some("1000")
-      val postcode = if (supInfo.containsKey("postcode")) Some(supInfo.get("postcode")) else Some("EC2M 2LS")
+      val suppressionDateFrom          =
+        if (supInfo.containsKey("suppressionDateFrom")) supInfo.get("suppressionDateFrom") else "2021-01-01"
+      val suppressionDateTo            =
+        if (supInfo.containsKey("suppressionDateTo")) supInfo.get("suppressionDateTo") else "2021-01-01"
+      val suppressionReason            = if (supInfo.containsKey("suppressionReason")) supInfo.get("suppressionReason") else ""
+      val suppressionReasonDesc        =
+        if (supInfo.containsKey("suppressionReasonDesc")) supInfo.get("suppressionReasonDesc") else "None"
+      val suppressionChargeDescription =
+        if (supInfo.containsKey("suppressionChargeDescription")) supInfo.get("suppressionChargeDescription") else "None"
+      val mainTrans                    = if (supInfo.containsKey("mainTrans")) Some(supInfo.get("mainTrans")) else Some("1535")
+      val subTrans                     = if (supInfo.containsKey("subTrans")) Some(supInfo.get("subTrans")) else Some("1000")
+      val postcode                     = if (supInfo.containsKey("postcode")) Some(supInfo.get("postcode")) else Some("EC2M 2LS")
 
       val suppressionApplied = SuppressionInformation(
         suppressionDateFrom,
@@ -299,7 +302,7 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
       suppressionInfo ::= suppressionApplied
     }
 
-    val suppressionRequest = SuppressionRequest(suppressions = suppressionInfo)
+    val suppressionRequest     = SuppressionRequest(suppressions = suppressionInfo)
     val suppressionRequestJson = Json.toJson(suppressionRequest)
     ScenarioContext.setSuppression("suppressionsData", suppressionInfo)
     ScenarioContext.set("suppressionsJson", Json.stringify(suppressionRequestJson))
