@@ -110,10 +110,6 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
   def getBodyAsString(variant: String): String =
     TestData.loadedFiles(variant)
 
-  And("""add debt item chargeIDs to the debt""") { (dataTable: DataTable) =>
-    StatementOfLiabilityRequests
-  }
-
   When("""a debt statement of liability is requested""") {
     val request = ScenarioContext.get("debtDetails").toString
 
