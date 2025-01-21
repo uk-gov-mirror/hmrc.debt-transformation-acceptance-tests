@@ -193,12 +193,11 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
     ScenarioContext.set("fcDebtItem", jsonWithbreathingSpaces)
   }
 
-  def noFCBreathingSpace(): Unit = {
+  def noFCBreathingSpace(): Unit =
     ScenarioContext.set(
       "fcDebtItem",
       ScenarioContext.get("fcDebtItem").toString.replaceAll("<REPLACE_breathingSpaces>", "")
     )
-  }
 
   def addFCCustomerPostCodes(dataTable: DataTable): Unit = {
     // Set scenario Context to be all debt items with payments.
@@ -252,7 +251,7 @@ object FieldCollectionsRequests extends ScalaDsl with EN with Eventually with Ma
     ScenarioContext.set("fcDebtItem", jsonWithChargedInterest)
   }
 
-  def noFCCustomerPostCodes() : Unit = {
+  def noFCCustomerPostCodes(): Unit = {
     // Set scenario Context to be all debt items with payments.
     ScenarioContext.set(
       "fcDebtItem",

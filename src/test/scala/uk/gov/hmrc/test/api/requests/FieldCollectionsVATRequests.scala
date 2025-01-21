@@ -27,7 +27,6 @@ import uk.gov.hmrc.test.api.utils.{BaseRequests, ScenarioContext, TestData}
 
 import scala.jdk.CollectionConverters.CollectionHasAsScala
 
-
 object FieldCollectionsVATRequests extends ScalaDsl with EN with Eventually with Matchers with BaseRequests {
 
   def getDebtCalculation(json: String): StandaloneWSResponse = {
@@ -146,12 +145,11 @@ object FieldCollectionsVATRequests extends ScalaDsl with EN with Eventually with
     ScenarioContext.set("fcVatDebtItem", jsonWithbreathingSpaces)
   }
 
-  def noFCVatBreathingSpace() : Unit = {
+  def noFCVatBreathingSpace(): Unit =
     ScenarioContext.set(
       "fcVatDebtItem",
       ScenarioContext.get("fcVatDebtItem").toString.replaceAll("<REPLACE_breathingSpaces>", "")
     )
-  }
 
   def addFcVatDebtItemRequest(): Unit =
     ScenarioContext.set(

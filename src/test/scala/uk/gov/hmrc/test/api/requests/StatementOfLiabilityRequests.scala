@@ -26,7 +26,7 @@ import scala.jdk.CollectionConverters.CollectionHasAsScala
 
 object StatementOfLiabilityRequests extends BaseRequests with RandomValues {
 
-  val bearerToken = createBearerToken(
+  val bearerToken: String = createBearerToken(
     enrolments = Seq("read:statement-of-liability"),
     userType = getRandomAffinityGroup,
     utr = "123456789012"
@@ -73,9 +73,9 @@ object StatementOfLiabilityRequests extends BaseRequests with RandomValues {
     }
 
     val jsonWithCustomerPostCodes =
-      ScenarioContext.get("debtDetails").toString.replaceAll("<REPLACE_dutyItemChargeId>", dutyIds)
+      ScenarioContext.get("debtDetails").toString
     ScenarioContext.set("debtDetails", jsonWithCustomerPostCodes)
-    print("duty id **********************   " + jsonWithCustomerPostCodes)
+    print(jsonWithCustomerPostCodes)
   }
 
   def getBodyAsString(variant: String): String =

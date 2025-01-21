@@ -24,30 +24,28 @@ import uk.gov.hmrc.test.api.requests.SuppressionRulesRequests._
 import uk.gov.hmrc.test.api.requests._
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 
-class SuppresionStepDefs extends ScalaDsl with EN with Eventually with Matchers{
+class SuppresionStepDefs extends ScalaDsl with EN with Eventually with Matchers {
 
   Given("suppression configuration data is created") { (dataTable: DataTable) =>
-   addSuppressionCriteria(dataTable)
+    addSuppressionCriteria(dataTable)
   }
 
   When("suppression configuration is sent to ifs service") { () =>
     val requestJson = ScenarioContext.get[String]("suppressionsJson")
     println(s"suppression data REQUEST ---------> $requestJson")
-    val response = updateSuppressionData(requestJson)
+    val response    = updateSuppressionData(requestJson)
     response.status should be(200)
     println(s"suppression data RESPONSE ---------> ${response.body}")
     ScenarioContext.set("response", response)
   }
 
-  And("a request is sent to ifs service to get suppression") {()
+  And("a request is sent to ifs service to get suppression") {
+    ()
     val response = getSuppressionData()
     response.status should be(200)
     ScenarioContext.set("response", response)
     println(s"suppression data RESPONSE ---------> ${response.body}")
 
-
   }
-
-
 
 }

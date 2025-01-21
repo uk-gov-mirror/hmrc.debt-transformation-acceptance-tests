@@ -182,14 +182,13 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
       case Frequency.Quarterly.entryName  => paymentPlan.instalmentPaymentDate.plusMonths(iterateVal * 3)
       case Frequency.HalfYearly.entryName => paymentPlan.instalmentPaymentDate.plusMonths(iterateVal * 6)
       case Frequency.Annually.entryName   => paymentPlan.instalmentPaymentDate.plusYears(iterateVal)
-      case _ => paymentPlan.instalmentPaymentDate
+      case _                              => paymentPlan.instalmentPaymentDate
     }
   }
 
   def getInstalmentCalculation(json: String): StandaloneWSResponse = {
-    val bearerToken = createBearerToken(
-      enrolments = Seq("read:interest-forecasting"),
-      userType = getRandomAffinityGroup)
+    val bearerToken =
+      createBearerToken(enrolments = Seq("read:interest-forecasting"), userType = getRandomAffinityGroup)
     val baseUri     = s"$interestForecostingApiUrl/instalment-calculation"
 
     val headers = Map(
@@ -224,12 +223,11 @@ object IFSInstalmentCalculationRequests extends ScalaDsl with EN with Eventually
     WsClient.postWithQueryParams(baseUri, headers = headers, queryParameters = queryParameters, Json.parse(json))
   }
 
-  def noInitialPayment(): Unit =  {
+  def noInitialPayment(): Unit =
     ScenarioContext.set(
       "paymentPlan",
       ScenarioContext.get("paymentPlan").toString.replaceAll("<REPLACE_initialPayment>", "")
     )
-  }
 
   def addInitialPayment(dataTable: DataTable): Unit = {
     val asmapTransposed      = dataTable.transpose().asMap(classOf[String], classOf[String])
