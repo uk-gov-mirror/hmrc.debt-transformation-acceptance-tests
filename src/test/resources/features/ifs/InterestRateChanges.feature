@@ -9,7 +9,7 @@ Feature: Interest Rate Changes
 # No repayments
 # No suppression
 # No breathing space
-  @runme
+
   Scenario: Interest rate changes from 3% to 3.25%
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
