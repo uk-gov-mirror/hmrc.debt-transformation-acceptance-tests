@@ -25,6 +25,7 @@ case class SolCalculation(
   interestDueDebtTotal: BigInt,
   totalAmountIntDebt: BigInt,
   combinedDailyAccrual: BigInt,
+  parentMainTrans: Option[String],
   duties: Seq[SolDuty]
 )
 

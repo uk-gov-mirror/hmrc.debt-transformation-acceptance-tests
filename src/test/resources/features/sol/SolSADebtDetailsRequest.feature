@@ -18,7 +18,7 @@ Feature: Statement of liability Debt details for Self Assessment Debts
       | 1090     | SA Pship Late Filing Penalty | 400000           | 28                   | true            | false                 |
 
   @DTD-1959
-  Scenario: 1. SA debt statement of liability. Single duty non interest bearing.
+  Scenario: 2. SA debt statement of liability. Single duty non interest bearing.
     Given debt details
       | solType | debtId    | mainTrans | subTrans | interestRequestedTo |
       | UI      | debtSA002 | 5073      | 1553     | 2021-08-10          |
@@ -30,11 +30,11 @@ Feature: Statement of liability Debt details for Self Assessment Debts
       | debtId    | mainTrans | debtTypeDescription | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual |
       | debtSA002 | 5073      | SA Transfer to OAS  | 0                    | 500000             | 0                    |
     And the 1st sol debt summary will contain duties
-       | subTrans | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
-       | 1553     | 500000           | 0                    | false           | false                 |
+      | subTrans | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
+      | 1553     | 500000           | 0                    | false           | false                 |
 
   @DTD-2166
-  Scenario: 1. SA debt - 2 duties Multiple breathing space and payment history.
+  Scenario: 3. SA debt - 2 duties Multiple breathing space and payment history.
     Given debt details
       | solType | debtId    | mainTrans | subTrans | interestRequestedTo |
       | UI      | debtSA003 | 4920      | 1553     | 2021-08-10          |
@@ -52,7 +52,7 @@ Feature: Statement of liability Debt details for Self Assessment Debts
 
 
   @DTD-2714
-  Scenario: 1. SA debt statement of liability - 2 duties Multiple breathing space and payment history.
+  Scenario: 4. SA debt statement of liability - 2 duties Multiple breathing space and payment history.
     Given debt details
       | solType | debtId    | mainTrans | subTrans | interestRequestedTo |
       | UI      | debtSA004 | 4003      | 1015     | 2021-08-10          |
@@ -70,7 +70,7 @@ Feature: Statement of liability Debt details for Self Assessment Debts
 
 
   @DTD-2714
-  Scenario: 1. SA debt statement of liability - Single duty interest bearing ETMP debt .
+  Scenario: 5. SA debt statement of liability - Single duty interest bearing ETMP debt .
     Given debt details
       | solType | debtId    | mainTrans | subTrans | interestRequestedTo |
       | UI      | debtSA005 | 4930      | 1011     | 2021-08-10          |
@@ -87,7 +87,7 @@ Feature: Statement of liability Debt details for Self Assessment Debts
 
 
   @DTD-2714
-  Scenario: 1. SA customer statement of liability - with Single duty non interest bearing ETMP debt .
+  Scenario: 6. SA customer statement of liability - with Single duty non interest bearing ETMP debt .
     Given debt details
       | solType | debtId    | mainTrans | subTrans | interestRequestedTo |
       | UI      | debtSA006 | 6010      | 1575     | 2021-08-10          |
@@ -101,3 +101,37 @@ Feature: Statement of liability Debt details for Self Assessment Debts
     And the 1st sol debt summary will contain duties
       | subTrans | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
       | 1575     | 500000           | 0                    | false           | true                  |
+
+
+  @DTD-2940
+  Scenario: 7. Statement of liability for customer with ETMP parentMainTrans   - Single Non Interest bearing debt
+    Given debt details
+      | solType | debtId     | mainTrans | subTrans | parentMainTrans | interestRequestedTo |
+      | UI      | debtSA0014 | 6010      | 1554     | 33              | 2021-08-10          |
+    When a debt statement of liability is requested
+    Then service returns debt statement of liability data
+      | amountIntTotal | combinedDailyAccrual |
+      | 500000         | 0                    |
+    And the 1st sol debt summary will contain
+      | debtId     | mainTrans | debtTypeDescription      | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual | parentMainTrans |
+      | debtSA0014 | 6010      | SA Late Payment Interest | 0                    | 500000             | 0                    | 33              |
+    And the 1st sol debt summary will contain duties
+      | subTrans | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
+      | 1554     | 500000           | 0                    | false           | true                  |
+
+
+  @DTD-2940
+  Scenario: 8. Statement of liability for customer with parentMainTrans   - Single SA Non Interest bearing debt
+    Given debt details
+      | solType | debtId     | mainTrans | subTrans | parentMainTrans | interestRequestedTo |
+      | UI      | debtSA0015 | 6010      | 1554     | 25              | 2021-08-10          |
+    When a debt statement of liability is requested
+    Then service returns debt statement of liability data
+      | amountIntTotal | combinedDailyAccrual |
+      | 500000         | 0                    |
+    And the 1st sol debt summary will contain
+      | debtId     | mainTrans | debtTypeDescription          | interestDueDebtTotal | totalAmountIntDebt | combinedDailyAccrual | parentMainTrans |
+      | debtSA0015 | 6010      | SA Balancing Charge Interest | 0                    | 500000             | 0                    | 33              |
+    And the 1st sol debt summary will contain duties
+      | subTrans | unpaidAmountDuty | combinedDailyAccrual | interestBearing | interestOnlyIndicator |
+      | 1554     | 500000           | 0                    | false           | true                  |

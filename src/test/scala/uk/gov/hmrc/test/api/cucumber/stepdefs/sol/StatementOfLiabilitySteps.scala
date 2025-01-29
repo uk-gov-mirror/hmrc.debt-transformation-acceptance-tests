@@ -26,6 +26,7 @@ import uk.gov.hmrc.test.api.models.sol.{HelloWorld, SolCalculation, SolCalculati
 import uk.gov.hmrc.test.api.requests.StatementOfLiabilityRequests
 import uk.gov.hmrc.test.api.utils.{ScenarioContext, TestData}
 
+import java.util
 import scala.jdk.CollectionConverters.CollectionHasAsScala
 class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Matchers {
 
@@ -105,6 +106,7 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
     else { multipleDebtDetails = ScenarioContext.get("debtDetails").toString.concat(",").concat(SolMultipleDebts) }
 
     ScenarioContext.set("debtDetails", multipleDebtDetails)
+    println(s"request:::::::::::::::$multipleDebtDetails")
   }
 
   def getBodyAsString(variant: String): String =
@@ -123,10 +125,26 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
     val asMapTransposed                = dataTable.transpose().asMap(classOf[String], classOf[String])
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     response.status should be(200)
-    val responseBody = Json.parse(response.body).as[SolCalculationSummaryResponse]
-    responseBody.amountIntTotal.toString       shouldBe asMapTransposed.get("amountIntTotal").toString
-    responseBody.combinedDailyAccrual.toString shouldBe asMapTransposed.get("combinedDailyAccrual").toString
 
+    val responseBody = Json.parse(response.body).as[SolCalculationSummaryResponse]
+
+    locally {
+      val fieldName = "amountIntTotal"
+      if (asMapTransposed.containsKey(fieldName)) {
+        withClue(s"$fieldName") {
+          responseBody.amountIntTotal.toString shouldBe asMapTransposed.get(fieldName).toString
+        }
+      }
+    }
+
+    locally {
+      val fieldName = "combinedDailyAccrual"
+      if (asMapTransposed.containsKey(fieldName)) {
+        withClue(s"$fieldName") {
+          responseBody.combinedDailyAccrual.toString shouldBe asMapTransposed.get(fieldName).toString
+        }
+      }
+    }
   }
 
   Then("the ([0-9]\\d*)(?:st|nd|rd|th) sol debt summary will contain") { (index: Int, dataTable: DataTable) =>
@@ -172,47 +190,238 @@ class StatementOfLiabilitySteps extends ScalaDsl with EN with Eventually with Ma
     }
   }
 
-  Then("the ([0-9]\\d*)(?:st|nd|rd|th) multiple statement of liability debt summary will contain duties") {
+  And("the {int}(st|nd|rd|th) customer statement of liability contains duty values as") {
+    (debtIndex: Int, dataTable: DataTable) =>
+      val asMapTransposed                = dataTable.asMaps(classOf[String], classOf[String]).asScala
+      val response: StandaloneWSResponse = ScenarioContext.get("response")
+      val responseDebts                  = Json.parse(response.body).as[SolCalculationSummaryResponse].debts
+      val duties                         = responseDebts(debtIndex - 1).duties
+
+      asMapTransposed.zipWithIndex.foreach { case (row, index) =>
+        val duty = duties(index)
+
+        locally {
+          val fieldName = "subTrans"
+          if (row.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              duty.subTrans shouldBe row.get(fieldName).toString
+            }
+          }
+        }
+
+        locally {
+          val fieldName = "dutyTypeDescription"
+          if (row.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              duty.dutyTypeDescription shouldBe Some(row.get(fieldName))
+            }
+          }
+        }
+
+        locally {
+          val fieldName = "unpaidAmountDuty"
+          if (row.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              duty.unpaidAmountDuty.toString shouldBe row.get(fieldName).toString
+            }
+          }
+        }
+
+        locally {
+          val fieldName = "combinedDailyAccrual"
+          if (row.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              duty.combinedDailyAccrual.toString shouldBe row.get(fieldName).toString
+            }
+          }
+        }
+
+        locally {
+          val fieldName = "interestBearing"
+          if (row.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              duty.interestBearing.toString shouldBe row.get(fieldName).toString
+            }
+          }
+        }
+
+        locally {
+          val fieldName = "interestOnlyIndicator"
+          if (row.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              duty.interestOnlyIndicator.toString shouldBe row.get(fieldName).toString
+            }
+          }
+        }
+      }
+  }
+
+  And("""the {int}(st|nd|rd|th) customer statement of liability contains debt values as""") {
     (debtIndex: Int, dataTable: DataTable) =>
       val asMapTransposed                = dataTable.asMaps(classOf[String], classOf[String]).asScala
       val response: StandaloneWSResponse = ScenarioContext.get("response")
 
-      asMapTransposed.zipWithIndex.foreach { case (duty, index) =>
-        val responseBody = Json.parse(response.body).as[SolCalculationSummaryResponse].debts.head
-        responseBody.debtId                                     shouldBe duty.get("debtId").toString
-        responseBody.mainTrans                                  shouldBe duty.get("mainTrans").toString
-        responseBody.debtTypeDescription                        shouldBe duty.get("debtTypeDescription").toString
-        responseBody.interestDueDebtTotal.toString              shouldBe duty.get("interestDueDebtTotal").toString
-        responseBody.totalAmountIntDebt.toString                shouldBe duty.get("totalAmountIntDebt").toString
-        responseBody.combinedDailyAccrual.toString              shouldBe duty.get("combinedDailyAccrualDebt").toString
-        responseBody.duties.head.subTrans                       shouldBe duty.get("subTrans").toString
-        responseBody.duties.head.unpaidAmountDuty.toString      shouldBe duty.get("unpaidAmountDuty").toString
-        responseBody.duties.head.combinedDailyAccrual.toString  shouldBe duty.get("combinedDailyAccrual").toString
-        responseBody.duties.head.interestBearing.toString       shouldBe duty.get("interestBearing").toString
-        responseBody.duties.head.interestOnlyIndicator.toString shouldBe duty.get("interestOnlyIndicator").toString
+      asMapTransposed.zipWithIndex.foreach { case (row, index) =>
+        val responseBody = Json.parse(response.body).as[SolCalculationSummaryResponse].debts(debtIndex - 1)
+
+        locally {
+          val fieldName = "debtId"
+          if (row.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              responseBody.debtId shouldBe row.get(fieldName).toString
+            }
+          }
+        }
+
+        locally {
+          val fieldName = "mainTrans"
+          if (row.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              responseBody.mainTrans shouldBe row.get(fieldName).toString
+            }
+          }
+        }
+
+        locally {
+          val fieldName = "debtTypeDescription"
+          if (row.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              responseBody.debtTypeDescription shouldBe row.get(fieldName).toString
+            }
+          }
+        }
+        locally {
+          val fieldName = "interestDueDebtTotal"
+          if (row.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              responseBody.interestDueDebtTotal.toString shouldBe row.get(fieldName).toString
+            }
+          }
+        }
+
+        locally {
+          val fieldName = "totalAmountIntDebt"
+          if (row.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              responseBody.totalAmountIntDebt.toString() shouldBe row.get(fieldName).toString
+            }
+          }
+        }
+
+        locally {
+          val fieldName = "combinedDailyAccrual"
+          if (row.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              responseBody.debtTypeDescription shouldBe row.get(fieldName).toString
+            }
+          }
+        }
+
+        locally {
+          val fieldName = "parentMainTrans"
+          if (row.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              responseBody.parentMainTrans.toString shouldBe Some(row.get(fieldName)).toString
+            }
+          }
+        }
 
       }
+
   }
 
-  Then("""the statement of liability debt summary response""") { (dataTable: DataTable) =>
-    val asMapTransposed                = dataTable.asMaps(classOf[String], classOf[String]).asScala
-    val response: StandaloneWSResponse = ScenarioContext.get("response")
+  Then("the ([0-9]\\d*)(?:st|nd|rd|th) multiple statement of liability duties summary will contain") {
+    (debtIndex: Int, dataTable: DataTable) =>
+      val asMapTransposed: Iterable[util.Map[Nothing, Nothing]] =
+        dataTable.asMaps(classOf[String], classOf[String]).asScala
+      val response: StandaloneWSResponse                        = ScenarioContext.get("response")
 
-    asMapTransposed.zipWithIndex.foreach { case (debt, index) =>
-      val responseBody = Json.parse(response.body).as[SolCalculationSummaryResponse].debts(1)
-      responseBody.debtId                                     shouldBe debt.get("debtId").toString
-      responseBody.mainTrans                                  shouldBe debt.get("mainTrans").toString
-      responseBody.debtTypeDescription                        shouldBe debt.get("debtTypeDescription").toString
-      responseBody.interestDueDebtTotal.toString              shouldBe debt.get("interestDueDebtTotal").toString
-      responseBody.totalAmountIntDebt.toString                shouldBe debt.get("totalAmountIntDebt").toString
-      responseBody.combinedDailyAccrual.toString              shouldBe debt.get("combinedDailyAccrualDebt").toString
-      responseBody.duties.head.subTrans                       shouldBe debt.get("subTrans").toString
-      responseBody.duties.head.unpaidAmountDuty.toString      shouldBe debt.get("unpaidAmountDuty").toString
-      responseBody.duties.head.combinedDailyAccrual.toString  shouldBe debt.get("combinedDailyAccrual").toString
-      responseBody.duties.head.interestBearing.toString       shouldBe debt.get("interestBearing").toString
-      responseBody.duties.head.interestOnlyIndicator.toString shouldBe debt.get("interestOnlyIndicator").toString
+      asMapTransposed.zipWithIndex.foreach { case (duty, index) =>
+        val responseBody = Json.parse(response.body).as[SolCalculationSummaryResponse].debts(debtIndex - 1)
 
-    }
+        locally {
+          val fieldName = "unpaidAmountDuty"
+          if (duty.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              responseBody.duties.head.unpaidAmountDuty.toString shouldBe duty.get("unpaidAmountDuty").toString
+            }
+          }
+        }
+
+        locally {
+          val fieldName = "combinedDailyAccrual"
+          if (duty.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              responseBody.duties.head.combinedDailyAccrual.toString shouldBe duty.get("combinedDailyAccrual").toString
+            }
+          }
+        }
+
+        locally {
+          val fieldName = "interestBearing"
+          if (duty.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              responseBody.duties.head.interestBearing.toString shouldBe duty.get("interestBearing").toString
+            }
+          }
+        }
+
+        locally {
+          val fieldName = "unpaidAmountDuty"
+          if (duty.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              responseBody.duties.head.interestOnlyIndicator.toString shouldBe duty
+                .get("interestOnlyIndicator")
+                .toString
+            }
+          }
+        }
+
+        locally {
+          val fieldName = "unpaidAmountDuty"
+          if (duty.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              responseBody.duties.head.subTrans shouldBe duty.get("subTrans").toString
+            }
+          }
+        }
+
+        locally {
+          val fieldName = "dutyTypeDescription"
+          if (duty.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              responseBody.duties.head.dutyTypeDescription shouldBe duty.get("dutyTypeDescription").toString
+            }
+          }
+        }
+
+        locally {
+          val fieldName = "combinedDailyAccrual"
+          if (duty.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              responseBody.duties.head.combinedDailyAccrual shouldBe duty.get("combinedDailyAccrual").toString
+            }
+          }
+        }
+        locally {
+          val fieldName = "interestBearing"
+          if (duty.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              responseBody.duties.head.interestBearing shouldBe duty.get("interestBearing").toString
+            }
+          }
+        }
+
+        locally {
+          val fieldName = "interestOnlyIndicator"
+          if (duty.containsKey(fieldName)) {
+            withClue(s"$fieldName: ") {
+              responseBody.duties.head.interestOnlyIndicator shouldBe duty.get("interestOnlyIndicator").toString
+            }
+          }
+        }
+
+      }
   }
 
   Then("""the sol service will respond with (.*)""") { (expectedMessage: String) =>
