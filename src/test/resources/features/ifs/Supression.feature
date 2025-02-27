@@ -63,12 +63,10 @@ Feature: Suppression
       | 2021-05-05 | 2021-07-06 | 63           | 2.6          | 24                      | 351570             |             |      |             |
 
   Scenario: Suppression, 2 duties, 2 payments on same day for one of the duties
-    Given suppression data has been created
-      | reason      | description | enabled | fromDate   | toDate     |
-      | LEGISLATIVE | COVID       | true    | 2021-04-04 | 2021-05-04 |
-    And suppression rules have been created
-      | ruleId | postCode | suppressionIds |
-      | 1      | TW3      | 1              |
+    Given suppression configuration data is created
+      | suppressionDateFrom | suppressionDateTo | suppressionReason | suppressionReasonDesc | suppressionChargeDescription | mainTrans | subTrans | postcode | checkPeriodEnd | testRegime                                                                               |
+      | 2021-03-01          | 2021-03-20          | LEGISLATIVE       | COVID                 | SA-Suppression               | 1535      | 1000     | EC2M 2LS | true           | fake regime suppressing (MainTrans,SubTrans) = (1234,0123) OR (4567,0456) OR (7890,0789) |
+
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 400000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     |

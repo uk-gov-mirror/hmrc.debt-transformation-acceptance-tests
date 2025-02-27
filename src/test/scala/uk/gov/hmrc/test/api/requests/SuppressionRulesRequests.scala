@@ -27,7 +27,7 @@ import uk.gov.hmrc.test.api.models.{SuppressionInformation, SuppressionRequest}
 import uk.gov.hmrc.test.api.utils.{BaseRequests, ScenarioContext, TestData}
 
 import java.time.LocalDate
-import scala.jdk.CollectionConverters.CollectionHasAsScala
+import scala.jdk.CollectionConverters._
 
 object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Matchers with BaseRequests {
 
@@ -271,32 +271,33 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
   }
 
   def addSuppressionCriteria(dataTable: DataTable): Unit = {
-    val map             = dataTable.asMaps(classOf[String], classOf[String]).asScala
+    val rows= dataTable.asMaps[String,String](classOf[String], classOf[String]).asScala.map(_.asScala)
     var suppressionInfo = List[SuppressionInformation]()
 
-    map.foreach { supInfo =>
-      val suppressionDateFrom          =
-        if (supInfo.containsKey("suppressionDateFrom")) supInfo.get("suppressionDateFrom") else "2021-01-01"
-      val suppressionDateTo            =
-        if (supInfo.containsKey("suppressionDateTo")) supInfo.get("suppressionDateTo") else "2021-01-01"
-      val suppressionReason            = if (supInfo.containsKey("suppressionReason")) supInfo.get("suppressionReason") else ""
-      val suppressionReasonDesc        =
-        if (supInfo.containsKey("suppressionReasonDesc")) supInfo.get("suppressionReasonDesc") else "None"
-      val suppressionChargeDescription =
-        if (supInfo.containsKey("suppressionChargeDescription")) supInfo.get("suppressionChargeDescription") else "None"
-      val mainTrans                    = if (supInfo.containsKey("mainTrans")) Some(supInfo.get("mainTrans")) else Some("1535")
-      val subTrans                     = if (supInfo.containsKey("subTrans")) Some(supInfo.get("subTrans")) else Some("1000")
-      val postcode                     = if (supInfo.containsKey("postcode")) Some(supInfo.get("postcode")) else Some("EC2M 2LS")
+    rows.foreach { supInfo =>
+      val suppressionDateFrom  =supInfo("suppressionDateFrom")
+      val suppressionDateTo= supInfo.get("suppressionDateTo")
+      val suppressionReason= supInfo("suppressionReason")
+      val suppressionReasonDesc = supInfo("suppressionReasonDesc")
+      val suppressionChargeDescription = supInfo("suppressionChargeDescription")
+      val mainTrans                    = supInfo.get("mainTrans")
+      val subTrans                     = supInfo.get("subTrans")
+      val postcode                     = supInfo.get("postcode")
+      val checkPeriodEnd               = supInfo.get("checkPeriodEnd").map(_.toBoolean)
+      val testRegime                   = supInfo.get("testRegime")
 
       val suppressionApplied = SuppressionInformation(
-        suppressionDateFrom,
-        suppressionDateTo,
-        suppressionReason,
-        suppressionReasonDesc,
-        suppressionChargeDescription,
-        mainTrans,
-        subTrans,
-        postcode
+        suppressionDateFrom = suppressionDateFrom,
+        suppressionDateTo = suppressionDateTo,
+        suppressionReason = suppressionReason,
+        suppressionReasonDesc = suppressionReasonDesc,
+        suppressionChargeDescription = suppressionChargeDescription,
+        mainTrans = mainTrans,
+        subTrans = subTrans,
+        postcode = postcode,
+        checkPeriodEnd = checkPeriodEnd,
+        testRegime = testRegime
+
       )
 
       suppressionInfo ::= suppressionApplied
