@@ -501,6 +501,58 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
       }
   }
 
+
+  Then("the ([0-9])(?:st|nd|rd|th) debt applied suppression summary contains values as") {
+    (summaryIndex: Int, dataTable: DataTable) =>
+      val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
+      val response: StandaloneWSResponse = ScenarioContext.get("response")
+
+      asMapTransposed.asScala.zipWithIndex.foreach { case (window, index) =>
+        val maybeSuppression = for {
+          debt <- Json.parse(response.body).as[DebtCalculationsSummary].debtCalculations.lift(summaryIndex - 1) // Safe index
+          windowData <- debt.calculationWindows.lift(index) // Safe window access
+          suppression <- windowData.suppressionApplied // Check for suppression
+        } yield suppression
+
+        maybeSuppression match {
+          case Some(suppression) =>
+            // Only run checks if suppression actually exists
+            locally {
+              val fieldName = "reason"
+              if (window.containsKey(fieldName) && window.get(fieldName).toString.nonEmpty) {
+                withClue(s"$fieldName: ") {
+                  suppression.reason shouldBe window.get(fieldName).toString
+                }
+              }
+            }
+
+            locally {
+              val fieldName = "description"
+              if (window.containsKey(fieldName) && window.get(fieldName).toString.nonEmpty) {
+                withClue(s"$fieldName: ") {
+                  suppression.description shouldBe window.get(fieldName).toString
+                }
+              }
+            }
+
+            locally {
+              val fieldName = "code"
+              if (window.containsKey(fieldName) && window.get(fieldName).toString.nonEmpty) {
+                withClue(s"$fieldName: ") {
+                  suppression.code shouldBe window.get(fieldName).toString
+                }
+              }
+            }
+
+          case None if window.containsKey("reason") && window.get("reason").toString.nonEmpty =>
+            fail(s"Expected suppressionApplied for debt index $summaryIndex and window $index, but it was missing.")
+          case _ =>
+
+        }
+      }
+  }
+
+
   def getCountOfCalculationWindows(summaryIndex: Int): Int = {
     val response: StandaloneWSResponse = ScenarioContext.get("response")
     Json.parse(response.body).as[DebtCalculationsSummary].debtCalculations(summaryIndex - 1).calculationWindows.size
