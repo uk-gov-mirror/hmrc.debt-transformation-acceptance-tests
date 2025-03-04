@@ -2,7 +2,6 @@
 Feature: Suppression - Edge cases
 
   Scenario: Suppression, interest rate change during suppression
-
     Given suppression configuration data is created
       | suppressionDateFrom | suppressionDateTo | suppressionReason | suppressionReasonDesc | suppressionChargeDescription | mainTrans | subTrans | postcode | checkPeriodEnd | testRegime                                                                                              |
       | 2022-01-07          | 2022-04-05        | LEGISLATIVE       | COVID                 | SA-Suppression               | 1535      | 1000     | EC2M 2LS | true           | fake regime suppressing (MainTrans,SubTrans) = (1234,0123) OR (4567,0456) OR (7890,0789) OR (1535,1000) |
@@ -54,8 +53,8 @@ Feature: Suppression - Edge cases
       | 2022-02-01 | 2022-02-20 | 19           | 2.75         | 37                      | 715               | 500000               | 500715             | false                 |             |             |                                      |
       | 2022-02-21 | 2022-04-04 | 43           | 0.0          | 0                       | 0                 | 500000               | 500000             | false                 | LEGISLATIVE | COVID       | Converted from new suppression style |
       | 2022-04-05 | 2022-05-23 | 49           | 3.25         | 44                      | 2181              | 500000               | 502181             | false                 |             |             |                                      |
-      | 2022-05-24 | 2022-07-04 | 42           | 3.5         | 47                      | 2013              | 500000               | 502013             | false                 |             |             |                                      |
-      | 2022-07-05 | 2022-07-06 | 2           | 3.75         | 51                      | 102              | 500000               | 500102             | false                 |             |             |                                      |
+      | 2022-05-24 | 2022-07-04 | 42           | 3.5          | 47                      | 2013              | 500000               | 502013             | false                 |             |             |                                      |
+      | 2022-07-05 | 2022-07-06 | 2            | 3.75         | 51                      | 102               | 500000               | 500102             | false                 |             |             |                                      |
 
 
   Scenario: Suppression - interest rate change before suppression
