@@ -161,7 +161,7 @@ Feature: Suppression
       | 2024-03-01 | 2024-03-20 | 19           | 0.0          | 0                       | 0                 | 350000             | 350000               | false                 | LEGISLATIVE | Converted from new suppression style | COVID       |
       | 2024-03-21 | 2024-07-06 | 108          | 6.5          | 62                      | 6713              | 356713             | 350000               | false                 |             |                                      |             |
 
-  @wip45
+
   Scenario: Suppression, 2 debts 2 payments on same day for one of the debts
     Given suppression configuration data is created
       | suppressionDateFrom | suppressionDateTo | suppressionReason | suppressionReasonDesc | suppressionChargeDescription | mainTrans | subTrans | postcode | checkPeriodEnd | testRegime                                                                                              |
@@ -190,19 +190,19 @@ Feature: Suppression
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
       | true            | 108                  | 62                      | 6713                 | 350000           | 356713             | 350000             |
     And the 1st debt summary will have calculation windows
-      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow | amountOnIntDueWindow | breathingSpaceApplied | reason      | code                                 | description |
-      | 2024-03-01 | 2024-03-20 | 19           | 0.0          | 0                       | 0                 | 150000             | 150000               | false                 | LEGISLATIVE | Converted from new suppression style | COVID       |
-      | 2024-03-01 | 2024-03-20 | 19           | 0.0          | 0                       | 0                 | 350000             | 350000               | false                 | LEGISLATIVE | Converted from new suppression style | COVID       |
-      | 2024-03-21 | 2024-07-06 | 108          | 6.5          | 62                      | 6713              | 356713             | 350000               | false                 |             |                                      |             |
+      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow | amountOnIntDueWindow | breathingSpaceApplied | reason      | description | code                                 |
+      | 2024-03-01 | 2024-03-20 | 19           | 0.0          | 0                       | 0                 | 150000             | 150000               | false                 | LEGISLATIVE | COVID       | Converted from new suppression style |
+      | 2024-03-01 | 2024-03-20 | 19           | 0.0          | 0                       | 0                 | 350000             | 350000               | false                 | LEGISLATIVE | COVID       | Converted from new suppression style |
+      | 2024-03-21 | 2024-07-06 | 108          | 6.5          | 62                      | 6713              | 356713             | 350000               | false                 |             |             |                                      |
     And the 2nd debt summary will contain
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
       | true            | 108                  | 71                      | 7672                 | 400000           | 407672             | 400000             |
     Then the 2nd debt summary will have calculation windows
-      | 2024-03-01 | 2024-03-20 | 19  | 0.0 | 0  | 0    | 400000 | 400000 | false | LEGISLATIVE | Converted from new suppression style | COVID |
-      | 2024-03-21 | 2024-07-06 | 108 | 6.5 | 71 | 7672 | 407672 | 400000 | false |             |                                      |       |
+      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow | amountOnIntDueWindow | breathingSpaceApplied | reason      | code                                 | description |
+      | 2024-03-01 | 2024-03-20 | 19           | 0.0          | 0                       | 0                 | 400000             | 400000               | false                 | LEGISLATIVE | Converted from new suppression style | COVID       |
+      | 2024-03-21 | 2024-07-06 | 108          | 6.5          | 71                      | 7672              | 407672             | 400000               | false                 |             |                                      |             |
 
-  @wip45
-   #  more calculation windows on every other payment
+
   Scenario: Suppression, 2 payments after suppression dates
     Given suppression configuration data is created
       | suppressionDateFrom | suppressionDateTo | suppressionReason | suppressionReasonDesc | suppressionChargeDescription | mainTrans | subTrans | postcode | checkPeriodEnd | testRegime                                                                                              |
@@ -222,18 +222,18 @@ Feature: Suppression
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | amountIntTotal | unpaidAmountTotal | amountOnIntDueTotal |
-      | 115                  | 12467                | 662467         | 650000            | 650000              |
+      | 53                   | 7582                 | 307582         | 300000            | 300000              |
     And the 1st debt summary will contain
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
-      | true            | 108                  | 44                      | 4795                 | 250000           | 254795             | 250000             |
+      | true            | 211                  | 53                      | 7582                 | 300000           | 307582             | 300000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow | amountOnIntDueWindow | breathingSpaceApplied | reason      | description | code                                 |
       | 2024-03-01 | 2024-03-20 | 19           | 0.0          | 0                       | 0                 | 100000             | 100000               | false                 | LEGISLATIVE | COVID       | Converted from new suppression style |
       | 2024-03-21 | 2024-05-01 | 42           | 6.5          | 17                      | 745               | 100745             | 100000               | false                 |             |             |                                      |
       | 2024-03-01 | 2024-03-20 | 19           | 0.0          | 0                       | 0                 | 100000             | 100000               | false                 | LEGISLATIVE | COVID       | Converted from new suppression style |
       | 2024-03-21 | 2024-05-20 | 61           | 6.5          | 17                      | 1083              | 101083             | 100000               | false                 |             |             |                                      |
-      | 2024-03-01 | 2024-03-20 | 19           | 0.0          | 0                       | 0                 | 500000             | 500000               | false                 | LEGISLATIVE | COVID       | Converted from new suppression style |
-      | 2024-03-21 | 2024-07-06 | 108          | 6.5          | 71                      | 7672              | 407672             | 400000               | false                 |             |             |                                      |
+      | 2024-03-01 | 2024-03-20 | 19           | 0.0          | 0                       | 0                 | 300000             | 300000               | false                 | LEGISLATIVE | COVID       | Converted from new suppression style |
+      | 2024-03-21 | 2024-07-06 | 108          | 6.5          | 53                      | 5754              | 305754             | 300000               | false                 |             |             |                                      |
 
 
   Scenario: Suppression, open ended suppression no payment history
@@ -260,9 +260,6 @@ Feature: Suppression
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | amountOnIntDueWindow | unpaidAmountWindow | breathingSpaceApplied | reason      | code                                 | description |
       | 2021-03-01 | 2021-07-06 | 127          | 0.0          | 0                       | 500000               | 500000             | false                 | LEGISLATIVE | Converted from new suppression style | COVID       |
 
-
-#  more calculation windows on every other payment
-#   why interestRate during suppression zero (NOT the exact interestRate of date range)
 
   Scenario:Suppression, open ended suppression with payment history
     Given suppression configuration data is created
