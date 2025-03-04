@@ -64,7 +64,7 @@
 #
 ##  Input 2 DTD-417
 ##  Instalment calculation for suppression period ends after quote date (Input 2)
-#  @wip4
+#
 #  Scenario: Should calculate instalment where suppression period ends after the quote date
 #    Given suppression data has been created
 #      | suppressionId | code | reason      | description | enabled | fromDate  | toDate            |
