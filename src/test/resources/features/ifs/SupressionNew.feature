@@ -3,12 +3,12 @@ Feature: Suppression
 
   Scenario: Suppression - full address postCode
     Given suppression configuration data is created
-      | suppressionDateFrom | suppressionDateTo | suppressionReason | suppressionReasonDesc | suppressionChargeDescription | mainTrans | subTrans | postcode | checkPeriodEnd | testRegime                                                                                              |
-      | 2024-03-01          | 2024-03-20        | LEGISLATIVE       | COVID                 | SA-Suppression               | 1535      | 1000     | EC2M 2LS | true           | fake regime suppressing (MainTrans,SubTrans) = (1234,0123) OR (4567,0456) OR (7890,0789) OR (1535,1000) |
+      | dateFrom   | dateTo     | reason      | reasonDesc | suppressionChargeDescription | postcode |
+      | 2024-03-01 | 2024-03-20 | LEGISLATIVE | COVID      | SA-Suppression               | EC2M 2LS |
     When suppression configuration is sent to ifs service
     And a debt item
-      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | postcode | periodEnd  |
-      | 500000         | 2024-03-01        | 2024-07-06          | 1535      | 1000     | EC2M 2LS | 2024-03-06 |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | postcode |
+      | 500000         | 2024-03-01        | 2024-07-06          | 1535      | 1000     | EC2M 2LS |
     And the debt item has no payment history
     And no breathing spaces have been applied to the debt item
     And the customer has post codes
@@ -27,14 +27,14 @@ Feature: Suppression
       | 2024-03-21 | 2024-07-06 | 108          | 6.5          | 88                      | 509590             | false                 |             |             |                                      |
 
 
-  Scenario: Suppression - Partial postCode
+  Scenario: Suppression - Partial postCode Suppression
     Given suppression configuration data is created
-      | suppressionDateFrom | suppressionDateTo | suppressionReason | suppressionReasonDesc | suppressionChargeDescription | mainTrans | subTrans | postcode | checkPeriodEnd | testRegime                                                                                              |
-      | 2024-03-01          | 2024-03-20        | LEGISLATIVE       | COVID                 | SA-Suppression               | 1535      | 1000     | EC2M     | true           | fake regime suppressing (MainTrans,SubTrans) = (1234,0123) OR (4567,0456) OR (7890,0789) OR (1535,1000) |
+      | dateFrom   | dateTo     | reason      | reasonDesc | suppressionChargeDescription | postcode |
+      | 2024-03-01 | 2024-03-20 | LEGISLATIVE | COVID      | SA-Suppression               | EC2M     |
     When suppression configuration is sent to ifs service
     And a debt item
-      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | postcode | periodEnd  |
-      | 500000         | 2024-03-01        | 2024-07-06          | 1535      | 1000     | EC2M 2LS | 2024-03-06 |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2024-03-01        | 2024-07-06          | 1535      | 1000     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the debt item
     And the customer has post codes
@@ -55,12 +55,12 @@ Feature: Suppression
 
   Scenario: Suppression - Missing mainTrans
     Given suppression configuration data is created
-      | suppressionDateFrom | suppressionDateTo | suppressionReason | suppressionReasonDesc | suppressionChargeDescription | subTrans | postcode | checkPeriodEnd | testRegime                                                                                              |
-      | 2024-03-01          | 2024-03-20        | LEGISLATIVE       | COVID                 | SA-Suppression               | 1000     | EC2M 2LS | true           | fake regime suppressing (MainTrans,SubTrans) = (1234,0123) OR (4567,0456) OR (7890,0789) OR (1535,1000) |
+      | dateFrom   | dateTo     | reason      | reasonDesc | suppressionChargeDescription | subTrans |
+      | 2024-03-01 | 2024-03-20 | LEGISLATIVE | COVID      | SA-Suppression               | 1000     |
     When suppression configuration is sent to ifs service
     And a debt item
-      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | postcode | periodEnd  |
-      | 500000         | 2024-03-01        | 2024-07-06          | 1535      | 1000     | EC2M 2LS | 2024-03-06 |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2024-03-01        | 2024-07-06          | 1535      | 1000     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the debt item
     And the customer has post codes
@@ -81,12 +81,12 @@ Feature: Suppression
 
   Scenario: Suppression - Missing SubTrans
     Given suppression configuration data is created
-      | suppressionDateFrom | suppressionDateTo | suppressionReason | suppressionReasonDesc | suppressionChargeDescription | mainTrans | postcode | checkPeriodEnd | testRegime                                                                                              |
-      | 2024-03-01          | 2024-03-20        | LEGISLATIVE       | COVID                 | SA-Suppression               | 1535      | EC2M 2LS | true           | fake regime suppressing (MainTrans,SubTrans) = (1234,0123) OR (4567,0456) OR (7890,0789) OR (1535,1000) |
+      | dateFrom   | dateTo     | reason      | reasonDesc | suppressionChargeDescription | mainTrans |
+      | 2024-03-01 | 2024-03-20 | LEGISLATIVE | COVID      | SA-Suppression               | 1535      |
     When suppression configuration is sent to ifs service
     And a debt item
-      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | postcode | periodEnd  |
-      | 500000         | 2024-03-01        | 2024-07-06          | 1535      | 1000     | EC2M 2LS | 2024-03-06 |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2024-03-01        | 2024-07-06          | 1535      | 1000     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the debt item
     And the customer has post codes
@@ -105,14 +105,14 @@ Feature: Suppression
       | 2024-03-21 | 2024-07-06 | 108          | 6.5          | 88                      | 509590             | false                 |             |             |                                      |
 
 
-  Scenario: Suppression - no checkPeriodEnd
+  Scenario: Suppression applied - periodEnd
     Given suppression configuration data is created
-      | suppressionDateFrom | suppressionDateTo | suppressionReason | suppressionReasonDesc | suppressionChargeDescription | mainTrans | subTrans | postcode | testRegime                                                                                              |
-      | 2024-03-01          | 2024-03-20        | LEGISLATIVE       | COVID                 | SA-Suppression               | 1535      | 1000     | EC2M 2LS | fake regime suppressing (MainTrans,SubTrans) = (1234,0123) OR (4567,0456) OR (7890,0789) OR (1535,1000) |
+      | dateFrom   | dateTo     | reason      | reasonDesc | suppressionChargeDescription | checkPeriodEnd |
+      | 2024-03-01 | 2024-03-20 | LEGISLATIVE | COVID      | SA-Suppression               | true           |
     When suppression configuration is sent to ifs service
     And a debt item
-      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | postcode | periodEnd  |
-      | 500000         | 2024-03-01        | 2024-07-06          | 1535      | 1000     | EC2M 2LS | 2024-03-06 |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | periodEnd  |
+      | 500000         | 2024-03-01        | 2024-07-06          | 1535      | 1000     | 2024-03-01 |
     And the debt item has no payment history
     And no breathing spaces have been applied to the debt item
     And the customer has post codes
@@ -133,8 +133,8 @@ Feature: Suppression
 
   Scenario: Suppression, 2 payments on different dates during suppression
     Given suppression configuration data is created
-      | suppressionDateFrom | suppressionDateTo | suppressionReason | suppressionReasonDesc | suppressionChargeDescription | mainTrans | subTrans | postcode | checkPeriodEnd | testRegime                                                                                              |
-      | 2024-03-01          | 2024-03-20        | LEGISLATIVE       | COVID                 | SA-Suppression               | 1535      | 1000     | EC2M 2LS | true           | fake regime suppressing (MainTrans,SubTrans) = (1234,0123) OR (4567,0456) OR (7890,0789) OR (1535,1000) |
+      | dateFrom   | dateTo     | reason      | reasonDesc | suppressionChargeDescription | mainTrans | subTrans | postcode | checkPeriodEnd | testRegime                                                                                              |
+      | 2024-03-01 | 2024-03-20 | LEGISLATIVE | COVID      | SA-Suppression               | 1535      | 1000     | EC2M 2LS | true           | fake regime suppressing (MainTrans,SubTrans) = (1234,0123) OR (4567,0456) OR (7890,0789) OR (1535,1000) |
     When suppression configuration is sent to ifs service
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | postcode | periodEnd  |
@@ -164,19 +164,19 @@ Feature: Suppression
 
   Scenario: Suppression, 2 debts 2 payments on same day for one of the debts
     Given suppression configuration data is created
-      | suppressionDateFrom | suppressionDateTo | suppressionReason | suppressionReasonDesc | suppressionChargeDescription | mainTrans | subTrans | postcode | checkPeriodEnd | testRegime                                                                                              |
-      | 2024-03-01          | 2024-03-20        | LEGISLATIVE       | COVID                 | SA-Suppression               | 1535      | 1000     | EC2M 2LS | true           | fake regime suppressing (MainTrans,SubTrans) = (1234,0123) OR (4567,0456) OR (7890,0789) OR (1535,1000) |
+      | dateFrom   | dateTo     | reason      | reasonDesc | suppressionChargeDescription | mainTrans | subTrans |
+      | 2024-03-01 | 2024-03-20 | LEGISLATIVE | COVID      | SA-Suppression               | 1535      | 1000     |
     When suppression configuration is sent to ifs service
     And a debt item
-      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | postcode | periodEnd  |
-      | 500000         | 2024-03-01        | 2024-07-06          | 1535      | 1000     | EC2M 2LS | 2024-03-06 |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2024-03-01        | 2024-07-06          | 1535      | 1000     |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 100000        | 2024-03-20  |
       | 50000         | 2024-03-20  |
     And a debt item
-      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | postcode | periodEnd  |
-      | 400000         | 2024-03-01        | 2024-07-06          | 1535      | 1000     | EC2M 2LS | 2024-03-06 |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 400000         | 2024-03-01        | 2024-07-06          | 1535      | 1000     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the debt item
     And the customer has post codes
@@ -205,12 +205,12 @@ Feature: Suppression
 
   Scenario: Suppression, 2 payments after suppression dates
     Given suppression configuration data is created
-      | suppressionDateFrom | suppressionDateTo | suppressionReason | suppressionReasonDesc | suppressionChargeDescription | mainTrans | subTrans | postcode | checkPeriodEnd | testRegime                                                                                              |
-      | 2024-03-01          | 2024-03-20        | LEGISLATIVE       | COVID                 | SA-Suppression               | 1535      | 1000     | EC2M 2LS | true           | fake regime suppressing (MainTrans,SubTrans) = (1234,0123) OR (4567,0456) OR (7890,0789) OR (1535,1000) |
+      | dateFrom   | dateTo     | reason      | reasonDesc | suppressionChargeDescription | subTrans |
+      | 2024-03-01 | 2024-03-20 | LEGISLATIVE | COVID      | SA-Suppression               | 1000     |
     When suppression configuration is sent to ifs service
     And a debt item
-      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | postcode | periodEnd  |
-      | 500000         | 2024-03-01        | 2024-07-06          | 1535      | 1000     | EC2M 2LS | 2024-03-06 |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2024-03-01        | 2024-07-06          | 1535      | 1000     |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 100000        | 2024-05-01  |
@@ -238,12 +238,12 @@ Feature: Suppression
 
   Scenario: Suppression, open ended suppression no payment history
     Given suppression configuration data is created
-      | suppressionDateFrom | suppressionDateTo | suppressionReason | suppressionReasonDesc | suppressionChargeDescription | mainTrans | subTrans | postcode | checkPeriodEnd | testRegime                                                                                              |
-      | 2020-04-04          | 9999-12-31        | LEGISLATIVE       | COVID                 | SA-Suppression               | 1535      | 1000     | EC2M 2LS | true           | fake regime suppressing (MainTrans,SubTrans) = (1234,0123) OR (4567,0456) OR (7890,0789) OR (1535,1000) |
+      | dateFrom   | dateTo     | reason      | reasonDesc | suppressionChargeDescription | mainTrans |
+      | 2020-04-04 | 9999-12-31 | LEGISLATIVE | COVID      | SA-Suppression               | 1535      |
     When suppression configuration is sent to ifs service
     And a debt item
-      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | postcode | periodEnd  |
-      | 500000         | 2021-03-01        | 2021-07-06          | 1535      | 1000     | EC2M 2LS | 2021-03-06 |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2021-03-01        | 2021-07-06          | 1535      | 1000     |
     And the debt item has no payment history
     And no breathing spaces have been applied to the debt item
     And the customer has post codes
@@ -263,12 +263,12 @@ Feature: Suppression
 
   Scenario:Suppression, open ended suppression with payment history
     Given suppression configuration data is created
-      | suppressionDateFrom | suppressionDateTo | suppressionReason | suppressionReasonDesc | suppressionChargeDescription | mainTrans | subTrans | postcode | checkPeriodEnd | testRegime                                                                                              |
-      | 2020-04-04          | 9999-12-31        | LEGISLATIVE       | COVID                 | SA-Suppression               | 1535      | 1000     | EC2M 2LS | true           | fake regime suppressing (MainTrans,SubTrans) = (1234,0123) OR (4567,0456) OR (7890,0789) OR (1535,1000) |
+      | dateFrom   | dateTo     | reason      | reasonDesc | suppressionChargeDescription | mainTrans |
+      | 2020-04-04 | 9999-12-31 | LEGISLATIVE | COVID      | SA-Suppression               | 1535      |
     When suppression configuration is sent to ifs service
     And a debt item
-      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | postcode | periodEnd  |
-      | 500000         | 2021-03-01        | 2021-07-06          | 1535      | 1000     | EC2M 2LS | 2021-03-06 |
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 500000         | 2021-03-01        | 2021-07-06          | 1535      | 1000     |
     And the debt item has payment history
       | paymentAmount | paymentDate |
       | 200000        | 2021-04-20  |
@@ -287,3 +287,56 @@ Feature: Suppression
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | amountOnIntDueWindow | unpaidAmountWindow | breathingSpaceApplied | reason      | code                                 | description |
       | 2021-03-01 | 2021-04-20 | 50           | 0.0          | 0                       | 200000               | 200000             | false                 | LEGISLATIVE | Converted from new suppression style | COVID       |
       | 2021-03-01 | 2021-07-06 | 127          | 0.0          | 0                       | 300000               | 300000             | false                 | LEGISLATIVE | Converted from new suppression style | COVID       |
+
+
+  Scenario: Suppression, 2 debts, 1 matching on period end
+    Given suppression configuration data is created
+      | dateFrom   | dateTo     | reason      | reasonDesc | suppressionChargeDescription | mainTrans | subTrans |
+      | 2021-04-04 | 2021-05-04 | LEGISLATIVE | COVID      | SA-Suppression               | 1535      | 1000     |
+    When suppression configuration is sent to ifs service
+    And a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | periodEnd  |
+      | 500000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     | 2021-04-04 |
+    And the debt item has payment history
+      | paymentAmount | paymentDate |
+      | 100000        | 2021-03-20  |
+      | 50000         | 2021-04-20  |
+    And the debt item has no payment history
+    And a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | periodEnd  |
+      | 500000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     | 2021-12-21 |
+    And the debt item has no payment history
+    And no breathing spaces have been applied to the debt item
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service wilL return a total debts summary of
+      | combinedDailyAccrual | interestDueCallTotal | amountIntTotal | unpaidAmountTotal | amountOnIntDueTotal |
+      | 59                   | 8056                 | 858056         | 850000            | 850000              |
+    And the 1st debt summary will contain
+      | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
+      | true            | 232                  | 24                      | 350000               | 350000           | 353641             | 350000             |
+    And the 1st debt summary will have calculation windows
+      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow | amountOnIntDueWindow | breathingSpaceApplied | reason      | description | code                                 |
+      | 2021-02-01 | 2021-03-20 | 47           | 2.6          | 7                       | 334               | 100334             | 100000               | false                 |             |             |                                      |
+      | 2021-02-01 | 2021-04-03 | 61           | 2.6          | 3                       | 217               | 50217              | 50000                | false                 |             |             |                                      |
+
+      | 2021-04-04 | 2021-04-20 | 17           | 0.0          | 0                       | 0                 | 50000              | 50000                | false                 | LEGISLATIVE | COVID       | Converted from new suppression style |
+      | 2021-02-01 | 2021-04-03 | 61           | 2.6          | 24                      | 1520              | 351520             | 350000               | false                 |             |             |                                      |
+      | 2021-04-04 | 2021-05-04 | 31           | 0.0          | 0                       | 0                 | 350000             | 350000               | false                 | LEGISLATIVE | COVID       | Converted from new suppression style |
+      | 2021-05-05 | 2021-07-06 | 63           | 2.6          | 24                      | 1570              | 351570             | 350000               | false                 |             |             |                                      |
+    And the 2nd debt summary will contain
+      | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
+      | true            | 124                  | 35                      | 4415                 | 500000           | 504415             | 500000             |
+    And the 2nd debt summary will have calculation windows
+      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow | amountOnIntDueWindow | breathingSpaceApplied | reason      | description | code                                 |
+      | 2021-02-01 | 2021-04-03 | 61           | 2.6          | 35                      | 2172              | 502172             | 500000               | false                 |             |             |                                      |
+      | 2021-04-04 | 2021-05-04 | 31           | 0.0          | 0                       | 0                 | 500000             | 500000               | false                 | LEGISLATIVE | COVID       | Converted from new suppression style |
+      | 2021-05-05 | 2021-07-06 | 63           | 2.6          | 35                      | 2243              | 502243             | 500000               | false                 |             |             |                                      |
+
+#  Scenario: Suppression applied by all criteria on a single debt item.
+#    Given suppression configuration data is created
+#      | dateFrom   | dateTo     | reason      | reasonDesc | suppressionChargeDescription | subTrans | MainTrans | checkPeriodEnd | postcode |
+#      | 2022-01-07 | 2022-01-20 | SUBTRANS    | COVID      | SA-Suppression               | 1000     |           |                |          |
+#      | 2022-02-07 | 2022-02-20 | MAINTRANS   | COVID      | SA-Suppression               |          | 1535      |                |          |
+#      | 2022-03-07 | 2022-03-20 | PERIODEND   | COVID      | SA-Suppression               |          |           | true           |          |
+#      | 2022-04-07 | 2022-04-20 | LEGISLATIVE | COVID      | SA-Suppression               |          |           |                | EC2M 2LS |
