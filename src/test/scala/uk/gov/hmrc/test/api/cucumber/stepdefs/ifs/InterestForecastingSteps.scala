@@ -424,44 +424,6 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
           }
         }
 
-        //        locally {
-        //          val fieldName = "reasonDesc"
-        //          if (window.containsKey(fieldName) && window.get(fieldName).toString.nonEmpty) {
-        //            withClue(s"$fieldName: ") {
-        //              responseBody.suppressionsApplied.head.reasonDesc shouldBe window.get(fieldName).toString
-        //            }
-        //            }
-        //          }
-        //
-        //
-        //        locally {
-        //          val fieldName = "subTrans"
-        //          if (window.containsKey(fieldName) && window.get(fieldName).toString.nonEmpty) {
-        //            withClue(s"$fieldName: ") {
-        //              responseBody.suppressionsApplied.head.subTrans shouldBe window.get(fieldName).toString
-        //            }
-        //          }
-        //        }
-        //
-        //        locally {
-        //          val fieldName = "mainTrans"
-        //          if (window.containsKey(fieldName) && window.get(fieldName).toString.nonEmpty) {
-        //            withClue(s"$fieldName: ") {
-        //              responseBody.suppressionsApplied.head.mainTrans shouldBe window.get(fieldName).toString
-        //            }
-        //          }
-        //        }
-        //
-        //  locally {
-        //    val fieldName = "periodEnd"
-        //    if (window.containsKey(fieldName) && window.get(fieldName).toString.nonEmpty) {
-        //      withClue(s"$fieldName: ") {
-        //        responseBody.suppressionsApplied.head.periodEnd shouldBe window.get(fieldName).toString
-        //      }
-        //    }
-        //  }
-
-
         locally {
           val fieldName = "breathingSpaceApplied"
           if (window.containsKey(fieldName) && (window.get(fieldName).toString != ""))
@@ -471,83 +433,6 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
         }
       }
   }
-
-//  Then("the ([0-9])(?:st|nd|rd|th) debt summary will have suppression applied calculation windows") {
-//    (summaryIndex: Int, dataTable: DataTable) =>
-//      val asMapTransposed = dataTable.asMaps(classOf[String], classOf[String])
-//      val response: StandaloneWSResponse = ScenarioContext.get("response")
-//
-//      asMapTransposed.asScala.zipWithIndex.foreach { case (window, index) =>
-//        val calculationWindows = Json
-//          .parse(response.body)
-//          .as[DebtCalculationsSummary]
-//          .debtCalculations(summaryIndex - 1)
-//          .calculationWindows
-//
-//        if (calculationWindows.isDefinedAt(index)) {
-//          calculationWindows(index).suppressionsApplied.getOrElse(List.empty).foreach { suppression =>
-//
-//            locally {
-//              val fieldName = "dateFrom"
-//              if (window.containsKey(fieldName)) {
-//                withClue(s"$fieldName: ") {
-//                  suppression.dateFrom shouldBe window.get(fieldName).toString
-//                }
-//              }
-//            }
-//
-//            locally {
-//              val fieldName = "dateTo"
-//              if (window.containsKey(fieldName)) {
-//                withClue(s"$fieldName: ") {
-//                  suppression.dateTo .toString shouldBe Some(window.get(fieldName)).toString
-//                }
-//              }
-//            }
-//
-//
-//
-//
-//            locally {
-//              val fieldName = "reasonDesc"
-//              if (window.containsKey(fieldName) && window.get(fieldName).toString.nonEmpty) {
-//                withClue(s"$fieldName: ") {
-//                  suppression.reasonDesc shouldBe window.get(fieldName).toString
-//                }
-//              }
-//            }
-//
-//            locally {
-//              val fieldName = "subTrans"
-//              if (window.containsKey(fieldName) && window.get(fieldName).toString.nonEmpty) {
-//                withClue(s"$fieldName: ") {
-//                  suppression.subTrans shouldBe window.get(fieldName)
-//                }
-//              }
-//            }
-//
-//            locally {
-//              val fieldName = "mainTrans"
-//              if (window.containsKey(fieldName) && window.get(fieldName).toString.nonEmpty) {
-//                withClue(s"$fieldName: ") {
-//                  suppression.mainTrans shouldBe window.get(fieldName)
-//                }
-//              }
-//            }
-//
-//            locally {
-//              val fieldName = "periodEnd"
-//              if (window.containsKey(fieldName) && window.get(fieldName).toString.nonEmpty) {
-//                withClue(s"$fieldName: ") {
-//                  suppression.periodEnd shouldBe window.get(fieldName)
-//                }
-//              }
-//            }
-//
-//          }
-//        }
-//      }
-//  }
 
 
   Then("the ([0-9])(?:st|nd|rd|th) debt summary will have suppression applied calculation windows") {
@@ -716,13 +601,12 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
       asMapTransposed.asScala.zipWithIndex.foreach { case (window, index) =>
         val maybeSuppression = for {
           debt <- Json.parse(response.body).as[DebtCalculationsSummary].debtCalculations.lift(summaryIndex - 1) // Safe index
-          windowData <- debt.calculationWindows.lift(index) // Safe window access
-          suppression <- windowData.suppressionApplied // Check for suppression
+          windowData <- debt.calculationWindows.lift(index)
+          suppression <- windowData.suppressionApplied
         } yield suppression
 
         maybeSuppression match {
           case Some(suppression) =>
-            // Only run checks if suppression actually exists
             locally {
               val fieldName = "reason"
               if (window.containsKey(fieldName) && window.get(fieldName).toString.nonEmpty) {
