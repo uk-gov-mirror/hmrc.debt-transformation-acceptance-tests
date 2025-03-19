@@ -1,5 +1,4 @@
 Feature: FC VAT Debt Calculation with Breathing Space
-
   Scenario: Breathing space for interest bearing debt with payments.
     Given a fc vat debt item
       | debtItemChargeId | originalAmount | periodEnd  | interestRequestedTo | interestIndicator |

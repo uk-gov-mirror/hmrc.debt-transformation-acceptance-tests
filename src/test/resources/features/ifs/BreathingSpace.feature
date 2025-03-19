@@ -355,12 +355,10 @@ Feature: Breathing Space
 
   @DTD-2371
   Scenario: Breathing space that ends same day as interest requested to with a suppression(SA)
-    Given suppression data has been created
-      | reason | description | enabled | fromDate   | toDate     |
-      | POLICY | COVID       | true    | 2024-02-01 | 2024-05-04 |
-    And suppression rules have been created
-      | ruleId | postCode | suppressionIds |
-      | 1      | TW3      | 1              |
+    Given suppression configuration data is created
+      | dateFrom   | dateTo     | reason      | reasonDesc | suppressionChargeDescription | mainTrans |
+      | 2024-02-01 | 2024-05-04 | LEGISLATIVE | COVID      | SA-Suppression               | 4920      |
+    When suppression configuration is sent to ifs service
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
       | 500000         | 2024-01-01        | 2024-01-10          | 4920      | 1553     | true            |

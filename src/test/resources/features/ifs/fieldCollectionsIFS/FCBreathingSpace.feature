@@ -1,5 +1,4 @@
 Feature: FC Debt Calculation Breathing Space
-
   Scenario: Breathing space for interest bearing debt with no payments.
     Given a fc debt item
       | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |

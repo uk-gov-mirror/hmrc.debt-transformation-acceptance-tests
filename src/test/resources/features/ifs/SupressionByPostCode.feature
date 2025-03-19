@@ -1,5 +1,4 @@
 @suppression
-@wip4
 Feature: Suppression by Postcode
   Scenario: Suppression applied to customers latest postcode - 2 postcodes one before interest start date
     Given suppression configuration data is created
@@ -80,7 +79,6 @@ Feature: Suppression by Postcode
       | dateFrom   | dateTo     | reason      | reasonDesc | suppressionChargeDescription | postcode |
       | 2021-02-04 | 2021-05-04 | LEGISLATIVE | COVID      | SA-Suppression               | TW3 4QR  |
       | 2020-12-04 | 2021-03-01 | LEGISLATIVE | COVID      | SA-Suppression               | TW3 4PR  |
-
     When suppression configuration is sent to ifs service
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
