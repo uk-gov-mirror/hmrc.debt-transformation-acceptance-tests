@@ -73,7 +73,6 @@ Feature: Suppression by Postcode
 
  #TODO Fails Suppression not applied when customer has 2 matching postcodes
   @wip @DTD-400
-
   Scenario: Suppression applied to customers latest postcode - 2 postcodes
     Given suppression configuration data is created
       | dateFrom   | dateTo     | reason      | reasonDesc | suppressionChargeDescription | postcode |
@@ -223,15 +222,13 @@ Feature: Suppression by Postcode
       | 2021-02-04 | 2021-05-04 | 90           | 0.0          | 0                       | 500000             | false                 | LEGISLATIVE | COVID       | Converted from new suppression style |
       | 2021-05-05 | 2021-07-06 | 63           | 2.6          | 35                      | 502243             | false                 |             |             |                                      |
 
- #TODO whats subDistrict Suppression?
+
   Scenario Outline: Suppression should be applied to customer sub district
     Given suppression configuration data is created
       | dateFrom   | dateTo     | reason      | reasonDesc | suppressionChargeDescription | postcode   |
       | 2021-02-04 | 2021-05-04 | LEGISLATIVE | COVID      | SA-Suppression               | <postCode> |
     When suppression configuration is sent to ifs service
-#    And suppression rules have been created
-#      | ruleId | postCode      | suppressionIds |
-#      | 1      | <subDistrict> | 1              |
+
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
       | 500000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
