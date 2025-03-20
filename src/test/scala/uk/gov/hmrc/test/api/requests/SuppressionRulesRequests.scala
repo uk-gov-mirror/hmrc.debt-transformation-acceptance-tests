@@ -24,7 +24,8 @@ import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import uk.gov.hmrc.test.api.client.WsClient
 import uk.gov.hmrc.test.api.models.{SuppressionInformation, SuppressionRequest}
-import uk.gov.hmrc.test.api.utils.{BaseRequests, ScenarioContext, TestData}
+import uk.gov.hmrc.test.api.utils.ScenarioContext._
+import uk.gov.hmrc.test.api.utils.{BaseRequests, TestData}
 
 import java.time.LocalDate
 import scala.jdk.CollectionConverters._
@@ -37,7 +38,7 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
       userType = getRandomAffinityGroup,
       utr = "123456789012"
     )
-    val baseUri     = s"$interestForecostingApiUrl/test-only/suppressions/old/$id"
+    val baseUri     = s"$interestForecostingApiUrl/test-only/suppressions/overrides"
     val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
       "Content-Type"  -> "application/json",
@@ -275,29 +276,26 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
     var suppressionInfo = List[SuppressionInformation]()
 
     rows.foreach { supInfo =>
-      val suppressionDateFrom  =supInfo("suppressionDateFrom")
-      val suppressionDateTo= supInfo.get("suppressionDateTo")
-      val suppressionReason= supInfo("suppressionReason")
-      val suppressionReasonDesc = supInfo("suppressionReasonDesc")
+      val dateFrom  =supInfo("dateFrom")
+      val dateTo= supInfo.get("dateTo")
+      val reason= supInfo("reason")
+      val reasonDesc = supInfo("reasonDesc")
       val suppressionChargeDescription = supInfo("suppressionChargeDescription")
       val mainTrans                    = supInfo.get("mainTrans")
       val subTrans                     = supInfo.get("subTrans")
       val postcode                     = supInfo.get("postcode")
       val checkPeriodEnd               = supInfo.get("checkPeriodEnd").map(_.toBoolean)
-      val testRegime                   = supInfo.get("testRegime")
 
       val suppressionApplied = SuppressionInformation(
-        suppressionDateFrom = suppressionDateFrom,
-        suppressionDateTo = suppressionDateTo,
-        suppressionReason = suppressionReason,
-        suppressionReasonDesc = suppressionReasonDesc,
+        dateFrom = dateFrom,
+        dateTo = dateTo,
+        reason = reason,
+        reasonDesc = reasonDesc,
         suppressionChargeDescription = suppressionChargeDescription,
         mainTrans = mainTrans,
         subTrans = subTrans,
         postcode = postcode,
-        checkPeriodEnd = checkPeriodEnd,
-        testRegime = testRegime
-
+        checkPeriodEnd = checkPeriodEnd
       )
 
       suppressionInfo ::= suppressionApplied
@@ -305,8 +303,8 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
 
     val suppressionRequest     = SuppressionRequest(suppressions = suppressionInfo)
     val suppressionRequestJson = Json.toJson(suppressionRequest)
-    ScenarioContext.setSuppression("suppressionsData", suppressionInfo)
-    ScenarioContext.set("suppressionsJson", Json.stringify(suppressionRequestJson))
+    setSuppression("suppressionsData", suppressionInfo)
+    set("suppressionsJson", Json.stringify(suppressionRequestJson))
     println(s"suppression request json body ************************ $suppressionRequestJson")
   }
 }

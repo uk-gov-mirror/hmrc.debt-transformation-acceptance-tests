@@ -1,7 +1,5 @@
 Feature: FC Debt Calculation End point testing
-
   Scenario: 0. Interest Indicators. 2 debt. 1 payment history and cotax charge interest
-
     Given fc debt item with cotax charge interest
       | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | chargedInterest | debtId |
       | 500000         | 2018-12-16        | 2019-04-14          | Y                 | 2018-04-06 | 200             | 123    |

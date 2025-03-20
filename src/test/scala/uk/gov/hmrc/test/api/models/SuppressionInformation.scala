@@ -19,17 +19,16 @@ package uk.gov.hmrc.test.api.models
 import play.api.libs.json.{Json, OFormat}
 
 case class SuppressionInformation(
-  suppressionDateFrom: String,
-  suppressionDateTo:Option[String],
-  suppressionReason: String,
-  suppressionReasonDesc: String,
+  dateFrom: String,
+  dateTo:Option[String],
+  reason: String,
+  reasonDesc: String,
   suppressionChargeDescription:String,
+  postcode: Option[String],
   mainTrans: Option[String],
   subTrans: Option[String],
-  postcode: Option[String],
-  checkPeriodEnd: Option[Boolean],
-  testRegime: Option[String]
-)
+  checkPeriodEnd: Option[Boolean]
+                                 )
 object SuppressionInformation {
   implicit val format: OFormat[SuppressionInformation] = Json.format[SuppressionInformation]
 }

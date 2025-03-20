@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.test.api.utils
 
-import uk.gov.hmrc.test.api.models.{SuppressionInformation}
+import uk.gov.hmrc.test.api.models.{SuppressionInformation, SuppressionsApplied}
 
 object ScenarioContext {
   private var scenarioValues = Map.empty[String, Any]
