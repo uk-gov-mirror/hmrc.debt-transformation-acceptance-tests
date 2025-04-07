@@ -24,7 +24,7 @@ dist
 target
 lib_managed
 src_managed/
-project/project
+project/project/*
 project/target
 
 # polling script files
@@ -37,3 +37,4 @@ qaResponse.txt
 qa_response_escaped.txt
 qa_token_response.txt
 
+!/project/project/*.sbt
