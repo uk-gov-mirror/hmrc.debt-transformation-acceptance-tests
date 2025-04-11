@@ -34,6 +34,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
 
   Given("a debt item") { (dataTable: DataTable) =>
     createInterestFocastingRequestBody(dataTable)
+    //InterestForecastingDebtsRequests.createDebtItemRequest(dataTable)
   }
 
   Given("no debt item") { () =>
@@ -217,7 +218,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
     }
 
     locally {
-      val fieldName = "numberChargeableDays"
+      val fieldName = "numberOfChargeableDays"
       if (asMapTransposed.containsKey(fieldName)) {
         withClue(s"$fieldName: ") {
           responseBody.numberOfChargeableDays.toString shouldBe asMapTransposed.get(fieldName).toString

@@ -28,13 +28,14 @@ object DebtItemChargeId extends ValueTypeFormatter {
 }
 
 final case class DebtItem(
-  debtItemChargeId: DebtItemChargeId,
-  mainTrans: MainTransType,
-  subTrans: SubTransType,
+
   originalDebtAmount: BigDecimal,
   interestStartDate: LocalDate,
-  chargedInterest: Option[Int] = None,
-  paymentHistory: Seq[Payment]
+  interestRequestedTo: Option[LocalDate],
+  mainTrans: Option[String],
+  subTrans: Option[String],
+  interestBearing:  Option[String],
+  periodEnd: Option[String]
 )
 
 object DebtItem {

@@ -333,10 +333,31 @@ Feature: Suppression
       | 2021-04-04 | 2021-05-04 | 31           | 0.0          | 0                       | 0                 | 500000             | 500000               | false                 | LEGISLATIVE | COVID       | Converted from new suppression style |
       | 2021-05-05 | 2021-07-06 | 63           | 2.6          | 35                      | 2243              | 502243             | 500000               | false                 |             |             |                                      |
 
-#  Scenario: Suppression applied by all criteria on a single debt item.
-#    Given suppression configuration data is created
-#      | dateFrom   | dateTo     | reason      | reasonDesc | suppressionChargeDescription | subTrans | MainTrans | checkPeriodEnd | postcode |
-#      | 2022-01-07 | 2022-01-20 | SUBTRANS    | COVID      | SA-Suppression               | 1000     |           |                |          |
-#      | 2022-02-07 | 2022-02-20 | MAINTRANS   | COVID      | SA-Suppression               |          | 1535      |                |          |
-#      | 2022-03-07 | 2022-03-20 | PERIODEND   | COVID      | SA-Suppression               |          |           | true           |          |
-#      | 2022-04-07 | 2022-04-20 | LEGISLATIVE | COVID      | SA-Suppression               |          |           |                | EC2M 2LS |
+    @wip4
+  Scenario: Suppression applied by all criteria on a single debt item.
+    Given suppression configuration data is created
+      | dateFrom   | dateTo     | reason      | reasonDesc | suppressionChargeDescription | subTrans | mainTrans | checkPeriodEnd | postcode |
+      | 2022-01-07 | 2022-01-20 | SUBTRANS    | COVID      | SA-Suppression               | 1000     |           |                |          |
+      | 2022-02-07 | 2022-02-20 | MAINTRANS   | COVID      | SA-Suppression               |          | 1535      |                |          |
+      | 2022-03-07 | 2022-03-20 | PERIODEND   | COVID      | SA-Suppression               |          |           | true           |          |
+      | 2022-04-07 | 2022-04-20 | LEGISLATIVE | COVID      | SA-Suppression               |          |           |                | EC2M 2LS |
+    When suppression configuration is sent to ifs service
+    And a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | periodEnd  |
+      | 500000         | 2022-01-01        | 2022-07-06          | 1535      | 1000     | 2022-03-09 |
+      And the debt item has no payment history
+      And no breathing spaces have been applied to the debt item
+      And the customer has post codes
+        | postCode | postCodeDate |
+        | EC2M 2LS | 2022-01-01   |
+      When the debt item is sent to the ifs service
+      Then the ifs service wilL return a total debts summary of
+        | combinedDailyAccrual | interestDueCallTotal | amountIntTotal | unpaidAmountTotal | amountOnIntDueTotal |
+        | 51                   | 5682                 | 505682         | 500000            | 500000              |
+      And the 2nd debt summary will contain
+        | interestBearing | numberOfChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
+        | true            | 130                    | 51                      | 5682                 | 500000           | 505682             | 500000             |
+      And the 2nd debt summary will have calculation windows
+        | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow | amountOnIntDueWindow | breathingSpaceApplied | reason      | description | code                                 |
+        | 2022-01-01 | 2022-01-06 | 51           | 2.6          | 35                      | 178               | 500178             | 500000               | false                 |             |             |                                      |
+

@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,24 +14,12 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.api.models
+package uk.gov.hmrc.test.api.models.sol
 
 import play.api.libs.json.{Json, OFormat}
 
-case class DebtCalculation(
-  debtItemChargeId: Option[String],
-  debtID: Option[String],
-  interestBearing: Boolean,
-  numberOfChargeableDays: Long,
-  interestDueDailyAccrual: BigDecimal,
-  interestDueDutyTotal: BigDecimal,
-  amountOnIntDueDuty: BigDecimal,
-  totalAmountIntDuty: BigDecimal,
-  unpaidAmountDuty: BigDecimal,
-  interestOnlyIndicator: Boolean,
-  calculationWindows: List[CalculationWindow] = Nil
-)
+case class CustomerPostCode (postCode: String, postCodeDate: String)
 
-object DebtCalculation {
-  implicit val formatDebtCalculation: OFormat[DebtCalculation] = Json.format[DebtCalculation]
+object CustomerPostCode {
+  implicit val format: OFormat[CustomerPostCode] = Json.format[CustomerPostCode]
 }

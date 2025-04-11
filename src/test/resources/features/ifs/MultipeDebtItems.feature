@@ -31,7 +31,7 @@ Feature: Multiple Debt Items
       | false           | 0                    | 0                       | 0                    | 400000           | 400000             | 400000             |
     And the 1st debt summary will not have any calculation windows
 
-
+@wip4
   Scenario: Interest Bearing. 1 Payment of 1 debt.
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
