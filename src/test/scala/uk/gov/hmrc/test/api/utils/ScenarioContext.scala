@@ -35,8 +35,5 @@ object ScenarioContext {
   def remove(key: String): Unit = scenarioValues = scenarioValues - key
   def reset(): Unit = {
     scenarioValues = Map.empty[String, Any]
-
-
-
   }
 }
