@@ -23,6 +23,7 @@ import org.scalatest.concurrent.Eventually
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import uk.gov.hmrc.test.api.models._
+import uk.gov.hmrc.test.api.requests.InterestForecastingDebtsRequests
 import uk.gov.hmrc.test.api.requests.InterestForecastingRequests.{getBodyAsString, _}
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 
@@ -34,7 +35,7 @@ class InterestForecastingSteps extends ScalaDsl with EN with Eventually with Mat
 
   Given("a debt item") { (dataTable: DataTable) =>
     createInterestFocastingRequestBody(dataTable)
-    //InterestForecastingDebtsRequests.createDebtItemRequest(dataTable)
+    InterestForecastingDebtsRequests.createDebtItemRequest(dataTable)
   }
 
   Given("no debt item") { () =>

@@ -96,12 +96,5 @@ object InterestForecastingDebtsRequests extends ScalaDsl with EN with Eventually
       if (index < asMapTransposed.size) customerPostcodes ::= customerPostCode
     }
     ScenarioContext.set("customerPostcode", customerPostcodes)
-
-//    val jsonWithCustomerPostCodes =
-    //  ScenarioContext.get("debtItems").toString.replaceAll(customerPostcodes.toString()
-    //ScenarioContext.setDe("debtItems", jsonWithCustomerPostCodes)
   }
-
-
-
 }
