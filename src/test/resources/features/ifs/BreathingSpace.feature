@@ -24,6 +24,34 @@ Feature: Breathing Space
       | 2019-01-03 | 2019-02-03 | 32           | 0.0          | 0                       | 500000             | true                  |
       | 2019-02-04 | 2019-04-14 | 70           | 3.25         | 44                      | 503116             | false                 |
 
+#  In this scenario the combinedDailyAccrual and numberOfDays  issues are occurring, to be fixed in DTD-3325
+  @wip8
+  Scenario: Interest Bearing. Single debt with breathing space and no payment history (SA)
+    Given a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | interestBearing |
+      | 500000         | 2018-12-16        | 2019-04-14          | 4920      | 1553     | true            |
+    And the debt item has no payment history
+    And the debt item has breathing spaces applied
+      | debtRespiteFrom | debtRespiteTo |
+      | 2018-12-16      | 2018-12-30    |
+      | 2019-01-03      | 2019-02-03    |
+      | 2019-04-01      | 2019-04-14    |
+    And no post codes have been provided for the customer
+    When the debt item is sent to the ifs service
+    Then the ifs service wilL return a total debts summary of
+      | combinedDailyAccrual | interestDueCallTotal | unpaidAmountTotal |
+      | 44                   | 2626                 | 500000            |
+    And the 1st debt summary will contain
+      | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty |
+      | true            | 59                   | 44                      | 2626                 | 500000           |
+    And the 1st debt summary will have calculation windows
+      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow | breathingSpaceApplied |
+      | 2018-12-16 | 2018-12-30 | 14           | 0.0          | 0                       | 500000             | true                  |
+      | 2018-12-31 | 2019-01-02 | 3           | 3.25         | 44                      | 500133             | false                 |
+      | 2019-01-03 | 2019-02-03 | 32           | 0.0          | 0                       | 500000             | true                  |
+      | 2019-02-04 | 2019-04-14 | 70           | 3.25         | 44                      | 503116             | false                 |
+      | 2019-02-04 | 2019-04-14 | 70           | 3.25         | 44                      | 503116             | false                 |
+
   @DTD-2244
   Scenario: 2 debts with breathing space. No payment history (Scenario 1 - step 6) (SA)
     Given a debt item

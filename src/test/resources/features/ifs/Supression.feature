@@ -372,60 +372,12 @@ Feature: Suppression
       | 2022-07-05 | 2022-07-06 | 2            | 3.75         | 51                      | 102               | 500102             | 500000               | false                 |             |             |                                      |
 
 
-   #TODO Test Fails as interest due is zero instead of 6.5 to be fix in DTD-3325
-  @wip
+  @DTD-3325
   Scenario: Suppression applied by all criteria on 2 debt items.
     Given suppression configuration data is created
       | dateFrom   | dateTo     | reason      | reasonDesc | suppressionChargeDescription | subTrans | mainTrans | checkPeriodEnd | postcode |
       | 2022-01-07 | 2022-01-20 | SUBTRANS    | COVID      | SA-Suppression               | 1000     |           |                |          |
-      | 2024-03-07 | 2024-04-20 | MAINTRANS   | COVID      | SA-Suppression               |          | 1535      |                |          |
-      | 2022-03-07 | 2022-03-20 | PERIODEND   | COVID      | SA-Suppression               |          |           | true           |          |
-      | 2022-04-07 | 2022-04-20 | LEGISLATIVE | COVID      | SA-Suppression               |          |           |                | EC2M 2LS |
-    When suppression configuration is sent to ifs service
-    And a debt item
-      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | periodEnd  |
-      | 500000         | 2022-01-01        | 2022-07-06          | 1535      | 1000     | 2022-03-09 |
-    And the debt item has no payment history
-    And a debt item
-      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 400000         | 2024-03-01        | 2024-07-06          | 1535      | 1000     |
-    And the debt item has no payment history
-    And no breathing spaces have been applied to the debt item
-    And the customer has post codes
-      | postCode | postCodeDate |
-      | EC2M 2LS | 2022-01-01   |
-    When the debt item is sent to the ifs service
-    Then the ifs service wilL return a total debts summary of
-      | combinedDailyAccrual | interestDueCallTotal | amountIntTotal | unpaidAmountTotal | amountOnIntDueTotal |
-      | 122                  | 11678                | 911678         | 900000            | 900000              |
-    And the 1st debt summary will contain
-      | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
-      | true            | 144                  | 51                      | 6209                 | 500000           | 506209             | 500000             |
-    And the 1st debt summary will have calculation windows
-      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow | amountOnIntDueWindow | breathingSpaceApplied | reason      | description | code                                 |
-      | 2022-01-01 | 2022-01-06 | 5            | 2.6          | 35                      | 178               | 500178             | 500000               | false                 |             |             |                                      |
-      | 2022-01-07 | 2022-01-20 | 14           | 0.0          | 0                       | 0                 | 500000             | 500000               | false                 | SUBTRANS    | COVID       | Converted from new suppression style |
-      | 2022-01-21 | 2022-02-20 | 31           | 2.75         | 37                      | 1167              | 501167             | 500000               | false                 |             |             |                                      |
-      | 2022-02-21 | 2022-03-06 | 14           | 3.0          | 41                      | 575               | 500575             | 500000               | false                 |             |             |                                      |
-      | 2022-03-07 | 2022-03-20 | 14           | 0.0          | 0                       | 0                 | 500000             | 500000               | false                 | PERIODEND   | COVID       | Converted from new suppression style |
-      | 2022-03-21 | 2022-04-04 | 15           | 3.0          | 41                      | 616               | 500616             | 500000               | false                 |             |             |                                      |
-      | 2022-04-05 | 2022-04-06 | 2            | 3.25         | 44                      | 89                | 500089             | 500000               | false                 |             |             |                                      |
-      | 2022-04-07 | 2022-04-20 | 14           | 0.0          | 0                       | 0                 | 500000             | 500000               | false                 | LEGISLATIVE | COVID       | Converted from new suppression style |
-      | 2022-04-21 | 2022-05-23 | 33           | 3.25         | 44                      | 1469              | 501469             | 500000               | false                 |             |             |                                      |
-      | 2022-05-24 | 2022-07-04 | 42           | 3.5          | 47                      | 2013              | 502013             | 500000               | false                 |             |             |                                      |
-      | 2022-07-05 | 2022-07-06 | 2            | 3.75         | 51                      | 102               | 500102             | 500000               | false                 |             |             |                                      |
-    And the 2nd debt summary will contain
-      | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
-      | true            | 77                   | 71                      | 5469                 | 400000           | 405469             | 400000             |
-    And the 2nd debt summary will have calculation windows
-      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow | amountOnIntDueWindow | breathingSpaceApplied | reason    | description | code                                 |
-      | 2024-03-01 | 2024-03-06 | 5            | 2.6          | 35                      | 178               | 500178             | 500000               | false                 | MAINTRANS | COVID       | Converted from new suppression style |
-
-  @wip8
-  Scenario: Suppression applied by all criteria on 2 debt items.
-    Given suppression configuration data is created
-      | dateFrom   | dateTo     | reason      | reasonDesc | suppressionChargeDescription | subTrans | mainTrans | checkPeriodEnd | postcode |
-      | 2022-01-07 | 2022-01-20 | SUBTRANS    | COVID      | SA-Suppression               | 1000     |           |                |          |
+      | 2022-01-21 | 2022-01-25 | LEGISLATIVE | COVID      | SA-Suppression               |          |           |                | EC2M 2LS |
       | 2022-03-07 | 2022-03-20 | PERIODEND   | COVID      | SA-Suppression               |          |           | true           |          |
       | 2022-04-07 | 2022-04-20 | LEGISLATIVE | COVID      | SA-Suppression               |          |           |                | EC2M 2LS |
       | 2024-03-07 | 2024-04-20 | MAINTRANS   | COVID      | SA-Suppression               |          | 1535      |                |          |
@@ -445,15 +397,16 @@ Feature: Suppression
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | amountIntTotal | unpaidAmountTotal | amountOnIntDueTotal |
-      | 122                  | 12033                | 912033         | 900000            | 900000              |
+      | 122                   | 11845                | 911845         | 900000            | 900000              |
     And the 1st debt summary will contain
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
-      | true            | 144                  | 51                      | 6209                 | 500000           | 506209             | 500000             |
+      | true            | 139                  | 51                      | 6021                 | 500000           | 506021             | 500000             |
     And the 1st debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow | amountOnIntDueWindow | breathingSpaceApplied | reason      | description | code                                 |
       | 2022-01-01 | 2022-01-06 | 5            | 2.6          | 35                      | 178               | 500178             | 500000               | false                 |             |             |                                      |
       | 2022-01-07 | 2022-01-20 | 14           | 0.0          | 0                       | 0                 | 500000             | 500000               | false                 | SUBTRANS    | COVID       | Converted from new suppression style |
-      | 2022-01-21 | 2022-02-20 | 31           | 2.75         | 37                      | 1167              | 501167             | 500000               | false                 |             |             |                                      |
+      | 2022-01-21 | 2022-01-25 | 5            | 0.0          | 0                       | 0                 | 500000             | 500000               | false                 | LEGISLATIVE | COVID       | Converted from new suppression style |
+      | 2022-01-26 | 2022-02-20 | 26           | 2.75         | 37                      | 979               | 500979             | 500000               | false                 |             |             |                                      |
       | 2022-02-21 | 2022-03-06 | 14           | 3.0          | 41                      | 575               | 500575             | 500000               | false                 |             |             |                                      |
       | 2022-03-07 | 2022-03-20 | 14           | 0.0          | 0                       | 0                 | 500000             | 500000               | false                 | PERIODEND   | COVID       | Converted from new suppression style |
       | 2022-03-21 | 2022-04-04 | 15           | 3.0          | 41                      | 616               | 500616             | 500000               | false                 |             |             |                                      |
@@ -464,9 +417,64 @@ Feature: Suppression
       | 2022-07-05 | 2022-07-06 | 2            | 3.75         | 51                      | 102               | 500102             | 500000               | false                 |             |             |                                      |
     And the 2nd debt summary will contain
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
-      | true            | 77                   | 71                      | 5469                 | 400000           | 405824             | 400000             |
+      | true            | 76                   | 71                      | 5398                 | 400000           | 405824             | 400000             |
     And the 2nd debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow | amountOnIntDueWindow | breathingSpaceApplied | reason    | description | code                                 |
       | 2024-03-01 | 2024-03-06 | 5            | 6.5          | 71                      | 355               | 400355             | 400000               | false                 |           |             |                                      |
       | 2024-03-07 | 2024-04-20 | 45           | 0.0          | 0                       | 0                 | 400000             | 400000               | false                 | MAINTRANS | COVID       | Converted from new suppression style |
       | 2024-04-21 | 2024-07-06 | 77           | 6.5          | 71                      | 5469              | 405469             | 400000               | false                 |           |             |                                      |
+
+# TODO  In this scenario the interestDueDailyAccrual and numberOfDays issues are occurring, to be fixed in DTD-3325
+  @DTD-3325
+  Scenario: Suppression applied by all criteria on 2 debt items and suppression ends on interestRequestedTo
+    Given suppression configuration data is created
+      | dateFrom   | dateTo     | reason      | reasonDesc | suppressionChargeDescription | subTrans | mainTrans | checkPeriodEnd | postcode |
+      | 2022-01-07 | 2022-01-20 | SUBTRANS    | COVID      | SA-Suppression               | 1000     |           |                |          |
+      | 2022-01-21 | 2022-01-25 | LEGISLATIVE | COVID      | SA-Suppression               |          |           |                | EC2M 2LS |
+      | 2022-03-07 | 2022-03-20 | PERIODEND   | COVID      | SA-Suppression               |          |           | true           |          |
+      | 2022-04-07 | 2022-04-20 | LEGISLATIVE | COVID      | SA-Suppression               |          |           |                | EC2M 2LS |
+      | 2024-03-07 | 2024-04-20 | MAINTRANS   | COVID      | SA-Suppression               |          | 1535      |                |          |
+      | 2024-07-01 | 2024-07-06 | MAINTRANS   | COVID      | SA-Suppression               |          | 1535      |                |          |
+    When suppression configuration is sent to ifs service
+    And a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans | periodEnd  |
+      | 500000         | 2022-01-01        | 2022-07-06          | 1535      | 1000     | 2022-03-09 |
+    And the debt item has no payment history
+    And a debt item
+      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
+      | 400000         | 2024-03-01        | 2024-07-06          | 1535      | 1000     |
+    And the debt item has no payment history
+    And no breathing spaces have been applied to the debt item
+    And the customer has post codes
+      | postCode | postCodeDate |
+      | EC2M 2LS | 2022-01-01   |
+    When the debt item is sent to the ifs service
+    Then the ifs service wilL return a total debts summary of
+      | combinedDailyAccrual | interestDueCallTotal | amountIntTotal | unpaidAmountTotal | amountOnIntDueTotal |
+      | 51                   | 11419                | 911419         | 900000            | 900000              |
+    And the 1st debt summary will contain
+      | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
+      | true            | 139                  | 51                      | 6021                 | 500000           | 506021             | 500000             |
+    And the 1st debt summary will have calculation windows
+      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow | amountOnIntDueWindow | breathingSpaceApplied | reason      | description | code                                 |
+      | 2022-01-01 | 2022-01-06 | 5            | 2.6          | 35                      | 178               | 500178             | 500000               | false                 |             |             |                                      |
+      | 2022-01-07 | 2022-01-20 | 14           | 0.0          | 0                       | 0                 | 500000             | 500000               | false                 | SUBTRANS    | COVID       | Converted from new suppression style |
+      | 2022-01-21 | 2022-01-25 | 5            | 0.0          | 0                       | 0                 | 500000             | 500000               | false                 | LEGISLATIVE | COVID       | Converted from new suppression style |
+      | 2022-01-26 | 2022-02-20 | 26           | 2.75         | 37                      | 979               | 500979             | 500000               | false                 |             |             |                                      |
+      | 2022-02-21 | 2022-03-06 | 14           | 3.0          | 41                      | 575               | 500575             | 500000               | false                 |             |             |                                      |
+      | 2022-03-07 | 2022-03-20 | 14           | 0.0          | 0                       | 0                 | 500000             | 500000               | false                 | PERIODEND   | COVID       | Converted from new suppression style |
+      | 2022-03-21 | 2022-04-04 | 15           | 3.0          | 41                      | 616               | 500616             | 500000               | false                 |             |             |                                      |
+      | 2022-04-05 | 2022-04-06 | 2            | 3.25         | 44                      | 89                | 500089             | 500000               | false                 |             |             |                                      |
+      | 2022-04-07 | 2022-04-20 | 14           | 0.0          | 0                       | 0                 | 500000             | 500000               | false                 | LEGISLATIVE | COVID       | Converted from new suppression style |
+      | 2022-04-21 | 2022-05-23 | 33           | 3.25         | 44                      | 1469              | 501469             | 500000               | false                 |             |             |                                      |
+      | 2022-05-24 | 2022-07-04 | 42           | 3.5          | 47                      | 2013              | 502013             | 500000               | false                 |             |             |                                      |
+      | 2022-07-05 | 2022-07-06 | 2            | 3.75         | 51                      | 102               | 500102             | 500000               | false                 |             |             |                                      |
+    And the 2nd debt summary will contain
+      | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
+      | true            | 76                   | 71                      | 5398                 | 400000           | 405398             | 400000             |
+    And the 2nd debt summary will have calculation windows
+      | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow | amountOnIntDueWindow | breathingSpaceApplied | reason    | description | code                                 |
+      | 2024-03-01 | 2024-03-06 | 5            | 6.5          | 71                      | 355               | 400355             | 400000               | false                 |           |             |                                      |
+      | 2024-03-07 | 2024-04-20 | 45           | 0.0          | 0                       | 0                 | 400000             | 400000               | false                 | MAINTRANS | COVID       | Converted from new suppression style |
+      | 2024-04-21 | 2024-06-30 | 71           | 6.5          | 71                      | 5043              | 405043             | 400000               | false                 |           |             |                                      |
+      | 2024-07-01 | 2024-07-06 | 6            | 0.0          | 0                       | 0                 | 400000             | 400000               | false                 | MAINTRANS | COVID       | Converted from new suppression style |
