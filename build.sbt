@@ -10,7 +10,7 @@ libraryDependencies ++= Seq(
   "org.playframework"          %% "play-ahc-ws-standalone"   % "3.0.0",
   "org.playframework"          %% "play-ws-standalone-json"  % "3.0.0",
   "org.playframework"          %% "play-ws-standalone-xml"   % "3.0.0" % Test,
-  "org.scalatest"              %% "scalatest"                % "3.0.8",
+  "org.scalatest"              %% "scalatest"                % "3.2.19",
   "io.cucumber"                %% "cucumber-scala"           % CucumberVersion,
   "io.cucumber"                 % "cucumber-junit"           % CucumberVersion,
   "io.cucumber"                 % "cucumber-picocontainer"   % CucumberVersion,
@@ -23,5 +23,6 @@ libraryDependencies ++= Seq(
   "com.google.zxing"            % "javase"                   % "3.4.1",
   "commons-io"                  % "commons-io"               % "2.6",
   "org.julienrf"               %% "play-json-derived-codecs" % "7.0.0",
-  "com.beachape"               %% "enumeratum-play-json"     % "1.6.1"
+  "com.beachape"               %% "enumeratum-play-json"     % "1.6.1",
+  "uk.gov.hmrc"                %% "api-test-runner"          % "0.10.0" % Test
 )
