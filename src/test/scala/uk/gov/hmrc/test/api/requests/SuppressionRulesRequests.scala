@@ -18,8 +18,8 @@ package uk.gov.hmrc.test.api.requests
 
 import cucumber.api.scala.{EN, ScalaDsl}
 import io.cucumber.datatable.DataTable
-import org.scalatest.matchers.should.Matchers
 import org.scalatest.concurrent.Eventually
+import org.scalatest.matchers.should.Matchers
 import play.api.libs.json.Json
 import play.api.libs.ws.StandaloneWSResponse
 import uk.gov.hmrc.test.api.client.WsClient
@@ -272,12 +272,19 @@ object SuppressionRulesRequests extends ScalaDsl with EN with Eventually with Ma
   }
 
   def addSuppressionCriteria(dataTable: DataTable): Unit = {
-    val rows            = dataTable.asMaps[String, String](classOf[String], classOf[String]).asScala.map(_.asScala)
-    var suppressionInfo = List[SuppressionInformation]()
+    val rows              = dataTable.asMaps[String, String](classOf[String], classOf[String]).asScala.map(_.asScala)
+    var suppressionInfo   = List[SuppressionInformation]()
+    var suppressionDateTo = Option.empty[String]
 
     rows.foreach { supInfo =>
+      if (supInfo.toString.contains("dateTo")) {
+        if (supInfo.get("dateTo").contains("dateInFuture")) {
+          suppressionDateTo = Some(LocalDate.now().plusYears(1).toString)
+        } else suppressionDateTo = supInfo.get("dateTo")
+      } else suppressionDateTo = None
+
       val dateFrom                     = supInfo("dateFrom")
-      val dateTo                       = supInfo.get("dateTo")
+      val dateTo                       = suppressionDateTo
       val reason                       = supInfo("reason")
       val reasonDesc                   = supInfo("reasonDesc")
       val suppressionChargeDescription = supInfo("suppressionChargeDescription")

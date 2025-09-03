@@ -1,4 +1,4 @@
-@suppression  @2790
+@suppression @DTD-2790
 Feature: Suppression
 
   Scenario: Suppression - full address postCode
@@ -288,7 +288,6 @@ Feature: Suppression
       | 2021-03-01 | 2021-04-20 | 50           | 0.0          | 0                       | 200000               | 200000             | false                 | LEGISLATIVE | Converted from new suppression style | COVID       |
       | 2021-03-01 | 2021-07-06 | 127          | 0.0          | 0                       | 300000               | 300000             | false                 | LEGISLATIVE | Converted from new suppression style | COVID       |
 
-
   Scenario: Suppression, 2 debts, 1 matching on period end
     Given suppression configuration data is created
       | dateFrom   | dateTo     | reason      | reasonDesc | suppressionChargeDescription | mainTrans | subTrans |
@@ -371,9 +370,7 @@ Feature: Suppression
       | 2022-05-24 | 2022-07-04 | 42           | 3.5          | 47                      | 2013              | 502013             | 500000               | false                 |             |             |                                      |
       | 2022-07-05 | 2022-07-06 | 2            | 3.75         | 51                      | 102               | 500102             | 500000               | false                 |             |             |                                      |
 
-
-   #TODO Test Fails as interest due is zero instead of 6.5 to be fix in DTD-3325
-  @wip
+  @DTD-3325
   Scenario: Suppression applied by all criteria on 2 debt items.
     Given suppression configuration data is created
       | dateFrom   | dateTo     | reason      | reasonDesc | suppressionChargeDescription | subTrans | mainTrans | checkPeriodEnd | postcode |
@@ -397,7 +394,7 @@ Feature: Suppression
     When the debt item is sent to the ifs service
     Then the ifs service wilL return a total debts summary of
       | combinedDailyAccrual | interestDueCallTotal | amountIntTotal | unpaidAmountTotal | amountOnIntDueTotal |
-      | 122                  | 11678                | 911678         | 900000            | 900000              |
+      | 122                  | 12033                | 912033         | 900000            | 900000              |
     And the 1st debt summary will contain
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
       | true            | 144                  | 51                      | 6209                 | 500000           | 506209             | 500000             |
@@ -416,7 +413,7 @@ Feature: Suppression
       | 2022-07-05 | 2022-07-06 | 2            | 3.75         | 51                      | 102               | 500102             | 500000               | false                 |             |             |                                      |
     And the 2nd debt summary will contain
       | interestBearing | numberChargeableDays | interestDueDailyAccrual | interestDueDutyTotal | unpaidAmountDuty | totalAmountIntDuty | amountOnIntDueDuty |
-      | true            | 77                   | 71                      | 5469                 | 400000           | 405469             | 400000             |
+      | true            | 77                   | 71                      | 5824                 | 400000           | 405824             | 400000             |
     And the 2nd debt summary will have calculation windows
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | interestDueWindow | unpaidAmountWindow | amountOnIntDueWindow | breathingSpaceApplied | reason | description | code |
-      | 2024-03-01 | 2024-03-06 | 5            | 2.6          | 35                      | 178               | 500178             | 500000               | false                 |        |             |      |
+      | 2024-03-01 | 2024-03-06 | 5            | 6.5          | 71                      | 355               | 400355             | 400000               | false                 |        |             |      |
