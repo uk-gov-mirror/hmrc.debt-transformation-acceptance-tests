@@ -39,7 +39,6 @@ Feature: Instalment calculation for multiple debts - Input 1 & 2
       | instalmentNumber | dueDays | paymentFrequency | frequencyPassed | amountDue | instalmentBalance | interestRate | expectedNumberOfInstalments |
       | 9                | 40      | monthly          | 7               | 9900      | 9900              | 6.5          | 18                          |
 
-
   Scenario: Should calculate quote for multiple debts both with interest bearing & 1 initial payment history
     Given debt instalment calculation with details
       | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDate | interestCallDueTotal | numberOfDay | quoteType | quoteDate  |
