@@ -22,12 +22,12 @@ Feature: Instalment calculation for multiple debts - Input 1 & 2
   @DTD-3163
   Scenario: InterestStartDate is included but in the Future, then interestStartDate should be used
     Given debt instalment calculation with details
-      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDate | interestCallDueTotal | numberOfDay | quoteType | quoteDate  |
-      | 10000                   | monthly          | 2025-03-30            | 5900                 | 1           | duration  | 2020-03-13 |
+      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | numberOfDay | quoteType | quoteDate  |
+      | 10000                   | monthly          | -174                 | 5900                 | 1           | duration  | 2020-03-13 |
     And the instalment calculation has no postcodes
     And debt plan details with initial payment
-      | initialPaymentAmount | initialPaymentDate |
-      | 100                  | 2025-03-14         |
+      | initialPaymentAmount | initialPaymentDays |
+      | 100                  | -190               |
     And the instalment calculation has debt item charges
       | debtId | debtAmount | mainTrans | subTrans | interestStartDate |
       | 1234   | 80000      | 1525      | 1000     | DateInFuture      |
@@ -36,8 +36,9 @@ Feature: Instalment calculation for multiple debts - Input 1 & 2
       # non-interest bearing debt
     When the instalment calculation detail is sent to the ifs service
     Then IFS response contains expected values
-      | instalmentNumber | dueDate    | paymentFrequency | frequencyPassed | amountDue | instalmentBalance | interestRate | expectedNumberOfInstalments |
-      | 9                | 2025-10-30 | monthly          | 7               | 9900      | 9900              | 6.5          | 18                          |
+      | instalmentNumber | dueDays | paymentFrequency | frequencyPassed | amountDue | instalmentBalance | interestRate | expectedNumberOfInstalments |
+      | 9                | 40      | monthly          | 7               | 9900      | 9900              | 6.5          | 18                          |
+
 
   Scenario: Should calculate quote for multiple debts both with interest bearing & 1 initial payment history
     Given debt instalment calculation with details
