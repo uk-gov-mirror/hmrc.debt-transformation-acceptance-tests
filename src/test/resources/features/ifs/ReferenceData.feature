@@ -365,7 +365,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 6010      | 1555     | true                  |
 
 
-  Scenario Outline: SA SSTTP Debts
+  Scenario Outline: SA SSTTP debts into IFS
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans   | subTrans   |
       | 500000         | 2021-03-01        | 2021-03-08          | <mainTrans> | <subTrans> |
@@ -483,7 +483,6 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 4003      | 1047     | false                 |
       | 4003      | 1060     | false                 |
       | 4003      | 1100     | false                 |
-      | 4915      | 1005     | false                 |
       | 4915      | 1005     | false                 |
       | 4915      | 1007     | false                 |
       | 4915      | 1008     | false                 |
