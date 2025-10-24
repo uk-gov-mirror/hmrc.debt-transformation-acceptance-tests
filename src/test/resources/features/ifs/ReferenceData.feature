@@ -275,7 +275,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 4711      | 1174     | false                 |
       | 4786      | 1090     | false                 |
 
-  Scenario Outline: Interest Bearing SA charges
+  Scenario Outline: Interest Bearing SA into IFS and SoL AND SSTTP
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans   | subTrans   |
       | 500000         | 2021-03-01        | 2021-03-08          | <mainTrans> | <subTrans> |
@@ -319,7 +319,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 5200      | 1553     | false                 |
       | 5210      | 1553     | false                 |
 
-  Scenario Outline: Non Interest Bearing SA Charges
+  Scenario Outline: Interest Bearing SA into IFS and SoL AND SSTTP
     Given the current set of rules
     And a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans   | subTrans   |
@@ -365,7 +365,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 6010      | 1555     | true                  |
 
 
-  Scenario Outline: SA SSTTP debts into IFS
+  Scenario Outline: Interest Bearing SA SSTTP AND into IFS and SoL AND Op Led
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans   | subTrans   |
       | 500000         | 2021-03-01        | 2021-03-08          | <mainTrans> | <subTrans> |
@@ -535,7 +535,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 4033      | 1090     | false                 |
       | 4033      | 1095     | false                 |
 
-  Scenario Outline: SA SSTTP Debts - Non Interest bearing
+  Scenario Outline: Non Interest Bearing SA SSTTP AND into IFS and SoL AND Op Led
     Given a debt item
       | originalAmount | interestStartDate | interestRequestedTo | mainTrans   | subTrans   |
       | 500000         | 2021-03-01        | 2021-03-08          | <mainTrans> | <subTrans> |
