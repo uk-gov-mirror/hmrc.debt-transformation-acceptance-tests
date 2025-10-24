@@ -333,7 +333,6 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | false           | 0                       | 0                    | 0       | 500000           | 500000             | 0                    | 500000             | <interestOnlyIndicator> |
     Examples:
       | mainTrans | subTrans | interestOnlyIndicator |
-      | 6010      | 1554     | true                  |
       | 4955      | 2090     | true                  |
       | 4965      | 2090     | true                  |
       | 4975      | 2090     | true                  |
@@ -550,6 +549,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | mainTrans | subTrans | interestOnlyIndicator |
       | 5071      | 1553     | false                 |
       | 5073      | 1553     | false                 |
+      | 6010      | 1554     | true                  |
       | 6010      | 1560     | true                  |
       | 6010      | 1565     | true                  |
       | 6010      | 1570     | true                  |
@@ -566,7 +566,6 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 4026      | 2090     | true                  |
       | 4026      | 2095     | true                  |
       | 4026      | 2096     | true                  |
-      | 6010      | 1554     | true                  |
       | 4941      | 2090     | true                  |
       | 6010      | 1611     | true                  |
       | 6010      | 2090     | true                  |
