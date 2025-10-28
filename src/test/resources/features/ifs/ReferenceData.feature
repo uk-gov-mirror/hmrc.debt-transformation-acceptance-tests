@@ -400,6 +400,20 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 4002      | 1085     | false                 |
       | 4002      | 1090     | false                 |
       | 4002      | 1095     | false                 |
+      | 4003      | 1005     | false                 |
+      | 4003      | 1007     | false                 |
+      | 4003      | 1008     | false                 |
+      | 4003      | 1009     | false                 |
+      | 4003      | 1010     | false                 |
+      | 4003      | 1011     | false                 |
+      | 4003      | 1012     | false                 |
+      | 4003      | 1015     | false                 |
+      | 4003      | 1042     | false                 |
+      | 4003      | 1044     | false                 |
+      | 4003      | 1046     | false                 |
+      | 4003      | 1047     | false                 |
+      | 4003      | 1060     | false                 |
+      | 4003      | 1100     | false                 |
       | 4910      | 1005     | false                 |
       | 4910      | 1007     | false                 |
       | 4910      | 1008     | false                 |
@@ -420,6 +434,41 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 4910      | 2200     | false                 |
       | 4910      | 2205     | false                 |
       | 4910      | 2210     | false                 |
+      | 4911      | 1005     | false                 |
+      | 4911      | 1007     | false                 |
+      | 4911      | 1008     | false                 |
+      | 4911      | 1009     | false                 |
+      | 4911      | 1010     | false                 |
+      | 4911      | 1011     | false                 |
+      | 4911      | 1012     | false                 |
+      | 4911      | 1015     | false                 |
+      | 4913      | 1005     | false                 |
+      | 4913      | 1007     | false                 |
+      | 4913      | 1008     | false                 |
+      | 4913      | 1009     | false                 |
+      | 4913      | 1010     | false                 |
+      | 4913      | 1011     | false                 |
+      | 4913      | 1012     | false                 |
+      | 4913      | 1015     | false                 |
+      | 4915      | 1005     | false                 |
+      | 4915      | 1007     | false                 |
+      | 4915      | 1008     | false                 |
+      | 4915      | 1009     | false                 |
+      | 4915      | 1010     | false                 |
+      | 4915      | 1011     | false                 |
+      | 4915      | 1012     | false                 |
+      | 4915      | 1015     | false                 |
+      | 4915      | 1042     | false                 |
+      | 4915      | 1044     | false                 |
+      | 4915      | 1046     | false                 |
+      | 4915      | 1047     | false                 |
+      | 4915      | 1060     | false                 |
+      | 4915      | 1096     | false                 |
+      | 4915      | 1100     | false                 |
+      | 4915      | 2195     | false                 |
+      | 4915      | 2200     | false                 |
+      | 4915      | 2205     | false                 |
+      | 4915      | 2210     | false                 |
       | 4920      | 1005     | false                 |
       | 4920      | 1007     | false                 |
       | 4920      | 1008     | false                 |
@@ -485,6 +534,7 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 5071      | 1553     | false                 |
       | 5073      | 1553     | false                 |
       | 6010      | 1554     | true                  |
+      | 6010      | 1555     | true                  |
       | 6010      | 1560     | true                  |
       | 6010      | 1565     | true                  |
       | 6010      | 1570     | true                  |
