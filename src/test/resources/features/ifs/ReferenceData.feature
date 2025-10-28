@@ -359,10 +359,6 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 5195      | 1554     | true                  |
       | 5205      | 1554     | true                  |
       | 5215      | 1554     | true                  |
-      | 5071      | 1553     | false                 |
-      | 5073      | 1553     | false                 |
-      | 6010      | 1555     | true                  |
-
 
   Scenario Outline: Interest Bearing SA SSTTP AND into IFS and SoL AND Op Led
     Given a debt item
@@ -377,70 +373,6 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | true            | 35                      | 500249             | <interestOnlyIndicator> |
     Examples:
       | mainTrans | subTrans | interestOnlyIndicator |
-      | 4920      | 1553     | false                 |
-      | 4930      | 1553     | false                 |
-      | 4910      | 1553     | false                 |
-      | 5140      | 1090     | false                 |
-      | 5150      | 1090     | false                 |
-      | 5030      | 1090     | false                 |
-      | 5040      | 1090     | false                 |
-      | 5060      | 1553     | false                 |
-      | 5070      | 1553     | false                 |
-      | 5100      | 1553     | false                 |
-      | 5090      | 1553     | false                 |
-      | 5180      | 1553     | false                 |
-      | 5190      | 1553     | false                 |
-      | 5200      | 1553     | false                 |
-      | 5210      | 1553     | false                 |
-      | 5160      | 1090     | false                 |
-      | 5170      | 1090     | false                 |
-      | 5080      | 1090     | false                 |
-      | 4940      | 1090     | false                 |
-      | 4980      | 1090     | false                 |
-      | 4950      | 1090     | false                 |
-      | 4990      | 1090     | false                 |
-      | 4960      | 1090     | false                 |
-      | 5010      | 1090     | false                 |
-      | 4970      | 1090     | false                 |
-      | 5020      | 1090     | false                 |
-      | 5110      | 1090     | false                 |
-      | 5120      | 1090     | false                 |
-      | 5130      | 1090     | false                 |
-      | 4910      | 1005     | false                 |
-      | 4910      | 1007     | false                 |
-      | 4910      | 1008     | false                 |
-      | 4910      | 1009     | false                 |
-      | 4910      | 1010     | false                 |
-      | 4910      | 1011     | false                 |
-      | 4910      | 1012     | false                 |
-      | 4910      | 1015     | false                 |
-      | 4910      | 1042     | false                 |
-      | 4910      | 1044     | false                 |
-      | 4910      | 1046     | false                 |
-      | 4910      | 1047     | false                 |
-      | 4910      | 1060     | false                 |
-      | 4910      | 1096     | false                 |
-      | 4910      | 1100     | false                 |
-      | 4910      | 2195     | false                 |
-      | 4910      | 2200     | false                 |
-      | 4910      | 2205     | false                 |
-      | 4910      | 2210     | false                 |
-      | 4920      | 1005     | false                 |
-      | 4920      | 1007     | false                 |
-      | 4920      | 1008     | false                 |
-      | 4920      | 1009     | false                 |
-      | 4920      | 1010     | false                 |
-      | 4920      | 1011     | false                 |
-      | 4920      | 1012     | false                 |
-      | 4920      | 1015     | false                 |
-      | 4930      | 1005     | false                 |
-      | 4930      | 1007     | false                 |
-      | 4930      | 1008     | false                 |
-      | 4930      | 1009     | false                 |
-      | 4930      | 1010     | false                 |
-      | 4930      | 1011     | false                 |
-      | 4930      | 1012     | false                 |
-      | 4930      | 1015     | false                 |
       | 4000      | 1005     | false                 |
       | 4000      | 1007     | false                 |
       | 4000      | 1008     | false                 |
@@ -468,71 +400,70 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 4002      | 1085     | false                 |
       | 4002      | 1090     | false                 |
       | 4002      | 1095     | false                 |
-      | 4003      | 1005     | false                 |
-      | 4003      | 1007     | false                 |
-      | 4003      | 1008     | false                 |
-      | 4003      | 1009     | false                 |
-      | 4003      | 1010     | false                 |
-      | 4003      | 1011     | false                 |
-      | 4003      | 1012     | false                 |
-      | 4003      | 1015     | false                 |
-      | 4003      | 1042     | false                 |
-      | 4003      | 1044     | false                 |
-      | 4003      | 1046     | false                 |
-      | 4003      | 1047     | false                 |
-      | 4003      | 1060     | false                 |
-      | 4003      | 1100     | false                 |
-      | 4915      | 1005     | false                 |
-      | 4915      | 1007     | false                 |
-      | 4915      | 1008     | false                 |
-      | 4915      | 1009     | false                 |
-      | 4915      | 1010     | false                 |
-      | 4915      | 1011     | false                 |
-      | 4915      | 1012     | false                 |
-      | 4915      | 1015     | false                 |
-      | 4915      | 1042     | false                 |
-      | 4915      | 1044     | false                 |
-      | 4915      | 1046     | false                 |
-      | 4915      | 1047     | false                 |
-      | 4915      | 2195     | false                 |
-      | 4915      | 2200     | false                 |
-      | 4915      | 2205     | false                 |
-      | 4915      | 2210     | false                 |
-      | 4915      | 1060     | false                 |
-      | 4915      | 1096     | false                 |
-      | 4915      | 1100     | false                 |
-      | 4911      | 1005     | false                 |
-      | 4911      | 1007     | false                 |
-      | 4911      | 1008     | false                 |
-      | 4911      | 1009     | false                 |
-      | 4911      | 1010     | false                 |
-      | 4911      | 1011     | false                 |
-      | 4911      | 1012     | false                 |
-      | 4911      | 1015     | false                 |
-      | 4913      | 1005     | false                 |
-      | 4913      | 1007     | false                 |
-      | 4913      | 1008     | false                 |
-      | 4913      | 1009     | false                 |
-      | 4913      | 1010     | false                 |
-      | 4913      | 1011     | false                 |
-      | 4913      | 1012     | false                 |
-      | 4913      | 1015     | false                 |
-      | 4027      | 1080     | false                 |
-      | 4028      | 1085     | false                 |
-      | 4028      | 1090     | false                 |
-      | 4028      | 1095     | false                 |
-      | 4029      | 1085     | false                 |
-      | 4029      | 1090     | false                 |
-      | 4029      | 1095     | false                 |
-      | 4031      | 1085     | false                 |
-      | 4031      | 1090     | false                 |
-      | 4031      | 1095     | false                 |
-      | 4032      | 1085     | false                 |
-      | 4032      | 1090     | false                 |
-      | 4032      | 1095     | false                 |
-      | 4033      | 1085     | false                 |
-      | 4033      | 1090     | false                 |
-      | 4033      | 1095     | false                 |
+      | 4910      | 1005     | false                 |
+      | 4910      | 1007     | false                 |
+      | 4910      | 1008     | false                 |
+      | 4910      | 1009     | false                 |
+      | 4910      | 1010     | false                 |
+      | 4910      | 1011     | false                 |
+      | 4910      | 1012     | false                 |
+      | 4910      | 1015     | false                 |
+      | 4910      | 1042     | false                 |
+      | 4910      | 1044     | false                 |
+      | 4910      | 1046     | false                 |
+      | 4910      | 1047     | false                 |
+      | 4910      | 1060     | false                 |
+      | 4910      | 1096     | false                 |
+      | 4910      | 1100     | false                 |
+      | 4910      | 1553     | false                 |
+      | 4910      | 2195     | false                 |
+      | 4910      | 2200     | false                 |
+      | 4910      | 2205     | false                 |
+      | 4910      | 2210     | false                 |
+      | 4920      | 1005     | false                 |
+      | 4920      | 1007     | false                 |
+      | 4920      | 1008     | false                 |
+      | 4920      | 1009     | false                 |
+      | 4920      | 1010     | false                 |
+      | 4920      | 1011     | false                 |
+      | 4920      | 1012     | false                 |
+      | 4920      | 1015     | false                 |
+      | 4920      | 1553     | false                 |
+      | 4930      | 1005     | false                 |
+      | 4930      | 1007     | false                 |
+      | 4930      | 1008     | false                 |
+      | 4930      | 1009     | false                 |
+      | 4930      | 1010     | false                 |
+      | 4930      | 1011     | false                 |
+      | 4930      | 1012     | false                 |
+      | 4930      | 1015     | false                 |
+      | 4930      | 1553     | false                 |
+      | 4940      | 1090     | false                 |
+      | 4950      | 1090     | false                 |
+      | 4960      | 1090     | false                 |
+      | 4970      | 1090     | false                 |
+      | 4980      | 1090     | false                 |
+      | 4990      | 1090     | false                 |
+      | 5010      | 1090     | false                 |
+      | 5020      | 1090     | false                 |
+      | 5030      | 1090     | false                 |
+      | 5040      | 1090     | false                 |
+      | 5060      | 1553     | false                 |
+      | 5070      | 1553     | false                 |
+      | 5080      | 1090     | false                 |
+      | 5090      | 1553     | false                 |
+      | 5100      | 1553     | false                 |
+      | 5110      | 1090     | false                 |
+      | 5120      | 1090     | false                 |
+      | 5130      | 1090     | false                 |
+      | 5140      | 1090     | false                 |
+      | 5150      | 1090     | false                 |
+      | 5160      | 1090     | false                 |
+      | 5170      | 1090     | false                 |
+      | 5180      | 1553     | false                 |
+      | 5190      | 1553     | false                 |
+      | 5200      | 1553     | false                 |
+      | 5210      | 1553     | false                 |
 
   Scenario Outline: Non Interest Bearing SA SSTTP AND into IFS and SoL AND Op Led
     Given a debt item
@@ -547,6 +478,10 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | false           | 0                       | 500000             | <interestOnlyIndicator> |
     Examples:
       | mainTrans | subTrans | interestOnlyIndicator |
+      | 4026      | 2090     | true                  |
+      | 4026      | 2095     | true                  |
+      | 4026      | 2096     | true                  |
+      | 4941      | 2090     | true                  |
       | 5071      | 1553     | false                 |
       | 5073      | 1553     | false                 |
       | 6010      | 1554     | true                  |
@@ -561,13 +496,9 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 6010      | 1600     | true                  |
       | 6010      | 1605     | true                  |
       | 6010      | 1610     | true                  |
+      | 6010      | 1611     | true                  |
       | 6010      | 1680     | true                  |
       | 6010      | 1685     | true                  |
-      | 4026      | 2090     | true                  |
-      | 4026      | 2095     | true                  |
-      | 4026      | 2096     | true                  |
-      | 4941      | 2090     | true                  |
-      | 6010      | 1611     | true                  |
       | 6010      | 2090     | true                  |
       | 6010      | 2095     | true                  |
       | 6010      | 2096     | true                  |
