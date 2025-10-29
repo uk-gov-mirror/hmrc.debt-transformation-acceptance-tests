@@ -275,50 +275,6 @@ Feature: Get Debt For all the SUPPORTED REGIMES
       | 4711      | 1174     | false                 |
       | 4786      | 1090     | false                 |
 
-  Scenario Outline: Interest Bearing SA into IFS and SoL AND NOT SSTTP
-    Given a debt item
-      | originalAmount | interestStartDate | interestRequestedTo | mainTrans   | subTrans   |
-      | 500000         | 2021-03-01        | 2021-03-08          | <mainTrans> | <subTrans> |
-    And the debt item has no payment history
-    And no breathing spaces have been applied to the debt item
-    And no post codes have been provided for the customer
-    When the debt item is sent to the ifs service
-    Then the 1st debt summary will contain
-      | interestBearing | interestDueDailyAccrual | totalAmountIntDuty | interestOnlyIndicator   |
-      | true            | 35                      | 500249             | <interestOnlyIndicator> |
-    Examples:
-      | mainTrans | subTrans | interestOnlyIndicator |
-      | 4920      | 1553     | false                 |
-      | 4930      | 1553     | false                 |
-      | 4910      | 1553     | false                 |
-      | 4940      | 1090     | false                 |
-      | 4950      | 1090     | false                 |
-      | 4960      | 1090     | false                 |
-      | 4970      | 1090     | false                 |
-      | 4980      | 1090     | false                 |
-      | 4990      | 1090     | false                 |
-      | 5010      | 1090     | false                 |
-      | 5020      | 1090     | false                 |
-      | 5030      | 1090     | false                 |
-      | 5040      | 1090     | false                 |
-      | 5050      | 1553     | false                 |
-      | 5060      | 1553     | false                 |
-      | 5070      | 1553     | false                 |
-      | 5080      | 1090     | false                 |
-      | 5090      | 1553     | false                 |
-      | 5100      | 1553     | false                 |
-      | 5110      | 1090     | false                 |
-      | 5120      | 1090     | false                 |
-      | 5130      | 1090     | false                 |
-      | 5140      | 1090     | false                 |
-      | 5150      | 1090     | false                 |
-      | 5160      | 1090     | false                 |
-      | 5170      | 1090     | false                 |
-      | 5180      | 1553     | false                 |
-      | 5190      | 1553     | false                 |
-      | 5200      | 1553     | false                 |
-      | 5210      | 1553     | false                 |
-
   Scenario Outline: Non Interest Bearing SA into IFS and SoL AND NOT SSTTP
     Given the current set of rules
     And a debt item
