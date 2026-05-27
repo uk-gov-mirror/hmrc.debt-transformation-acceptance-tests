@@ -14,52 +14,22 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.api.scalatest.steps.helpers.suppressions
+package uk.gov.hmrc.test.api.scalatest.steps.helpers
 
 import org.scalatest.matchers.should.Matchers
-import play.api.libs.json._
-import play.api.libs.ws.JsonBodyReadables.readableAsJson
-import uk.gov.hmrc.test.api.models.sol.{SolCalculationSummaryResponse, SolDebtsRequest}
-import uk.gov.hmrc.test.api.models.{SuppressionInformation, SuppressionRequest}
+import uk.gov.hmrc.test.api.models.sol.SolCalculationSummaryResponse
 import uk.gov.hmrc.test.api.scalatest.builders.SuppressionRulesBuilder
-import uk.gov.hmrc.test.api.scalatest.steps.context.SuppressionRulesContext
+import uk.gov.hmrc.test.api.scalatest.steps.context.{FCStatementOfLiabilityContext, StatementOfLiabilityContext}
 
-trait SuppresionStepHelpers { this: Matchers =>
+// TODO: Validate that FCStatementOfLiabilityContext is the correct context for helpers migrated from commonSteps.scala.
+trait CommonStepHelpers { this: Matchers =>
 
-  // ^suppression configuration data is created$
-  def suppressionConfigurationDataIsCreated(context: SuppressionRulesContext, request: SuppressionInformation): Unit =
-    context.ifsRequest = Some(SuppressionRequest(List(request)))
-
-  // ^suppression configuration is sent to ifs service$
-  def suppressionConfigurationIsSentToIfsService(context: SuppressionRulesContext): Unit = {
-    val ifsResponse = SuppressionRulesBuilder.putSuppressionData(context.ifsRequest)
-    val ifsStatus   = ifsResponse.status
-    ifsStatus shouldBe 200
-    context.status = ifsStatus
-    context.headers = ifsResponse.headers.view.mapValues(_.mkString(", ")).toMap
-  }
-
-  // ^a request is sent to ifs service to get suppression$
-  def aRequestIsSentToSolServiceToGetSolCalculation(context: SuppressionRulesContext): Unit = {
-    val solResponse  = SuppressionRulesBuilder.getStatementOfLiability(context.solRequest)
-    val jsonResponse = solResponse.body[JsValue]
-    context.solResponseBody = Some(jsonResponse.as[SolCalculationSummaryResponse])
-    context.status = solResponse.status
-    context.headers = solResponse.headers.view.mapValues(_.mkString(", ")).toMap
-  }
-
-  // ^debt details$
-  def debtDetails(
-    context: SuppressionRulesContext,
-    request: SolDebtsRequest
-  ): Unit =
-    context.solRequest = Some(request)
-
-  def serviceReturnsDebtStatementOfLiabilityDataWithSuppresion(
-                                                  context: SuppressionRulesContext,
+  // ^service returns debt statement of liability data$
+  def serviceReturnsDebtStatementOfLiabilityData(
+                                                  context: StatementOfLiabilityContext,
                                                   expectedResponse: SolCalculationSummaryResponse
                                                 ): Unit = {
-    val actual = context.solResponseBody
+    val actual = context.responseBody
     println(s"actualResponseBody : " + actual)
     println(s"expectedResponse : " + Some(expectedResponse))
 
@@ -129,6 +99,41 @@ trait SuppresionStepHelpers { this: Matchers =>
         }
       case None         => fail("Response body is empty")
     }
+  }
+
+
+  // ^suppression data has been created$
+  def suppressionDataHasBeenCreated(context: FCStatementOfLiabilityContext): Unit = {
+    // addSuppressions(dataTable)
+    // TODO: No matching generated builder input or existing model was found.
+    // Add a typed parameter and wire it into context or request JSON.
+  }
+
+  // ^suppression rules have been created$
+  def suppressionRulesHaveBeenCreated(
+    context: FCStatementOfLiabilityContext,
+    inputs: Seq[SuppressionRulesBuilder.SuppressionsInput]
+  ): Unit = {
+    // TODO: Wire inputs into context or request JSON using SuppressionRulesBuilder.
+    // Suggested type: SuppressionRulesBuilder.SuppressionsInput
+  }
+
+  // ^service returns response code (.*)$
+  def serviceReturnsResponseCode(context: FCStatementOfLiabilityContext, expectedCode: Int): Unit = {
+    // Migration hint: legacy ScenarioContext usage, response assertion
+    // val response: StandaloneWSResponse = ScenarioContext.get("response")
+    // response.status should be(expectedCode)
+    // TODO: Implement typed helper for this step.
+  }
+
+  // ^service returns error message (.*)$
+  def serviceReturnsErrorMessage(context: FCStatementOfLiabilityContext, expectedMessage: String): Unit = {
+    // Migration hint: legacy ScenarioContext usage
+    // val response: StandaloneWSResponse = ScenarioContext.get("response")
+    // val responseBody                   = response.body.stripMargin
+    // print("response message*****************************" + responseBody)
+    // responseBody should be(expectedMessage)
+    // TODO: Implement typed helper for this step.
   }
 
 }
