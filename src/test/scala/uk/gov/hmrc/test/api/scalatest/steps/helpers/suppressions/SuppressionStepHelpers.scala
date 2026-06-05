@@ -19,24 +19,33 @@ package uk.gov.hmrc.test.api.scalatest.steps.helpers.suppressions
 import org.scalatest.matchers.should.Matchers
 import play.api.libs.json._
 import play.api.libs.ws.JsonBodyReadables.readableAsJson
+import uk.gov.hmrc.test.api.models.SuppressionRequest
 import uk.gov.hmrc.test.api.models.sol.{SolCalculationSummaryResponse, SolDebtsRequest}
-import uk.gov.hmrc.test.api.models.{SuppressionInformation, SuppressionRequest}
 import uk.gov.hmrc.test.api.scalatest.builders.SuppressionRulesBuilder
 import uk.gov.hmrc.test.api.scalatest.steps.context.SuppressionRulesContext
 
-trait SuppresionStepHelpers { this: Matchers =>
+trait SuppressionStepHelpers {
+  this: Matchers =>
 
   // ^suppression configuration data is created$
-  def suppressionConfigurationDataIsCreated(context: SuppressionRulesContext, request: SuppressionInformation): Unit =
-    context.ifsRequest = Some(SuppressionRequest(List(request)))
+  def suppressionConfigurationDataIsCreated(context: SuppressionRulesContext, request: SuppressionRequest): Unit =
+    context.suppressionRequest = Some(request)
 
   // ^suppression configuration is sent to ifs service$
   def suppressionConfigurationIsSentToIfsService(context: SuppressionRulesContext): Unit = {
-    val ifsResponse = SuppressionRulesBuilder.putSuppressionData(context.ifsRequest)
-    val ifsStatus   = ifsResponse.status
-    ifsStatus shouldBe 200
-    context.status = ifsStatus
-    context.headers = ifsResponse.headers.view.mapValues(_.mkString(", ")).toMap
+    val requestJson         = Json.toJson(context.suppressionRequest.getOrElse(fail("Missing request in context")))
+    val suppressionResponse = SuppressionRulesBuilder.putSuppressionData(requestJson)
+    val suppressionStatus   = suppressionResponse.status
+
+    suppressionStatus shouldBe 200
+    context.status = suppressionStatus
+    context.headers = suppressionResponse.headers.view.mapValues(_.mkString(", ")).toMap
+
+    println("\n==== SUPPRESSION REQUEST BODY ====")
+    println(Json.stringify(requestJson))
+
+    println("\n==== SUPPRESSION RESPONSE STATUS ====")
+    println(context.status)
   }
 
   // ^a request is sent to ifs service to get suppression$
@@ -56,9 +65,9 @@ trait SuppresionStepHelpers { this: Matchers =>
     context.solRequest = Some(request)
 
   def serviceReturnsDebtStatementOfLiabilityDataWithSuppresion(
-                                                  context: SuppressionRulesContext,
-                                                  expectedResponse: SolCalculationSummaryResponse
-                                                ): Unit = {
+    context: SuppressionRulesContext,
+    expectedResponse: SolCalculationSummaryResponse
+  ): Unit = {
     val actual = context.solResponseBody
     println(s"actualResponseBody : " + actual)
     println(s"expectedResponse : " + Some(expectedResponse))
