@@ -16,10 +16,14 @@
 
 package uk.gov.hmrc.test.api.scalatest.steps.context
 
-// Minimal per-scenario context; extend fields as migration progresses.
+import play.api.libs.ws.StandaloneWSResponse
+import uk.gov.hmrc.test.api.models.InstalmentCalculationSummaryResponse
+import uk.gov.hmrc.test.api.models.ifs.InstalmentCalculationRequest
+
 final case class IFSInstalmentCalculationContext(
-  var request: String = "",
-  var responseBody: String = "",
+  var ifsRequest: Option[InstalmentCalculationRequest] = None,
+  var ifsResponseBody: Option[InstalmentCalculationSummaryResponse] = None,
+  var response: StandaloneWSResponse = null,
   var status: Int = 0,
   var headers: Map[String, String] = Map.empty
 )
