@@ -66,16 +66,6 @@ trait InterestForecastingStepHelpers { this: Matchers =>
     // TODO: Implement typed helper for this step.
   }
 
-  // ^(.*) debt items where interest rate changes from 3\\.0 to 3\\.25$
-  def debtItemsWhereInterestRateChangesFrom30To325(context: InterestForecastingContext, numberItems: Int): Unit = {
-    // Migration hint: legacy InterestForecastingContext usage
-    // var debtItems: String = null
-    // var n                 = 0
-    // while (n < numberItems) {
-    // val debtItem = getBodyAsString("debtItem")
-    // TODO: Implement typed helper for this step.
-  }
-
   // ^the debt item has payment history$
   def theDebtItemHasPaymentHistory(
     context: InterestForecastingContext,
