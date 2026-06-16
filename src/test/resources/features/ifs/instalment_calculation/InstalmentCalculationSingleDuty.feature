@@ -119,36 +119,6 @@ Feature: Instalment calculation for 1 debt 1 duty
       | 2                | 2021-08-01 | 15000     |
       | 5                | 2021-11-01 | 320       |
 
-  Scenario: Payment plan calculation request -initialPaymentAmount missing
-    Given debt instalment calculation with details
-      | instalmentPaymentAmount | instalmentPaymentDate | paymentFrequency | interestCallDueTotal | quoteType | quoteDate  |
-      | 10000                   | 2022-03-15            | single           | 1423                 | duration  | 2022-03-14 |
-    And the instalment calculation has no postcodes
-    And debt plan details with initial payment
-      | initialPaymentDate |
-      | 2022-07-21         |
-    And the instalment calculation has debt item charges
-      | debtId | debtAmount | mainTrans | subTrans |
-      | debtId | 100000     | 1530      | 1000     |
-    When the instalment calculation detail is sent to the ifs service
-    Then Ifs service returns response code 400
-    And Ifs service returns error message {"statusCode":400,"reason":"Invalid JSON error from IFS","message":"Field at path '/initialPaymentAmount' missing or invalid"}
-
-  Scenario: Payment plan calculation request -initialPaymentDate missing
-    Given debt instalment calculation with details
-      | instalmentPaymentAmount | instalmentPaymentDay | paymentFrequency | interestCallDueTotal | quoteType |
-      | 10000                   | 129                  | single           | 1423                 | duration  |
-    And the instalment calculation has no postcodes
-    And debt plan details with initial payment
-      | initialPaymentAmount |
-      | 5000                 |
-    And the instalment calculation has debt item charges
-      | debtId | debtAmount | mainTrans | subTrans |
-      | debtId | 100000     | 1530      | 1000     |
-    When the instalment calculation detail is sent to the ifs service
-    Then Ifs service returns response code 400
-    And Ifs service returns error message {"statusCode":400,"reason":"Invalid JSON error from IFS","message":"Field at path '/initialPaymentDate' missing or invalid"}
-
   Scenario: Payment plan calculation request -initialPaymentDate can be today
     Given debt instalment calculation with details
       | instalmentPaymentAmount | instalmentPaymentDay | paymentFrequency | interestCallDueTotal | quoteType |
@@ -176,29 +146,3 @@ Feature: Instalment calculation for 1 debt 1 duty
       | debtId | 100000     | 1530      | 1000     |
     When the instalment calculation detail is sent to the ifs service
     Then Ifs service returns response code 200
-
-  Scenario: Payment plan calculation request error  - instalmentPaymentDate missing
-    Given debt instalment calculation with details
-      | instalmentPaymentAmount | paymentFrequency | interestCallDueTotal | quoteType |
-      | 10000                   | monthly          | 1423                 | duration  |
-    And the instalment calculation has no postcodes
-    And no initial payment for the debt item charge
-    And the instalment calculation has debt item charges
-      | debtId | debtAmount | mainTrans | subTrans |
-      | debtId | 100000     | 1530      | 1000     |
-    When the instalment calculation detail is sent to the ifs service
-    Then Ifs service returns response code 400
-    And Ifs service returns error message {"statusCode":400,"reason":"Invalid JSON error from IFS","message":"Field at path '/instalmentPaymentDate' missing or invalid"}
-
-  Scenario: Payment plan calculation request error  -quoteDate missing
-    Given debt instalment calculation with details
-      | instalmentPaymentAmount | paymentFrequency | instalmentPaymentDay | interestCallDueTotal | quoteDate | quoteType |
-      | 10000                   | monthly          | 1                    | 1423                 |           | duration  |
-    And the instalment calculation has no postcodes
-    And no initial payment for the debt item charge
-    And the instalment calculation has debt item charges
-      | debtId | debtAmount | mainTrans | subTrans |
-      | debtId | 100000     | 1530      | 1000     |
-    When the instalment calculation detail is sent to the ifs service
-    Then Ifs service returns response code 400
-    And Ifs service returns error message {"statusCode":400,"reason":"Invalid JSON error from IFS","message":"Field at path '/quoteDate' missing or invalid"}

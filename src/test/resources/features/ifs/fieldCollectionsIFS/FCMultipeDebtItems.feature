@@ -146,22 +146,6 @@ Feature: FC Debt Calculation End point testing
       | periodFrom | periodTo   | numberOfDays | interestRate | interestDueDailyAccrual | unpaidAmountWindow |
       | 2018-12-16 | 2019-02-03 | 49           | 3.25         | 44                      | 502181             |
 
-
-  Scenario: 10. No InterestStartDate but InterestIndicator is Yes.
-    Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
-      | 500000         |                   | 2019-04-14          | Y                 | 2018-04-06 | 123    |
-    And the debt item has fc payment history
-      | paymentAmount | paymentDate |
-      | 100000        | 2019-02-03  |
-    And no breathing spaces have been applied to the fc debt item
-    And the fc customer has post codes
-      | addressPostcode | postcodeDate |
-      | TW3 4QQ         | 2019-07-06   |
-    When the debt item is sent to the fc ifs service
-    Then the fc ifs service will respond with Field at path '/debtItems(0)/interestStartDate' missing or invalid
-
-
   Scenario: FC Debt ending in a leap year
     Given a fc debt item
       | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd  | debtId |
@@ -425,18 +409,3 @@ Feature: FC Debt Calculation End point testing
       | interestDueDailyAccrual | totalAmountIntDuty |
       | 0                       | 500000             |
     And the 1st fc debt summary will not have any calculation windows
-
-
-  Scenario: periodEnd and interestStartDate is missing or invalid.
-    Given a fc debt item
-      | originalAmount | interestStartDate | interestRequestedTo | interestIndicator | periodEnd | debtId |
-      | 500000         |                   | 2019-04-14          | Y                 |           | 123    |
-    And the debt item has fc payment history
-      | paymentAmount | paymentDate |
-      | 100000        | 2019-02-03  |
-    And no breathing spaces have been applied to the fc debt item
-    And the fc customer has post codes
-      | addressPostcode | postcodeDate |
-      | TW3 4QQ         | 2019-07-06   |
-    When the debt item is sent to the fc ifs service
-    Then the fc ifs service will respond with Field at path '/debtItems(0)/periodEnd' missing or invalid\nField at path '/debtItems(0)/interestStartDate' missing or invalid

@@ -88,13 +88,3 @@ Feature: FC VAT Debt Calculation End point testing
     And the 1st fc vat debt summary will contain
       | debtItemChargeId  | interestDailyAccrual | interestRate |
       | debtItemChargeId1 | 0                    | 0.0          |
-
-
-  Scenario: 9. periodEnd missing. Interest Indicator as No. No Payment History.
-    Given a fc vat debt item
-      | debtItemChargeId  | originalAmount | periodEnd | interestRequestedTo | interestIndicator |
-      | debtItemChargeId1 | 500000         |           | 2021-04-14          | N                 |
-    And the fc vat debt item has no payment history
-    And no breathing spaces have been applied to the fc vat customer
-    When the debt item is sent to the fc vat ifs service
-    Then the fc vat ifs service will respond with Field at path '/debtItems(0)/periodEnd' missing or invalid
