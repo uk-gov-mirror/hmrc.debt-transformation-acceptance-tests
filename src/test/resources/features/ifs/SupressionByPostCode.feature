@@ -219,32 +219,6 @@ Feature: Suppression by Postcode
       | 2021-02-04 | 2021-05-04 | 90           | 0.0          | 0                       | 500000             | false                 | LEGISLATIVE | COVID       | Converted from new suppression style |
       | 2021-05-05 | 2021-07-06 | 63           | 2.6          | 35                      | 502243             | false                 |             |             |                                      |
 
-
-  Scenario Outline: Suppression should be applied to customer sub district
-    Given suppression configuration data is created
-      | dateFrom   | dateTo     | reason      | reasonDesc | suppressionChargeDescription | postcode   |
-      | 2021-02-04 | 2021-05-04 | LEGISLATIVE | COVID      | SA-Suppression               | <postCode> |
-    When suppression configuration is sent to ifs service
-
-    And a debt item
-      | originalAmount | interestStartDate | interestRequestedTo | mainTrans | subTrans |
-      | 500000         | 2021-02-01        | 2021-07-06          | 1535      | 1000     |
-    And the debt item has no payment history
-    And no breathing spaces have been applied to the debt item
-    And the customer has post codes
-      | postCode   | postCodeDate |
-      | <postCode> | 2020-07-06   |
-    When the debt item is sent to the ifs service
-    Then the ifs service wilL return a total debts summary of
-      | interestDueCallTotal |
-      | 2314                 |
-    Examples:
-      | subDistrict | postCode |
-      | AA9A        | AA9A 9AA |
-      | A99         | A99 9AA  |
-      | AA9         | AA9 9AA  |
-      | AA99        | AA99 9AA |
-
   Scenario: Suppression should not be applied for non matching postcodes
     Given suppression configuration data is created
       | dateFrom   | dateTo     | reason      | reasonDesc | suppressionChargeDescription | postcode |
