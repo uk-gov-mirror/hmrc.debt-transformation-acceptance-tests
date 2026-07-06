@@ -25,9 +25,19 @@ import uk.gov.hmrc.test.api.utils.{BaseRequests, RandomValues}
 
 object FCStatementOfLiabilityBuilder extends BaseRequests with RandomValues {
 
-  val bearerToken: String = createBearerToken(
-    enrolments = Seq("read:statement-of-liability"),
-    userType = getRandomAffinityGroup
+  val bearerToken: String =
+    createBearerToken(enrolments = Seq("read:statement-of-liability"), userType = getRandomAffinityGroup)
+
+  final case class FCSolCalculationSummaryExpected(
+    amountIntTotal: Option[BigDecimal] = None,
+    combinedDailyAccrual: Option[Int] = None,
+    debts: Option[List[FCSolCalculationExpected]] = None
+  )
+
+  final case class FCSolCalculationExpected(
+    debtId: Option[String] = None,
+    interestDueDebtTotal: Option[BigInt] = None,
+    totalAmountIntDebt: Option[BigDecimal] = None
   )
 
   def getFCStatementOfLiability(maybeRequest: Option[SolMultipleDebtsRequest]): StandaloneWSResponse = {
