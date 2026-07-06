@@ -16,11 +16,10 @@
 
 package uk.gov.hmrc.test.api.scalatest.builders
 
-import play.api.libs.json.{JsValue, Json}
+import play.api.libs.json.JsValue
 import play.api.libs.ws.StandaloneWSResponse
 import uk.gov.hmrc.test.api.client.WsClient
-import uk.gov.hmrc.test.api.scalatest.steps.context.FieldCollectionsContext
-import uk.gov.hmrc.test.api.utils.{BaseRequests, RandomValues, TestData}
+import uk.gov.hmrc.test.api.utils.{BaseRequests, RandomValues}
 
 object FieldCollectionsBuilder extends BaseRequests with RandomValues {
 
@@ -183,9 +182,6 @@ object FieldCollectionsBuilder extends BaseRequests with RandomValues {
   //   asMapTransposed.zipWithIndex.foreach { case (chargedInte, index) =>
   // -----------------------------------------------------------------------
 
-  def getBodyAsString(variant: String): String =
-    TestData.loadedFiles(variant)
-
   // -----------------------------------------------------------------------
   // HTTP client methods lifted from legacy Requests with typed context access.
   // -----------------------------------------------------------------------
@@ -195,7 +191,7 @@ object FieldCollectionsBuilder extends BaseRequests with RandomValues {
       enrolments = Seq("read:interest-forecasting"),
       userType = getRandomAffinityGroup
     )
-    val baseUri     = s"$interestForecostingApiUrl/fc-debt-calculation"
+    val baseUri     = s"$interestForecastingApiUrl/fc-debt-calculation"
     val headers     = Map(
       "Authorization" -> s"Bearer $bearerToken",
       "Content-Type"  -> "application/json",

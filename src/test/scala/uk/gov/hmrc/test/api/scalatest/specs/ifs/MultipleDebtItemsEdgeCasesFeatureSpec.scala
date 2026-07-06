@@ -27,7 +27,7 @@ import uk.gov.hmrc.test.api.scalatest.tags.DTD_2216
 
 import java.time.LocalDate
 
-class MultipeDebtItemsEdgeCasesFeatureSpec
+class MultipleDebtItemsEdgeCasesFeatureSpec
     extends FixtureAnyFeatureSpec
     with GivenWhenThen
     with Matchers
@@ -962,7 +962,7 @@ class MultipeDebtItemsEdgeCasesFeatureSpec
       theDebtSummaryWillHaveCalculationWindows(context, 1, expectedCalculationWindows)
     }
 
-    Scenario("9. 2 SA debts where one has an original amount less than zero", DTD_2216){ context =>
+    Scenario("9. 2 SA debts where one has an original amount less than zero", DTD_2216) { context =>
       Given("a debt calculation")
       val request = DebtCalculationRequest(
         debtItems = List(
