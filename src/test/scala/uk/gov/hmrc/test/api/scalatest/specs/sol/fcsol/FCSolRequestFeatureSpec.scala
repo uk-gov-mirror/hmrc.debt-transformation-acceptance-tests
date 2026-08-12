@@ -40,7 +40,9 @@ class FCSolRequestFeatureSpec
 
   Feature("fc statement of liability multiple debts") {
 
-    Scenario("0. FC Sol request with multiple debt ID's and multiple payments and cotax interest charge.") { context =>
+    // This test has been ignored as the endpoint being called has been removed from IFS as part of ticket DTD-2146.  Ticket DTD-3075 will remove FC SoL and this file will be deleted then.
+    ignore("0. FC Sol request with multiple debt ID's and multiple payments and cotax interest charge.") { context =>
+      // Scenario("0. FC Sol request with multiple debt ID's and multiple payments and cotax interest charge.") { context =>
       Given("fc sol request")
       val request = SolMultipleDebtsRequest(
         customerUniqueRef = "NEHA1234",
@@ -120,7 +122,9 @@ class FCSolRequestFeatureSpec
       )
     }
 
-    Scenario("1. FC Sol request with Single debt ID's and single payments.") { context =>
+    // This test has been ignored as the endpoint being called has been removed from IFS as part of ticket DTD-2146.  Ticket DTD-3075 will remove FC SoL and this file will be deleted then.
+    ignore("1. FC Sol request with Single debt ID's and single payments.") { context =>
+      // Scenario("1. FC Sol request with Single debt ID's and single payments.") { context =>
       Given("fc sol request")
       val request = SolMultipleDebtsRequest(
         customerUniqueRef = "NEHA1234",
@@ -195,7 +199,9 @@ class FCSolRequestFeatureSpec
       theFcSolServiceWillRespondWith(context, "Invalid Json")
     }
 
-    Scenario("3. Large Non Interest bearing debt with no payments.") { context =>
+    // This test has been ignored as the endpoint being called has been removed from IFS as part of ticket DTD-2146.  Ticket DTD-3075 will remove FC SoL and this file will be deleted then.
+    ignore("3. Large Non Interest bearing debt with no payments.") { context =>
+      // Scenario("3. Large Non Interest bearing debt with no payments.") { context =>
       Given("fc sol request")
       val request =
         SolMultipleDebtsRequest(
