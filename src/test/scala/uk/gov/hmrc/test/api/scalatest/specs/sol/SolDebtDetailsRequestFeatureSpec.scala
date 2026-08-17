@@ -294,5 +294,50 @@ class SolDebtDetailsRequestFeatureSpec
       theSolDebtSummaryWillContainDuties(context, 1, expected1stDuties)
     }
 
+    Scenario("6. AMC Non interest bearing with payment history") { context =>
+      Given("debt details")
+      val request = SolDebtsRequest(
+        solType = "UI",
+        customerUniqueRef = "NEHA1234",
+        debts = List(
+          Debt(debtId = "debt0013", interestRequestedTo = "2021-08-10")
+        )
+      )
+      debtDetails(context, request)
+
+      When("a debt statement of liability is requested")
+      aDebtStatementOfLiabilityIsRequested(context)
+
+      Then("service returns debt statement of liability data")
+      val expectedSummary = SolCalculationSummaryResponseExpected(
+        amountIntTotal = Some(BigInt(200000)),
+        combinedDailyAccrual = Some(BigInt(0))
+      )
+      serviceReturnsDebtStatementOfLiabilityData(context, expectedSummary)
+
+      And("the 1st sol debt summary will contain")
+      val expected1stDebt = SolCalculationExpected(
+        debtId = Some("debt0013"),
+        mainTrans = Some("6238"),
+        debtTypeDescription = Some("AMC Charge Types"),
+        interestDueDebtTotal = Some(BigInt(0)),
+        totalAmountIntDebt = Some(BigInt(200000)),
+        combinedDailyAccrual = Some(BigInt(0))
+      )
+      theCustomerStatementOfLiabilityContainsDebtValuesAs(context, 1, expected1stDebt)
+
+      And("the 1st sol debt summary will contain duties")
+      val expected1stDuties = List(
+        SolDutyExpected(
+          subTrans = Some("1150"),
+          dutyTypeDescription = Some("AMC"),
+          unpaidAmountDuty = Some(BigInt(200000)),
+          combinedDailyAccrual = Some(BigInt(0)),
+          interestBearing = Some(false),
+          interestOnlyIndicator = Some(false)
+        )
+      )
+      theSolDebtSummaryWillContainDuties(context, 1, expected1stDuties)
+    }
   }
 }
