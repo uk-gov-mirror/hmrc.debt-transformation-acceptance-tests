@@ -22,7 +22,7 @@ import org.scalatest.matchers.should.Matchers
 import uk.gov.hmrc.test.api.models.ifs.{DebtItemCharge, InstallmentCalculationCustomerPostCode, InstalmentCalculationRequest}
 import uk.gov.hmrc.test.api.models.{SuppressionInformation, SuppressionRequest}
 import uk.gov.hmrc.test.api.scalatest.steps.context.{IFSInstalmentCalculationContext, SuppressionRulesContext}
-import uk.gov.hmrc.test.api.scalatest.steps.helpers.ifs.{FCInterestForecastingStepHelpers, IFSInstalmentCalculationStepHelpers, InterestForecastingStepHelpers}
+import uk.gov.hmrc.test.api.scalatest.steps.helpers.ifs.{IFSInstalmentCalculationStepHelpers, InterestForecastingStepHelpers}
 import uk.gov.hmrc.test.api.scalatest.steps.helpers.suppressions.SuppressionStepHelpers
 import uk.gov.hmrc.test.api.scalatest.tags.DTD_417
 
@@ -32,7 +32,6 @@ class InstalmentCalculationSuppressionsFeatureSpec
     extends FixtureAnyFeatureSpec
     with GivenWhenThen
     with Matchers
-    with FCInterestForecastingStepHelpers
     with IFSInstalmentCalculationStepHelpers
     with InterestForecastingStepHelpers
     with SuppressionStepHelpers {
