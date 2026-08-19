@@ -24,13 +24,12 @@ import org.scalatest.prop.Tables.Table
 import uk.gov.hmrc.test.api.models.DebtInterestTypeRequest
 import uk.gov.hmrc.test.api.scalatest.builders.InterestForecastingBuilder.DebtInterestTypeExpected
 import uk.gov.hmrc.test.api.scalatest.steps.context.InterestForecastingContext
-import uk.gov.hmrc.test.api.scalatest.steps.helpers.ifs.{FCInterestForecastingStepHelpers, IFSInstalmentCalculationStepHelpers, InterestForecastingStepHelpers}
+import uk.gov.hmrc.test.api.scalatest.steps.helpers.ifs.{IFSInstalmentCalculationStepHelpers, InterestForecastingStepHelpers}
 
 class DebtInterestTypeFeatureSpec
     extends FixtureAnyFeatureSpec
     with GivenWhenThen
     with Matchers
-    with FCInterestForecastingStepHelpers
     with IFSInstalmentCalculationStepHelpers
     with InterestForecastingStepHelpers {
 

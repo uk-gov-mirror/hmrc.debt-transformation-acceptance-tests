@@ -43,9 +43,6 @@ will run the scalaTests in the runner
 Available Endpoints
 
 ```
-statementOfLiabilityApiUrl/fc-sol
-interestForecostingApiUrl/fc-debt-calculation
-interestForecostingApiUrl/fc-vat-debt-calculation
 interestForecostingApiUrl/instalment-calculation
 interestForecostingApiUrl/debt-calculation
 interestForecostingApiUrl/debt-interest-type
