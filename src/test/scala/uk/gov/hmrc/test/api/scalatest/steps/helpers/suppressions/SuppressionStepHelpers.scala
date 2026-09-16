@@ -17,13 +17,20 @@
 package uk.gov.hmrc.test.api.scalatest.steps.helpers.suppressions
 
 import org.scalatest.matchers.should.Matchers
+import org.scalatest.{ BeforeAndAfterEach, Suite }
 import play.api.libs.json.*
+import play.api.libs.ws.DefaultBodyReadables.readableAsString
 import uk.gov.hmrc.test.api.models.SuppressionRequest
 import uk.gov.hmrc.test.api.scalatest.builders.SuppressionRulesBuilder
 import uk.gov.hmrc.test.api.scalatest.steps.context.SuppressionRulesContext
 
-trait SuppressionStepHelpers {
-  this: Matchers =>
+trait SuppressionStepHelpers extends BeforeAndAfterEach {
+  this: Suite & Matchers =>
+
+  override def afterEach(): Unit = {
+    super.afterEach()
+    SuppressionRulesBuilder.deleteSuppressionData
+  }
 
   def suppressionConfigurationDataIsCreated(context: SuppressionRulesContext, request: SuppressionRequest): Unit =
     context.suppressionRequest = Some(request)
@@ -42,6 +49,13 @@ trait SuppressionStepHelpers {
 
     println("\n==== SUPPRESSION RESPONSE STATUS ====")
     println(context.status)
+  }
+
+  def suppressionConfigurationIsClearedFromIfs(): Unit = {
+    val suppressionResponse = SuppressionRulesBuilder.deleteSuppressionData
+
+    suppressionResponse.status shouldBe 200
+    suppressionResponse.body shouldBe empty
   }
 
 }
