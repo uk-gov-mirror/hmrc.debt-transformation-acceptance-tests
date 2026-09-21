@@ -48,8 +48,6 @@ interestForecostingApiUrl/debt-calculation
 interestForecostingApiUrl/debt-interest-type
 statementOfLiabilityApiUrl/sol
 interestForecostingApiUrl/test-only/suppressions/overrides
-interestForecostingApiUrl/test-only/suppressions/old
-interestForecostingApiUrl/test-only/suppression-rules/old
 interestForecostingApiUrl/test-only/suppressions
 ```
 
