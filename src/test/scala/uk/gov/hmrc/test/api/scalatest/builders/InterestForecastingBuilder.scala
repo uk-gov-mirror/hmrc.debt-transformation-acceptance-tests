@@ -71,7 +71,7 @@ object InterestForecastingBuilder extends BaseRequests with RandomValues {
     unpaidAmountWindow: Option[BigDecimal] = None,
     suppressionsApplied: Option[List[SuppressionsAppliedExpected]] = None
   )
-  
+
   final case class SuppressionsAppliedExpected(
     dateFrom: Option[String] = None,
     dateTo: Option[String] = None,

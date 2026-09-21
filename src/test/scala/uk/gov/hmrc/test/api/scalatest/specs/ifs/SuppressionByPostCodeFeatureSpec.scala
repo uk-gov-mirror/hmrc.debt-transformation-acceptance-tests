@@ -155,7 +155,7 @@ class SuppressionByPostCodeFeatureSpec
             interestRate = Some(0.0),
             interestDueDailyAccrual = Some(0),
             unpaidAmountWindow = Some(500000),
-            breathingSpaceApplied = Some(false),
+            breathingSpaceApplied = Some(false)
           ),
           CalculationWindowExpected(
             periodFrom = Some(LocalDate.parse("2021-05-05")),
@@ -274,7 +274,7 @@ class SuppressionByPostCodeFeatureSpec
           interestDueWindow = Some(0),
           unpaidAmountWindow = Some(500000),
           amountOnIntDueWindow = Some(500000),
-          breathingSpaceApplied = Some(false),
+          breathingSpaceApplied = Some(false)
         ),
         CalculationWindowExpected(
           periodFrom = Some(LocalDate.parse("2021-05-05")),
@@ -392,7 +392,7 @@ class SuppressionByPostCodeFeatureSpec
           interestRate = Some(0.0),
           interestDueDailyAccrual = Some(0),
           unpaidAmountWindow = Some(500000),
-          breathingSpaceApplied = Some(false),
+          breathingSpaceApplied = Some(false)
         ),
         CalculationWindowExpected(
           periodFrom = Some(LocalDate.parse("2021-02-04")),
@@ -421,7 +421,7 @@ class SuppressionByPostCodeFeatureSpec
           interestRate = Some(0.0),
           interestDueDailyAccrual = Some(0),
           unpaidAmountWindow = Some(500000),
-          breathingSpaceApplied = Some(false),
+          breathingSpaceApplied = Some(false)
         ),
         CalculationWindowExpected(
           periodFrom = Some(LocalDate.parse("2021-05-05")),
@@ -786,7 +786,7 @@ class SuppressionByPostCodeFeatureSpec
             interestRate = Some(0.0),
             interestDueDailyAccrual = Some(0),
             unpaidAmountWindow = Some(500000),
-            breathingSpaceApplied = Some(false),
+            breathingSpaceApplied = Some(false)
           ),
           CalculationWindowExpected(
             periodFrom = Some(LocalDate.parse("2021-05-05")),
